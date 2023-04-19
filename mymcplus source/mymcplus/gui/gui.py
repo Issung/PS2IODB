@@ -265,7 +265,7 @@ class GuiFrame(wx.Frame):
         self._close_mc()
         self.statusbar.SetStatusText("", 1)
         if self.icon_win != None:
-            self.icon_win.load_icon(None, None)
+            self.icon_win.load_icon(None, None, None, None)
 
         f = None
         try:
@@ -308,23 +308,37 @@ class GuiFrame(wx.Frame):
         mc = self.mc
 
         if mc is None or icon_sys is None:
-            self.icon_win.load_icon(None, None)
+            self.icon_win.load_icon(None, None, None, None)
             return
+        
+        icon_data_normal = self.load_icon_data(entry, icon_sys, "normal")
+        icon_data_copy = self.load_icon_data(entry, icon_sys, "copy")
+        icon_data_delete = self.load_icon_data(entry, icon_sys, "delete")
 
+        self.icon_win.load_icon(icon_sys, icon_data_normal, icon_data_copy, icon_data_delete)
+
+    def load_icon_data(self, entry, icon_sys, type):
+        """Issun was here"""
+        if type == "normal":
+            icon_name = icon_sys.icon_file_normal
+        elif type == "copy":
+            icon_name = icon_sys.icon_file_copy
+        elif type == "delete":
+            icon_name = icon_sys.icon_file_delete
+        else:
+            raise Exception(f"Unknown icon type {type}")
+    
         try:
-            mc.chdir("/" + entry.dirent[8].decode("ascii"))
-            f = mc.open(icon_sys.icon_file_normal, "rb")
+            self.mc.chdir("/" + entry.dirent[8].decode("ascii"))
+            f = self.mc.open(icon_name, "rb")
             try:
-                icon = f.read()
+                data = f.read()
+                return data
             finally:
                 f.close()
         except EnvironmentError as value:
             print("icon failed to load", value)
-            self.icon_win.load_icon(None, None)
-            return
-
-        self.icon_win.load_icon(icon_sys, icon)
-
+            return None
 
     def evt_dirlist_select(self, event):
         self.toolbar.EnableTool(self.ID_CMD_IMPORT, self.mc != None)

@@ -74,6 +74,10 @@ class IconWindow(wx.Window):
     ID_CMD_BACKGROUND_WHITE = 208
     ID_CMD_CAMERA_RESET = 209
 
+    ID_CMD_ICON_NORMAL = 210
+    ID_CMD_ICON_COPY = 211
+    ID_CMD_ICON_DELETE = 212
+
     light_options = {ID_CMD_LIGHT_NONE: lighting_none,
                      ID_CMD_LIGHT_ICON: lighting_icon,
                      ID_CMD_LIGHT_ALT1: lighting_alt1,
@@ -96,6 +100,11 @@ class IconWindow(wx.Window):
         menu.AppendRadioItem(IconWindow.ID_CMD_BACKGROUND_BLACK, "Black Background")
         menu.AppendRadioItem(IconWindow.ID_CMD_BACKGROUND_WHITE, "White Background")
         menu.AppendSeparator()
+        self.normal_icon_radioitem = menu.AppendRadioItem(IconWindow.ID_CMD_ICON_NORMAL, "Normal Icon")
+        self.copy_icon_radioitem = menu.AppendRadioItem(IconWindow.ID_CMD_ICON_COPY, "Copy Icon")
+        self.delete_icon_radioitem = menu.AppendRadioItem(IconWindow.ID_CMD_ICON_DELETE, "Delete Icon")
+        self.selected_icon_type = IconWindow.ID_CMD_ICON_NORMAL
+        menu.AppendSeparator()
         menu.Append(IconWindow.ID_CMD_CAMERA_RESET, "Reset Camera")
 
         win.Bind(wx.EVT_MENU, self.evt_menu_animate, id=IconWindow.ID_CMD_ANIMATE)
@@ -107,6 +116,10 @@ class IconWindow(wx.Window):
         win.Bind(wx.EVT_MENU, self.evt_menu_background, id=IconWindow.ID_CMD_BACKGROUND_ICON)
         win.Bind(wx.EVT_MENU, self.evt_menu_background, id=IconWindow.ID_CMD_BACKGROUND_BLACK)
         win.Bind(wx.EVT_MENU, self.evt_menu_background, id=IconWindow.ID_CMD_BACKGROUND_WHITE)
+
+        win.Bind(wx.EVT_MENU, self.evt_menu_changeicon, id=IconWindow.ID_CMD_ICON_NORMAL)
+        win.Bind(wx.EVT_MENU, self.evt_menu_changeicon, id=IconWindow.ID_CMD_ICON_COPY)
+        win.Bind(wx.EVT_MENU, self.evt_menu_changeicon, id=IconWindow.ID_CMD_ICON_DELETE)
 
         win.Bind(wx.EVT_MENU, self.evt_menu_camera, id=IconWindow.ID_CMD_CAMERA_RESET)
 
@@ -145,7 +158,7 @@ class IconWindow(wx.Window):
 
         self._renderer = IconRenderer(self.context)
 
-        self._icon = None
+        self._icon_normal = None
         self._icon_sys = None
 
         self.canvas.Bind(wx.EVT_PAINT, self.paint)
@@ -172,7 +185,7 @@ class IconWindow(wx.Window):
         self.set_lighting(self.lighting_id)
         self.set_background(self.ID_CMD_BACKGROUND_ICON)
         self.reset_camera()
-        self.set_animate(False)
+        self.set_animate(True)
 
         self.Bind(wx.EVT_CONTEXT_MENU, self.evt_context_menu)
         self.canvas.Bind(wx.EVT_LEFT_DOWN, self.evt_mouse_left_down)
@@ -203,28 +216,55 @@ class IconWindow(wx.Window):
         menu.Check(self.background_id, True)
 
 
-    def load_icon(self, icon_sys, icon_data):
-        """Pass the raw icon data to the support DLL for display."""
+    def load_icon(self, icon_sys, icon_data_normal, icon_data_copy, icon_data_delete):
+        """Pass the raw icon datas to the support DLL for display."""
 
         if self.failed:
             return
 
-        if icon_data is None:
-            self._icon = None
+        if icon_data_normal is None:
             self._icon_sys = None
+            self._icon_normal = None
+            self._icon_copy = None
+            self._icon_delete = None
         else:
             try:
-                self._icon = ps2icon.Icon(icon_data)
                 self._icon_sys = icon_sys
+                self._icon_normal = ps2icon.Icon(icon_data_normal) if icon_data_normal else None
+                self._icon_copy = ps2icon.Icon(icon_data_copy) if icon_data_copy else None
+                self._icon_delete = ps2icon.Icon(icon_data_delete) if icon_data_delete else None
             except ps2icon.Error as e:
                 print("Failed to load icon.", e)
-                self._icon = None
+                self._icon_normal = None
                 self._icon_sys = None
 
-        self._renderer.set_icon(self._icon_sys, self._icon)
+        map = {
+            IconWindow.ID_CMD_ICON_NORMAL: self._icon_normal,
+            IconWindow.ID_CMD_ICON_COPY: self._icon_copy,
+            IconWindow.ID_CMD_ICON_DELETE: self._icon_delete,
+        }
+
+        icon_to_display = map[self.selected_icon_type]
+        
+        #self.menu.Check(self.ID_CMD_ICON_NORMAL, True)
+        self._renderer.set_icon(self._icon_sys, icon_to_display)
         self.canvas.Refresh(eraseBackground=False)
 
-
+    def set_icon_type(self, id):
+        print(f"changing icon to id {id}")
+        if id == self.ID_CMD_ICON_NORMAL:
+            icon = self._icon_normal
+        elif id == self.ID_CMD_ICON_COPY:
+            icon = self._icon_copy
+        elif id == self.ID_CMD_ICON_DELETE:
+            icon = self._icon_delete
+        else:
+            raise Exception(f"Unknown icon type id {id}")
+        
+        self.selected_icon_type = id
+        self._renderer.set_icon(self._icon_sys, icon)
+        self.canvas.Refresh(eraseBackground=False)
+            
     def set_lighting(self, id):
         self.lighting_id = id
         self._renderer.lighting_config = self.light_options[id]
@@ -262,7 +302,7 @@ class IconWindow(wx.Window):
 
 
     def evt_timer(self, _):
-        if self._icon is None or self._icon.animation_shapes <= 1:
+        if self._icon_normal is None or self._icon_normal.animation_shapes <= 1:
             return
         self.canvas.Refresh(eraseBackground=False)
 
@@ -348,6 +388,8 @@ class IconWindow(wx.Window):
     def evt_menu_background(self, event):
         self.set_background(event.GetId())
 
+    def evt_menu_changeicon(self, event):
+        self.set_icon_type(event.GetId())
 
     def evt_menu_camera(self, event):
         self.reset_camera()
