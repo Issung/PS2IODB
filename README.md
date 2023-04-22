@@ -11,13 +11,14 @@ For this we need to be able to extract:
 
 # TODO List:
 1. ~~Make a way to view different icon modes (normal, copy, delete).~~
-2. Understand/document the icon visual data format.
-3. Find a way to extract that data to a format that can contain it (likely .FBX).
-4. Find a way to publish a tool that does this that is cross-platform and allows people to do it easily.
-5. Find a way to display that data within the browser and make it:
+2. Fix errors relating to 'too small' in mymcplus that don't occur in original mymc.
+3. Understand/document the icon visual data format.
+4. Find a way to extract that data to a format that can contain it (likely .FBX).
+5. Find a way to publish a tool that does this that is cross-platform and allows people to do it easily.
+6. Find a way to display that data within the browser and make it:
     * Textured.
     * Animated.
     * Rotateable/Zoomable.
-6. Design website look/layout.
-7. Create the website.
-8. Generate publicity so the community can help build the archive.
+7. Design website look/layout.
+8. Create the website.
+9. Generate publicity so the community can help build the archive.
