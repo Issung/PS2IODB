@@ -20,10 +20,12 @@ bool IconSys::CheckValidity(IconSys::File_t const& f)
 	{
 		return false;
 	}
+
 	for (int i = 0; i < 512; i++)
 	{
 		if (f.reserve3[i] != 0) { return false; }
 	}
+
 	return true;
 }
 

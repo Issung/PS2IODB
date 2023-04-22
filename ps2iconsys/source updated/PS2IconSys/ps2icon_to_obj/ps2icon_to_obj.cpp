@@ -99,8 +99,12 @@ void ParseCommandLine(int argc, char* argv[])
 PS2Icon* LoadPS2Icon()
 {
 	PS2Icon* ret = NULL;
+
 	if (verbose_output)
+	{
 		std::cout << " * Reading PS2Icon file \"" << ps2_input_file << "\"...\n";
+	}
+
 	try
 	{
 		ret = new PS2Icon(ps2_input_file);
@@ -110,15 +114,22 @@ PS2Icon* LoadPS2Icon()
 		std::cout << "File read error: \"" << ps2_input_file << "\"" << std::endl;
 		exit(1);
 	}
+
 	if (verbose_output)
-		std::cout << " **  Found geometry - " << ret->GetNVertices() << " vertices, "
-		<< ret->GetNShapes() << " shapes." << std::endl;
+	{
+		std::cout << " **  Found geometry - " << ret->GetNVertices() << " vertices, " << ret->GetNShapes() << " shapes." << std::endl;
+	}
+
 	if (ret->GetNFrames() > 1)
 	{
 		std::cout << " **  Found animation - " << ret->GetNFrames() << " frames." << std::endl;
 	}
+
 	if (verbose_output)
+	{
 		std::cout << " *  done." << std::endl;
+	}
+
 	return ret;
 }
 
@@ -151,19 +162,26 @@ void WriteOBJFile(PS2Icon* ps2_icon)
 void WriteTextureFile(PS2Icon* ps2_icon)
 {
 	unsigned int texture_data[128 * 128];
+
 	if (verbose_output)
+	{
 		std::cout << " * Convert texture data from \"" << ps2_input_file << "\"...";
+	}
+
 	ps2_icon->GetTextureData(texture_data);
-	//manual conversion required, since WriteImage() requires 
+
+	// Manual conversion required, since WriteImage() requires 
 	// GBCOLOR32 data, whose bit pattern is not fix;
 	for (int i = 0; i < 16384; i++)
 	{
-		texture_data[i] = GhulbusGraphics::GBCOLOR32::ARGB(static_cast<int>((texture_data[i] >> 24) & 0xff),
+		texture_data[i] = GhulbusGraphics::GBCOLOR32::ARGB(
+			static_cast<int>((texture_data[i] >> 24) & 0xff),
 			static_cast<int>((texture_data[i] >> 16) & 0xff),
 			static_cast<int>((texture_data[i] >> 8) & 0xff),
 			static_cast<int>((texture_data[i]) & 0xff));
 	}
-	//in addition the texture is flipped horizontally:
+
+	// In addition the texture is flipped horizontally:
 	for (int row = 0; row < 64; row++)
 	{
 		for (int i = 0; i < 128; i++)
@@ -174,10 +192,15 @@ void WriteTextureFile(PS2Icon* ps2_icon)
 	}
 
 	if (verbose_output)
+	{
 		std::cout << "done." << std::endl;
+	}
 
 	if (verbose_output)
+	{
 		std::cout << " * Writing texture to file \"" << texture_output_file << "\"...";
+	}
+
 	try
 	{
 		GhulbusUtil::WriteImage(texture_output_file, texture_data, 128, 128);
@@ -187,8 +210,11 @@ void WriteTextureFile(PS2Icon* ps2_icon)
 		std::cout << "\nError while writing to \"" << texture_output_file << "\"" << std::endl;
 		exit(1);
 	}
+
 	if (verbose_output)
+	{
 		std::cout << "done." << std::endl;
+	}
 }
 
 int main(int argc, char* argv[])
@@ -202,9 +228,18 @@ int main(int argc, char* argv[])
 		std::cout << "No input file specified. Use -h for help." << std::endl;
 		exit(1);
 	}
+
 	std::cout << "PS2Icon to OBJ Converter  V-1.0\n by Ghulbus Inc.  (http://www.ghulbus-inc.de/)\n" << std::endl;
-	if (!obj_output_file) { obj_output_file = "default.obj"; }
-	if (!texture_output_file) { texture_output_file = "default.tga"; }
+
+	if (!obj_output_file) 
+	{ 
+		obj_output_file = "default.obj"; 
+	}
+
+	if (!texture_output_file) 
+	{
+		texture_output_file = "default.tga"; 
+	}
 
 	PS2Icon* ps2_icon = LoadPS2Icon();
 

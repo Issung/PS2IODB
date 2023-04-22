@@ -31,6 +31,7 @@ public:
 		unsigned int reserved;						///< reserved; should be: 0x3F800000 (but does not have to ;) )
 		unsigned int n_vertices;					///< number of vertices; must be a multiple of 3
 	} Icon_Header;
+
 	/** Set of vertex coordinates
 	 * @note The f16_* fields indicate float16 data; divide by 4096.0f to convert to float32;
 	 */
@@ -41,6 +42,7 @@ public:
 		short f16_z;								///< vertex z coordinate in float16
 		short f16_unknown;							///< unknown; seems to influence lightning?
 	} Vertex_Coord;
+
 	/** Set of texture coordinates
 	 * @note The f16_* fields indicate float16 data; divide by 4096.0f to convert to float32;
 	 */
@@ -50,6 +52,7 @@ public:
 		short        f16_v;							///< vertex v texture coordinate in float16
 		unsigned int color;							///< vertex color (32 bit RGBA)
 	} Texture_Data;
+
 	/** Animation header
 	 */
 	typedef struct Animation_Header_t
@@ -60,6 +63,7 @@ public:
 		unsigned int play_offset;					///< ???
 		unsigned int n_frames;						///< number of frames in the animation
 	} Animation_Header;
+
 	/** Per-frame animation data
 	 */
 	typedef struct Frame_Data_t
@@ -67,6 +71,7 @@ public:
 		unsigned int shape_id;						///< shape used for this frame
 		unsigned int n_keys;						///< number of keys corresponding to this frame
 	} Frame_Data;
+
 	/** Per-key animation data
 	 */
 	typedef struct Frame_Key_t

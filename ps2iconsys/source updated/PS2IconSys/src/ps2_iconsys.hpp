@@ -117,6 +117,7 @@ private:
 	 * @note Currently the struct is assumed to be completely unpadded!
 	 *       Due to the structure of the struct this shouldn't be a
 	 *       problem yet, but keep it in mind!
+	 *	     Good docs here: https://www.ps2savetools.com/documents/iconsys-format/
 	 */
 	struct File_t
 	{

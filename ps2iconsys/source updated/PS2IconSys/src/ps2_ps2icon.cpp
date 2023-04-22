@@ -426,16 +426,19 @@ int PS2Icon::GetNVertices() const
 	if (header.n_vertices > INT_MAX) { throw(Ghulbus::gbException(Ghulbus::gbException::GB_FAILED)); }
 	return (int)header.n_vertices;
 }
+
 int PS2Icon::GetNShapes() const
 {
 	if (header.animation_shapes > INT_MAX) { throw(Ghulbus::gbException(Ghulbus::gbException::GB_FAILED)); }
 	return (int)header.animation_shapes;
 }
+
 int PS2Icon::GetNFrames() const
 {
 	if (anim_header.n_frames > INT_MAX) { throw(Ghulbus::gbException(Ghulbus::gbException::GB_FAILED)); }
 	return static_cast<int>(anim_header.n_frames);
 }
+
 int PS2Icon::GetFrameShape(int frame) const
 {
 	if (static_cast<unsigned int>(frame) >= anim_header.n_frames)
@@ -445,6 +448,7 @@ int PS2Icon::GetFrameShape(int frame) const
 	if (animation[frame].shape_id > INT_MAX) { throw(Ghulbus::gbException(Ghulbus::gbException::GB_FAILED)); }
 	return static_cast<int>(animation[frame].shape_id);
 }
+
 int PS2Icon::GetNFrameKeys(int frame) const
 {
 	if (static_cast<unsigned int>(frame) >= anim_header.n_frames)
@@ -454,6 +458,7 @@ int PS2Icon::GetNFrameKeys(int frame) const
 	if (animation[frame].n_keys > INT_MAX) { throw(Ghulbus::gbException(Ghulbus::gbException::GB_FAILED)); }
 	return static_cast<int>(animation[frame].n_keys);
 }
+
 float PS2Icon::GetFrameKeyTime(int frame, int key) const
 {
 	if ((static_cast<unsigned int>(frame) >= anim_header.n_frames) ||
@@ -463,6 +468,7 @@ float PS2Icon::GetFrameKeyTime(int frame, int key) const
 	}
 	return anim_keys[frame][key].time;
 }
+
 float PS2Icon::GetFrameKeyValue(int frame, int key) const
 {
 	if ((static_cast<unsigned int>(frame) >= anim_header.n_frames) ||
@@ -472,11 +478,13 @@ float PS2Icon::GetFrameKeyValue(int frame, int key) const
 	}
 	return anim_keys[frame][key].value;
 }
+
 int PS2Icon::GetTextureType() const
 {
 	if (header.texture_type > INT_MAX) { throw(Ghulbus::gbException(Ghulbus::gbException::GB_FAILED)); }
 	return static_cast<int>(header.texture_type);
 }
+
 void PS2Icon::GetVertexData(float* data, int shape) const
 {
 	if (shape >= static_cast<int>(header.animation_shapes))
@@ -505,6 +513,7 @@ void PS2Icon::GetVertexData(float* data, int shape) const
 		}
 	}
 }
+
 void PS2Icon::GetVertexColorData(unsigned int* data) const
 {
 	for (unsigned int i = 0; i < header.n_vertices; i++)
@@ -512,10 +521,12 @@ void PS2Icon::GetVertexColorData(unsigned int* data) const
 		data[i] = vert_texture[i].color;
 	}
 }
+
 void PS2Icon::GetNormalData(float* data) const
 {
 	memcpy(data, fnormals, sizeof(float) * header.n_vertices * 3);
 }
+
 void PS2Icon::GetVertexTextureData(float* data) const
 {
 	for (unsigned int i = 0; i < header.n_vertices; i++)
@@ -524,10 +535,12 @@ void PS2Icon::GetVertexTextureData(float* data) const
 		data[i * 2 + 1] = convert_f16_to_f32(vert_texture[i].f16_v);
 	}
 }
+
 void PS2Icon::GetTextureData(unsigned int* data) const
 {
 	memcpy(data, texture, sizeof(unsigned int) * 16384);
 }
+
 void PS2Icon::GetTextureData(unsigned int* data, int pitch) const
 {
 	if ((pitch < 512) || (pitch % 4 != 0))
@@ -539,6 +552,7 @@ void PS2Icon::GetTextureData(unsigned int* data, int pitch) const
 		memcpy(&(data[i * (pitch >> 2)]), &(texture[i * 128]), sizeof(unsigned int) * 128);
 	}
 }
+
 unsigned int PS2Icon::GetTextureData(int x, int y) const
 {
 	if ((x < 0) || (x >= 128) || (y < 0) || (y >= 128))
