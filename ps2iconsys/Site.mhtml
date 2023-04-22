@@ -1,0 +1,636 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://www.ghulbus-inc.de/projects/ps2iconsys/index.html
+Subject: Ghulbus Inc. - PS2 IconSys Library & Tools
+Date: Sat, 22 Apr 2023 06:12:54 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----"
+
+
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/html
+Content-ID: <frame-2471E40DB91DDD7EDA25E9ADA3B59E6F@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://www.ghulbus-inc.de/projects/ps2iconsys/index.html
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org=
+/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns=3D"http://www.w3.org/1999/xht=
+ml" data-darkreader-mode=3D"dynamic" data-darkreader-scheme=3D"dark"><head>=
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8"><l=
+ink rel=3D"stylesheet" type=3D"text/css" href=3D"cid:css-3540e29b-f1ab-4ee0=
+-b1b1-5f599a5591e8@mhtml.blink" /><link rel=3D"stylesheet" type=3D"text/css=
+" href=3D"cid:css-ee1fa384-61f1-4333-98e1-4478d152b456@mhtml.blink" /><link=
+ rel=3D"stylesheet" type=3D"text/css" href=3D"cid:css-a71fbbe1-311d-48d2-93=
+72-e3f9c3e334cb@mhtml.blink" /><link rel=3D"stylesheet" type=3D"text/css" h=
+ref=3D"cid:css-87084d58-56af-4b07-85de-b1967be36581@mhtml.blink" /><link re=
+l=3D"stylesheet" type=3D"text/css" href=3D"cid:css-bdf8a3f8-c5f9-41d6-b1da-=
+4bbc43cb7d3d@mhtml.blink" /><link rel=3D"stylesheet" type=3D"text/css" href=
+=3D"cid:css-54d8cf3b-ab86-4bb9-aac2-040a4dc628a2@mhtml.blink" /><link rel=
+=3D"stylesheet" type=3D"text/css" href=3D"cid:css-c7f21650-cb6b-4319-8835-e=
+348e9e7ecde@mhtml.blink" /><link rel=3D"stylesheet" type=3D"text/css" href=
+=3D"cid:css-e43f4f7a-10d4-4453-9b5d-40311935bfad@mhtml.blink" /><link rel=
+=3D"stylesheet" type=3D"text/css" href=3D"cid:css-280abd18-589b-432d-bbe2-0=
+c9cf0c8052b@mhtml.blink" /><link rel=3D"stylesheet" type=3D"text/css" href=
+=3D"cid:css-cee91f19-32eb-4a1b-bd9c-ea2c84017a24@mhtml.blink" /><link rel=
+=3D"stylesheet" type=3D"text/css" href=3D"cid:css-789f0ddf-5c2c-4172-81ba-a=
+46716503728@mhtml.blink" /><link rel=3D"stylesheet" type=3D"text/css" href=
+=3D"cid:css-895ff63e-8706-41d1-9c81-7795ce319cc5@mhtml.blink" /><link rel=
+=3D"stylesheet" type=3D"text/css" href=3D"cid:css-f22f5e05-b2ff-49dc-9ef1-9=
+db6c548d193@mhtml.blink" />
+       =20
+        <title>Ghulbus Inc. - PS2 IconSys Library &amp; Tools</title>
+        <link rel=3D"stylesheet" type=3D"text/css" href=3D"https://www.ghul=
+bus-inc.de/css/global.css">
+       =20
+        <link rel=3D"shortcut icon" href=3D"https://www.ghulbus-inc.de/favi=
+con.ico" type=3D"image/x-icon">
+        <meta name=3D"keywords" content=3D"Playstation, Icon, Memory Card, =
+Playstation 2, PS2, Sony, Icon.sys, Open Source, Sourcecode, C++, Source">
+    <meta name=3D"darkreader" content=3D"3b8296ea29f5496f8a92a4ee541b35f1">=
+</head>
+    <body style=3D"font-size:100%;">
+        <div class=3D"Head">
+            <h1>Ghulbus Inc. - Projects</h1>
+        </div>
+        <div class=3D"Content">
+            <a id=3D"anch_Top"></a>
+            <h1>PS2 IconSys Library &amp; Tools</h1>
+            <p>This tools allow the creation and editing of icons for the S=
+ony Playstation 2 console.</p>
+            <p>Remember those ugly, blue "corrupted data" boxes that you ge=
+t when randomly dumping data on a
+            Playstation 2 memory card? The reason for this is, that the PS2=
+ browser searches for an Icon.sys
+            file in each directory, which points to a 3d icon that can be r=
+endered by the browser.</p>
+            <p>Fortunately, there are a couple of tools out there that allo=
+w you to create Icon.sys files, as
+            well as the actual 3d icons. This is one them.</p>
+            <h3>Instructions</h3>
+            <p>This project consists mainly of two parts: A C++ library for=
+ handling PS2 icons and Icon.sys files
+            and a toolchain based on that library.</p>
+            <p>Currently the library contains all basic functionalities, bu=
+t there are still some todos pending.
+            The toolchain consists of three applications</p>
+            <ul>
+            <li><i>iconsys_builder</i> - A tool for managing Icon.sys files=
+</li>
+            <li><i>obj_to_ps2icon</i> - A tool for building PS2 Icons from =
+Wavefront OBJ files</li>
+            <li><i>ps2icon_to_obj</i> - A tool for converting PS2 Icons to =
+OBJ for further editing</li>
+            </ul>
+           =20
+            <h3>Download</h3>
+            <a href=3D"https://www.ghulbus-inc.de/projects/ps2iconsys/ps2ic=
+on.zip"><img src=3D"https://www.ghulbus-inc.de/gfx/icon_vcpp.png" alt=3D"Do=
+wnload" width=3D"32" height=3D"32"> Download Full Source (C++), 410 KB</a> =
+<br> <br>
+            <a href=3D"https://www.ghulbus-inc.de/projects/ps2iconsys/ps2ic=
+on_lib.zip"><img src=3D"https://www.ghulbus-inc.de/gfx/icon_vcpp.png" alt=
+=3D"Download" width=3D"32" height=3D"32"> Download Library (C++), 40 KB</a>=
+ <br> <br>
+            <a href=3D"https://www.ghulbus-inc.de/projects/ps2iconsys/doc_h=
+tml.zip"><img src=3D"https://www.ghulbus-inc.de/gfx/icon_doxygen.png" alt=
+=3D"Download" width=3D"32" height=3D"32"> Download Documentation (HTML), 17=
+5 KB</a> <br> <br>
+            <a href=3D"https://www.ghulbus-inc.de/projects/ps2iconsys/win32=
+_bin.zip"><img src=3D"https://www.ghulbus-inc.de/gfx/icon_win32.png" alt=3D=
+"Download" width=3D"32" height=3D"32"> Download Windows Binaries, 260 KB</a=
+> <br> <br>
+            <a href=3D"https://www.ghulbus-inc.de/projects/ps2iconsys/ps2_i=
+consys_viewer.zip"><img src=3D"https://www.ghulbus-inc.de/gfx/icon_win32.pn=
+g" alt=3D"Download" width=3D"32" height=3D"32"> Download IconSys Viewer (Wi=
+n32), 90 KB</a> <br> <br>
+            <p>The IconSys Viewer is a 3d visualizer for PS2 icons (<a href=
+=3D"https://www.ghulbus-inc.de/projects/ps2iconsys/screen.png">Screenshot</=
+a>). It was a by-product of the development of
+            the IconSys library and is therefore to be considered unstable =
+software.</p>
+           =20
+            <h3>About the Source Code</h3>
+            <p>The source code compiles under both Windows (Visual Studio o=
+r Cygwin) and Linux (gcc). See the=20
+            enclosed COMPILE file for details.</p>
+            <p>The complete source code is provided under the terms of the=
+=20
+            <a href=3D"http://www.opensource.org/licenses/mit-license.php">=
+MIT license</a>. See the enclosed LICENSE
+            file for details.</p>
+           =20
+            <h3>Documentation</h3>
+            <p>The complete <a href=3D"http://www.stack.nl/~dimitri/doxygen=
+/">Doxygen</a> documentation of the library
+            is available for online viewing.</p>
+            <p><a href=3D"https://www.ghulbus-inc.de/projects/ps2iconsys/do=
+c/doxygen/html/index.html">To the Documentation</a></p>
+            <p><a href=3D"https://www.ghulbus-inc.de/projects/ps2iconsys/do=
+c_html.zip">Download Version for Offline Viewing</a></p>
+                                   =20
+            <h3>Known Issues</h3>
+            <p>See the enclosed README file for details.</p>
+           =20
+            <h3>References</h3>
+            <p>This project was only possible due to the information availa=
+ble at <a href=3D"http://ps2dev.org/">ps2dev.org</a>.
+            A huge credit goes to Martin Akesson, whose <a href=3D"http://p=
+s2dev.org/ps2/Technical_Documentation/Programming_Reference">Reference file=
+</a>
+            on the PS2 Icon format was a great help. Another useful referen=
+ce was the <a href=3D"http://www.ps2savetools.com/sections.php">description=
+</a>
+            of the Icon.sys file format at <a href=3D"http://www.ps2savetoo=
+ls.com/">ps2savetools.com</a> by loser.
+            </p>
+            <h3>Version History</h3>
+            <pre class=3D"HistoryBox">* V-1.0 (Jan. 2008)
+ - Initial release.
+ </pre>
+            <a href=3D"https://www.ghulbus-inc.de/projects/ps2iconsys/index=
+.html">=E2=86=91</a>
+            <br>
+        </div>
+        <div class=3D"W3CIcons">
+            <a href=3D"http://validator.w3.org/check?uri=3Dreferer">
+                <img src=3D"https://www.ghulbus-inc.de/gfx/valid-xhtml10-bl=
+ue.png" alt=3D"Valid XHTML 1.0 Strict" height=3D"31" width=3D"88">
+            </a>
+        </div>
+   =20
+</body></html>
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-3540e29b-f1ab-4ee0-b1b1-5f599a5591e8@mhtml.blink
+
+@charset "utf-8";
+=0A
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-ee1fa384-61f1-4333-98e1-4478d152b456@mhtml.blink
+
+@charset "utf-8";
+=0A
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-a71fbbe1-311d-48d2-9372-e3f9c3e334cb@mhtml.blink
+
+@charset "utf-8";
+
+.jfk-bubble.gtx-bubble, .captcheck_answer_label > input + img, span#closed_=
+text > img[src^=3D"https://www.gstatic.com/images/branding/googlelogo"], sp=
+an[data-href^=3D"https://www.hcaptcha.com/"] > #icon, #bit-notification-bar=
+-iframe, ::-webkit-calendar-picker-indicator { filter: invert(100%) hue-rot=
+ate(180deg) contrast(90%) !important; }
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-87084d58-56af-4b07-85de-b1967be36581@mhtml.blink
+
+@charset "utf-8";
+
+[data-darkreader-inline-bgcolor] { background-color: var(--darkreader-inlin=
+e-bgcolor)  !important; }
+
+[data-darkreader-inline-bgimage] { background-image: var(--darkreader-inlin=
+e-bgimage)  !important; }
+
+[data-darkreader-inline-border] { border-color: var(--darkreader-inline-bor=
+der)  !important; }
+
+[data-darkreader-inline-border-bottom] { border-bottom-color: var(--darkrea=
+der-inline-border-bottom)  !important; }
+
+[data-darkreader-inline-border-left] { border-left-color: var(--darkreader-=
+inline-border-left)  !important; }
+
+[data-darkreader-inline-border-right] { border-right-color: var(--darkreade=
+r-inline-border-right)  !important; }
+
+[data-darkreader-inline-border-top] { border-top-color: var(--darkreader-in=
+line-border-top)  !important; }
+
+[data-darkreader-inline-boxshadow] { box-shadow: var(--darkreader-inline-bo=
+xshadow)  !important; }
+
+[data-darkreader-inline-color] { color: var(--darkreader-inline-color)  !im=
+portant; }
+
+[data-darkreader-inline-fill] { fill: var(--darkreader-inline-fill)  !impor=
+tant; }
+
+[data-darkreader-inline-stroke] { stroke: var(--darkreader-inline-stroke)  =
+!important; }
+
+[data-darkreader-inline-outline] { outline-color: var(--darkreader-inline-o=
+utline)  !important; }
+
+[data-darkreader-inline-stopcolor] { stop-color: var(--darkreader-inline-st=
+opcolor)  !important; }
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-bdf8a3f8-c5f9-41d6-b1da-4bbc43cb7d3d@mhtml.blink
+
+@charset "utf-8";
+
+:root { --darkreader-neutral-background: #131516; --darkreader-neutral-text=
+: #d8d4cf; --darkreader-selection-background: #004daa; --darkreader-selecti=
+on-text: #e8e6e3; }
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-54d8cf3b-ab86-4bb9-aac2-040a4dc628a2@mhtml.blink
+
+@charset "utf-8";
+
+:root { }
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-c7f21650-cb6b-4319-8835-e348e9e7ecde@mhtml.blink
+
+@charset "utf-8";
+
+html { background-color: rgb(24, 26, 27) !important; }
+
+html { color-scheme: dark !important; }
+
+html, body, input, textarea, select, button, dialog { background-color: rgb=
+(24, 26, 27); }
+
+html, body, input, textarea, select, button { border-color: rgb(115, 107, 9=
+4); color: rgb(232, 230, 227); }
+
+a { color: rgb(51, 145, 255); }
+
+table { border-color: rgb(84, 91, 94); }
+
+::placeholder { color: rgb(178, 171, 161); }
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill =
+{ background-color: rgb(64, 68, 0) !important; color: rgb(232, 230, 227) !i=
+mportant; }
+
+::-webkit-scrollbar { background-color: rgb(32, 35, 36); color: rgb(171, 16=
+4, 153); }
+
+::-webkit-scrollbar-thumb { background-color: rgb(69, 74, 77); }
+
+::-webkit-scrollbar-thumb:hover { background-color: rgb(87, 94, 98); }
+
+::-webkit-scrollbar-thumb:active { background-color: rgb(72, 78, 81); }
+
+::-webkit-scrollbar-corner { background-color: rgb(24, 26, 27); }
+
+::selection { background-color: rgb(0, 77, 170) !important; color: rgb(232,=
+ 230, 227) !important; }
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-e43f4f7a-10d4-4453-9b5d-40311935bfad@mhtml.blink
+
+@charset "utf-8";
+
+body { background-color: rgb(36, 39, 41); color: rgb(223, 220, 215); }
+
+div.Navigation { border-color: rgb(179, 179, 0); }
+
+div.Navigation li { list-style-image: initial; background-color: rgb(48, 52=
+, 54); }
+
+div.Navigation a { color: rgb(223, 220, 215); }
+
+div.Navigation a:hover { background-color: rgb(72, 78, 81); color: rgb(238,=
+ 238, 144); }
+
+div.Navigation span { background-color: rgb(78, 84, 87); color: rgb(241, 24=
+1, 63); }
+
+div.Navigation a.selected { background-color: rgb(78, 84, 87); color: rgb(2=
+41, 241, 63); }
+
+div.Navigation li ul li { list-style-image: initial; }
+
+div.Navigation li ul li a:hover { background-color: transparent; color: rgb=
+(238, 238, 144); }
+
+div.Head h1 { border-color: rgb(207, 207, 0); background-color: rgb(154, 15=
+4, 0); color: rgb(202, 197, 190); }
+
+div.Content { border-color: rgb(66, 71, 74); }
+
+div.Content a { color: rgb(255, 255, 58); }
+
+div.Content a:hover { color: rgb(255, 255, 37); }
+
+div.Content a:visited { color: rgb(207, 207, 141); }
+
+div.Content h1.FrontPage { color: rgb(255, 255, 47); }
+
+div.Content h2.FrontPage { color: rgb(255, 255, 47); }
+
+div.Content div.QuoteBox { border-color: rgb(179, 179, 0); color: rgb(255, =
+255, 70); }
+
+div.Content pre.HistoryBox { border-color: rgb(179, 179, 0); color: rgb(255=
+, 255, 70); }
+
+div.W3CIcons a { color: rgb(202, 197, 190); }
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-280abd18-589b-432d-bbe2-0c9cf0c8052b@mhtml.blink
+
+@charset "utf-8";
+=0A
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-cee91f19-32eb-4a1b-bd9c-ea2c84017a24@mhtml.blink
+
+@charset "utf-8";
+=0A
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-789f0ddf-5c2c-4172-81ba-a46716503728@mhtml.blink
+
+@charset "utf-8";
+
+.vimvixen-hint { background-color: rgb(123, 83, 0) !important; border-color=
+: rgb(216, 176, 19) !important; color: rgb(243, 232, 200) !important; }
+
+::placeholder { opacity: 0.5 !important; }
+
+#edge-translate-panel-body, .MuiTypography-body1, .nfe-quote-text { color: =
+var(--darkreader-neutral-text)  !important; }
+
+gr-main-header { background-color: rgb(15, 58, 72) !important; }
+
+.tou-z65h9k, .tou-mignzq, .tou-1b6i2ox, .tou-lnqlqk { background-color: var=
+(--darkreader-neutral-background)  !important; }
+
+.tou-75mvi { background-color: rgb(3, 32, 41) !important; }
+
+.tou-ta9e87, .tou-1w3fhi0, .tou-1b8t2us, .tou-py7lfi, .tou-1lpmd9d, .tou-1f=
+rrtv8, .tou-17ezmgn { background-color: rgb(10, 10, 10) !important; }
+
+.tou-uknfeu { background-color: rgb(35, 22, 3) !important; }
+
+.tou-6i3zyv { background-color: rgb(25, 87, 108) !important; }
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-895ff63e-8706-41d1-9c81-7795ce319cc5@mhtml.blink
+
+@charset "utf-8";
+=0A
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-f22f5e05-b2ff-49dc-9ef1-9db6c548d193@mhtml.blink
+
+@charset "utf-8";
+=0A
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://www.ghulbus-inc.de/css/global.css
+
+@charset "utf-8";
+
+body { background-color: rgb(48, 48, 48); color: rgb(240, 240, 240); }
+
+div.Navigation { float: left; width: 12em; margin: 0.5em; padding: 0.5em; b=
+order: 1px outset rgb(255, 255, 0); }
+
+div.Navigation ul { font-variant: small-caps; padding: 0px; margin: 0px; }
+
+div.Navigation li { list-style: none; font-size: 150%; background-color: rg=
+b(64, 64, 64); }
+
+div.Navigation a { display: block; padding: 0.5em; color: rgb(240, 240, 240=
+); }
+
+div.Navigation a:hover { background-color: rgb(96, 96, 96); color: rgb(240,=
+ 240, 160); }
+
+div.Navigation span { padding: 0.5em; background-color: rgb(160, 160, 160);=
+ color: rgb(240, 240, 48); display: block; }
+
+div.Navigation a.selected { padding: 0.5em; background-color: rgb(160, 160,=
+ 160); color: rgb(240, 240, 48); display: block; }
+
+div.Navigation li ul { font-variant: normal; margin: 0px; padding: 0px; }
+
+div.Navigation li ul li { list-style: inside circle; font-size: 75%; margin=
+: 5px; padding-left: 1em; }
+
+div.Navigation li ul li a { margin: 0px; padding: 0px; display: inline; }
+
+div.Navigation li ul li a:hover { margin: 0px; padding: 0px; background-col=
+or: transparent; color: rgb(240, 240, 160); }
+
+div.Head h1 { font-size: 1.5em; text-align: center; border: 2px ridge rgb(1=
+60, 160, 0); margin: 0px 0px 0.5em; padding: 0.2em; background-color: rgb(1=
+92, 192, 0); color: rgb(48, 48, 48); }
+
+div.Content { position: relative; top: 0.5em; margin: 0px 150px 0px 16em; p=
+adding: 0px 0px 0px 0.8em; border: 1px dashed silver; }
+
+div.Content a { color: rgb(208, 208, 0); }
+
+div.Content a:hover { color: rgb(238, 238, 0); }
+
+div.Content a:visited { color: rgb(208, 208, 144); }
+
+div.Content div.IconBar { padding: 5px; margin: 0px 25px 2em; }
+
+div.Content div.IconBar img { padding: 0px 5px; }
+
+div.Content h1.FrontPage { font-family: Verdana; font-size: 150%; color: rg=
+b(224, 224, 0); }
+
+div.Content h2.FrontPage { font-family: Verdana; font-size: 120%; color: rg=
+b(224, 224, 0); }
+
+div.Content div.QuoteBox { border: 1px solid yellow; color: rgb(192, 192, 0=
+); padding: 0.5em; margin: 0.5em; }
+
+div.Content p.FrontPage_Date { text-align: right; font-size: small; }
+
+div.Content p.FrontPage { }
+
+div.Content hr.FrontPage { margin-bottom: 3.5em; }
+
+div.Content pre.HistoryBox { border: 1px solid yellow; color: rgb(192, 192,=
+ 0); padding: 0.5em; margin: 0.5em; }
+
+div.CCIcons { text-align: right; margin: 1em 0.2em 0px 0px; }
+
+div.W3CIcons { clear: both; text-align: right; margin-top: 2em; margin-left=
+: 0.5em; }
+
+div.W3CIcons a { color: rgb(48, 48, 48); }
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://www.ghulbus-inc.de/gfx/icon_vcpp.png
+
+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
+
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://www.ghulbus-inc.de/gfx/icon_doxygen.png
+
+iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBI
+WXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH2AETEjs5MWD1DQAAAi1JREFUeNrtV89LG1EQ/jZZXBFF
+qGBj6yPYw3ophR4jhW4lwaMXQbx6MeCpp7a0h0D/jp5FyCWXomjpHkpX8FIojWRBabtp0oZW3Jjd
+9EfI9GBi3Oxasm9XA8WBgZ3Zb958+97M2/eAPosQ4ljEk0cM82tUNQfG2KltGAYUZf6fMaESYIwh
+FpvwFRPpdw1cEbgi8P8REEV/Q4oX8VV+SPAQoFDJ+k3cvd2elcnJmxdGgNqJeZKkkomZrW3tbaAi
+5E0OAE+fPX4fZAZIVXOeyYvFLz1NP2OsEagNGWNoNJoO1bQdpFdWMaukkF5ZhabtuDBticUmuLuN
+VDVHllV26F5+l1LJBLUKk+JsjFLJBO3ld104AGRZ5RHuJbg+fgO23XT59YJ++vzJ+AHgxPbC2naz
+EagL7LrzRFWtRT1x1VoUQ8OCC9cd76sGvlVKqNVFhwKAPC07cG27G9fy/eGdAUFR5unlVh7Xxs4c
+tcQpLKczADLQCzrkaRnL6QxInMKx1YEdmoMnS/T5ezPQEpimAUhxh290/B4ePnrRcUhxHNbOjacg
+bSgsLczBrLxxv5HiHfWQijkEANjIPg+8FQtLC3O0lt3Er4H7vUX8/goJhdYSlM+FRX3sCZnhyEcg
+MgJxYBTSoHdrHx+VUNrfxrvXT/BqYx2ECI6qPzWzWt/nvRkRAKxlN3H7zoOe2daKHxx2YvauwEOA
+bsnrofz3D/RFgasID/TFvl9O6RJzXb78BQZ280p04UvKAAAAAElFTkSuQmCC
+
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://www.ghulbus-inc.de/gfx/icon_win32.png
+
+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
+RK5CYII=
+
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://www.ghulbus-inc.de/gfx/valid-xhtml10-blue.png
+
+iVBORw0KGgoAAAANSUhEUgAAAFgAAAAfCAMAAABUFvrSAAADAFBMVEUAAQEHCAkKCwsNDxASFBUT
+FhgXGh0cHBwaHiEcICMjIyMgJSkjKS0oKCgmLDApLzQqMTUtNDkzMzM7Ozs2PkQ4QUc7REtLS0xB
+S1JPT1BGUFhKVV1UVVVbW1tEXW9MWGBQXGVZXmJVYmtZZnBbaXJlZWVsbGxgbnhjcn12d3p7e3sA
+WpwIX58fW4cJYJ8NYqERZaIVaKQaa6YebagybZkhb6klcqopdawxea85dKE1fLA4frJnd4JpeYVt
+fol5fYE8gbNEhrZHiLdKirlVkb1alL9rg5dxgo5zhZF4ipZ6jZp9kJ12kaddlsBjmsJpnsRtocZ1
+pcl8qsyDg4OJjpaXl5eYmJiAk6GFmaeGmqiQl6CLoK+NorGZoaqRp7aUqrqjpaarq620tLS/v7+C
+rs6GsM+FsNCJs9Gbs8OQt9SVutWYvNebvtiiusulvtCfwdqnwNKjw9upwtSqxtmtyd2wyt2yzeC2
+0OPCwsLMzMzU1NTY2NjA1ufG2ujN3+zT4+7d6fLn5+fs7Ozi7PPp8fbu9Pjz8/Py9/r1+Pv+/v7M
+zMwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAB3irofAAAAi3RSTlP/////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////8AhcMV7wAAAAFi
+S0dE/6UH8sUAAAAJcEhZcwAAAEgAAABIAEbJaz4AAAPsSURBVEjHrZaLVxtVEIfvYlpAY2xpIGBS
+bRX7cKJJThQQRC2NtVIIBmmR1m76ICd7KsvJ4z5EoK3lletf7czdbLJJrJz09Jezs7PJud/Ozp2Z
+Ddt563r0D4nt6NN1wJVSQgmhpJHynf/Qw7XLfYAVJ67yceiJtwY25OZi9T8h9wmmNBiYMIlofqSi
+6KXk5jbiDcBcOHZdiaJdrxRdJZwiL9qkIrftupQV25bCdt4o4tssLm0rLObZNaHCzB1mpGGH4fcy
+yizhsnAPuJot4OryVJkgR8lklpTT+vjXKzv6SQPB+Nij7M57VlH64N834iy+YbuMDWwj3eIui/SA
+X0IGiXswR+AqeFrVOoardkd2EYwL3BBjVyWCx+bnzzJXiGt0C5edt769dCZMEfeC9TQ8R5uGQ7TL
+kDs82ILMiX7E3r9+ITTwygPzOLNqBDZylUKwQlw0PjQwGbHwFhHVAy7AJtoZqKLNwEutp8iduIBZ
++Oxz7YGLLETpxFTwejgQcbTILDdiUsF7wHswi6sBMK/7MI3ppmsdop8axx5YhK1ilC0RWIlIIOJR
+Hp9UEUrF0OLioiAwQKsqUpiFLYC01qtQ0Icp2MetGwy29CRi3HfO1ChidQ7BfsSjFGbYkq5J0TaC
+vwAie+AcPnoOZkBhPvZ0HpIrR7oRC3ae62CLuE695lS4chwuVM2pKcEdl8CuI4VD4urhV2bvm+Aq
+5BqpLIfCAUWdywDMNvS9Npg2z3S1d3iDSJg2bzez13/fNKvKAx9CWkH+JDm9BT/S9X4auP6zA4w8
+HoQp1TE+fPiNJtfvvDnMg9Q3wKsMrVcgH+w8KVsAQldeO9taXB9cAviygdUAcGSuOUx1gp0wY+te
+CpzzzIp3oPncs26uD34OcJNaEH7QTXD2lecdH1NVSGdyzAdfYt+Ns40AV8xCqtzFbQ2hLPxhWrCs
+ny2bVCw89chXnlJV4KpPPbBQw2e5zT7pev7kppQLHvajjumWhwPTgi/QKxxV01BtXPybuNZf3ub5
+YFVj50SFfdDmrni8wk1zSt662AGWM2T3vtb6JANJoNbbGUwk3mV3dSdYqtCwcNiHwQxDW8mlrnnc
+2DQnnGn6xUomkz9BZzcxOPLYrwpuwFc/FnLMcn5iPwdzvNDmlvsb9DSDUCEZYUo+sCw2VAlWhVhu
+cft+g9TvrK8vbcgHvyHHub243VW/yz6333eefG1LNPULclOl/l+mUp0ClqvJVEnx/l+m/DQwL5U4
+jaf+/wk19ynICvo0o3gn+MmpenyfdJfM2v221u6R8b5p2e+v++BYIhabmJhoHYlY99loDI/xWFNR
+3xkPWE+J2IgB/wsqW0UODQNcGAAAAABJRU5ErkJggg==
+
+------MultipartBoundary--nehoJppYgxZsBsKVgjWTlLWykZUw23kNBnVboycMD8------
