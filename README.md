@@ -17,6 +17,8 @@ For this we need to be able to extract:
       This was fixed by changing __load_texture to do the uncompressed branch for value 6 as well as 7.
     * Jak and Daxter is now having a problem with 'Data length is smaller than expected vertex data size'.
     * Katamari Damaci is causing an error when being imported: 'struct.error: required argument is not an integer'.
+    * Ico is also having issues sporting a texture_type of 3. 'Data length is smaller than expected compressed texture header size.'.
+    * A bunch of issues seem to be happening from ovewritten files from things like Gameshark, it seems Gameshark don't write theirs correctly.
 3. Understand/document the icon visual data format.
 4. Find a way to extract that data to a format that can contain it (likely .FBX).
 5. Find a way to publish a tool that does this that is cross-platform and allows people to do it easily.

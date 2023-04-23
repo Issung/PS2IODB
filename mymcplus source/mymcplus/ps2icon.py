@@ -99,7 +99,7 @@ class Icon:
         offset = self.__load_texture(data, length, offset)
 
         if length > offset:
-            print("Warning: Icon file larger than expected.")
+            print(f"Warning: Icon file larger than expected. Reached offset {offset} but total length is {length}, difference of {length - offset}.")
 
 
     def __load_header(self, data, length, offset):
@@ -207,8 +207,12 @@ class Icon:
 
 
     def __load_texture(self, data, length, offset):
-        print(f"texture type is {self.tex_type}")
-        if self.tex_type == 0x6 or self.tex_type == 0x7:
+        compressed_types = [6, 7]
+        is_uncompressed = self.tex_type in compressed_types
+        technique_name = "uncompressed" if is_uncompressed else "compressed"
+        print(f"self.tex_type is {self.tex_type}. Loading with {technique_name} technique.")
+
+        if is_uncompressed:
             return self.__load_texture_uncompressed(data, length, offset)
         else:
             return self.__load_texture_compressed(data, length, offset)
@@ -228,7 +232,7 @@ class Icon:
             raise FileTooSmall("Data length is smaller than expected compressed texture header size.")
 
         compressed_size = _texture_compressed_size_struct.unpack_from(data, offset)[0]
-        offset += 4
+        offset += _texture_compressed_size_struct.size
 
         if length < offset + compressed_size:
             raise FileTooSmall("Data length is smaller than expected compressed texture size.")
