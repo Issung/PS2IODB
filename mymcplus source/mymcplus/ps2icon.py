@@ -33,14 +33,16 @@ class Corrupt(Error):
 class FileTooSmall(Error):
     """Corrupt icon file."""
 
-    def __init__(self):
-        super().__init__(self, "Icon file too small.")
+    #def __init__(self):
+    #    super().__init__(self, "Icon file too small.")
+
+    def __init__(self, message = "Icon file too small."):
+        super().__init__(self, message)
 
 
 _PS2_ICON_MAGIC = 0x010000
 
 _FIXED_POINT_FACTOR = 4096.0
-
 
 TEXTURE_WIDTH = 128
 TEXTURE_HEIGHT = 128
@@ -102,7 +104,7 @@ class Icon:
 
     def __load_header(self, data, length, offset):
         if length < _icon_hdr_struct.size:
-            raise FileTooSmall()
+            raise FileTooSmall("Data length is smaller than expected icon header size.")
 
         (magic,
          self.animation_shapes,
@@ -121,7 +123,7 @@ class Icon:
                  + _normal_uv_color_struct.size
 
         if length < offset + self.vertex_count * stride:
-            raise FileTooSmall()
+            raise FileTooSmall("Data length is smaller than expected vertex data size.")
 
         self.vertex_data = (int16_t * (self.animation_shapes * 3 * self.vertex_count))()
         self.normal_uv_data = (int16_t * (5 * self.vertex_count))()
@@ -160,7 +162,7 @@ class Icon:
 
     def __load_animation_data(self, data, length, offset):
         if length < offset + _anim_hdr_struct.size:
-            raise FileTooSmall()
+            raise FileTooSmall("Data length is smaller than expected animation data size.")
 
         (anim_id_tag,
          self.frame_length,
@@ -176,7 +178,7 @@ class Icon:
         self.frames = []
         for i in range(self.frame_count):
             if length < offset + _frame_data_struct.size:
-                raise FileTooSmall()
+                raise FileTooSmall("Data length is smaller than expected frame data size.")
 
             frame = self.Frame()
             (frame.shape_id,
@@ -190,7 +192,7 @@ class Icon:
 
             for k in range(key_count):
                 if length < offset + _frame_key_struct.size:
-                    raise FileTooSmall()
+                    raise FileTooSmall("Data length is smaller than expected frame key size.")
 
                 key = self.Frame.Key()
                 (key.time,
@@ -205,7 +207,8 @@ class Icon:
 
 
     def __load_texture(self, data, length, offset):
-        if self.tex_type == 0x7:
+        print(f"texture type is {self.tex_type}")
+        if self.tex_type == 0x6 or self.tex_type == 0x7:
             return self.__load_texture_uncompressed(data, length, offset)
         else:
             return self.__load_texture_compressed(data, length, offset)
@@ -213,7 +216,7 @@ class Icon:
 
     def __load_texture_uncompressed(self, data, length, offset):
         if length < offset + _TEXTURE_SIZE:
-            raise FileTooSmall()
+            raise FileTooSmall("Data length is smaller than expected uncompressed texture size.")
 
         self.texture = data[offset:(offset + _TEXTURE_SIZE)]
 
@@ -222,13 +225,13 @@ class Icon:
 
     def __load_texture_compressed(self, data, length, offset):
         if length < offset + 4:
-            raise FileTooSmall()
+            raise FileTooSmall("Data length is smaller than expected compressed texture header size.")
 
         compressed_size = _texture_compressed_size_struct.unpack_from(data, offset)[0]
         offset += 4
 
         if length < offset + compressed_size:
-            raise FileTooSmall()
+            raise FileTooSmall("Data length is smaller than expected compressed texture size.")
 
         if compressed_size % 2 != 0:
             raise Corrupt("Compressed data size is odd.")
