@@ -17,6 +17,7 @@
 
 """Graphical user-interface for mymc+."""
 
+from functools import reduce
 import os
 import sys
 import struct
@@ -32,6 +33,7 @@ from ..save import ps2save
 from .icon_window import IconWindow
 from .dirlist_control import DirListControl
 from . import utils
+from PIL import Image
 
 
 class GuiConfig(wx.Config):
@@ -564,8 +566,39 @@ class GuiFrame(wx.Frame):
                 v2 = face_index * 3 + 2
                 v3 = face_index * 3 + 3
                 file.write(f"f {v1}/{v1}/{v1} {v2}/{v2}/{v2} {v3}/{v3}/{v3}\n")
+            
+        print("Wrote test.obj")
 
-        print("written")
+        image = Image.new('RGB', (128, 128), color='black') # TODO: Get legit size.
+        #for x in range(0, 128, 2):
+        #    for y in range(0, 128, 2):
+        #        image.putpixel((x, y), (255, 255, 255))
+
+        #for x in range(128):
+        #    for y in range(128):
+        #        index = (x * 128) + y * 2
+        #        col = icon.texture[index]# | icon.texture[index + 1]
+        #        col_a = (col >> 24) & 0xFF
+        #        col_r = (col >> 16) & 0xFF
+        #        col_g = (col >> 8) & 0xFF
+        #        col_b = (col) & 0xFF
+        #        image.putpixel((x, y), (col_r, col_g, col_b, col_a))
+
+        step_size = 2
+        for i in range(0, len(icon.texture), step_size):
+            x = int((i / step_size) % 128)
+            y = int((i / step_size) / 128)
+            col = reduce(lambda a, b: a | b, icon.texture[i:i+step_size])
+            col_a = (col >> 24) & 0xFF
+            col_r = (col >> 16) & 0xFF
+            col_g = (col >> 8) & 0xFF
+            col_b = (col) & 0xFF
+            print(f"trying x{x}, y{y}")
+            image.putpixel((x, y), (col_r, col_g, col_b, col_a))
+
+        image.save('test.png', 'PNG')
+
+        print("Wrote test.png")
 
     def evt_cmd_exit(self, event):
         self.Close(True)

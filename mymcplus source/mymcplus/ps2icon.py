@@ -212,8 +212,8 @@ class Icon:
 
 
     def __load_texture(self, data, length, offset):
-        compressed_types = [6, 7]
-        is_uncompressed = self.tex_type in compressed_types
+        uncompressed_types = [6, 7]
+        is_uncompressed = self.tex_type in uncompressed_types
         technique_name = "uncompressed" if is_uncompressed else "compressed"
         print(f"self.tex_type is {self.tex_type}. Loading with {technique_name} technique.")
 
