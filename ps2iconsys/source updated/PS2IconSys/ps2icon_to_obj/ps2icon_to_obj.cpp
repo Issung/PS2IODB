@@ -137,15 +137,26 @@ void WriteOBJFile(PS2Icon* ps2_icon)
 {
 	OBJ_FileLoader obj_file;
 	OBJ_Mesh obj_mesh(ps2_input_file);
-	if (verbose_output)
-		std::cout << " * Convert geometry data from \"" << ps2_input_file << "\"...";
-	ps2_icon->BuildMesh(&obj_mesh);
-	if (verbose_output)
-		std::cout << "done." << std::endl;
 
 	if (verbose_output)
+	{
+		std::cout << " * Convert geometry data from \"" << ps2_input_file << "\"...";
+	}
+
+	ps2_icon->BuildMesh(&obj_mesh);
+
+	if (verbose_output)
+	{
+		std::cout << "done." << std::endl;
+	}
+
+	if (verbose_output)
+	{
 		std::cout << " * Writing geometry output to file \"" << obj_output_file << "\"...";
+	}
+
 	obj_file.AddMesh(obj_mesh);
+
 	try
 	{
 		obj_file.WriteFile(obj_output_file);
@@ -155,8 +166,11 @@ void WriteOBJFile(PS2Icon* ps2_icon)
 		std::cout << "\nError while writing to \"" << obj_output_file << "\"" << std::endl;
 		exit(1);
 	}
+
 	if (verbose_output)
+	{
 		std::cout << "done." << std::endl;
+	}
 }
 
 void WriteTextureFile(PS2Icon* ps2_icon)

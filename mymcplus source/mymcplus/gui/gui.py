@@ -86,6 +86,8 @@ class GuiFrame(wx.Frame):
     ID_CMD_DELETE = wx.ID_DELETE
     ID_CMD_ASCII = 106
 
+    ID_CMD_EXPORT_FBX = 107
+
     def message_box(self, message, caption = "mymcplus", style = wx.OK,
             x = -1, y = -1):
         return wx.MessageBox(message, caption, style, self, x, y)
@@ -127,17 +129,21 @@ class GuiFrame(wx.Frame):
 
         self.Bind(wx.EVT_MENU, self.evt_cmd_exit, id=self.ID_CMD_EXIT)
         self.Bind(wx.EVT_MENU, self.evt_cmd_open, id=self.ID_CMD_OPEN)
-        self.Bind(wx.EVT_MENU, self.evt_cmd_export, id=self.ID_CMD_EXPORT)
         self.Bind(wx.EVT_MENU, self.evt_cmd_import, id=self.ID_CMD_IMPORT)
+        self.Bind(wx.EVT_MENU, self.evt_cmd_export, id=self.ID_CMD_EXPORT)
+        self.Bind(wx.EVT_MENU, self.evt_cmd_export_fbx, id=self.ID_CMD_EXPORT_FBX)
         self.Bind(wx.EVT_MENU, self.evt_cmd_delete, id=self.ID_CMD_DELETE)
         self.Bind(wx.EVT_MENU, self.evt_cmd_ascii, id=self.ID_CMD_ASCII)
+
 
         filemenu = wx.Menu()
         filemenu.Append(self.ID_CMD_OPEN, "&Open...", "Opens an existing PS2 memory card image.")
         filemenu.AppendSeparator()
-        self.export_menu_item = filemenu.Append(self.ID_CMD_EXPORT, "&Export...", "Export a save file from this image.")
         self.import_menu_item = filemenu.Append(self.ID_CMD_IMPORT, "&Import...", "Import a save file into this image.")
+        self.export_menu_item = filemenu.Append(self.ID_CMD_EXPORT, "&Export...", "Export a save file from this image.")
         self.delete_menu_item = filemenu.Append(self.ID_CMD_DELETE, "&Delete")
+        filemenu.AppendSeparator()
+        self.export_fbx_menu_item = filemenu.Append(self.ID_CMD_EXPORT_FBX, "Export icon FBX")
         filemenu.AppendSeparator()
         filemenu.Append(self.ID_CMD_EXIT, "E&xit")
 
@@ -515,6 +521,43 @@ class GuiFrame(wx.Frame):
     def evt_cmd_ascii(self, event):
         self.config.set_ascii(not self.config.get_ascii())
         self.refresh()
+
+    # Issung was here
+    def evt_cmd_export_fbx(self, event):
+        icon = self.icon_win._icon_normal
+        
+        with open("test.obj", 'w') as file:
+            file.write("# OBJ file\n")
+            # Output 'v' rows (vertices positions).
+            range_x = abs(min(icon.vertex_data[0::3]) - max(icon.vertex_data[0::3]))
+            range_y = abs(min(icon.vertex_data[1::3]) - max(icon.vertex_data[1::3]))
+            range_z = abs(min(icon.vertex_data[2::3]) - max(icon.vertex_data[2::3]))
+            for vertex_index in range(icon.vertex_count):
+                vertex_x = icon.vertex_data[vertex_index * 3] / range_x
+                vertex_y = icon.vertex_data[vertex_index * 3 + 1] / range_y
+                vertex_z = icon.vertex_data[vertex_index * 3 + 2] / range_z
+                file.write(f"v {vertex_x:.6f} {vertex_y:.6f} {vertex_z:.6f}\n")
+            # Output 'vt' rows (UV mappings)
+            maxu = max([icon.normal_uv_data[i] for i in range(3, len(icon.normal_uv_data), 5)])
+            maxv = max([icon.normal_uv_data[i] for i in range(4, len(icon.normal_uv_data), 5)])
+            for uv_index in range(icon.vertex_count):
+                uv1 = round(icon.normal_uv_data[uv_index * 5 + 3] / maxu, 6)
+                uv2 = round(icon.normal_uv_data[uv_index * 5 + 4] / maxv, 6)
+                file.write(f"vt {uv1:.6f} {uv2:.6f} 0.000000\n")
+            # Output 'vn' rows (vertex normals)
+            for normal_index in range(icon.vertex_count):
+                normal_x = icon.normal_uv_data[normal_index * 5]
+                normal_y = icon.normal_uv_data[normal_index * 5 + 1]
+                normal_z = icon.normal_uv_data[normal_index * 5 + 2]
+                file.write(f"vn {normal_x:.6f} {normal_y:.6f} {normal_z:.6f}\n")
+            # Output 'f' rows (faces connected to which vertices).
+            for face_index in range(int(icon.vertex_count / 3)):
+                v1 = face_index * 3 + 1
+                v2 = face_index * 3 + 2
+                v3 = face_index * 3 + 3
+                file.write(f"f {v1}/{v1}/{v1} {v2}/{v2}/{v2} {v3}/{v3}/{v3}\n")
+
+        print("written")
 
     def evt_cmd_exit(self, event):
         self.Close(True)

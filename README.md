@@ -38,3 +38,6 @@ I would very much like to see this PDF as it likely has invaluable information t
 It is possible to update the link on the site or to send the PDF to me directly? It would be much appreciated, thank you in advance. 😁
 
 https://www.ps2savetools.com/contact-us/?contact-form-id=473&contact-form-sent=3210&contact-form-hash=c4c087c25aa1c1eed9967eb8150e3b1f6d5b9a89&_wpnonce=d0c528eebc#contact-form-473
+
+Related thread on twitter about vertex animation
+https://twitter.com/ZweiLuke/status/1649935762392072193

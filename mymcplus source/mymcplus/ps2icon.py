@@ -138,6 +138,11 @@ class Icon:
                  _) = _vertex_coords_struct.unpack_from(data, offset)
                 offset += _vertex_coords_struct.size
 
+            # NormalXYZ #  U/V  # NormalXYZ #  U/V  #
+            # 0 # 1 # 2 # 3 # 4 # 0 # 1 # 2 # 3 # 4 #
+            #########################################...
+            #         0         #         1         #
+
             (self.normal_uv_data[i*5],
              self.normal_uv_data[i*5+1],
              self.normal_uv_data[i*5+2],
