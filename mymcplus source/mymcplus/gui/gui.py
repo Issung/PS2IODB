@@ -587,7 +587,7 @@ class GuiFrame(wx.Frame):
         step_size = 2
         for i in range(0, len(icon.texture), step_size):
             x = int((i / step_size) % 128)
-            y = int((i / step_size) / 128)
+            y = 127 - int((i / step_size) / 128)
             col = reduce(lambda a, b: a | b, icon.texture[i:i+step_size])
             col_a = (col >> 24) & 0xFF
             col_r = (col >> 16) & 0xFF
