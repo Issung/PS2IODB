@@ -145,7 +145,7 @@ class GuiFrame(wx.Frame):
         self.export_menu_item = filemenu.Append(self.ID_CMD_EXPORT, "&Export...", "Export a save file from this image.")
         self.delete_menu_item = filemenu.Append(self.ID_CMD_DELETE, "&Delete")
         filemenu.AppendSeparator()
-        self.export_fbx_menu_item = filemenu.Append(self.ID_CMD_EXPORT_FBX, "Export icon FBX")
+        self.export_fbx_menu_item = filemenu.Append(self.ID_CMD_EXPORT_FBX, "Export Icon OBJ")
         filemenu.AppendSeparator()
         filemenu.Append(self.ID_CMD_EXIT, "E&xit")
 
@@ -178,7 +178,7 @@ class GuiFrame(wx.Frame):
 
         self.item_context_menu = wx.Menu()
         self.item_context_menu.Append(self.ID_CMD_DELETE, "Delete")
-        self.item_context_menu.Append(self.ID_CMD_EXPORT_FBX, "Export icon FBX")
+        self.item_context_menu.Append(self.ID_CMD_EXPORT_FBX, "Export Icon OBJ")
 
         self.dirlist = DirListControl(splitter_window,
                                       self.evt_dirlist_item_focused,
@@ -536,38 +536,48 @@ class GuiFrame(wx.Frame):
     def evt_cmd_export_fbx(self, event):
         icon = self.icon_win._icon_normal
         
-        with open("test.obj", 'w') as file:
-            file.write("# OBJ file\n")
+        with open("test.obj", 'w') as obj:
+            obj.write("# OBJ file\n")
+            # Output 'mtllib' row (which material library to load materials from)
+            obj.write('mtllib test.mtl\n')
             # Output 'v' rows (vertices positions).
             range_x = abs(min(icon.vertex_data[0::3]) - max(icon.vertex_data[0::3]))
             range_y = abs(min(icon.vertex_data[1::3]) - max(icon.vertex_data[1::3]))
             range_z = abs(min(icon.vertex_data[2::3]) - max(icon.vertex_data[2::3]))
             for vertex_index in range(icon.vertex_count):
-                vertex_x = icon.vertex_data[vertex_index * 3] / range_x
-                vertex_y = icon.vertex_data[vertex_index * 3 + 1] / range_y
+                vertex_x = -icon.vertex_data[vertex_index * 3] / range_x
+                vertex_y = -icon.vertex_data[vertex_index * 3 + 1] / range_y
                 vertex_z = icon.vertex_data[vertex_index * 3 + 2] / range_z
-                file.write(f"v {vertex_x:.6f} {vertex_y:.6f} {vertex_z:.6f}\n")
+                obj.write(f"v {vertex_x:.6f} {vertex_y:.6f} {vertex_z:.6f}\n")
             # Output 'vt' rows (UV mappings)
             maxu = max([icon.normal_uv_data[i] for i in range(3, len(icon.normal_uv_data), 5)])
             maxv = max([icon.normal_uv_data[i] for i in range(4, len(icon.normal_uv_data), 5)])
             for uv_index in range(icon.vertex_count):
                 uv1 = round(icon.normal_uv_data[uv_index * 5 + 3] / maxu, 6)
                 uv2 = round(icon.normal_uv_data[uv_index * 5 + 4] / maxv, 6)
-                file.write(f"vt {uv1:.6f} {uv2:.6f} 0.000000\n")
+                obj.write(f"vt {uv1:.6f} {uv2:.6f} 0.000000\n")
             # Output 'vn' rows (vertex normals)
             for normal_index in range(icon.vertex_count):
                 normal_x = icon.normal_uv_data[normal_index * 5]
                 normal_y = icon.normal_uv_data[normal_index * 5 + 1]
                 normal_z = icon.normal_uv_data[normal_index * 5 + 2]
-                file.write(f"vn {normal_x:.6f} {normal_y:.6f} {normal_z:.6f}\n")
+                obj.write(f"vn {normal_x:.6f} {normal_y:.6f} {normal_z:.6f}\n")
+            # Output 'usemtl' row (which material to use for the following faces)
+            obj.write("usemtl Texture\n")
             # Output 'f' rows (faces connected to which vertices).
             for face_index in range(int(icon.vertex_count / 3)):
                 v1 = face_index * 3 + 1
                 v2 = face_index * 3 + 2
                 v3 = face_index * 3 + 3
-                file.write(f"f {v1}/{v1}/{v1} {v2}/{v2}/{v2} {v3}/{v3}/{v3}\n")
-            
+                obj.write(f"f {v1}/{v1}/{v1} {v2}/{v2}/{v2} {v3}/{v3}/{v3}\n")
+
         print("Wrote test.obj")
+
+        with open("test.mtl", 'w') as mtl:
+            mtl.write("newmtl Texture\n")
+            mtl.write("map_Kd test.png\n")
+
+        print("Wrote test.mtl")    
 
         image = Image.new('RGB', (128, 128), color='black')
 
@@ -582,9 +592,9 @@ class GuiFrame(wx.Frame):
             # For some reason this channel for compressed icons will always be 0b10000000 making blue always max, giving everything a blue tint.
             b = (((col >> 10)) << 3) & 0xFF 
             a = 255
-            print(f"trying x{x}, y{y}. col: hex:{hex(col)}, a{a}, r{r}, g{g}, b{b}")
-            if i == (len(icon.texture) - step_size):
-                print("this is the last pixel, which should be the top right.")
+            #print(f"trying x{x}, y{y}. col: hex:{hex(col)}, a{a}, r{r}, g{g}, b{b}")
+            #if i == (len(icon.texture) - step_size):
+            #    print("this is the last pixel, which should be the top right.")
             image.putpixel((x, y), (r, g, b, a))
 
         image.save('test.png', 'PNG')

@@ -13,23 +13,35 @@ For this we need to be able to extract:
 1. ~~Make a way to view different icon modes (normal, copy, delete).~~
     * Send all 3 to the icon_window and added context menu radio items to select the type.
 2. Fix errors relating to 'too small' in mymcplus that don't occur in original mymc.
-    * Load issue was occuring for Frequency & FF10, they had texture type '6'.
+    * ~~Load issue was occuring for Frequency & FF10, they had texture type '6'.~~
       This was fixed by changing __load_texture to do the uncompressed branch for value 6 as well as 7.
-    * Jak and Daxter is now having a problem with 'Data length is smaller than expected vertex data size'.
-    * Katamari Damaci is causing an error when being imported: 'struct.error: required argument is not an integer'.
-    * Ico is also having issues sporting a texture_type of 3. 'Data length is smaller than expected compressed texture header size.'.
+    * ~~Jak and Daxter is now having a problem with 'Data length is smaller than expected vertex data size'.~~
+    * ~~Katamari Damaci is causing an error when being imported: 'struct.error: required argument is not an integer'.~~
+    * ~~Ico is also having issues sporting a texture_type of 3. 'Data length is smaller than expected compressed texture header size.'.~~
     * A bunch of issues seem to be happening from ovewritten files from things like Gameshark, it seems Gameshark don't write theirs correctly.
 3. Understand/document the icon visual data format.
-4. Find a way to extract that data to a format that can contain it (likely .FBX).
-5. Find a way to publish a tool that does this that is cross-platform and allows people to do it easily.
+    * Understanding is now much greater, after converting c++ code to python in gui.py. Need to refactor and write down some documentation somewhere. 
+    * Maybe make a pattern for ImHex?
+4. ~~Find a way to extract that data to a format that can contain it (likely .FBX).~~
+    * We are currently exporting to .obj and .png.
+5. Find a way to publish the tool that is cross-platform and allows people to do it easily.
 6. Find a way to display that data within the browser and make it:
     * Textured.
     * Animated.
     * Rotateable/Zoomable.
-7. Design website look/layout.
-8. Create the website.
-9. Generate publicity so the community can help build the archive.
+7. Create guide on how to contribute.
+8. Design website look/layout.
+9. Create the website.
+10. Generate publicity so the community can help build the archive.
 
+# Known Bugs
+* We are doing some weird scaling on all axes X/Y/Z to make sure the resulting model isn't too large, sometimes this doesn't really work well e.g. Ratchet and Clank or Frequency.
+* The Ratchet and Clank model also seems to have some weird UV mapping issues on his ears and legs, may be fixed with the vertex scaling issue?
+* Vertex colors are not currently output. May be an issue for things like Okami? Investigate.
+* Currently application can only output the normal icon.
+* Animation output not currently supported (or understood).
+___
+### Random Notes
 PS2 Icon Format v0.5 PDF.
 Trying to get access to the 
 Hi there, on your website there is this page: https://www.ps2savetools.com/documents/ps2-icon-format-v05/
@@ -44,3 +56,4 @@ https://twitter.com/ZweiLuke/status/1649935762392072193
 
 GTA Vice City stores the same icon file 3 times, instead of once and referencing it 3 times, checked the hashes.
 This is inneficient use of the precious memory card storage space.
+
