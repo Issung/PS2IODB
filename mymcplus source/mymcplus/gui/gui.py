@@ -584,20 +584,27 @@ class GuiFrame(wx.Frame):
         #        col_b = (col) & 0xFF
         #        image.putpixel((x, y), (col_r, col_g, col_b, col_a))
 
+        for i in range(len(icon.texture)):
+            if icon.texture[i] < 0:
+                print("negative")
+            elif icon.texture[i] > 255:
+                print("greater than a byte")
+
         step_size = 2
         for i in range(0, len(icon.texture), step_size):
             x = int((i / step_size) % 128)
             y = 127 - int((i / step_size) / 128)
-            col = reduce(lambda a, b: (a << 8) | b, icon.texture[i:i+step_size])
-            a = (col >> 24) & 0xFF
-            r = (col >> 16) & 0xFF
-            g = (col >> 8) & 0xFF
-            b = (col) & 0xFF
-            #a = 255
+            col = reduce(lambda a, b: ((a) << 8) | b, icon.texture[i:i+step_size][::-1])
+            r = (col & 0x1F) << 3
+            g = ((col >> 5) & 0x1F) << 3
+            b = ((col >> 10)) << 3
+            a = 255
             #r = ((col >> 11) & 0x1F) << 3
             #g = ((col >> 5) & 0x3F) << 2
             #b = (col & 0x1F) << 3
             print(f"trying x{x}, y{y}. col: hex:{hex(col)}, a{a}, r{r}, g{g}, b{b}")
+            if (a < 0 or r < 0 or g < 0 or b < 0):
+                print("negative")
             image.putpixel((x, y), (r, g, b, a))
 
         image.save('test.png', 'PNG')

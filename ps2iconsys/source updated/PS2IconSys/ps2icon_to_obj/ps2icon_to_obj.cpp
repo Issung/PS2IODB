@@ -200,8 +200,10 @@ void WriteTextureFile(PS2Icon* ps2_icon)
 	{
 		for (int i = 0; i < 128; i++)
 		{
-			texture_data[row * 128 + i] ^= texture_data[(127 - row) * 128 + i]
-				^= texture_data[row * 128 + i] ^= texture_data[(127 - row) * 128 + i];
+			texture_data[row * 128 + i] 
+				^= texture_data[(127 - row) * 128 + i]
+				^= texture_data[row * 128 + i] 
+				^= texture_data[(127 - row) * 128 + i];
 		}
 	}
 
