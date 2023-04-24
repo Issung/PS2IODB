@@ -41,3 +41,6 @@ https://www.ps2savetools.com/contact-us/?contact-form-id=473&contact-form-sent=3
 
 Related thread on twitter about vertex animation
 https://twitter.com/ZweiLuke/status/1649935762392072193
+
+GTA Vice City stores the same icon file 3 times, instead of once and referencing it 3 times, checked the hashes.
+This is inneficient use of the precious memory card storage space.

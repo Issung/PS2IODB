@@ -569,42 +569,22 @@ class GuiFrame(wx.Frame):
             
         print("Wrote test.obj")
 
-        image = Image.new('RGB', (128, 128), color='black') # TODO: Get legit size.
-        #for x in range(0, 128, 2):
-        #    for y in range(0, 128, 2):
-        #        image.putpixel((x, y), (255, 255, 255))
-
-        #for x in range(128):
-        #    for y in range(128):
-        #        index = (x * 128) + y * 2
-        #        col = icon.texture[index]# | icon.texture[index + 1]
-        #        col_a = (col >> 24) & 0xFF
-        #        col_r = (col >> 16) & 0xFF
-        #        col_g = (col >> 8) & 0xFF
-        #        col_b = (col) & 0xFF
-        #        image.putpixel((x, y), (col_r, col_g, col_b, col_a))
-
-        for i in range(len(icon.texture)):
-            if icon.texture[i] < 0:
-                print("negative")
-            elif icon.texture[i] > 255:
-                print("greater than a byte")
+        image = Image.new('RGB', (128, 128), color='black')
 
         step_size = 2
         for i in range(0, len(icon.texture), step_size):
             x = int((i / step_size) % 128)
             y = 127 - int((i / step_size) / 128)
-            col = reduce(lambda a, b: ((a) << 8) | b, icon.texture[i:i+step_size][::-1])
+            col = reduce(lambda a, b: ((a) << 8) | b, icon.texture[i:i+step_size][::-1]) # [::-1] reverses the array 2 element array.
             r = (col & 0x1F) << 3
             g = ((col >> 5) & 0x1F) << 3
-            b = ((col >> 10)) << 3
+            # This blue channel part differs from the c++ implementation because we can't force to an unsigned byte.
+            # For some reason this channel for compressed icons will always be 0b10000000 making blue always max, giving everything a blue tint.
+            b = (((col >> 10)) << 3) & 0xFF 
             a = 255
-            #r = ((col >> 11) & 0x1F) << 3
-            #g = ((col >> 5) & 0x3F) << 2
-            #b = (col & 0x1F) << 3
             print(f"trying x{x}, y{y}. col: hex:{hex(col)}, a{a}, r{r}, g{g}, b{b}")
-            if (a < 0 or r < 0 or g < 0 or b < 0):
-                print("negative")
+            if i == (len(icon.texture) - step_size):
+                print("this is the last pixel, which should be the top right.")
             image.putpixel((x, y), (r, g, b, a))
 
         image.save('test.png', 'PNG')
