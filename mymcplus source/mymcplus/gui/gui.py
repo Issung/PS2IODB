@@ -588,13 +588,17 @@ class GuiFrame(wx.Frame):
         for i in range(0, len(icon.texture), step_size):
             x = int((i / step_size) % 128)
             y = 127 - int((i / step_size) / 128)
-            col = reduce(lambda a, b: a | b, icon.texture[i:i+step_size])
-            col_a = (col >> 24) & 0xFF
-            col_r = (col >> 16) & 0xFF
-            col_g = (col >> 8) & 0xFF
-            col_b = (col) & 0xFF
-            print(f"trying x{x}, y{y}")
-            image.putpixel((x, y), (col_r, col_g, col_b, col_a))
+            col = reduce(lambda a, b: (a << 8) | b, icon.texture[i:i+step_size])
+            a = (col >> 24) & 0xFF
+            r = (col >> 16) & 0xFF
+            g = (col >> 8) & 0xFF
+            b = (col) & 0xFF
+            #a = 255
+            #r = ((col >> 11) & 0x1F) << 3
+            #g = ((col >> 5) & 0x3F) << 2
+            #b = (col & 0x1F) << 3
+            print(f"trying x{x}, y{y}. col: hex:{hex(col)}, a{a}, r{r}, g{g}, b{b}")
+            image.putpixel((x, y), (r, g, b, a))
 
         image.save('test.png', 'PNG')
 
