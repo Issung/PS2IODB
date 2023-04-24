@@ -174,9 +174,14 @@ class GuiFrame(wx.Frame):
         splitter_window = wx.SplitterWindow(panel, style=wx.SP_LIVE_UPDATE)
         splitter_window.SetSashGravity(0.5)
 
+        self.item_context_menu = wx.Menu()
+        self.item_context_menu.Append(self.ID_CMD_DELETE, "Delete")
+        self.item_context_menu.Append(self.ID_CMD_EXPORT_FBX, "Export icon FBX")
+
         self.dirlist = DirListControl(splitter_window,
                                       self.evt_dirlist_item_focused,
                                       self.evt_dirlist_select,
+                                      self.evt_dirlist_rightclick,
                                       self.config)
 
         if mcname is not None:
@@ -350,6 +355,9 @@ class GuiFrame(wx.Frame):
         self.toolbar.EnableTool(self.ID_CMD_IMPORT, self.mc != None)
         self.toolbar.EnableTool(self.ID_CMD_EXPORT,
                     len(self.dirlist.selected) > 0)
+
+    def evt_dirlist_rightclick(self, event):
+        self.PopupMenu(self.item_context_menu)
 
     def evt_cmd_open(self, event = None):
         fn = wx.FileSelector("Open Memory Card Image",

@@ -50,18 +50,19 @@ class DirListControl(wx.ListCtrl):
             self.title = title
 
 
-    def __init__(self, parent, evt_focus, evt_select, config):
+    def __init__(self, parent, evt_focus, evt_select, evt_rightclick, config):
         self.config = config
         self.selected = set()
         self.dirtable = []
 
         self.evt_select = evt_select
-        wx.ListCtrl.__init__(self, parent, wx.ID_ANY,
-                             style=wx.LC_REPORT)
+        self.evt_rightclick = evt_rightclick
+        wx.ListCtrl.__init__(self, parent, wx.ID_ANY, style=wx.LC_REPORT | wx.LC_SINGLE_SEL)    # Issung was here, only allow selection of 1 item at once.
         self.Bind(wx.EVT_LIST_COL_CLICK, self.evt_col_click)
         self.Bind(wx.EVT_LIST_ITEM_FOCUSED, evt_focus)
         self.Bind(wx.EVT_LIST_ITEM_SELECTED, self.evt_item_selected)
         self.Bind(wx.EVT_LIST_ITEM_DESELECTED, self.evt_item_deselected)
+        self.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.evt_item_rightclick)
 
 
     def _update_dirtable(self, mc, dir):
@@ -148,6 +149,10 @@ class DirListControl(wx.ListCtrl):
         self.selected.discard(event.GetData())
         self.evt_select(event)
 
+    def evt_item_rightclick(self, event):
+        self.selected.add(event.GetData())
+        self.evt_select(event)
+        self.evt_rightclick(event)
 
     def update(self, mc):
         """Update the ListCtrl according to the contents of the
