@@ -544,10 +544,11 @@ class GuiFrame(wx.Frame):
             range_x = abs(min(icon.vertex_data[0::3]) - max(icon.vertex_data[0::3]))
             range_y = abs(min(icon.vertex_data[1::3]) - max(icon.vertex_data[1::3]))
             range_z = abs(min(icon.vertex_data[2::3]) - max(icon.vertex_data[2::3]))
+            range_max = max([range_x, range_y, range_z])
             for vertex_index in range(icon.vertex_count):
-                vertex_x = -icon.vertex_data[vertex_index * 3] / range_x
-                vertex_y = -icon.vertex_data[vertex_index * 3 + 1] / range_y
-                vertex_z = icon.vertex_data[vertex_index * 3 + 2] / range_z
+                vertex_x = -icon.vertex_data[vertex_index * 3] / range_max
+                vertex_y = -icon.vertex_data[vertex_index * 3 + 1] / range_max
+                vertex_z = icon.vertex_data[vertex_index * 3 + 2] / range_max
                 obj.write(f"v {vertex_x:.6f} {vertex_y:.6f} {vertex_z:.6f}\n")
             # Output 'vt' rows (UV mappings)
             maxu = max([icon.normal_uv_data[i] for i in range(3, len(icon.normal_uv_data), 5)])

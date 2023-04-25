@@ -35,8 +35,7 @@ For this we need to be able to extract:
 10. Generate publicity so the community can help build the archive.
 
 # Known Bugs
-* We are doing some weird scaling on all axes X/Y/Z to make sure the resulting model isn't too large, sometimes this doesn't really work well e.g. Ratchet and Clank or Frequency.
-* The Ratchet and Clank model also seems to have some weird UV mapping issues on his ears and legs, may be fixed with the vertex scaling issue?
+* Weird UV mapping issues occuring on Ratchet & Clank + Simpsons Fish.
 * Vertex colors are not currently output. May be an issue for things like Okami? Investigate.
 * Currently application can only output the normal icon.
 * Animation output not currently supported (or understood).
