@@ -52,7 +52,9 @@ _TEXTURE_SIZE = TEXTURE_WIDTH * TEXTURE_HEIGHT * 2
 _icon_hdr_struct = struct.Struct("<IIIII")
 
 _vertex_coords_struct = struct.Struct("<hhhH")
-_normal_uv_color_struct = struct.Struct("<hhhHhhBBBB")
+_normal_struct = struct.Struct("<hhhH")
+_uv_struct = struct.Struct("<hh")
+_color_struct = struct.Struct("<BBBB")
 
 _anim_hdr_struct = struct.Struct("<IIfII")
 _frame_data_struct = struct.Struct("<IIII")
@@ -81,7 +83,8 @@ class Icon:
         self.tex_type = 0
         self.vertex_count = 0
         self.vertex_data = None
-        self.normal_uv_data = None
+        self.vertex_normals = None
+        self.uv_data = None
         self.color_data = None
         self.frame_length = 0
         self.anim_speed = 0.0
@@ -120,13 +123,14 @@ class Icon:
 
     def __load_vertex_data(self, data, length, offset):
         stride = _vertex_coords_struct.size * self.animation_shapes \
-                 + _normal_uv_color_struct.size
+                 + _normal_struct.size + _uv_struct.size + _color_struct.size
 
         if length < offset + self.vertex_count * stride:
             raise FileTooSmall("Data length is smaller than expected vertex data size.")
 
         self.vertex_data = (int16_t * (self.animation_shapes * 3 * self.vertex_count))()
-        self.normal_uv_data = (int16_t * (5 * self.vertex_count))()
+        self.vertex_normals = (int16_t * (3 * self.vertex_count))()
+        self.uv_data = (int16_t * (2 * self.vertex_count))()
         self.color_data = (uint8_t * (4 * self.vertex_count))()
 
         for i in range(self.vertex_count):
@@ -143,24 +147,27 @@ class Icon:
             #########################################...
             #         0         #         1         #
 
-            (self.normal_uv_data[i*5],
-             self.normal_uv_data[i*5+1],
-             self.normal_uv_data[i*5+2],
-             _,
-             self.normal_uv_data[i*5+3],
-             self.normal_uv_data[i*5+4],
-             self.color_data[i*4],
+            (self.vertex_normals[i*3],
+             self.vertex_normals[i*3+1],
+             self.vertex_normals[i*3+2],
+             _) = _normal_struct.unpack_from(data, offset)
+            offset += _normal_struct.size
+            
+            (self.uv_data[i*2],
+             self.uv_data[i*2+1]) = _uv_struct.unpack_from(data, offset)
+            offset += _uv_struct.size
+
+            (self.color_data[i*4],
              self.color_data[i*4+1],
              self.color_data[i*4+2],
-             self.color_data[i*4+3]) = _normal_uv_color_struct.unpack_from(data, offset)
+             self.color_data[i*4+3]) = _color_struct.unpack_from(data, offset)
+            offset += _color_struct.size
 
             # This is just a hack to check if every alpha value is 0, which is the case for THPS3 for example.
             # Alpha will then be assumed to be 1 for all vertices when rendering, otherwise nothing will be visible.
             # TODO: There is probably another way to render these icons correctly.
             if self.color_data[i*4+3] > 0:
                 self.enable_alpha = True
-
-            offset += _normal_uv_color_struct.size
 
         return offset
 

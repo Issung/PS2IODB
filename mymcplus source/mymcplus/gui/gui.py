@@ -551,17 +551,15 @@ class GuiFrame(wx.Frame):
                 vertex_z = icon.vertex_data[vertex_index * 3 + 2] / range_max
                 obj.write(f"v {vertex_x:.6f} {vertex_y:.6f} {vertex_z:.6f}\n")
             # Output 'vt' rows (UV mappings)
-            maxu = max([icon.normal_uv_data[i] for i in range(3, len(icon.normal_uv_data), 5)])
-            maxv = max([icon.normal_uv_data[i] for i in range(4, len(icon.normal_uv_data), 5)])
             for uv_index in range(icon.vertex_count):
-                uv1 = round(icon.normal_uv_data[uv_index * 5 + 3] / maxu, 6)
-                uv2 = round(icon.normal_uv_data[uv_index * 5 + 4] / maxv, 6)
-                obj.write(f"vt {uv1:.6f} {uv2:.6f} 0.000000\n")
+                u = round(icon.uv_data[uv_index * 2] / 4096, 6)   # Divide by 4096 because that's supposedly the max u/v value?
+                v = round(icon.uv_data[uv_index * 2 + 1] / 4096, 6)
+                obj.write(f"vt {u:.6f} {v:.6f} 0.000000\n")
             # Output 'vn' rows (vertex normals)
             for normal_index in range(icon.vertex_count):
-                normal_x = icon.normal_uv_data[normal_index * 5]
-                normal_y = icon.normal_uv_data[normal_index * 5 + 1]
-                normal_z = icon.normal_uv_data[normal_index * 5 + 2]
+                normal_x = icon.vertex_normals[normal_index * 3]
+                normal_y = icon.vertex_normals[normal_index * 3 + 1]
+                normal_z = icon.vertex_normals[normal_index * 3 + 2]
                 obj.write(f"vn {normal_x:.6f} {normal_y:.6f} {normal_z:.6f}\n")
             # Output 'usemtl' row (which material to use for the following faces)
             obj.write("usemtl Texture\n")
