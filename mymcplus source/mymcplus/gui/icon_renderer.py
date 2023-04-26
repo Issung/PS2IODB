@@ -410,10 +410,20 @@ class IconRenderer:
 
         self._vertex_data = (GLshort * (self._icon.vertex_count * 3))()
 
+        # Issung was here, hacky shit.
+        # Can't figure out how to bind the vertex normals and uvs seperately, half the faces don't display right.
+        # So stitch the 2 seperate arrays back together like how they used to be, then use it for opengl.
+        normal_uv_data_combined = (ctypes.c_int16 * (5 * self._icon.vertex_count))()
+        for i in range(self._icon.vertex_count):
+            normal_uv_data_combined[i * 5 + 0] = self._icon.vertex_normals[i * 3 + 0]
+            normal_uv_data_combined[i * 5 + 1] = self._icon.vertex_normals[i * 3 + 1]
+            normal_uv_data_combined[i * 5 + 2] = self._icon.vertex_normals[i * 3 + 2]
+            normal_uv_data_combined[i * 5 + 3] = self._icon.uv_data[i * 2 + 0]
+            normal_uv_data_combined[i * 5 + 4] = self._icon.uv_data[i * 2 + 1]
         glBindBuffer(GL_ARRAY_BUFFER, self._normal_uv_vbo)
         glBufferData(GL_ARRAY_BUFFER,
                      self._icon.vertex_count * 5 * 2,
-                     self._icon.normal_uv_data,
+                     normal_uv_data_combined,
                      GL_STATIC_DRAW)
 
         glBindBuffer(GL_ARRAY_BUFFER, self._color_vbo)
