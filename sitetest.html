@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>My Three.js Canvas</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/ -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.min.js"></script>
+  <script>
+    let container;
+
+    let camera, scene, renderer;
+
+    let mouseX = 0, mouseY = 0;
+
+    let windowHalfX = window.innerWidth / 2;
+    let windowHalfY = window.innerHeight / 2;
+
+    let object;
+
+    init();
+    animate();
+
+
+    function init()
+    {
+      container = document.createElement('div');
+      document.body.appendChild(container);
+
+      camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+      camera.position.z = 2;
+
+      // scene
+
+      scene = new THREE.Scene();
+
+      const ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
+      scene.add(ambientLight);
+
+      const pointLight = new THREE.PointLight(0xffffff, 0.8);
+      camera.add(pointLight);
+      scene.add(camera);
+
+      // manager
+
+      function loadModel()
+      {
+        object.position.y = -0.5;
+        object.rotation.y = 180;
+        scene.add(object);
+      }
+
+      const manager = new THREE.LoadingManager(loadModel);
+
+      // model
+
+      function onProgress(xhr)
+      {
+        if (xhr.lengthComputable) {
+
+          const percentComplete = xhr.loaded / xhr.total * 100;
+          console.log('model ' + Math.round(percentComplete, 2) + '% downloaded');
+
+        }
+      }
+
+      function onError() 
+      { 
+
+      }
+
+      const loader = new THREE.OBJLoader(manager);
+      loader.load('http://127.0.0.1:5500/test.obj', function (obj)
+      {
+        object = obj;
+      }, onProgress, onError);
+
+      renderer = new THREE.WebGLRenderer();
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      container.appendChild(renderer.domElement);
+
+      document.addEventListener('mousemove', onDocumentMouseMove);
+
+      window.addEventListener('resize', onWindowResize);
+    }
+
+    function onWindowResize()
+    {
+      windowHalfX = window.innerWidth / 2;
+      windowHalfY = window.innerHeight / 2;
+
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function onDocumentMouseMove(event)
+    {
+      mouseX = (event.clientX - windowHalfX) / 2;
+      mouseY = (event.clientY - windowHalfY) / 2;
+    }
+
+    function animate()
+    {
+      requestAnimationFrame(animate);
+      render();
+    }
+
+    function render()
+    {
+      camera.position.x += ((mouseX * 0.05) - camera.position.x);
+      camera.position.y += ((-mouseY * 0.05) - camera.position.y);
+
+      camera.lookAt(scene.position);
+
+      renderer.render(scene, camera);
+    }
+  </script>
+</body>
+
+</html>

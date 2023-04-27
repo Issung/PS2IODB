@@ -35,7 +35,7 @@ For this we need to be able to extract:
 10. Generate publicity so the community can help build the archive.
 
 # Known Bugs
-* Weird UV mapping issues occuring on Ratchet & Clank + Simpsons Fish.
+* ~~Weird UV mapping issues occuring on Ratchet & Clank + Simpsons Fish.~~
 * Vertex colors are not currently output. May be an issue for things like Okami? Investigate.
 * Currently application can only output the normal icon.
 * Animation output not currently supported (or understood).
