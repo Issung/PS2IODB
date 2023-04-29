@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>My Three.js Canvas</title>
+  <title>Icon Display Test</title>
   <style>
     body {
       margin: 0;
@@ -21,11 +21,18 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.min.js"></script>
   <script>
+    const MouseButton = Object.freeze({
+      NONE: -1,
+      LEFT: 0,
+      MIDDLE: 1,
+      RIGHT: 2
+    });
+
     let container;
 
     let camera, scene, renderer;
 
-    let mouseDown = false;
+    let mouse = MouseButton.NONE;
     let mouseX = 0, mouseY = 0;
 
     let windowHalfX = window.innerWidth / 2;
@@ -33,6 +40,10 @@
 
     let icon;
     let pivot;
+    let mesh;
+    let geometry;
+    let animData;
+    let frame = 0;
 
     init();
     animate();
@@ -65,6 +76,8 @@
       {
         icon.traverse(function (child) {
           if (child.isMesh) {
+            mesh = child;
+            geometry = mesh.geometry;
             child.material.map = texture;
           }
         });
@@ -103,6 +116,13 @@
 
       }
 
+      fetch('test.anim')
+        .then(response => response.json())
+        .then(data => {
+          // Do something with the deserialized data here
+          animData = data;
+        });
+
       const loader = new THREE.OBJLoader(manager);
       loader.load('http://127.0.0.1:5500/test.obj', function (obj)
       {
@@ -114,8 +134,9 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
       container.appendChild(renderer.domElement);
 
-      document.addEventListener('mousedown', onMouseDown);
-      document.addEventListener('mouseup', onMouseUp);
+      document.addEventListener('mousedown', onMouseDown, false);
+      document.addEventListener('mouseup', onMouseUp, false);
+      document.addEventListener('contextmenu', event => event.preventDefault());
       document.addEventListener('mousemove', onDocumentMouseMove);
       document.addEventListener('mousewheel', onDocumentMouseWheel);
 
@@ -136,37 +157,49 @@
     function onMouseDown(event) 
     {
       event.preventDefault();
-      mouseDown = true;
+      mouse = event.button;
       mouseX = event.clientX;
       mouseY = event.clientY;
-      document.body.style.cursor = "pointer";
     }
     
     function onMouseUp(event) 
     {
       event.preventDefault();
-      mouseDown = false;
-      document.body.style.cursor = "auto";
+      mouse = MouseButton.NONE;
     }
-
+    
     function onDocumentMouseMove(event)
     {
-      if (!mouseDown) {
+      if (mouse == MouseButton.NONE) {
+        document.body.style.cursor = "auto";
         return;
       }
+      else if (mouse == MouseButton.LEFT || mouse == MouseButton.RIGHT) {
+        event.preventDefault();
+        var deltaX = event.clientX - mouseX;
+        var deltaY = event.clientY - mouseY;
+        mouseX = event.clientX;
+        mouseY = event.clientY;
 
-      event.preventDefault();
-
-      var deltaX = event.clientX - mouseX;
-      var deltaY = event.clientY - mouseY;
-      mouseX = event.clientX;
-      mouseY = event.clientY;
-      rotateScene(deltaX, deltaY);
+        if (mouse == MouseButton.LEFT) {
+          document.body.style.cursor = "grabbing";
+          rotateScene(deltaX, deltaY);
+        }
+        else if (mouse == MouseButton.RIGHT) {
+          document.body.style.cursor = "move";
+          moveScene(deltaX, deltaY);
+        }
+      }
     }
 
     function rotateScene(deltaX, deltaY) {
       pivot.rotation.y += deltaX / 100;
       pivot.rotation.x += deltaY / 100;
+    }
+
+    function moveScene(deltaX, deltaY) {
+      pivot.position.x += deltaX / 1000;
+      pivot.position.y += -deltaY / 1000;
     }
 
     function onDocumentMouseWheel(event)
@@ -180,8 +213,32 @@
       render();
     }
 
+    var tet = 0;
+
     function render()
     {
+      tet += 1;
+      
+      if (mesh && (tet % 60 == 0)) // If mesh is loaded every 60 frames.
+      {
+        console.log('next frame')
+        frame += 1;
+        frame %= animData.vertex_data.length;
+        // Get the position attribute
+        const positionAttribute = geometry.attributes.position;
+        
+        // Modify the positions of the vertices
+        for (let i = 0; i < positionAttribute.count; i++) {
+          [x, y, z] = animData.vertex_data[frame].slice(i * 3, (i * 3) + 3);
+          x = -x
+          y = -y
+          //z = -z
+          positionAttribute.setXYZ(i, x, y, z);
+        }
+        
+        positionAttribute.needsUpdate = true
+      }
+
       renderer.render(scene, camera);
     }
   </script>

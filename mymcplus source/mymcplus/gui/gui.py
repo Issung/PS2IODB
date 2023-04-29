@@ -17,7 +17,9 @@
 
 """Graphical user-interface for mymc+."""
 
+import array
 from functools import reduce
+import json
 import os
 import sys
 import struct
@@ -88,7 +90,7 @@ class GuiFrame(wx.Frame):
     ID_CMD_DELETE = wx.ID_DELETE
     ID_CMD_ASCII = 106
 
-    ID_CMD_EXPORT_FBX = 107
+    ID_CMD_EXPORT_OBJ = 107
 
     def message_box(self, message, caption = "mymcplus", style = wx.OK,
             x = -1, y = -1):
@@ -133,7 +135,7 @@ class GuiFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.evt_cmd_open, id=self.ID_CMD_OPEN)
         self.Bind(wx.EVT_MENU, self.evt_cmd_import, id=self.ID_CMD_IMPORT)
         self.Bind(wx.EVT_MENU, self.evt_cmd_export, id=self.ID_CMD_EXPORT)
-        self.Bind(wx.EVT_MENU, self.evt_cmd_export_fbx, id=self.ID_CMD_EXPORT_FBX)
+        self.Bind(wx.EVT_MENU, self.evt_cmd_export_obj, id=self.ID_CMD_EXPORT_OBJ)
         self.Bind(wx.EVT_MENU, self.evt_cmd_delete, id=self.ID_CMD_DELETE)
         self.Bind(wx.EVT_MENU, self.evt_cmd_ascii, id=self.ID_CMD_ASCII)
 
@@ -145,7 +147,7 @@ class GuiFrame(wx.Frame):
         self.export_menu_item = filemenu.Append(self.ID_CMD_EXPORT, "&Export...", "Export a save file from this image.")
         self.delete_menu_item = filemenu.Append(self.ID_CMD_DELETE, "&Delete")
         filemenu.AppendSeparator()
-        self.export_fbx_menu_item = filemenu.Append(self.ID_CMD_EXPORT_FBX, "Export Icon OBJ")
+        self.export_fbx_menu_item = filemenu.Append(self.ID_CMD_EXPORT_OBJ, "Export Icon OBJ")
         filemenu.AppendSeparator()
         filemenu.Append(self.ID_CMD_EXIT, "E&xit")
 
@@ -178,7 +180,7 @@ class GuiFrame(wx.Frame):
 
         self.item_context_menu = wx.Menu()
         self.item_context_menu.Append(self.ID_CMD_DELETE, "Delete")
-        self.item_context_menu.Append(self.ID_CMD_EXPORT_FBX, "Export Icon OBJ")
+        self.item_context_menu.Append(self.ID_CMD_EXPORT_OBJ, "Export Icon OBJ")
 
         self.dirlist = DirListControl(splitter_window,
                                       self.evt_dirlist_item_focused,
@@ -533,7 +535,7 @@ class GuiFrame(wx.Frame):
         self.refresh()
 
     # Issung was here
-    def evt_cmd_export_fbx(self, event):
+    def evt_cmd_export_obj(self, event):
         icon = self.icon_win._icon_normal
         
         with open("test.obj", 'w') as obj:
@@ -600,6 +602,30 @@ class GuiFrame(wx.Frame):
 
         print("Wrote test.png")
 
+        frames = int(len(icon.vertex_data) / icon.vertex_count / 3)
+        if icon.frame_count <= 1:
+            print("Not writing animation file because only 1 frame")
+        else:
+            anim_data = {
+                "frame_length": icon.frame_length,
+                "anim_speed": icon.anim_speed,
+                "play_offset": icon.play_offset,
+                "vertex_data": [SingleLineList([]) for i in range(icon.frame_count)]
+            }
+            for frame_index in range(frames):
+                v_from = frame_index * (icon.vertex_count * 3)
+                v_to = (frame_index + 1) * (icon.vertex_count * 3)
+                anim_data["vertex_data"][frame_index] = SingleLineList(icon.vertex_data[v_from:v_to])
+                for i in range(len(anim_data["vertex_data"][frame_index])):
+                    anim_data["vertex_data"][frame_index][i] = anim_data["vertex_data"][frame_index][i] / range_max
+            with open("test.anim", 'w') as file:
+                output = json.dumps(anim_data, indent = 4, separators = (',', ':'), cls = CustomJSONEncoder)
+                output = output.replace('"##<', "").replace('>##"', "")
+                file.write(output)
+                
+            print(f"Wrote test.anim ({frames} frames)")
+
+
     def evt_cmd_exit(self, event):
         self.Close(True)
 
@@ -627,3 +653,23 @@ if __name__ == "__main__":
         if type(o) == ps2mc.ps2mc_file:
             for m in dir(o):
                 print(m, getattr(o, m))
+
+class SingleLineList:
+    """A list that gets serialised without newlines if serialised with CustomJSONEncoder"""
+    _list = None
+    def __init__(self, l):
+        self._list = l
+    
+    def __len__(self):
+        return len(self._list)
+    
+    def __getitem__(self, key):
+        return self._list[key]
+    
+    def __setitem__(self, key, value):
+        self._list[key] = value
+
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, SingleLineList):
+            return "##<{}>##".format(o._list)

@@ -49,14 +49,14 @@ TEXTURE_HEIGHT = 128
 
 _TEXTURE_SIZE = TEXTURE_WIDTH * TEXTURE_HEIGHT * 2
 
-_icon_hdr_struct = struct.Struct("<IIIII")
+_icon_header_struct = struct.Struct("<IIIII")
 
 _vertex_coords_struct = struct.Struct("<hhhH")
 _normal_struct = struct.Struct("<hhhH")
 _uv_struct = struct.Struct("<hh")
 _color_struct = struct.Struct("<BBBB")
 
-_anim_hdr_struct = struct.Struct("<IIfII")
+_anim_header_struct = struct.Struct("<IIfII")
 _frame_data_struct = struct.Struct("<IIII")
 _frame_key_struct = struct.Struct("<ff")
 
@@ -106,19 +106,19 @@ class Icon:
 
 
     def __load_header(self, data, length, offset):
-        if length < _icon_hdr_struct.size:
+        if length < _icon_header_struct.size:
             raise FileTooSmall("Data length is smaller than expected icon header size.")
 
         (magic,
          self.animation_shapes,
          self.tex_type,
          something,
-         self.vertex_count) = _icon_hdr_struct.unpack_from(data, offset)
+         self.vertex_count) = _icon_header_struct.unpack_from(data, offset)
 
         if magic != _PS2_ICON_MAGIC:
             raise Corrupt("Invalid magic.")
 
-        return offset + _icon_hdr_struct.size
+        return offset + _icon_header_struct.size
 
 
     def __load_vertex_data(self, data, length, offset):
@@ -173,16 +173,16 @@ class Icon:
 
 
     def __load_animation_data(self, data, length, offset):
-        if length < offset + _anim_hdr_struct.size:
+        if length < offset + _anim_header_struct.size:
             raise FileTooSmall("Data length is smaller than expected animation data size.")
 
         (anim_id_tag,
          self.frame_length,
          self.anim_speed,
          self.play_offset,
-         self.frame_count) = _anim_hdr_struct.unpack_from(data, offset)
+         self.frame_count) = _anim_header_struct.unpack_from(data, offset)
 
-        offset += _anim_hdr_struct.size
+        offset += _anim_header_struct.size
 
         if anim_id_tag != 0x01:
             raise Corrupt("Invalid ID tag in animation header: {:#x}".format(anim_id_tag))
