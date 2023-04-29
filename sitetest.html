@@ -25,28 +25,32 @@
 
     let camera, scene, renderer;
 
+    let mouseDown = false;
     let mouseX = 0, mouseY = 0;
 
     let windowHalfX = window.innerWidth / 2;
     let windowHalfY = window.innerHeight / 2;
 
-    let object;
+    let icon;
+    let pivot;
 
     init();
     animate();
-
 
     function init()
     {
       container = document.createElement('div');
       document.body.appendChild(container);
 
-      camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+      camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 2000);
       camera.position.z = 2;
 
       // scene
 
       scene = new THREE.Scene();
+
+      //const axesHelper = new THREE.AxesHelper( 5 );
+      //scene.add(axesHelper);
 
       const ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
       scene.add(ambientLight);
@@ -59,12 +63,28 @@
 
       function loadModel()
       {
-        object.position.y = -0.5;
-        object.rotation.y = 180;
-        scene.add(object);
+        icon.traverse(function (child) {
+          if (child.isMesh) {
+            child.material.map = texture;
+          }
+        });
+
+        // Detect "center" of icon and place it on a pivot by there.
+        var boundingBox = new THREE.Box3().setFromObject(icon)
+        boundingBox.getCenter(icon.position);
+        icon.position.multiplyScalar(-1);
+
+        pivot = new THREE.Group();
+        scene.add(pivot);
+        pivot.add(icon);
       }
 
       const manager = new THREE.LoadingManager(loadModel);
+
+      // texture
+      const textureLoader = new THREE.TextureLoader(manager);
+      const texture = textureLoader.load('https://threejs.org/examples/textures/uv_grid_opengl.jpg');
+      texture.colorSpace = THREE.SRGBColorSpace;
 
       // model
 
@@ -79,14 +99,14 @@
       }
 
       function onError() 
-      { 
+      {
 
       }
 
       const loader = new THREE.OBJLoader(manager);
       loader.load('http://127.0.0.1:5500/test.obj', function (obj)
       {
-        object = obj;
+        icon = obj;
       }, onProgress, onError);
 
       renderer = new THREE.WebGLRenderer();
@@ -94,7 +114,10 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
       container.appendChild(renderer.domElement);
 
+      document.addEventListener('mousedown', onMouseDown);
+      document.addEventListener('mouseup', onMouseUp);
       document.addEventListener('mousemove', onDocumentMouseMove);
+      document.addEventListener('mousewheel', onDocumentMouseWheel);
 
       window.addEventListener('resize', onWindowResize);
     }
@@ -110,10 +133,45 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
+    function onMouseDown(event) 
+    {
+      event.preventDefault();
+      mouseDown = true;
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+      document.body.style.cursor = "pointer";
+    }
+    
+    function onMouseUp(event) 
+    {
+      event.preventDefault();
+      mouseDown = false;
+      document.body.style.cursor = "auto";
+    }
+
     function onDocumentMouseMove(event)
     {
-      mouseX = (event.clientX - windowHalfX) / 2;
-      mouseY = (event.clientY - windowHalfY) / 2;
+      if (!mouseDown) {
+        return;
+      }
+
+      event.preventDefault();
+
+      var deltaX = event.clientX - mouseX;
+      var deltaY = event.clientY - mouseY;
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+      rotateScene(deltaX, deltaY);
+    }
+
+    function rotateScene(deltaX, deltaY) {
+      pivot.rotation.y += deltaX / 100;
+      pivot.rotation.x += deltaY / 100;
+    }
+
+    function onDocumentMouseWheel(event)
+    {
+      camera.position.z += event.deltaY / 500;
     }
 
     function animate()
@@ -124,11 +182,6 @@
 
     function render()
     {
-      camera.position.x += ((mouseX * 0.05) - camera.position.x);
-      camera.position.y += ((-mouseY * 0.05) - camera.position.y);
-
-      camera.lookAt(scene.position);
-
       renderer.render(scene, camera);
     }
   </script>
