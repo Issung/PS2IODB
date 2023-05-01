@@ -29,6 +29,7 @@
     });
 
     let container;
+    let clock = new THREE.Clock();
 
     let camera, scene, renderer;
 
@@ -55,6 +56,7 @@
 
       camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 2000);
       camera.position.z = 2;
+      camera.lookAt(0,0,0);
 
       // scene
 
@@ -121,6 +123,7 @@
         .then(data => {
           // Do something with the deserialized data here
           animData = data;
+          //animData.vertex_data = animData.vertex_data.slice(0,4);
         });
 
       const loader = new THREE.OBJLoader(manager);
@@ -213,33 +216,64 @@
       render();
     }
 
-    var tet = 0;
+    const framesPerAnimationFrame = 60;
 
     function render()
     {
-      tet += 1;
-      
-      if (mesh && (tet % 60 == 0)) // If mesh is loaded every 60 frames.
+      //if (mesh && (frame % framesPerAnimationFrame == 0)) // If mesh is loaded and this frame is the ~60th frame.
+      if (mesh)
       {
-        console.log('next frame')
-        frame += 1;
-        frame %= animData.vertex_data.length;
+        var animationTotalFrames = animData.vertex_data.length;
+        var framesForFullLoop = framesPerAnimationFrame * animationTotalFrames;
+        var animationFrame = Math.floor((frame % framesForFullLoop) / framesPerAnimationFrame);
+
+        //console.log(`Drawing animation frame ${animationFrame}.`)
+
         // Get the position attribute
         const positionAttribute = geometry.attributes.position;
+
+        var nextFrameStep = getNextStep(frame, framesForFullLoop, framesPerAnimationFrame);
         
         // Modify the positions of the vertices
         for (let i = 0; i < positionAttribute.count; i++) {
-          [x, y, z] = animData.vertex_data[frame].slice(i * 3, (i * 3) + 3);
-          x = -x
-          y = -y
-          //z = -z
+          [x1, y1, z1] = animData.vertex_data.wrappedIndex(animationFrame).slice(i * 3, (i * 3) + 3);
+          x1 = -x1; y1 = -y1;
+
+          [x2, y2, z2] = animData.vertex_data.wrappedIndex(animationFrame + 1).slice(i * 3, (i * 3) + 3);
+          x2 = -x2; y2 = -y2;
+
+          var currentFrameOfFrame = frame % framesPerAnimationFrame;
+          var interp = currentFrameOfFrame / framesPerAnimationFrame;
+          //console.log(`interp: ${interp}`)
+          x = lerp(x1, x2, interp);
+          y = lerp(y1, y2, interp);
+          z = lerp(z1, z2, interp);
+
           positionAttribute.setXYZ(i, x, y, z);
         }
         
         positionAttribute.needsUpdate = true
       }
-
+      
+      frame += 1;
       renderer.render(scene, camera);
+    }
+
+    function getNextStep(current, max, step) {
+      const steps = Array.from({length: (max / step)}, (_, i) => (i + 1) * step);
+      let next = steps.find((s) => s > current);
+      if (!next) {
+        next = step;
+      }
+      return next;
+    }
+
+    function lerp(start, end, t) {
+      return start * (1 - t) + end * t;
+    }
+
+    Array.prototype.wrappedIndex = function(index) {
+      return this[index % this.length]
     }
   </script>
 </body>

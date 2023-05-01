@@ -27,8 +27,9 @@ For this we need to be able to extract:
 5. Find a way to publish the tool that is cross-platform and allows people to do it easily.
 6. Find a way to display that data within the browser and make it:
     * Textured.
-    * Animated.
-    * Rotateable/Zoomable.
+    * ~~Animated.~~
+        * With tweening.
+    * ~~Rotateable/Zoomable/Pannable~~.
 7. Create guide on how to contribute.
 8. Design website look/layout.
 9. Create the website.
