@@ -20,6 +20,7 @@
   <!-- https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/ -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/7/Stats.min.js" integrity="sha512-ey3wf3z1WUgQ6/XU/lV1UVQkbCpWsyQANkBst88XXWHok9fXKp55G365lLhScYihGpkzhiZz75r+8isUSCKRIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
     const MouseButton = Object.freeze({
       NONE: -1,
@@ -30,8 +31,9 @@
 
     let container;
     let clock = new THREE.Clock();
+    clock.start();
 
-    let camera, scene, renderer;
+    let camera, scene, renderer, stats;
 
     let mouse = MouseButton.NONE;
     let mouseX = 0, mouseY = 0;
@@ -98,7 +100,8 @@
 
       // texture
       const textureLoader = new THREE.TextureLoader(manager);
-      const texture = textureLoader.load('https://threejs.org/examples/textures/uv_grid_opengl.jpg');
+      //const texture = textureLoader.load('https://threejs.org/examples/textures/uv_grid_opengl.jpg');
+      const texture = textureLoader.load('http://127.0.0.1:5500/test.png');
       texture.colorSpace = THREE.SRGBColorSpace;
 
       // model
@@ -144,6 +147,19 @@
       document.addEventListener('mousewheel', onDocumentMouseWheel);
 
       window.addEventListener('resize', onWindowResize);
+
+      stats = createStats();
+      document.body.appendChild( stats.domElement );
+    }
+
+    function createStats() {
+      var stats = new Stats();
+
+      stats.domElement.style.position = 'absolute';
+      stats.domElement.style.left = '0';
+      stats.domElement.style.top = '0';
+
+      return stats;
     }
 
     function onWindowResize()
@@ -214,37 +230,32 @@
     {
       requestAnimationFrame(animate);
       render();
+      stats.update();
     }
 
-    const framesPerAnimationFrame = 60;
+    //const framesPerAnimationFrame = 60;
+    const secondsPerAnimationFrame = 0.15;
 
     function render()
     {
-      //if (mesh && (frame % framesPerAnimationFrame == 0)) // If mesh is loaded and this frame is the ~60th frame.
-      if (mesh)
+      if (mesh) 
       {
         var animationTotalFrames = animData.vertex_data.length;
-        var framesForFullLoop = framesPerAnimationFrame * animationTotalFrames;
-        var animationFrame = Math.floor((frame % framesForFullLoop) / framesPerAnimationFrame);
+        var secondsForWholeAnimation = secondsPerAnimationFrame * animationTotalFrames;
+        var animationFrame = Math.floor((clock.getElapsedTime() % secondsForWholeAnimation) / secondsPerAnimationFrame);
+        //console.log(`animationFrame: ${animationFrame}`);
 
-        //console.log(`Drawing animation frame ${animationFrame}.`)
-
-        // Get the position attribute
+        // Modify the positions of each vertex.
         const positionAttribute = geometry.attributes.position;
-
-        var nextFrameStep = getNextStep(frame, framesForFullLoop, framesPerAnimationFrame);
-        
-        // Modify the positions of the vertices
-        for (let i = 0; i < positionAttribute.count; i++) {
+        for (let i = 0; i < positionAttribute.count; i++) 
+        {
           [x1, y1, z1] = animData.vertex_data.wrappedIndex(animationFrame).slice(i * 3, (i * 3) + 3);
           x1 = -x1; y1 = -y1;
 
           [x2, y2, z2] = animData.vertex_data.wrappedIndex(animationFrame + 1).slice(i * 3, (i * 3) + 3);
           x2 = -x2; y2 = -y2;
 
-          var currentFrameOfFrame = frame % framesPerAnimationFrame;
-          var interp = currentFrameOfFrame / framesPerAnimationFrame;
-          //console.log(`interp: ${interp}`)
+          var interp = (clock.getElapsedTime() % secondsPerAnimationFrame) / secondsPerAnimationFrame;
           x = lerp(x1, x2, interp);
           y = lerp(y1, y2, interp);
           z = lerp(z1, z2, interp);
