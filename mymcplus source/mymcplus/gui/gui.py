@@ -603,24 +603,36 @@ class GuiFrame(wx.Frame):
         print("Wrote test.png")
 
         frames = int(len(icon.vertex_data) / icon.vertex_count / 3)
-        if icon.frame_count <= 1:
+        if icon.anim_header.frame_count <= 1:
             print("Not writing animation file because only 1 frame")
         else:
             anim_data = {
-                "frame_length": icon.frame_length,
-                "anim_speed": icon.anim_speed,
-                "play_offset": icon.play_offset,
-                "vertex_data": [SingleLineList([]) for i in range(icon.frame_count)]
+                "frame_length": icon.anim_header.frame_length,
+                "anim_speed": icon.anim_header.anim_speed,
+                "play_offset": icon.anim_header.play_offset,
+                "frames": [],
             }
             for frame_index in range(frames):
+                frame = { "keys" : [], "vertex_data": SingleLineList([]) }
                 v_from = frame_index * (icon.vertex_count * 3)
                 v_to = (frame_index + 1) * (icon.vertex_count * 3)
-                anim_data["vertex_data"][frame_index] = SingleLineList(icon.vertex_data[v_from:v_to])
-                for i in range(len(anim_data["vertex_data"][frame_index])):
-                    anim_data["vertex_data"][frame_index][i] = anim_data["vertex_data"][frame_index][i] / range_max
+                frame["vertex_data"] = SingleLineList(icon.vertex_data[v_from:v_to])
+                # Normalise all vertex coords so everything isn't too large (0.0 - 1.0) is ideal.
+                for i in range(len(frame["vertex_data"])):
+                    frame["vertex_data"][i] = frame["vertex_data"][i] / range_max
+
+                # Write key data.
+                for key_index in range(icon.frames[frame_index].key_count):
+                    frame["keys"].append(SingleLineObject({
+                        "time": icon.frames[frame_index].keys[key_index].time,
+                        "value": icon.frames[frame_index].keys[key_index].value,
+                    }))
+
+                anim_data["frames"].append(frame)
+                    
             with open("test.anim", 'w') as file:
                 output = json.dumps(anim_data, indent = 4, separators = (',', ':'), cls = CustomJSONEncoder)
-                output = output.replace('"##<', "").replace('>##"', "")
+                output = output.replace('"##<', "").replace('>##"', "").replace("'", '"')
                 file.write(output)
                 
             print(f"Wrote test.anim ({frames} frames)")
@@ -654,22 +666,36 @@ if __name__ == "__main__":
             for m in dir(o):
                 print(m, getattr(o, m))
 
-class SingleLineList:
-    """A list that gets serialised without newlines if serialised with CustomJSONEncoder"""
-    _list = None
-    def __init__(self, l):
-        self._list = l
-    
-    def __len__(self):
-        return len(self._list)
-    
+class SingleLineObject:
+    """An object that gets serialised without newlines if serialised with CustomJSONEncoder"""
+    object = None
+    def __init__(self, object):
+        self.object = object
+
     def __getitem__(self, key):
-        return self._list[key]
+        return self.object[key]
     
     def __setitem__(self, key, value):
-        self._list[key] = value
+        self.object[key] = value
+
+class SingleLineList:
+    """A list that gets serialised without newlines if serialised with CustomJSONEncoder"""
+    list = None
+    def __init__(self, list):
+        self.list = list
+    
+    def __len__(self):
+        return len(self.list)
+    
+    def __getitem__(self, key):
+        return self.list[key]
+    
+    def __setitem__(self, key, value):
+        self.list[key] = value
 
 class CustomJSONEncoder(json.JSONEncoder):
-    def default(self, o):
-        if isinstance(o, SingleLineList):
-            return "##<{}>##".format(o._list)
+    def default(self, item):
+        if isinstance(item, SingleLineObject):
+            return "##<{}>##".format(item.object)
+        if isinstance(item, SingleLineList):
+            return "##<{}>##".format(item.list)

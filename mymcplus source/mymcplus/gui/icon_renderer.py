@@ -16,7 +16,7 @@
 #
 
 from ctypes import c_void_p
-import time
+import time as datetime
 from OpenGL.GL import *
 from .linalg import Matrix4x4, Vector3
 
@@ -326,65 +326,71 @@ class IconRenderer:
         return camera_pos, Vector3(0.0, 0.0, 0.0), Vector3(0.0, 1.0, 0.0)
 
 
-    def _write_animated_vertices(self, anim_time, vertex_data):
-        duration = float(self._icon.frame_length)
+    def _write_animated_vertices(self, animation_time, vertex_data):
+        duration = float(self._icon.anim_header.frame_length)
         if duration > 0.0:
-            anim_time = ((time.time() - anim_time) * 8.0) % duration
+            animation_time = ((datetime.time() - animation_time) * 8.0) % duration
         else:
-            anim_time = 0.0
+            animation_time = 0.0
 
         shape_values = {}
 
         for frame in self._icon.frames:
+            # Copy by ref, modifications to keys will also modify frame.keys.
             keys = frame.keys
-            if frame.shape_id == 0:
-                k = ps2icon.Icon.Frame.Key()
-                k.time = 0.0
-                k.value = 1.0
-                keys.append(k)
 
+            # If this frame identifies itself as the first (shape_id 0) then append a key? Not sure..
+            if frame.shape_id == 0:
+                key = ps2icon.Icon.Frame.Key()
+                key.time = 0.0
+                key.value = 1.0
+                keys.append(key)
+
+            # Figure out what the last and next frame is..?
             last = None
             last_time = 0.0
             next = None
             next_time = 0.0
 
             for key in keys:
-                t = key.time if key.time <= anim_time else key.time - duration
+                t = key.time if key.time <= animation_time else key.time - duration
                 if last is None or t > last_time:
                     last = key
                     last_time = t
 
-                t = key.time if key.time >= anim_time else key.time + duration
+                t = key.time if key.time >= animation_time else key.time + duration
                 if next is None or t < next_time:
                     next = key
                     next_time = t
 
             if next_time > last_time:
-                progress = (anim_time - last_time) / (next_time - last_time)
+                progress = (animation_time - last_time) / (next_time - last_time)
             else:
                 progress = 0.0
 
             if last is not None and next is not None:
                 shape_values[frame.shape_id] = (1.0 - progress) * last.value + progress * next.value
 
+        # Guard, if no shape values then no animation, set to a default of { 0: 1.0 }.
         if shape_values == {}:
-            shape_values = {0: 1.0}
+            shape_values = { 0: 1.0 }
 
-        sum = 0.0
-        for shape_id, value in shape_values.items():
-            sum += value
+        shape_values_sum = sum(value for value in shape_values.values())
 
-        if sum <= 0.0:
-            shape_values = {0: 1.0}
+        # Guard, if the sum of the shape values is <= 0 then something is wrong or its 0 and there's no animation, set to a default of { 0: 1.0 }.
+        if shape_values_sum <= 0.0:
+            shape_values = { 0: 1.0 }
         else:
             for shape_id in shape_values:
-                shape_values[shape_id] /= sum
+                shape_values[shape_id] /= shape_values_sum
 
-        for i in range(3 * self._icon.vertex_count):
+        for vertex_index in range(3 * self._icon.vertex_count):
             acc = 0.0
             for shape_id, value in shape_values.items():
-                acc += value * self._icon.vertex_data[shape_id * 3 * self._icon.vertex_count + i]
-            vertex_data[i] = int(acc)
+                frame_offset = shape_id * self._icon.vertex_count * 3  # shape_id (frame number) * vertex_count (number of vertices per frame) * 3 (xyz)
+                vertex_coord = self._icon.vertex_data[frame_offset + vertex_index]
+                acc += value * vertex_coord
+            vertex_data[vertex_index] = int(acc)
 
 
     def _update_vertex_vbo(self, anim_time):

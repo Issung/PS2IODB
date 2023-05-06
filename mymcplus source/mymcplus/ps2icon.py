@@ -66,30 +66,44 @@ import ctypes
 uint8_t = ctypes.c_uint8
 int16_t = ctypes.c_int16
 
-
 class Icon:
+    class AnimationHeader:
+        def __init__(self):
+            self.id_tag = 0
+            self.frame_length = 0
+            self.anim_speed = 0
+            self.play_offset = 0
+            self.frame_count = 0
+        def __str__(self):
+            return f"{{ id_tag: {self.id_tag}, frame_length: {self.frame_length}, anim_speed: {self.anim_speed}, play_offset: {self.play_offset}, frame_count: {self.frame_count} }}"
     class Frame:
         class Key:
             def __init__(self):
                 self.time = 0.0
                 self.value = 0.0
+            def __str__(self):
+                return f"{{ time: {self.time}, value: {self.value} }}"
         def __init__(self):
             self.shape_id = 0
+            self.key_count = 0
+            self.unknown_1 = 0
+            self.unknown_2 = 0
             self.keys = []
+        def __str__(self):
+            return f"{{ shape_id: {self.shape_id}, key_count: {self.key_count}, unknown_1: {self.unknown_1}, unknown_2: {self.unknown_2} }}"
+
 
 
     def __init__(self, data):
         self.animation_shapes = 0
-        self.tex_type = 0
+        self.texture_type = 0   
+        self.header_unknown = 0
         self.vertex_count = 0
+
         self.vertex_data = None
         self.vertex_normals = None
         self.uv_data = None
         self.color_data = None
-        self.frame_length = 0
-        self.anim_speed = 0.0
-        self.play_offset = 0
-        self.frame_count = 0
         self.texture = None
         self.enable_alpha = False
 
@@ -104,6 +118,8 @@ class Icon:
         if length > offset:
             print(f"Warning: Icon file larger than expected. Reached offset {offset} but total length is {length}, difference of {length - offset}.")
 
+        print("_____________________________")
+
 
     def __load_header(self, data, length, offset):
         if length < _icon_header_struct.size:
@@ -111,9 +127,11 @@ class Icon:
 
         (magic,
          self.animation_shapes,
-         self.tex_type,
-         something,
+         self.texture_type,
+         self.header_unknown,
          self.vertex_count) = _icon_header_struct.unpack_from(data, offset)
+        
+        print(f"Icon header loaded: {{ animation_shapes: {self.animation_shapes}, texture_type: {self.texture_type}, unknown: {self.header_unknown}, vertex_count: {self.vertex_count} }}.")
 
         if magic != _PS2_ICON_MAGIC:
             raise Corrupt("Invalid magic.")
@@ -171,38 +189,41 @@ class Icon:
 
         return offset
 
-
     def __load_animation_data(self, data, length, offset):
         if length < offset + _anim_header_struct.size:
             raise FileTooSmall("Data length is smaller than expected animation data size.")
 
-        (anim_id_tag,
-         self.frame_length,
-         self.anim_speed,
-         self.play_offset,
-         self.frame_count) = _anim_header_struct.unpack_from(data, offset)
+        self.anim_header = self.AnimationHeader()
+        (self.anim_header.id_tag,
+         self.anim_header.frame_length,
+         self.anim_header.anim_speed,
+         self.anim_header.play_offset,
+         self.anim_header.frame_count) = _anim_header_struct.unpack_from(data, offset)
+
+        print(f"Animation header loaded: {self.anim_header}.")
 
         offset += _anim_header_struct.size
 
-        if anim_id_tag != 0x01:
-            raise Corrupt("Invalid ID tag in animation header: {:#x}".format(anim_id_tag))
+        if self.anim_header.id_tag != 0x01:
+            raise Corrupt("Invalid ID tag in animation header: {:#x}".format(self.anim_header.id_tag))
 
         self.frames = []
-        for i in range(self.frame_count):
+        for i in range(self.anim_header.frame_count):
             if length < offset + _frame_data_struct.size:
                 raise FileTooSmall("Data length is smaller than expected frame data size.")
 
             frame = self.Frame()
             (frame.shape_id,
-             key_count,
-             _,
-             _) = _frame_data_struct.unpack_from(data, offset)
+             frame.key_count,
+             frame.unknown_1,
+             frame.unknown_2) = _frame_data_struct.unpack_from(data, offset)
+            frame.key_count -= 1;   # Is always 1 too large for some reason.
 
-            key_count -= 1
+            print(f"Frame {i}: {frame}.")
 
             offset += _frame_data_struct.size
 
-            for k in range(key_count):
+            for k in range(frame.key_count):
                 if length < offset + _frame_key_struct.size:
                     raise FileTooSmall("Data length is smaller than expected frame key size.")
 
@@ -210,6 +231,9 @@ class Icon:
                 (key.time,
                  key.value) = _frame_key_struct.unpack_from(data, offset)
                 frame.keys.append(key)
+                #printf("")
+
+                print(f"Frame {i} Key {k}: {key}.")
 
                 offset += _frame_key_struct.size
 
@@ -220,9 +244,9 @@ class Icon:
 
     def __load_texture(self, data, length, offset):
         uncompressed_types = [6, 7]
-        is_uncompressed = self.tex_type in uncompressed_types
-        technique_name = "uncompressed" if is_uncompressed else "compressed"
-        print(f"self.tex_type is {self.tex_type}. Loading with {technique_name} technique.")
+        is_uncompressed = self.texture_type in uncompressed_types
+        #technique_name = "uncompressed" if is_uncompressed else "compressed"
+        #print(f"self.tex_type is {self.texture_type}. Loading with {technique_name} technique.")
 
         if is_uncompressed:
             return self.__load_texture_uncompressed(data, length, offset)

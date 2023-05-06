@@ -240,30 +240,29 @@
     {
       if (mesh) 
       {
-        var animationTotalFrames = animData.vertex_data.length;
+        var animationTotalFrames = animData.frames.length;
         var secondsForWholeAnimation = secondsPerAnimationFrame * animationTotalFrames;
         var animationFrame = Math.floor((clock.getElapsedTime() % secondsForWholeAnimation) / secondsPerAnimationFrame);
         //console.log(`animationFrame: ${animationFrame}`);
 
         // Modify the positions of each vertex.
         const positionAttribute = geometry.attributes.position;
+        const updatedPositions = new Float32Array(positionAttribute.count * 3);
         for (let i = 0; i < positionAttribute.count; i++) 
         {
-          [x1, y1, z1] = animData.vertex_data.wrappedIndex(animationFrame).slice(i * 3, (i * 3) + 3);
+          [x1, y1, z1] = animData.frames.wrappedIndex(animationFrame).vertex_data.slice(i * 3, (i * 3) + 3);
           x1 = -x1; y1 = -y1;
 
-          [x2, y2, z2] = animData.vertex_data.wrappedIndex(animationFrame + 1).slice(i * 3, (i * 3) + 3);
+          [x2, y2, z2] = animData.frames.wrappedIndex(animationFrame + 1).vertex_data.slice(i * 3, (i * 3) + 3);
           x2 = -x2; y2 = -y2;
 
           var interp = (clock.getElapsedTime() % secondsPerAnimationFrame) / secondsPerAnimationFrame;
-          x = lerp(x1, x2, interp);
-          y = lerp(y1, y2, interp);
-          z = lerp(z1, z2, interp);
-
-          positionAttribute.setXYZ(i, x, y, z);
+          updatedPositions[i * 3 + 0] = lerp(x1, x2, interp);
+          updatedPositions[i * 3 + 1] = lerp(y1, y2, interp);
+          updatedPositions[i * 3 + 2] = lerp(z1, z2, interp);
         }
         
-        positionAttribute.needsUpdate = true
+        geometry.setAttribute('position', new THREE.BufferAttribute(updatedPositions, 3));
       }
       
       frame += 1;
