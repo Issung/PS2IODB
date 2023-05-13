@@ -6,6 +6,7 @@ import GameTable from './GameTable';
 import './Games';
 import { GameEntry, GameList } from './Games';
 import { keyboard } from '@testing-library/user-event/dist/keyboard';
+import './ModelView';    // This breaks the search bar, it can no longer be focused on or have text entered.
 
 function App() {
     const tableRef = useRef<GameTable>(null);
