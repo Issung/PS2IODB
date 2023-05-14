@@ -1,11 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
 
-interface Props {
-    onChange: (event: React.ChangeEvent<HTMLInputElement> & { keywords: string[] }) => void;
+interface SearchBarProps {
+    text?: string;
+    keywords: string[];
+    onKeywordsChange: (newKeywords: string[]) => void;
 }
 
-const SearchBar: React.FC<Props> = ({ onChange }) => {
+const SearchBar: React.FC<SearchBarProps> = (props: SearchBarProps) => {
     const similies: string[][] = [
         ['i', '1', 'one'],
         ['ii', '2', 'two'],
@@ -25,36 +27,40 @@ const SearchBar: React.FC<Props> = ({ onChange }) => {
         ['and', '&']
     ];
 
-    const [value, setValue] = useState('');
+    const [text, setText] = useState('');
+    const [keywords, setKeywords] = useState(Array<string>);
 
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
+        setText(event.target.value);
         var value = event.target.value;
         var enteredWords = value.split(' ').map(w => w.toLowerCase());
-        let keywords: string[] = [];
+        let enteredKeywords: string[] = [];
         
         enteredWords.forEach(word => {
             var similieFound = false;
             similies.forEach(simileList => {
                 if (simileList.includes(word)) {
-                    keywords = keywords.concat(simileList);
+                    enteredKeywords = enteredKeywords.concat(simileList);
                     similieFound = true;
                     return; // Stop the loop.
                 }
             });
 
             if (!similieFound) {
-                keywords = keywords.concat(word);
+                enteredKeywords = enteredKeywords.concat(word);
             }
         });
 
-        onChange({ ...event, keywords });
+        setKeywords(enteredKeywords);
+        props.onKeywordsChange(enteredKeywords);
+
+        console.log(`entry: ${event.target.value}, keywords: ${enteredKeywords.join(', ')}`);
     };
 
     return (
         <input
             type="text"
-            value={value}
+            value={text}
             onChange={handleInput}
         />
     );

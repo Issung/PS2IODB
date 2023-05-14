@@ -1,28 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { GameEntry, GameList } from './Games';
+import { Game, GameList } from './Games';
 
 type GameTableProps = {
-    games: GameEntry[];
+    games: Game[];
 }
 
-type GameTableState = {
-    games: GameEntry[];
-};
-
-class GameTable extends React.Component<GameTableProps, GameTableState> {
-    constructor(props: GameTableProps) {
-        super(props);
-        this.state = {
-            games: props.games
-        }
-    }
-
-    setGames = (games: GameEntry[]) => {
-        this.setState({ games: games });
-    }
-
-    render() {return(
+const GameTable: React.FC<GameTableProps> = ({ games }: GameTableProps) => {
+    return (
         <table>
             <thead>
                 <tr>
@@ -31,16 +16,16 @@ class GameTable extends React.Component<GameTableProps, GameTableState> {
                 </tr>
             </thead>
             <tbody>
-                {this.state.games.map(entry => (
-                    <GameRow key={entry.code} game={entry}/>
+                {games.map(game => (
+                    <GameRow key={/*game.code*/0} game={game}/>
                 ))}
             </tbody>
         </table>
-    );}
+    );
 }
 
 interface GameRowProps {
-    game: GameEntry;
+    game: Game;
 }
 
 const GameRow = (props: GameRowProps) => {
