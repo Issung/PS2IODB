@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-import { Game, GameList } from './Games';
+import React from 'react';
+import { Game } from './Games';
+import { Link } from 'react-router-dom';
 
 type GameTableProps = {
     games: Game[];
@@ -11,13 +11,13 @@ const GameTable: React.FC<GameTableProps> = ({ games }: GameTableProps) => {
         <table>
             <thead>
                 <tr>
-                    <th>Game Title</th>
+                    {/* <th>Game Title</th> */}
                     {/* <th>Icons</th> */}
                 </tr>
             </thead>
             <tbody>
                 {games.map(game => (
-                    <GameRow key={/*game.code*/0} game={game}/>
+                    <GameRow key={/*game.code*/Math.random()} game={game}/>
                 ))}
             </tbody>
         </table>
@@ -32,11 +32,8 @@ const GameRow = (props: GameRowProps) => {
     return (
         <tr>
             <td>
-                <p>{props.game.name}</p>
+                {props.game.code ? <Link to={`/icon/${props.game.code}`}>{props.game.name}</Link> : <p>{props.game.name}</p>}
             </td>
-            {/* <td>
-                <p>{props.game.icons}</p>
-            </td> */}
         </tr>
     )
 };
