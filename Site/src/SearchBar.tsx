@@ -62,6 +62,7 @@ const SearchBar: React.FC<SearchBarProps> = (props: SearchBarProps) => {
             type="text"
             value={text}
             onChange={handleInput}
+            style={{width: "100%", height: 40, color: "black"}}
         />
     );
 }

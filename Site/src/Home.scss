@@ -1,0 +1,60 @@
+#Home {
+
+    .container, 
+    .container-fluid {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+
+    > div.container-fluid {
+        background: url('/../public/images/background.png');
+        background-size: cover;
+        background-position: center;
+        background-blend-mode: multiply;
+        background-color:#5f5f5f;
+
+        > div.row {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+
+            > a {
+                background-color: rgba(255, 255, 255, 0.116);
+                margin:0 1rem 0 1rem;
+
+                :hover {
+                    background-color: rgba(255, 255, 255, 0) !important;
+                    border-color: #1667e1;
+                }
+            }
+        }
+    }
+
+    > div:not(.container-fluid) {
+        color: white;
+    }
+
+    a:hover {
+        background-color: #ffffff2e;
+    }
+
+    h1 {
+        font-size:4rem;
+        text-align:center;
+        //margin: 2rem;
+    }
+
+    h4 {
+        text-align:center;
+        //margin:2rem;
+    }
+
+    button {
+        padding-top:1rem;
+        padding-bottom:1rem;
+        
+    }
+    
+    .link {
+        color: #61dafb;
+    }
+}
