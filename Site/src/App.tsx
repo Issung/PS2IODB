@@ -10,6 +10,7 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/icon/:iconcode" element={<Icon/>}/>
+                <Route path="/directory/:category" element={<Home/>}/> {/* Fallback, all non matches above go to home page. */}
                 <Route path="*" element={<Home/>}/> {/* Fallback, all non matches above go to home page. */}
             </Routes>
         </Router>

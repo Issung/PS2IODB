@@ -1,14 +1,27 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { init, animate, setAnimationState, dispose } from "./ModelView";
 
 const Icon: React.FC = () => {
     // Get icon code from the url
     const { iconcode } = useParams();
     const [exists, setExists] = useState('...');
     const [body, setBody] = useState('');
+    const [doAnimation, setAnimation] = useState(true);
+    
+    // Nasty side effect of React.StrictMode, useEffect runs twice. https://react.dev/learn/you-might-not-need-an-effect#initializing-the-application
+    let firstRun: boolean = true;
+    
+    // TODO: Because of useEffect running twice on init which is an unintended side effect, its possible we should instead be doing icon rendering in a separate component
+    //       to this one, then the useState effect should only run once, then double initialising shouldn't be an issue.
 
-    // On load...
     useEffect(() => {
+        if (!firstRun) {
+            console.log(`useeffect, not first run, skipping.`);
+            return;
+        }
+        console.log(`useeffect, first run, continuing.`);
+
         // The 'icons' folder goes inside the 'Site/public' folder.
         var url = `http://localhost:3000/icons/${iconcode}/manifest.json`;
         fetch(url)
@@ -23,7 +36,13 @@ const Icon: React.FC = () => {
                             setBody(text);
 
                             var manifest = JSON.parse(text);
-                            console.log(manifest);
+                            //console.log(manifest);
+
+                            // Initialise the threejs model viewer and start the animation (if there is any).
+                            if (iconcode != null) {
+                                init(iconcode);
+                                animate();
+                            }
                         }
                         else {
                             setExists('does not exist.')
@@ -32,13 +51,22 @@ const Icon: React.FC = () => {
             });
 
         fetch(url);
-    }, []);
+
+        firstRun = false;
+        /*return () => {
+            dispose();
+        };*/
+    }, [iconcode]);
 
     return(
         <div>
             <p>'{iconcode}' {exists}</p>
             <br/>
             <p>{body}</p>
+            <label>Animate Model: </label>
+            <input type="checkbox" checked={doAnimation} onChange={e => {setAnimation(e.target.checked); setAnimationState(e.target.checked);}}/>
+            <br/>
+            <canvas id="iconRenderCanvas" width={640} height={480}/>
         </div>
     );
 };

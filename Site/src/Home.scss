@@ -1,5 +1,4 @@
 #Home {
-
     .container, 
     .container-fluid {
         padding-top: 3rem;
@@ -56,5 +55,10 @@
     
     .link {
         color: #61dafb;
+    }
+
+    a > h2:hover,
+    a[href^="/directory/"] > h3:hover {
+        background-color: #fffeff0f;
     }
 }

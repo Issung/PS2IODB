@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { AnimationData } from "./AnimationData";
 import * as OBJLoader from 'three/examples/jsm/loaders/OBJLoader'
 import Stats from 'stats.js';
+import { useState } from "react";
 
 enum MouseButton {
     NONE = -1,
@@ -10,11 +11,11 @@ enum MouseButton {
     RIGHT = 2,
 };
 
-let container;
+let canvas: HTMLCanvasElement;
 let clock = new THREE.Clock();
 clock.start();
 
-let camera: THREE.Camera;
+let camera: THREE.PerspectiveCamera;
 let scene: THREE.Scene;
 let renderer: THREE.Renderer;
 let stats: Stats;
@@ -29,34 +30,51 @@ let icon: THREE.Group;
 let pivot: THREE.Group;
 let mesh: THREE.Mesh;
 let geometry: THREE.BufferGeometry;
-let animData: AnimationData;
+let texture: THREE.Texture;
+let animData: AnimationData | null = null;
 let currentFrameNumber = 0;
 
-init();
-animate();
+// Now called externally from React component.
+//init();
+//animate();
 
-function init() {
-    container = document.createElement('div') as HTMLDivElement;
-    document.body.appendChild(container);
+// Unfortunately we cannot employ useState() outside of React components, otherwise it would be perfect here.
+let animateTest: boolean = true;
+export function setAnimationState(newState: boolean) {
+    animateTest = newState;
+}
 
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 2000);
-    camera.position.z = 2;
+let initialised: boolean = false;
+
+export function init(code: string) {
+    /*if (initialised == true) {
+        // React useEffect has a nasty habit of running twice per init when using react.strictmode.
+        // So manually track if we've initialised so we don't get weird issues when initialising twice.
+        console.log('Skipping initialisation');
+        return;
+    }*/
+
+    // Reset animData because changing model with the same component reloaded keeps the old animData and glitches out.
+    animData = null;
+
+    canvas = document.querySelector('#iconRenderCanvas') as HTMLCanvasElement;
+
+    camera = new THREE.PerspectiveCamera(45, /*window.innerWidth / window.innerHeight*/ 640/480, 0.01, 2000);
+    camera.position.z = 3;
     camera.lookAt(0, 0, 0);
 
     // scene
+    console.log(`scene children length: ${scene?.children.length}`);
     scene = new THREE.Scene();
-    //const axesHelper = new THREE.AxesHelper( 5 );
-    //scene.add(axesHelper);
-
+    const axesHelper = new THREE.AxesHelper(1);
+    scene.add(axesHelper);
     const ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
     scene.add(ambientLight);
-
     const pointLight = new THREE.PointLight(0xffffff, 0.8);
     camera.add(pointLight);
     scene.add(camera);
 
     // manager
-
     function loadModel() {
         icon.traverse(function (obj: THREE.Object3D<THREE.Event>) {
             if (obj instanceof THREE.Mesh)
@@ -68,53 +86,58 @@ function init() {
         });
 
         // Detect "center" of icon and place it on a pivot by there.
-        var boundingBox = new THREE.Box3().setFromObject(icon)
-        boundingBox.getCenter(icon.position);
-        icon.position.multiplyScalar(-1);
+        let boundingBox = new THREE.Box3().setFromObject(icon)
+        let center = new THREE.Vector3();
+        boundingBox.getCenter(center);  // Weird library design, rather than use the return value, copies the result into the parameter.
+
+        console.log(`center: ${center.x}, ${center.y}, ${center.z}`);
 
         pivot = new THREE.Group();
-        scene.add(pivot);
+        icon.position.sub(center);
         pivot.add(icon);
+        scene.add(pivot);
     }
 
     const loadingManager = new THREE.LoadingManager(loadModel);
 
+    const loader = new OBJLoader.OBJLoader(loadingManager);
+    loader.load(`http://localhost:3000/icons/${code}/0.obj`, (obj) => { icon = obj; }, onProgress, onError);
+
     // texture
     const textureLoader = new THREE.TextureLoader(loadingManager);
-    const texture = textureLoader.load('http://127.0.0.1:5500/test.png' /* 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' */);
+    texture = textureLoader.load(`http://localhost:3000/icons/${code}/0.png` /* 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' */);
     texture.colorSpace = THREE.SRGBColorSpace;
 
     // model
 
     function onProgress(xhr: ProgressEvent) {
-        if (xhr.lengthComputable)
-        {
+        if (xhr.lengthComputable) {
             const percentComplete = xhr.loaded / xhr.total * 100;
             console.log('model ' + Math.round(percentComplete) + '% downloaded');
         }
     }
 
     function onError() {
-
+        console.log('model load error');
     }
 
-    fetch('http://localhost:5500/test.anim')
-        .then(response => response.json())
+    fetch(`http://localhost:3000/icons/${code}/0.anim`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Request failed with status ${response.status}`);
+            }
+            return response.json();
+        })
         .then((data: AnimationData) => {
-            // Do something with the deserialized data here
-            //animData.vertex_data = animData.vertex_data.slice(0,4);
             animData = data;
-        });
+        })
+        .catch(error => console.log(error));
 
-    const loader = new OBJLoader.OBJLoader(loadingManager);
-    loader.load('http://localhost:5500/test.obj', function (obj: any) {
-        icon = obj as THREE.Group;
-    }, onProgress, onError);
-
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({ canvas });
     //renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    container.appendChild(renderer.domElement);
+    //renderer.setSize(window.innerWidth, window.innerHeight);
+    stats = createStats();
+    canvas.appendChild(stats.dom);
 
     document.addEventListener('mousedown', onMouseDown, false);
     document.addEventListener('mouseup', onMouseUp, false);
@@ -124,8 +147,7 @@ function init() {
 
     window.addEventListener('resize', onWindowResize);
 
-    stats = createStats();
-    container.appendChild(stats.dom);
+    initialised = true;
 }
 
 function createStats() {
@@ -137,25 +159,35 @@ function createStats() {
     return stats;
 }
 
+export function dispose() {
+    animData = null;
+    geometry.dispose();
+    texture.dispose();
+    console.log('disposed of model view resources.');
+}
+
 function onWindowResize() {
-    windowHalfX = window.innerWidth / 2;
-    windowHalfY = window.innerHeight / 2;
+    //windowHalfX = window.innerWidth / 2;
+    //windowHalfY = window.innerHeight / 2;
 
-    //camera.aspect = window.innerWidth / window.innerHeight;
-    //camera.updateProjectionMatrix();
+    camera.aspect = 640/480;//window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
 
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    //renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function onMouseDown(event: MouseEvent) {
-    event.preventDefault();
     mouse = event.button;
     mouseX = event.clientX;
     mouseY = event.clientY;
 }
 
 function onMouseUp(event: MouseEvent) {
-    event.preventDefault();
+    console.log(`onMouseUp: ${mouse}`);
+    // Don't prevent default if user is using side mouse buttons to go back/forward.
+    if (mouse >= 1 && mouse <= 2) {
+        event.preventDefault();
+    }
     mouse = MouseButton.NONE;
 }
 
@@ -200,7 +232,7 @@ function onDocumentMouseWheel(event: WheelEvent | any) {
     camera.position.z += event.deltaY / 500;
 }
 
-function animate() {
+export function animate() {
     requestAnimationFrame(animate);
     render();
     stats.update();
@@ -210,7 +242,7 @@ function animate() {
 let secondsPerAnimationFrame = 0.15;
 
 function render() {
-    if (mesh && animData) 
+    if (mesh && animateTest && animData) 
     {
         var animationTotalFrames = animData.frames.length;
         var secondsForWholeAnimation = secondsPerAnimationFrame * animationTotalFrames;
