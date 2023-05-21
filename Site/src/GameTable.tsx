@@ -32,7 +32,7 @@ const GameRow = (props: GameRowProps) => {
     return (
         <tr>
             <td>
-                {props.game.code ? <Link to={`/icon/${props.game.code}`}><p style={{color: '#6f6fff'}}>{props.game.name}</p></Link> : <p>{props.game.name}</p>}
+                {props.game.code ? <Link to={`/icon/${props.game.code}`}><h6 style={{color: '#6f6fff'}}>{props.game.name}</h6></Link> : <h6>{props.game.name}</h6>}
             </td>
         </tr>
     )

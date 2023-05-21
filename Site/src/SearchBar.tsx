@@ -60,6 +60,7 @@ const SearchBar: React.FC<SearchBarProps> = (props: SearchBarProps) => {
     return (
         <input
             type="text"
+            placeholder="Enter Game Title Here"
             value={text}
             onChange={handleInput}
             style={{width: "100%", height: 40, color: "black"}}

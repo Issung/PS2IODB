@@ -1,4 +1,4 @@
-import { useEffect, useImperativeHandle, useState } from "react";
+import { useEffect, useState } from "react";
 import './Home.scss';
 import SearchBar from "./SearchBar";
 import SearchResults from "./SearchResults";
@@ -7,47 +7,79 @@ import { Game, GameList } from "./Games";
 import GameTable from "./GameTable";
 
 const Home: React.FC = () => {
-    const { category } = useParams();
+    const { type: paramType, index: paramIndex } = useParams();
     const [games, setGames] = useState<Game[]>([]);
     const [keywords, setKeywords] = useState(Array<string>);
+    const highlightColor: string = '#ffffff1f';
 
+    const additionalCharacterIncludes: Record<string, string[]> = {
+        "A": ["A", "Æ"], // Include title "Æon Flux" under "A" listings.
+        "H": ["H", "."], // Include all ".hack*" titles under "H" listings.
+        "Q": ["Q", "¡"], // Include title "¡Qué pasa Neng! El videojuego" under "Q" listings.
+        "S": ["S", "_"], // Include title "_Summer" under "S" listings.
+        "O": ["O", "Ō"], // Include titles "Ōkami" & "Ōokuki" under "O" listings.
+    }
+    
     useEffect(() => {
-        if (category != null) {
-            document.querySelectorAll('a[href^="/directory"] > h3').forEach(a => (a as HTMLHeadingElement).style.backgroundColor = '');
-            var link = document.querySelector(`a[href="/directory/${category}"] > h3`) as HTMLHeadingElement;
-            link.style.backgroundColor = '#ffffff1f';
+        let type = paramType ?? "category";
+        console.log(`type: ${paramType}, index: ${paramIndex}`);
 
-            if (category != null) {
-                if (category == 'misc') {
-                    // All things that come before the first game that starts with 'A'.
-                    let firstA = GameList.findIndex(g => g.name.startsWith('A'));
-                    setGames(GameList.slice(0, firstA));
+        document.querySelectorAll('a[href^="/search/"] > h2').forEach(a => (a as HTMLHeadingElement).style.backgroundColor = '');
+        var link = document.querySelector(`a[href="/search/${type}"] > h2`) as HTMLHeadingElement;
+        link.style.backgroundColor = highlightColor;
+
+        if (type == "alphabetical") {
+            let index = (paramIndex == undefined || paramIndex < 'A' || paramIndex > 'Z') ? "misc" : paramIndex;
+
+            document.querySelectorAll('a[href^="/search/alphabetical"] > h3').forEach(a => (a as HTMLHeadingElement).style.backgroundColor = '');
+            var link = document.querySelector(`a[href="/search/alphabetical/${index}"] > h3`) as HTMLHeadingElement;
+            link.style.backgroundColor = highlightColor;
+
+            if (index == 'misc') {
+                // All things that come before the first game that starts with 'A'.
+                let firstA = GameList.findIndex(g => g.name.startsWith('A'));
+                setGames(GameList.slice(0, firstA));
+            }
+            else {
+                let characters = additionalCharacterIncludes[index] ?? [index];
+                let results = GameList.filter(g => {
+                    for (const char of characters) {
+                        if (g.name.startsWith(char)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+                setGames(results);
+            }
+        }
+        else if (type == "category") {
+            let index = paramIndex ?? "icons";
+
+            document.querySelectorAll('a[href^="/search/category"] > h3').forEach(a => (a as HTMLHeadingElement).style.backgroundColor = '');
+            var link = document.querySelector(`a[href="/search/category/${index}"] > h3`) as HTMLHeadingElement;
+            link.style.backgroundColor = highlightColor;
+
+            if (index == 'all') {
+                setGames(GameList);
+            }
+            else if (index.endsWith('icons')) {
+                if (index == 'noicons') {
+                    let gamesInCategory = GameList.filter(g => g.code == null);
+                    setGames(gamesInCategory);
                 }
-                else if (category == 'all') {
-                    setGames(GameList);
-                }
-                else if (category.endsWith('icons')) {
-                    if (category == 'noicons') {
-                        let gamesInCategory = GameList.filter(g => g.code == null);
-                        setGames(gamesInCategory);
-                    }
-                    else if (category == 'icons') {
-                        let gamesInCategory = GameList.filter(g => g.code != null);
-                        setGames(gamesInCategory);
-                    }
-                    else {
-                        let number = parseInt(category[0]);
-                        let gamesInCategory = GameList.filter(g => g.icons == number);
-                        setGames(gamesInCategory);
-                    }
+                else if (index == 'icons') {
+                    let gamesInCategory = GameList.filter(g => g.code != null);
+                    setGames(gamesInCategory);
                 }
                 else {
-                    let gamesInCategory = GameList.filter(g => g.name.startsWith(category));
+                    let number = parseInt(index[0]);
+                    let gamesInCategory = GameList.filter(g => g.icons == number);
                     setGames(gamesInCategory);
                 }
             }
         }
-    }, [category])
+    }, [paramType, paramIndex])
 
     return (
         <div id="Home">
@@ -75,76 +107,81 @@ const Home: React.FC = () => {
             <div className="container" style={{ minHeight: 700 }}>
                 <div className="row justify-content-center">
                     <div className="col">
-                        <Link to="" style={{ textDecoration: 'none' }} title="Explore titles by alphabetical sections">
+                        <Link to="/search/alphabetical" style={{ textDecoration: 'none' }} title="Explore titles by alphabetical sections">
                             <h2 style={{ textAlign: 'center' }}>Alphabetical</h2>
                         </Link>
                     </div>
                     <div className="col">
-                        <Link to="" style={{ textDecoration: 'none' }} title="Explore titles by categories">
+                        <Link to="/search/category" style={{ textDecoration: 'none' }} title="Explore titles by categories">
                             <h2 style={{ textAlign: 'center' }}>Category</h2>
                         </Link>
                     </div>
                     <div className="col">
-                        <Link to="" style={{ textDecoration: 'none' }} title="Explore titles with free text search">
+                        <Link to="/search/text" style={{ textDecoration: 'none' }} title="Explore titles with free text search">
                             <h2 style={{ textAlign: 'center' }}>Text Search</h2>
                         </Link>
                     </div>
                 </div>
                 <hr />
-                <div className="row justify-content-center">
-                    {['#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(c => (
-                        <div className="col-1" style={{ textAlign: 'center' }}>
-                            <Link to={`/directory/${c == '#' ? 'misc' : c}`} style={{ textDecoration: 'none' }}>
-                                <h3>{c}</h3>
+                { paramType == "alphabetical" && (
+                    <div className="row justify-content-center">
+                        {['#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(char => (
+                            <div className="col-1" style={{ textAlign: 'center' }}>
+                                <Link to={`/search/alphabetical/${char == '#' ? 'misc' : char}`} style={{ textDecoration: 'none' }}>
+                                    <h3>{char}</h3>
+                                </Link>
+                            </div>
+                        ))]}
+                        {games.length == 0 ? <h4 style={{ textAlign: 'left' }}>No Results.</h4> : <h4 style={{ textAlign: 'left' }}>{games.length} Results</h4>}
+                        <GameTable games={games} />
+                    </div>
+                )}
+                { (paramType ?? "category") == "category" && (
+                    <div className="row justify-content-center">
+                        <div className="col">
+                            <Link to="/search/category/all" style={{ textDecoration: 'none' }} title="List all titles">
+                                <h3 style={{ textAlign: 'center' }}>All</h3>
                             </Link>
                         </div>
-                    ))]}
-                </div>
-                <hr />
-                <div className="row justify-content-center">
-                    <div className="col">
-                        <Link to="/directory/all" style={{ textDecoration: 'none' }} title="Has icons uploaded">
-                            <h3 style={{ textAlign: 'center' }}>All</h3>
-                        </Link>
+                        <div className="col">
+                            <Link to="/search/category/icons" style={{ textDecoration: 'none' }} title="Titles that have icons uploaded">
+                                <h3 style={{ textAlign: 'center' }}>Has Icons</h3>
+                            </Link>
+                        </div>
+                        <div className="col">
+                            <Link to="/search/category/1icons" style={{ textDecoration: 'none' }} title="Titles with 1 icon">
+                                <h3 style={{ textAlign: 'center' }}>1 Icon</h3>
+                            </Link>
+                        </div>
+                        <div className="col">
+                            <Link to="/search/category/2icons" style={{ textDecoration: 'none' }} title="Titles with 2 icons">
+                                <h3 style={{ textAlign: 'center' }}>2 Icons</h3>
+                            </Link>
+                        </div>
+                        <div className="col">
+                            <Link to="/search/category/3icons" style={{ textDecoration: 'none' }} title="Titles with 3 icons">
+                                <h3 style={{ textAlign: 'center' }}>3 Icons</h3>
+                            </Link>
+                        </div>
+                        <div className="col">
+                            <Link to="/search/category/noicons" style={{ textDecoration: 'none' }} title="Titles that haven't yet been uploaded">
+                                <h3 style={{ textAlign: 'center' }}>Missing</h3>
+                            </Link>
+                        </div>
+                        {games.length == 0 ? <h4 style={{ textAlign: 'left' }}>No Results.</h4> : <h4 style={{ textAlign: 'left' }}>{games.length} Results</h4>}
+                        <GameTable games={games} />
                     </div>
-                    <div className="col">
-                        <Link to="/directory/icons" style={{ textDecoration: 'none' }} title="Has icons uploaded">
-                            <h3 style={{ textAlign: 'center' }}>Has Icons</h3>
-                        </Link>
+                )}
+                { paramType == "text" && (
+                    <div className="row">
+                        <div className="col-4">
+                            <SearchBar keywords={keywords} onKeywordsChange={newKeywords => setKeywords(newKeywords)}/>
+                            <br/>
+                            <br/>
+                            <SearchResults keywords={keywords} />
+                        </div>
                     </div>
-                    <div className="col">
-                        <Link to="/directory/1icons" style={{ textDecoration: 'none' }} title="Titles with 1 icon">
-                            <h3 style={{ textAlign: 'center' }}>1 Icon</h3>
-                        </Link>
-                    </div>
-                    <div className="col">
-                        <Link to="/directory/2icons" style={{ textDecoration: 'none' }} title="Titles with 2 icons">
-                            <h3 style={{ textAlign: 'center' }}>2 Icons</h3>
-                        </Link>
-                    </div>
-                    <div className="col">
-                        <Link to="/directory/3icons" style={{ textDecoration: 'none' }} title="Titles with 3 icons">
-                            <h3 style={{ textAlign: 'center' }}>3 Icons</h3>
-                        </Link>
-                    </div>
-                    <div className="col">
-                        <Link to="/directory/noicons" style={{ textDecoration: 'none' }} title="Titles that haven't yet been uploaded">
-                            <h3 style={{ textAlign: 'center' }}>Unknown</h3>
-                        </Link>
-                    </div>
-                </div>
-                <hr />
-                {games.length == 0 ? <h4 style={{ textAlign: 'left' }}>No Results.</h4> : <h4 style={{ textAlign: 'left' }}>{games.length} Results:</h4>}
-                <GameTable games={games} />
-
-                {/* TODO: Turn this free text search into a component. */}
-                {/* <div className="row justify-content-center">
-                    <div className="col-4">
-                        <h2>Search</h2>
-                        <SearchBar keywords={keywords} onKeywordsChange={newKeywords => setKeywords(newKeywords)}/>
-                        <SearchResults keywords={keywords} />
-                    </div>
-                </div>  */}
+                )}
             </div>
         </div>
     );

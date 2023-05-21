@@ -18,16 +18,18 @@ export class Game {
     }
 }
 
+/*
+Useful script to find all games listed that start with non english chraracters.
+
+const nonEnglishStartGames = GameList.filter((game) => {
+    const firstChar = game.name.charAt(0);
+    return !(/[0-9a-zA-Z]/).test(firstChar);
+});
+console.log(nonEnglishStartGames.map(g=>g.name).join(', '));
+
+*/
+
 export const GameList: Game[] = [
-    /*new Game('Frequency', "frequency", IconTypes.Normal),
-    new Game('Silent Hill 2', "silenthill2", IconTypes.Normal),
-    new Game('God of War II', "godofwar2", IconTypes.Normal),
-    new Game('Devil May Cry III', "devilmaycry3", IconTypes.All),
-    new Game('Grand Theft Auto: Vice City', "gtavicecity", IconTypes.Normal),
-    new Game('Beyond Good & Evil', "beyondgoodandevil", IconTypes.Normal),
-    new Game('Okami', "okami", IconTypes.Normal | IconTypes.Delete),
-    new Game('Ridge Racer V', "ridgeracer5", IconTypes.All),
-    new Game('Half-Life', "halflife", IconTypes.Normal | IconTypes.Delete),*/
     new Game(`¡Qué pasa Neng! El videojuego`),
     new Game(`.hack//frägment`),
     new Game(`.hack//G.U.vol.1//Rebirth`),
@@ -2862,9 +2864,10 @@ export const GameList: Game[] = [
     new Game(`Premier Manager 09`),
     new Game(`Premier Manager 2002/2003 Season`),
     new Game(`Premier Manager 2003–04`),
-    new Game(`–`),
-    new Game(`–`),
-    new Game(`–`),
+    // TODO: Figure out what games these were, they were not scraped correctly.
+    // new Game(`–`),
+    // new Game(`–`),
+    // new Game(`–`),
     new Game(`Pri-Saga! Princess o Sagase!`),
     new Game(`Pride FC: Fighting Championships`),
     new Game(`PrideGP Grand Prix 2003`),
