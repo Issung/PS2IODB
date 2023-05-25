@@ -536,57 +536,72 @@ class GuiFrame(wx.Frame):
 
     # Issung was here
     def evt_cmd_export_obj(self, event):
-        icon = self.icon_win._icon_normal
-        
-        with open("test.obj", 'w') as obj:
+        dialog = wx.TextEntryDialog(self, "Enter name for new folder for icons to be extracted to:", "MYMC++")
+        if dialog.ShowModal() != wx.ID_OK:
+            return
+        entered_text = dialog.GetValue()
+        print("Entered Text:", entered_text)
+        dialog.Destroy()
+
+        iconsys = self.icon_win._icon_sys
+        icon_normal_name = iconsys.icon_file_normal
+        icon_copy_name = iconsys.icon_file_copy
+        icon_delete_name = iconsys.icon_file_delete
+        icon_normal = self.icon_win._icon_normal
+
+        if not os.path.exists(f"icon_exports/{entered_text}"):
+            os.makedirs(f"icon_exports/{entered_text}")
+        path = f"icon_exports/{entered_text}/{icon_normal_name}"
+
+        with open(f"{path}.obj", 'w') as obj:
             obj.write("# OBJ file\n")
             # Output 'mtllib' row (which material library to load materials from)
-            obj.write('mtllib test.mtl\n')
+            obj.write(f"mtllib {icon_normal_name}.mtl\n")
             # Output 'v' rows (vertices positions).
-            range_x = abs(min(icon.vertex_data[0::3]) - max(icon.vertex_data[0::3]))
-            range_y = abs(min(icon.vertex_data[1::3]) - max(icon.vertex_data[1::3]))
-            range_z = abs(min(icon.vertex_data[2::3]) - max(icon.vertex_data[2::3]))
+            range_x = abs(min(icon_normal.vertex_data[0::3]) - max(icon_normal.vertex_data[0::3]))
+            range_y = abs(min(icon_normal.vertex_data[1::3]) - max(icon_normal.vertex_data[1::3]))
+            range_z = abs(min(icon_normal.vertex_data[2::3]) - max(icon_normal.vertex_data[2::3]))
             range_max = max([range_x, range_y, range_z])
-            for vertex_index in range(icon.vertex_count):
-                vertex_x = -icon.vertex_data[vertex_index * 3] / range_max
-                vertex_y = -icon.vertex_data[vertex_index * 3 + 1] / range_max
-                vertex_z = icon.vertex_data[vertex_index * 3 + 2] / range_max
+            for vertex_index in range(icon_normal.vertex_count):
+                vertex_x = -icon_normal.vertex_data[vertex_index * 3] / range_max
+                vertex_y = -icon_normal.vertex_data[vertex_index * 3 + 1] / range_max
+                vertex_z = icon_normal.vertex_data[vertex_index * 3 + 2] / range_max
                 obj.write(f"v {vertex_x:.6f} {vertex_y:.6f} {vertex_z:.6f}\n")
             # Output 'vt' rows (UV mappings)
-            for uv_index in range(icon.vertex_count):
-                u = round(icon.uv_data[uv_index * 2] / 4096, 6)   # Divide by 4096 because that's supposedly the max u/v value?
-                v = round(icon.uv_data[uv_index * 2 + 1] / 4096, 6)
+            for uv_index in range(icon_normal.vertex_count):
+                u = round(icon_normal.uv_data[uv_index * 2] / 4096, 6)   # Divide by 4096 because that's supposedly the max u/v value?
+                v = round(icon_normal.uv_data[uv_index * 2 + 1] / 4096, 6)
                 obj.write(f"vt {u:.6f} {v:.6f} 0.000000\n")
             # Output 'vn' rows (vertex normals)
-            for normal_index in range(icon.vertex_count):
-                normal_x = icon.vertex_normals[normal_index * 3]
-                normal_y = icon.vertex_normals[normal_index * 3 + 1]
-                normal_z = icon.vertex_normals[normal_index * 3 + 2]
+            for normal_index in range(icon_normal.vertex_count):
+                normal_x = icon_normal.vertex_normals[normal_index * 3]
+                normal_y = icon_normal.vertex_normals[normal_index * 3 + 1]
+                normal_z = icon_normal.vertex_normals[normal_index * 3 + 2]
                 obj.write(f"vn {normal_x:.6f} {normal_y:.6f} {normal_z:.6f}\n")
             # Output 'usemtl' row (which material to use for the following faces)
             obj.write("usemtl Texture\n")
             # Output 'f' rows (faces connected to which vertices).
-            for face_index in range(int(icon.vertex_count / 3)):
+            for face_index in range(int(icon_normal.vertex_count / 3)):
                 v1 = face_index * 3 + 1
                 v2 = face_index * 3 + 2
                 v3 = face_index * 3 + 3
                 obj.write(f"f {v1}/{v1}/{v1} {v2}/{v2}/{v2} {v3}/{v3}/{v3}\n")
 
-        print("Wrote test.obj")
+        print(f"Wrote {path}.obj")
 
-        with open("test.mtl", 'w') as mtl:
+        with open(f"{path}.mtl", 'w') as mtl:
             mtl.write("newmtl Texture\n")
-            mtl.write("map_Kd test.png\n")
+            mtl.write(f"map_Kd {icon_normal_name}.png\n")
 
-        print("Wrote test.mtl")    
+        print(f"Wrote {path}.mtl")
 
         image = Image.new('RGB', (128, 128), color='black')
 
         step_size = 2
-        for i in range(0, len(icon.texture), step_size):
+        for i in range(0, len(icon_normal.texture), step_size):
             x = int((i / step_size) % 128)
             y = 127 - int((i / step_size) / 128)
-            col = reduce(lambda a, b: ((a) << 8) | b, icon.texture[i:i+step_size][::-1]) # [::-1] reverses the array 2 element array.
+            col = reduce(lambda a, b: ((a) << 8) | b, icon_normal.texture[i:i+step_size][::-1]) # [::-1] reverses the array 2 element array.
             r = (col & 0x1F) << 3
             g = ((col >> 5) & 0x1F) << 3
             # This blue channel part differs from the c++ implementation because we can't force to an unsigned byte.
@@ -598,44 +613,54 @@ class GuiFrame(wx.Frame):
             #    print("this is the last pixel, which should be the top right.")
             image.putpixel((x, y), (r, g, b, a))
 
-        image.save('test.png', 'PNG')
+        image.save(f'{path}.png', 'PNG')
 
-        print("Wrote test.png")
+        print(f"Wrote {path}.png")
 
-        frames = int(len(icon.vertex_data) / icon.vertex_count / 3)
-        if icon.anim_header.frame_count <= 1:
+        frames = int(len(icon_normal.vertex_data) / icon_normal.vertex_count / 3)
+        if icon_normal.anim_header.frame_count <= 1:
             print("Not writing animation file because only 1 frame")
         else:
             anim_data = {
-                "frame_length": icon.anim_header.frame_length,
-                "anim_speed": icon.anim_header.anim_speed,
-                "play_offset": icon.anim_header.play_offset,
+                "frameLength": icon_normal.anim_header.frame_length,
+                "animSpeed": icon_normal.anim_header.anim_speed,
+                "playOffset": icon_normal.anim_header.play_offset,
                 "frames": [],
             }
             for frame_index in range(frames):
-                frame = { "keys" : [], "vertex_data": SingleLineList([]) }
-                v_from = frame_index * (icon.vertex_count * 3)
-                v_to = (frame_index + 1) * (icon.vertex_count * 3)
-                frame["vertex_data"] = SingleLineList(icon.vertex_data[v_from:v_to])
+                frame = { "keys" : [], "vertexData": SingleLineList([]) }
+                v_from = frame_index * (icon_normal.vertex_count * 3)
+                v_to = (frame_index + 1) * (icon_normal.vertex_count * 3)
+                frame["vertexData"] = SingleLineList(icon_normal.vertex_data[v_from:v_to])
                 # Normalise all vertex coords so everything isn't too large (0.0 - 1.0) is ideal.
-                for i in range(len(frame["vertex_data"])):
-                    frame["vertex_data"][i] = frame["vertex_data"][i] / range_max
+                for i in range(len(frame["vertexData"])):
+                    frame["vertexData"][i] = frame["vertexData"][i] / range_max
 
                 # Write key data.
-                for key_index in range(icon.frames[frame_index].key_count):
+                for key_index in range(icon_normal.frames[frame_index].key_count):
                     frame["keys"].append(SingleLineObject({
-                        "time": icon.frames[frame_index].keys[key_index].time,
-                        "value": icon.frames[frame_index].keys[key_index].value,
+                        "time": icon_normal.frames[frame_index].keys[key_index].time,
+                        "value": icon_normal.frames[frame_index].keys[key_index].value,
                     }))
 
                 anim_data["frames"].append(frame)
                     
-            with open("test.anim", 'w') as file:
+            with open(f"{path}.anim", 'w') as file:
                 output = json.dumps(anim_data, indent = 4, separators = (',', ':'), cls = CustomJSONEncoder)
                 output = output.replace('"##<', "").replace('>##"', "").replace("'", '"')
                 file.write(output)
                 
-            print(f"Wrote test.anim ({frames} frames)")
+            print(f"Wrote {path}.anim ({frames} frames)")
+
+        iconsysoutput = {
+            "normal": icon_normal_name,
+            "copy": icon_copy_name,
+            "delete": icon_delete_name,
+        }
+        with open(f"icon_exports/{entered_text}/iconsys.json", 'w') as file:
+            output = json.dumps(iconsysoutput, indent = 4, separators = (',', ':'))
+            file.write(output)
+        print(f"Wrote iconsys.json.")
 
 
     def evt_cmd_exit(self, event):
