@@ -1,22 +1,4 @@
-export const enum IconTypes {
-    Normal = 1,
-    Copy = 1 << 1,
-    Delete = 1 << 2,
-
-    All = Normal | Copy | Delete,
-}
-
-export class Game {
-    public name: string;
-    public code?: string;
-    public icons?: number;
-
-    constructor(name: string, code?: string, icons?: number) {
-        this.name = name;
-        this.code = code;
-        this.icons = icons;
-    }
-}
+import { Game } from "./Game";
 
 /*
 Useful script to find all games listed that start with non english chraracters.
@@ -343,7 +325,7 @@ export const GameList: Game[] = [
     new Game(`Berserk: Millennium Falcon Hen Seima Senki no Shō`),
     new Game(`Beta Bloc`),
     new Game(`Beverly Hills Cop`),
-    new Game(`Beyond Good & Evil`),
+    new Game(`Beyond Good & Evil`, `beyondgoodandevil`, 1),
     new Game(`Biathlon 2008`),
     new Game(`The Bible Game`),
     new Game(`Big Idea's Veggie Tales: LarryBoy and the Bad Apple`),
@@ -618,7 +600,7 @@ export const GameList: Game[] = [
     new Game(`Cool Boarders 2001`),
     new Game(`Cool Boarders: Code Alien`),
     new Game(`Cool Shot`),
-    new Game(`Coraline`),
+    new Game(`Coraline`, `coraline`, 1),
     new Game(`Corvette`),
     new Game(`Corvette Evolution GT`),
     new Game(`Counter Terrorist Special Forces: Fire for Effect`),
@@ -1089,7 +1071,7 @@ export const GameList: Game[] = [
     new Game(`Final Approach`),
     new Game(`Final Approach 2: 1st Priority`),
     new Game(`Final Armada`),
-    new Game(`Final Fantasy X`),
+    new Game(`Final Fantasy X`, `finalfantasy10`, 1),
     new Game(`Final Fantasy X-2`),
     new Game(`Final Fantasy X-2: International + Last Mission`),
     new Game(`Final Fantasy XI`),
@@ -1153,7 +1135,7 @@ export const GameList: Game[] = [
     new Game(`Freedom Fighters`),
     new Game(`Freekstyle`),
     new Game(`Freestyle MetalX`),
-    new Game(`Frequency`),
+    new Game(`Frequency`, `frequency`, 1),
     new Game(`Friends: The One with All the Trivia`),
     new Game(`Friends: Seishun no Kagayaki`),
     new Game(`Frogger: Ancient Shadow`),
@@ -1428,7 +1410,7 @@ export const GameList: Game[] = [
     new Game(`Hakuouki: Reimeiroku`),
     new Game(`Hakuouki: Zuisouroku`),
     new Game(`Hakushaku to Yousei: Yume to Kizuna ni Omoi Hasete`),
-    new Game(`Half-Life`),
+    new Game(`Half-Life`, `halflife`, 2),
     new Game(`Hametsu no Mars`),
     new Game(`Hamster Heroes`),
     new Game(`Hana to Otome ni Shukufuku o: Harukaze no Okurimono`),
@@ -1692,10 +1674,10 @@ export const GameList: Game[] = [
     new Game(`Jackie Chan Adventures`),
     new Game(`Jackpot Madness`),
     new Game(`Jade Cocoon 2`),
-    new Game(`Jak 3`),
+    new Game(`Jak 3`, `jak3`, 1),
     new Game(`Jak and Daxter: The Lost Frontier`),
-    new Game(`Jak and Daxter: The Precursor Legacy`),
-    new Game(`Jak II`),
+    new Game(`Jak and Daxter: The Precursor Legacy`, `jakanddaxter1`, 1),
+    new Game(`Jak II`, `jak2`, 1),
     new Game(`Jak X: Combat Racing`),
     new Game(`James Bond 007: Agent Under Fire`),
     new Game(`James Bond 007: Everything or Nothing`),
@@ -2652,7 +2634,7 @@ export const GameList: Game[] = [
     new Game(`Offroad Extreme!`),
     new Game(`Ojousama Kumikyoku: Sweet Concert`),
     new Game(`Okage: Shadow King`),
-    new Game(`Ōkami`),
+    new Game(`Ōkami`, `okami`, 2),
     new Game(`Ōokuki`),
     new Game(`Omoi no Kakera: Close to`),
     new Game(`Omoide ni Kawaru-Kimi: Memories Off`),
@@ -2982,7 +2964,7 @@ export const GameList: Game[] = [
     new Game(`Rasetsu Alternative`),
     new Game(`Ratchet: Deadlocked`),
     new Game(`Ratchet & Clank`),
-    new Game(`Ratchet & Clank: Going Commando`),
+    new Game(`Ratchet & Clank: Going Commando`, `ratchetandclankgoingcommando`, 1),
     new Game(`Ratchet & Clank: Size Matters`),
     new Game(`Ratchet & Clank: Up Your Arsenal`),
     new Game(`Raw Danger!`),
@@ -3029,7 +3011,7 @@ export const GameList: Game[] = [
     new Game(`The Renai Horror Adventure`),
     new Game(`The Renai Simulation: Renai Kissa Watashi ni Oma Cafe`),
     new Game(`Reservoir Dogs`),
-    new Game(`Resident Evil 4`),
+    new Game(`Resident Evil 4`, `residentevil4`, 1),
     new Game(`Resident Evil Code: Veronica X`),
     new Game(`Resident Evil: Dead Aim`),
     new Game(`Resident Evil Outbreak`),
@@ -3410,7 +3392,7 @@ export const GameList: Game[] = [
     new Game(`Silpheed: The Lost Planet`),
     new Game(`Simoun: Shoubi Sensou – Fuuin no Remersion`),
     new Game(`The Simpsons Game`),
-    new Game(`The Simpsons: Hit & Run`),
+    new Game(`The Simpsons: Hit & Run`, `simpsonshitnrun`, 3),
     new Game(`The Simpsons: Road Rage`),
     new Game(`The Simpsons Skateboarding`),
     new Game(`The Sims`),
@@ -3628,7 +3610,7 @@ export const GameList: Game[] = [
     new Game(`Spy Hunter 2`),
     new Game(`Spy Hunter: Nowhere to Run`),
     new Game(`Spy vs. Spy`),
-    new Game(`Spyro: A Hero's Tail`),
+    new Game(`Spyro: A Hero's Tail`, `spyroherostail`, 1),
     new Game(`Spyro: Enter the Dragonfly`),
     new Game(`SSX`),
     new Game(`SSX 3`),

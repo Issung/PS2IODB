@@ -2,6 +2,11 @@
   color: white;
 }
 
+select,
+select > option {
+  color: black;
+}
+
 body {
   background-color:#171717 !important;
   margin: 0;

@@ -46,7 +46,7 @@ export function setAnimationState(newState: boolean) {
 
 let initialised: boolean = false;
 
-export function init(code: string) {
+export function init(code: string, iconName: string) {
     /*if (initialised == true) {
         // React useEffect has a nasty habit of running twice per init when using react.strictmode.
         // So manually track if we've initialised so we don't get weird issues when initialising twice.
@@ -60,7 +60,7 @@ export function init(code: string) {
     canvas = document.querySelector('#iconRenderCanvas') as HTMLCanvasElement;
 
     camera = new THREE.PerspectiveCamera(45, /*window.innerWidth / window.innerHeight*/ 640/480, 0.01, 2000);
-    camera.position.z = 3;
+    camera.position.z = -2;
     camera.lookAt(0, 0, 0);
 
     // scene
@@ -68,6 +68,9 @@ export function init(code: string) {
     scene = new THREE.Scene();
     const axesHelper = new THREE.AxesHelper(1);
     scene.add(axesHelper);
+    const gridHelper = new THREE.GridHelper(2, 5);
+    gridHelper.setRotationFromEuler(new THREE.Euler(90, 0, 0));
+    scene.add(gridHelper);
     const ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
     scene.add(ambientLight);
     const pointLight = new THREE.PointLight(0xffffff, 0.8);
@@ -96,16 +99,17 @@ export function init(code: string) {
         icon.position.sub(center);
         pivot.add(icon);
         scene.add(pivot);
+        //pivot.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), -180);
     }
 
     const loadingManager = new THREE.LoadingManager(loadModel);
 
     const loader = new OBJLoader.OBJLoader(loadingManager);
-    loader.load(`http://localhost:3000/icons/${code}/0.obj`, (obj) => { icon = obj; }, onProgress, onError);
+    loader.load(`/icons/${code}/${iconName}.obj`, (obj) => { icon = obj; }, onProgress, onError);
 
     // texture
     const textureLoader = new THREE.TextureLoader(loadingManager);
-    texture = textureLoader.load(`http://localhost:3000/icons/${code}/0.png` /* 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' */);
+    texture = textureLoader.load(`/icons/${code}/${iconName}.png` /* 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' */);
     texture.colorSpace = THREE.SRGBColorSpace;
 
     // model
@@ -121,7 +125,7 @@ export function init(code: string) {
         console.log('model load error');
     }
 
-    fetch(`http://localhost:3000/icons/${code}/0.anim`)
+    fetch(`/icons/${code}/${iconName}.anim`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Request failed with status ${response.status}`);
@@ -143,7 +147,7 @@ export function init(code: string) {
     document.addEventListener('mouseup', onMouseUp, false);
     document.addEventListener('contextmenu', event => event.preventDefault());
     document.addEventListener('mousemove', onDocumentMouseMove);
-    document.addEventListener('mousewheel', onDocumentMouseWheel);
+    canvas.addEventListener('mousewheel', onMouseWheel);
 
     window.addEventListener('resize', onWindowResize);
 
@@ -220,16 +224,17 @@ function onDocumentMouseMove(event: MouseEvent) {
 
 function rotateScene(deltaX: number, deltaY: number) {
     pivot.rotation.y += deltaX / 100;
-    pivot.rotation.x += deltaY / 100;
+    pivot.rotation.x -= deltaY / 100;
 }
 
 function moveScene(deltaX: number, deltaY: number) {
-    pivot.position.x += deltaX / 1000;
-    pivot.position.y += -deltaY / 1000;
+    pivot.position.x -= deltaX / 1000;
+    pivot.position.y -= deltaY / 1000;
 }
 
-function onDocumentMouseWheel(event: WheelEvent | any) {
-    camera.position.z += event.deltaY / 500;
+function onMouseWheel(event: WheelEvent | any) {
+    camera.position.z -= event.deltaY / 500;
+    event.preventDefault();
 }
 
 export function animate() {

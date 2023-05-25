@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { init, animate, setAnimationState, dispose } from "./ModelView";
+import { IconSys } from "./IconSys";
 
 const Icon: React.FC = () => {
     // Get icon code from the url
@@ -8,6 +9,8 @@ const Icon: React.FC = () => {
     const [exists, setExists] = useState('...');
     const [body, setBody] = useState('');
     const [doAnimation, setAnimation] = useState(true);
+    const [iconsys, setIconSys] = useState<IconSys | null>(null);
+    const [variant, setVariant] = useState<string>();
     
     // Nasty side effect of React.StrictMode, useEffect runs twice. https://react.dev/learn/you-might-not-need-an-effect#initializing-the-application
     let firstRun: boolean = true;
@@ -23,7 +26,7 @@ const Icon: React.FC = () => {
         console.log(`useeffect, first run, continuing.`);
 
         // The 'icons' folder goes inside the 'Site/public' folder.
-        var url = `http://localhost:3000/icons/${iconcode}/manifest.json`;
+        var url = `/icons/${iconcode}/iconsys.json`;
         fetch(url)
             .then(response => {
                 response
@@ -35,12 +38,12 @@ const Icon: React.FC = () => {
                             setExists('exists!')
                             setBody(text);
 
-                            var manifest = JSON.parse(text);
-                            //console.log(manifest);
+                            let tmpiconsys = JSON.parse(text) as IconSys;
+                            setIconSys(tmpiconsys);
 
                             // Initialise the threejs model viewer and start the animation (if there is any).
-                            if (iconcode != null) {
-                                init(iconcode);
+                            if (iconcode != null && tmpiconsys.normal != null) {
+                                init(iconcode, tmpiconsys.normal);
                                 animate();
                             }
                         }
@@ -58,13 +61,35 @@ const Icon: React.FC = () => {
         };*/
     }, [iconcode]);
 
+    useEffect(() => {
+        if (iconcode != null && iconsys != null && variant != null) {
+            init(iconcode, variant);
+            animate();
+        }
+    }, [variant]);
+
     return(
         <div>
             <p>'{iconcode}' {exists}</p>
             <br/>
             <p>{body}</p>
-            <label>Animate Model: </label>
-            <input type="checkbox" checked={doAnimation} onChange={e => {setAnimation(e.target.checked); setAnimationState(e.target.checked);}}/>
+            {
+                iconsys != null && (
+                    <div id="iconoptions">
+                        <label>Animate Model: </label>
+                        <input type="checkbox" checked={doAnimation} onChange={e => {setAnimation(e.target.checked); setAnimationState(e.target.checked);}}/>
+                        <br/>
+                        <label>Icon Variant:</label>
+                        <select value={variant} onChange={e => setVariant(e.target.value)}>
+                            {[iconsys.normal, iconsys.copy, iconsys.delete].map(val => (
+                                <option value={val} key={val}>
+                                    {val}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                )
+            }
             <br/>
             <canvas id="iconRenderCanvas" width={640} height={480}/>
         </div>

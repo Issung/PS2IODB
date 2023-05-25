@@ -3,7 +3,8 @@ import './Home.scss';
 import SearchBar from "./SearchBar";
 import SearchResults from "./SearchResults";
 import { Link, useParams } from "react-router-dom";
-import { Game, GameList } from "./Games";
+import { Game } from './Game';
+import { GameList } from "./GameList";
 import GameTable from "./GameTable";
 
 const Home: React.FC = () => {

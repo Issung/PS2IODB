@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { Game, GameList } from './Games';
+import { Game } from './Game';
+import { GameList } from './GameList';
 import GameTable from './GameTable';
 
 type SearchResultsProps = {

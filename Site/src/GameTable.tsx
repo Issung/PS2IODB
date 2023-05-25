@@ -1,5 +1,5 @@
 import React from 'react';
-import { Game } from './Games';
+import { Game } from './Game';
 import { Link } from 'react-router-dom';
 
 type GameTableProps = {
