@@ -8,7 +8,7 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = (props: SearchBarProps) => {
-    const similies: string[][] = [
+    const similes: string[][] = [
         ['i', '1', 'one'],
         ['ii', '2', 'two'],
         ['iii', '3', 'three'],
@@ -28,7 +28,7 @@ const SearchBar: React.FC<SearchBarProps> = (props: SearchBarProps) => {
     ];
 
     const [text, setText] = useState('');
-    const [keywords, setKeywords] = useState(Array<string>);
+    const [, setKeywords] = useState(Array<string>);
 
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         setText(event.target.value);
@@ -37,16 +37,16 @@ const SearchBar: React.FC<SearchBarProps> = (props: SearchBarProps) => {
         let enteredKeywords: string[] = [];
         
         enteredWords.forEach(word => {
-            var similieFound = false;
-            similies.forEach(simileList => {
+            var simileFound = false;
+            similes.forEach(simileList => {
                 if (simileList.includes(word)) {
                     enteredKeywords = enteredKeywords.concat(simileList);
-                    similieFound = true;
+                    simileFound = true;
                     return; // Stop the loop.
                 }
             });
 
-            if (!similieFound) {
+            if (!simileFound) {
                 enteredKeywords = enteredKeywords.concat(word);
             }
         });

@@ -15,11 +15,11 @@ const SearchResults: React.FC<SearchResultsProps> = ({ keywords: searchKeywords 
 
     function filterGames()
     {
-        if (searchKeywords[0] == '') // Return whole list.
+        if (searchKeywords[0] === '') // Return whole list.
         {
             setGames([]);
         }
-        else if (searchKeywords.length == 1) // 1 keyword, match just on a 'contains'.
+        else if (searchKeywords.length === 1) // 1 keyword, match just on a 'contains'.
         {
             if (searchKeywords[0].length <= 2)
             {
@@ -36,7 +36,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ keywords: searchKeywords 
             let results = GameList
                 .map(game => {
                     var gameKeywords = game.name.toLowerCase().split(' ').filter(unique);   // Unique filter on end (don't match on same word twice).
-                    var matches = gameKeywords.map((gkw, i) => searchKeywords.some(skw => skw == gkw) ? i : null).filter(i => i != null);
+                    var matches = gameKeywords.map((gkw, i) => searchKeywords.some(skw => skw === gkw) ? i : null).filter(i => i != null);
                     var ret = matches.length > 0 ? { game, matches } : null;
                     if (ret)
                     {

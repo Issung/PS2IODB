@@ -2,7 +2,6 @@ import * as THREE from "three";
 import { AnimationData } from "./AnimationData";
 import * as OBJLoader from 'three/examples/jsm/loaders/OBJLoader'
 import Stats from 'stats.js';
-import { useState } from "react";
 
 enum MouseButton {
     NONE = -1,
@@ -23,16 +22,12 @@ let stats: Stats;
 let mouse = MouseButton.NONE;
 let mouseX = 0, mouseY = 0;
 
-let windowHalfX = window.innerWidth / 2;
-let windowHalfY = window.innerHeight / 2;
-
 let icon: THREE.Group;
 let pivot: THREE.Group;
 let mesh: THREE.Mesh;
 let geometry: THREE.BufferGeometry;
 let texture: THREE.Texture;
 let animData: AnimationData | null = null;
-let currentFrameNumber = 0;
 
 // Now called externally from React component.
 //init();
@@ -44,16 +39,7 @@ export function setAnimationState(newState: boolean) {
     animateTest = newState;
 }
 
-let initialised: boolean = false;
-
 export function init(code: string, iconName: string) {
-    /*if (initialised == true) {
-        // React useEffect has a nasty habit of running twice per init when using react.strictmode.
-        // So manually track if we've initialised so we don't get weird issues when initialising twice.
-        console.log('Skipping initialisation');
-        return;
-    }*/
-
     // Reset animData because changing model with the same component reloaded keeps the old animData and glitches out.
     animData = null;
 
@@ -150,8 +136,6 @@ export function init(code: string, iconName: string) {
     canvas.addEventListener('mousewheel', onMouseWheel);
 
     window.addEventListener('resize', onWindowResize);
-
-    initialised = true;
 }
 
 function createStats() {
@@ -196,12 +180,12 @@ function onMouseUp(event: MouseEvent) {
 }
 
 function onDocumentMouseMove(event: MouseEvent) {
-    if (mouse == MouseButton.NONE)
+    if (mouse === MouseButton.NONE)
     {
         document.body.style.cursor = "auto";
         return;
     }
-    else if (mouse == MouseButton.LEFT || mouse == MouseButton.RIGHT)
+    else if (mouse === MouseButton.LEFT || mouse === MouseButton.RIGHT)
     {
         event.preventDefault();
         var deltaX = event.clientX - mouseX;
@@ -209,12 +193,12 @@ function onDocumentMouseMove(event: MouseEvent) {
         mouseX = event.clientX;
         mouseY = event.clientY;
 
-        if (mouse == MouseButton.LEFT)
+        if (mouse === MouseButton.LEFT)
         {
             document.body.style.cursor = "grabbing";
             rotateScene(deltaX, deltaY);
         }
-        else if (mouse == MouseButton.RIGHT)
+        else if (mouse === MouseButton.RIGHT)
         {
             document.body.style.cursor = "move";
             moveScene(deltaX, deltaY);
@@ -274,11 +258,10 @@ function render() {
         geometry.setAttribute('position', new THREE.BufferAttribute(updatedPositions, 3));
     }
 
-    currentFrameNumber += 1;
     renderer.render(scene, camera);
 }
 
-function getNextStep(current: number, max: number, step: number) {
+/*function getNextStep(current: number, max: number, step: number) {
     const steps = Array.from({ length: (max / step) }, (_, i) => (i + 1) * step);
     let next = steps.find((s) => s > current);
     if (!next)
@@ -286,7 +269,7 @@ function getNextStep(current: number, max: number, step: number) {
         next = step;
     }
     return next;
-}
+}*/
 
 function lerp(start: number, end: number, t: number) {
     return start * (1 - t) + end * t;
