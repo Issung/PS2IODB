@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { init, animate, setAnimationState, dispose } from "./ModelView";
+import { init, animate, setAnimationState } from "./ModelView";
 import { IconSys } from "./IconSys";
 
 const Icon: React.FC = () => {
@@ -13,16 +13,12 @@ const Icon: React.FC = () => {
     const [variant, setVariant] = useState<string>();
     
     // Nasty side effect of React.StrictMode, useEffect runs twice. https://react.dev/learn/you-might-not-need-an-effect#initializing-the-application
-    let firstRun: boolean = true;
+    //let firstRun: boolean = true;
     
     // TODO: Because of useEffect running twice on init which is an unintended side effect, its possible we should instead be doing icon rendering in a separate component
     //       to this one, then the useState effect should only run once, then double initialising shouldn't be an issue.
 
     useEffect(() => {
-        if (!firstRun) {
-            console.log(`useeffect, not first run, skipping.`);
-            return;
-        }
         console.log(`useeffect, first run, continuing.`);
 
         // The 'icons' folder goes inside the 'Site/public' folder.
@@ -52,13 +48,6 @@ const Icon: React.FC = () => {
                         }
                     });
             });
-
-        fetch(url);
-
-        firstRun = false;
-        /*return () => {
-            dispose();
-        };*/
     }, [iconcode]);
 
     useEffect(() => {
@@ -66,7 +55,7 @@ const Icon: React.FC = () => {
             init(iconcode, variant);
             animate();
         }
-    }, [variant]);
+    }, [iconcode, iconsys, variant]);
 
     return(
         <div>

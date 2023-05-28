@@ -29,8 +29,4 @@ export class IconSys
     public normal: string = '';
     public copy: string = '';
     public delete: string = '';
-
-    constructor() 
-    {
-    }
 }

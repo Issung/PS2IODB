@@ -13,30 +13,31 @@ const Home: React.FC = () => {
     const [keywords, setKeywords] = useState(Array<string>);
     const highlightColor: string = '#ffffff1f';
 
-    const additionalCharacterIncludes: Record<string, string[]> = {
-        "A": ["A", "Æ"], // Include title "Æon Flux" under "A" listings.
-        "H": ["H", "."], // Include all ".hack*" titles under "H" listings.
-        "Q": ["Q", "¡"], // Include title "¡Qué pasa Neng! El videojuego" under "Q" listings.
-        "S": ["S", "_"], // Include title "_Summer" under "S" listings.
-        "O": ["O", "Ō"], // Include titles "Ōkami" & "Ōokuki" under "O" listings.
-    }
-    
     useEffect(() => {
+        // Define inside useEffect so it's not seen as a dependency.
+        const additionalCharacterIncludes: Record<string, string[]> = {
+            "A": ["A", "Æ"], // Include title "Æon Flux" under "A" listings.
+            "H": ["H", "."], // Include all ".hack*" titles under "H" listings.
+            "Q": ["Q", "¡"], // Include title "¡Qué pasa Neng! El videojuego" under "Q" listings.
+            "S": ["S", "_"], // Include title "_Summer" under "S" listings.
+            "O": ["O", "Ō"], // Include titles "Ōkami" & "Ōokuki" under "O" listings.
+        }
+
         let type = paramType ?? "category";
         console.log(`type: ${paramType}, index: ${paramIndex}`);
 
         document.querySelectorAll('a[href^="/search/"] > h2').forEach(a => (a as HTMLHeadingElement).style.backgroundColor = '');
-        var link = document.querySelector(`a[href="/search/${type}"] > h2`) as HTMLHeadingElement;
-        link.style.backgroundColor = highlightColor;
+        let typeLink = document.querySelector(`a[href="/search/${type}"] > h2`) as HTMLHeadingElement;
+        typeLink.style.backgroundColor = highlightColor;
 
-        if (type == "alphabetical") {
-            let index = (paramIndex == undefined || paramIndex < 'A' || paramIndex > 'Z') ? "misc" : paramIndex;
+        if (type === "alphabetical") {
+            let index = (paramIndex === undefined || paramIndex < 'A' || paramIndex > 'Z') ? "misc" : paramIndex;
 
             document.querySelectorAll('a[href^="/search/alphabetical"] > h3').forEach(a => (a as HTMLHeadingElement).style.backgroundColor = '');
-            var link = document.querySelector(`a[href="/search/alphabetical/${index}"] > h3`) as HTMLHeadingElement;
-            link.style.backgroundColor = highlightColor;
+            let letterLink = document.querySelector(`a[href="/search/alphabetical/${index}"] > h3`) as HTMLHeadingElement;
+            letterLink.style.backgroundColor = highlightColor;
 
-            if (index == 'misc') {
+            if (index === 'misc') {
                 // All things that come before the first game that starts with 'A'.
                 let firstA = GameList.findIndex(g => g.name.startsWith('A'));
                 setGames(GameList.slice(0, firstA));
@@ -54,28 +55,28 @@ const Home: React.FC = () => {
                 setGames(results);
             }
         }
-        else if (type == "category") {
+        else if (type === "category") {
             let index = paramIndex ?? "icons";
 
             document.querySelectorAll('a[href^="/search/category"] > h3').forEach(a => (a as HTMLHeadingElement).style.backgroundColor = '');
-            var link = document.querySelector(`a[href="/search/category/${index}"] > h3`) as HTMLHeadingElement;
-            link.style.backgroundColor = highlightColor;
+            var categoryLink = document.querySelector(`a[href="/search/category/${index}"] > h3`) as HTMLHeadingElement;
+            categoryLink.style.backgroundColor = highlightColor;
 
-            if (index == 'all') {
+            if (index === 'all') {
                 setGames(GameList);
             }
             else if (index.endsWith('icons')) {
-                if (index == 'noicons') {
+                if (index === 'noicons') {
                     let gamesInCategory = GameList.filter(g => g.code == null);
                     setGames(gamesInCategory);
                 }
-                else if (index == 'icons') {
+                else if (index === 'icons') {
                     let gamesInCategory = GameList.filter(g => g.code != null);
                     setGames(gamesInCategory);
                 }
                 else {
                     let number = parseInt(index[0]);
-                    let gamesInCategory = GameList.filter(g => g.icons == number);
+                    let gamesInCategory = GameList.filter(g => g.icons === number);
                     setGames(gamesInCategory);
                 }
             }
@@ -124,20 +125,20 @@ const Home: React.FC = () => {
                     </div>
                 </div>
                 <hr />
-                { paramType == "alphabetical" && (
+                { paramType === "alphabetical" && (
                     <div className="row justify-content-center">
                         {['#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(char => (
                             <div className="col-1" style={{ textAlign: 'center' }}>
-                                <Link to={`/search/alphabetical/${char == '#' ? 'misc' : char}`} style={{ textDecoration: 'none' }}>
+                                <Link to={`/search/alphabetical/${char === '#' ? 'misc' : char}`} style={{ textDecoration: 'none' }}>
                                     <h3>{char}</h3>
                                 </Link>
                             </div>
                         ))]}
-                        {games.length == 0 ? <h4 style={{ textAlign: 'left' }}>No Results.</h4> : <h4 style={{ textAlign: 'left' }}>{games.length} Results</h4>}
+                        {games.length === 0 ? <h4 style={{ textAlign: 'left' }}>No Results.</h4> : <h4 style={{ textAlign: 'left' }}>{games.length} Results</h4>}
                         <GameTable games={games} />
                     </div>
                 )}
-                { (paramType ?? "category") == "category" && (
+                { (paramType ?? "category") === "category" && (
                     <div className="row justify-content-center">
                         <div className="col">
                             <Link to="/search/category/all" style={{ textDecoration: 'none' }} title="List all titles">
@@ -169,11 +170,11 @@ const Home: React.FC = () => {
                                 <h3 style={{ textAlign: 'center' }}>Missing</h3>
                             </Link>
                         </div>
-                        {games.length == 0 ? <h4 style={{ textAlign: 'left' }}>No Results.</h4> : <h4 style={{ textAlign: 'left' }}>{games.length} Results</h4>}
+                        {games.length === 0 ? <h4 style={{ textAlign: 'left' }}>No Results.</h4> : <h4 style={{ textAlign: 'left' }}>{games.length} Results</h4>}
                         <GameTable games={games} />
                     </div>
                 )}
-                { paramType == "text" && (
+                { paramType === "text" && (
                     <div className="row">
                         <div className="col-4">
                             <SearchBar keywords={keywords} onKeywordsChange={newKeywords => setKeywords(newKeywords)}/>
