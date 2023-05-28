@@ -540,7 +540,7 @@ class GuiFrame(wx.Frame):
         if dialog.ShowModal() != wx.ID_OK:
             return
         entered_text = dialog.GetValue()
-        print("Entered Text:", entered_text)
+        #print("Entered Text:", entered_text)
         dialog.Destroy()
 
         if not os.path.exists(f"icon_exports/{entered_text}"):
@@ -558,15 +558,33 @@ class GuiFrame(wx.Frame):
         for icon_filename in icon_dict:
             self.export_icon(f"icon_exports/{entered_text}/", icon_filename, icon_dict[icon_filename])
 
+        hx = lambda number: format(number, '02x') # Convert number to hex with no prefix + minimum 2 chars.
+        arr_to_col = lambda arr: '#' + hx(arr[0]) + hx(arr[1]) + hx(arr[2]) # Convert array of 3 numbers to hex color.
+
+        # Must match IconSys.tsx.
         iconsysoutput = {
+            "title": iconsys.get_title_joined("ascii"),
             "normal": iconsys.icon_file_normal,
             "copy": iconsys.icon_file_copy,
             "delete": iconsys.icon_file_delete,
+            "bgOpacity": iconsys.background_transparency,
+            "bgColTL": arr_to_col(iconsys.bg_colors[0]),
+            "bgColTR": arr_to_col(iconsys.bg_colors[1]),
+            "bgColBL": arr_to_col(iconsys.bg_colors[2]),
+            "bgColBR": arr_to_col(iconsys.bg_colors[3]),
+            "light1Dir": SingleLineList(list(iconsys.light_dirs[0])),
+            "light2Dir": SingleLineList(list(iconsys.light_dirs[1])),
+            "light3Dir": SingleLineList(list(iconsys.light_dirs[2])),
+            "light1Col": SingleLineList(list(iconsys.light_colors[0])),
+            "light2Col": SingleLineList(list(iconsys.light_colors[1])),
+            "light3Col": SingleLineList(list(iconsys.light_colors[2])),
+            "ambiLightCol": SingleLineList(list(iconsys.ambient_light_color)),
         }
         with open(f"icon_exports/{entered_text}/iconsys.json", 'w') as file:
-            output = json.dumps(iconsysoutput, indent = 4, separators = (',', ':'))
+            output = json.dumps(iconsysoutput, indent = 4, separators = (',', ':'), cls = CustomJSONEncoder)
+            output = output.replace('"##<', "").replace('>##"', "").replace("'", '"')
             file.write(output)
-        print(f"Wrote iconsys.json")
+        print(f"Wrote icon_exports/{entered_text}/iconsys.json")
 
     def export_icon(self, path, icon_filename, icon):
         full_path_without_extension = f"{path}{icon_filename}"
