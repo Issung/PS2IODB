@@ -8,8 +8,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
-      working-directory: Site
+    - name: List files at root
+      run: ls
+    - name: List files inside Site
+      run: ls
+      working-directory: ./Site
+    - name: Load node version from .nvmrc
+      run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
+      working-directory: ./Site
     - name: Setup Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v3
       with:
@@ -17,7 +23,7 @@ jobs:
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
     - name: Build and Test
-      working-directory: Site
+      working-directory: ./Site
       run: |
         npm ci
         npm run build
