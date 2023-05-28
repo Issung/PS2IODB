@@ -118,8 +118,7 @@ class Icon:
         if length > offset:
             print(f"Warning: Icon file larger than expected. Reached offset {offset} but total length is {length}, difference of {length - offset}.")
 
-        print("_____________________________")
-
+        #print("_____________________________")
 
     def __load_header(self, data, length, offset):
         if length < _icon_header_struct.size:
@@ -131,7 +130,7 @@ class Icon:
          self.header_unknown,
          self.vertex_count) = _icon_header_struct.unpack_from(data, offset)
         
-        print(f"Icon header loaded: {{ animation_shapes: {self.animation_shapes}, texture_type: {self.texture_type}, unknown: {self.header_unknown}, vertex_count: {self.vertex_count} }}.")
+        #print(f"Icon header loaded: {{ animation_shapes: {self.animation_shapes}, texture_type: {self.texture_type}, unknown: {self.header_unknown}, vertex_count: {self.vertex_count} }}.")
 
         if magic != _PS2_ICON_MAGIC:
             raise Corrupt("Invalid magic.")
@@ -200,7 +199,7 @@ class Icon:
          self.anim_header.play_offset,
          self.anim_header.frame_count) = _anim_header_struct.unpack_from(data, offset)
 
-        print(f"Animation header loaded: {self.anim_header}.")
+        #print(f"Animation header loaded: {self.anim_header}.")
 
         offset += _anim_header_struct.size
 
@@ -219,7 +218,7 @@ class Icon:
              frame.unknown_2) = _frame_data_struct.unpack_from(data, offset)
             frame.key_count -= 1;   # Is always 1 too large for some reason.
 
-            print(f"Frame {i}: {frame}.")
+            #print(f"Frame {i}: {frame}.")
 
             offset += _frame_data_struct.size
 
@@ -231,9 +230,8 @@ class Icon:
                 (key.time,
                  key.value) = _frame_key_struct.unpack_from(data, offset)
                 frame.keys.append(key)
-                #printf("")
 
-                print(f"Frame {i} Key {k}: {key}.")
+                #print(f"Frame {i} Key {k}: {key}.")
 
                 offset += _frame_key_struct.size
 

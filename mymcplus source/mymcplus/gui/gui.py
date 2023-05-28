@@ -536,12 +536,63 @@ class GuiFrame(wx.Frame):
 
     # Issung was here
     def evt_cmd_export_obj(self, event):
-        icon = self.icon_win._icon_normal
-        
-        with open("test.obj", 'w') as obj:
+        dialog = wx.TextEntryDialog(self, "Enter name for new folder for icons to be extracted to:", "MYMC++")
+        if dialog.ShowModal() != wx.ID_OK:
+            return
+        entered_text = dialog.GetValue()
+        #print("Entered Text:", entered_text)
+        dialog.Destroy()
+
+        if not os.path.exists(f"icon_exports/{entered_text}"):
+            os.makedirs(f"icon_exports/{entered_text}")
+
+        iconsys = self.icon_win._icon_sys
+
+        # Place names of the icon files into a dictionary, removing duplicates.
+        icon_dict = {
+            iconsys.icon_file_normal: self.icon_win._icon_normal,
+            iconsys.icon_file_copy: self.icon_win._icon_copy,
+            iconsys.icon_file_delete: self.icon_win._icon_delete,
+        }
+
+        for icon_filename in icon_dict:
+            self.export_icon(f"icon_exports/{entered_text}/", icon_filename, icon_dict[icon_filename])
+
+        hx = lambda number: format(number, '02x') # Convert number to hex with no prefix + minimum 2 chars.
+        arr_to_col = lambda arr: '#' + hx(arr[0]) + hx(arr[1]) + hx(arr[2]) # Convert array of 3 numbers to hex color.
+
+        # Must match IconSys.tsx.
+        iconsysoutput = {
+            "title": iconsys.get_title_joined("ascii"),
+            "normal": iconsys.icon_file_normal,
+            "copy": iconsys.icon_file_copy,
+            "delete": iconsys.icon_file_delete,
+            "bgOpacity": iconsys.background_transparency,
+            "bgColTL": arr_to_col(iconsys.bg_colors[0]),
+            "bgColTR": arr_to_col(iconsys.bg_colors[1]),
+            "bgColBL": arr_to_col(iconsys.bg_colors[2]),
+            "bgColBR": arr_to_col(iconsys.bg_colors[3]),
+            "light1Dir": SingleLineList(list(iconsys.light_dirs[0])),
+            "light2Dir": SingleLineList(list(iconsys.light_dirs[1])),
+            "light3Dir": SingleLineList(list(iconsys.light_dirs[2])),
+            "light1Col": SingleLineList(list(iconsys.light_colors[0])),
+            "light2Col": SingleLineList(list(iconsys.light_colors[1])),
+            "light3Col": SingleLineList(list(iconsys.light_colors[2])),
+            "ambiLightCol": SingleLineList(list(iconsys.ambient_light_color)),
+        }
+        with open(f"icon_exports/{entered_text}/iconsys.json", 'w') as file:
+            output = json.dumps(iconsysoutput, indent = 4, separators = (',', ':'), cls = CustomJSONEncoder)
+            output = output.replace('"##<', "").replace('>##"', "").replace("'", '"')
+            file.write(output)
+        print(f"Wrote icon_exports/{entered_text}/iconsys.json")
+
+    def export_icon(self, path, icon_filename, icon):
+        full_path_without_extension = f"{path}{icon_filename}"
+        # Write OBJ
+        with open(f"{full_path_without_extension}.obj", 'w') as obj:
             obj.write("# OBJ file\n")
             # Output 'mtllib' row (which material library to load materials from)
-            obj.write('mtllib test.mtl\n')
+            obj.write(f"mtllib {icon_filename}.mtl\n")
             # Output 'v' rows (vertices positions).
             range_x = abs(min(icon.vertex_data[0::3]) - max(icon.vertex_data[0::3]))
             range_y = abs(min(icon.vertex_data[1::3]) - max(icon.vertex_data[1::3]))
@@ -571,17 +622,16 @@ class GuiFrame(wx.Frame):
                 v2 = face_index * 3 + 2
                 v3 = face_index * 3 + 3
                 obj.write(f"f {v1}/{v1}/{v1} {v2}/{v2}/{v2} {v3}/{v3}/{v3}\n")
+        print(f"Wrote {full_path_without_extension}.obj")
 
-        print("Wrote test.obj")
-
-        with open("test.mtl", 'w') as mtl:
+        # Write MTL
+        with open(f"{full_path_without_extension}.mtl", 'w') as mtl:
             mtl.write("newmtl Texture\n")
-            mtl.write("map_Kd test.png\n")
+            mtl.write(f"map_Kd {icon_filename}.png\n")
+        print(f"Wrote {full_path_without_extension}.mtl")
 
-        print("Wrote test.mtl")    
-
+        # Write PNG
         image = Image.new('RGB', (128, 128), color='black')
-
         step_size = 2
         for i in range(0, len(icon.texture), step_size):
             x = int((i / step_size) % 128)
@@ -593,33 +643,29 @@ class GuiFrame(wx.Frame):
             # For some reason this channel for compressed icons will always be 0b10000000 making blue always max, giving everything a blue tint.
             b = (((col >> 10)) << 3) & 0xFF 
             a = 255
-            #print(f"trying x{x}, y{y}. col: hex:{hex(col)}, a{a}, r{r}, g{g}, b{b}")
-            #if i == (len(icon.texture) - step_size):
-            #    print("this is the last pixel, which should be the top right.")
             image.putpixel((x, y), (r, g, b, a))
+        image.save(f'{full_path_without_extension}.png', 'PNG')
+        print(f"Wrote {full_path_without_extension}.png")
 
-        image.save('test.png', 'PNG')
-
-        print("Wrote test.png")
-
+        # Write ANIM (if required).
         frames = int(len(icon.vertex_data) / icon.vertex_count / 3)
         if icon.anim_header.frame_count <= 1:
             print("Not writing animation file because only 1 frame")
         else:
             anim_data = {
-                "frame_length": icon.anim_header.frame_length,
-                "anim_speed": icon.anim_header.anim_speed,
-                "play_offset": icon.anim_header.play_offset,
+                "frameLength": icon.anim_header.frame_length,
+                "animSpeed": icon.anim_header.anim_speed,
+                "playOffset": icon.anim_header.play_offset,
                 "frames": [],
             }
             for frame_index in range(frames):
-                frame = { "keys" : [], "vertex_data": SingleLineList([]) }
+                frame = { "keys" : [], "vertexData": SingleLineList([]) }
                 v_from = frame_index * (icon.vertex_count * 3)
                 v_to = (frame_index + 1) * (icon.vertex_count * 3)
-                frame["vertex_data"] = SingleLineList(icon.vertex_data[v_from:v_to])
+                frame["vertexData"] = SingleLineList(icon.vertex_data[v_from:v_to])
                 # Normalise all vertex coords so everything isn't too large (0.0 - 1.0) is ideal.
-                for i in range(len(frame["vertex_data"])):
-                    frame["vertex_data"][i] = frame["vertex_data"][i] / range_max
+                for i in range(len(frame["vertexData"])):
+                    frame["vertexData"][i] = frame["vertexData"][i] / range_max
 
                 # Write key data.
                 for key_index in range(icon.frames[frame_index].key_count):
@@ -629,14 +675,11 @@ class GuiFrame(wx.Frame):
                     }))
 
                 anim_data["frames"].append(frame)
-                    
-            with open("test.anim", 'w') as file:
+            with open(f"{full_path_without_extension}.anim", 'w') as file:
                 output = json.dumps(anim_data, indent = 4, separators = (',', ':'), cls = CustomJSONEncoder)
                 output = output.replace('"##<', "").replace('>##"', "").replace("'", '"')
                 file.write(output)
-                
-            print(f"Wrote test.anim ({frames} frames)")
-
+            print(f"Wrote {full_path_without_extension}.anim ({frames} frames)")
 
     def evt_cmd_exit(self, event):
         self.Close(True)

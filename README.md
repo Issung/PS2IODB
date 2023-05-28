@@ -26,9 +26,9 @@ For this we need to be able to extract:
     * We are currently exporting to .obj and .png.
 5. Find a way to publish the tool that is cross-platform and allows people to do it easily.
 6. Find a way to display that data within the browser and make it:
-    * Textured.
+    * ~~Textured.~~
     * ~~Animated.~~
-        * With tweening.
+        * With proper timing/tweening.
     * ~~Rotateable/Zoomable/Pannable~~.
 7. Create guide on how to contribute.
 8. Design website look/layout.
@@ -38,10 +38,29 @@ For this we need to be able to extract:
 # Known Bugs
 * ~~Weird UV mapping issues occuring on Ratchet & Clank + Simpsons Fish.~~
 * Vertex colors are not currently output. May be an issue for things like Okami? Investigate.
-* Currently application can only output the normal icon.
-* Animation output not currently supported (or understood).
+* ~~Currently application can only output the normal icon.~~
+* ~~Animation output not currently supported (or understood).~~
+* Can't drag save files onto interface (improvement).
+* Grid column sorting resets when importing save file.
+* Trying to import a save file (.max, e.g. gran turismo 4) when you have a lot leads to a silent error.
+* Importing large save files leads to a UI freeze with no feedback.
+* Need to figure out the format for iconsys background colors, light colors+directions, and export in iconsys.json.
+* Problematic games:
+  * NBA Street
+  * Ico
+  * Shadow of the Colossus
+  * ESPN NHL Hockey - https://gamefaqs.gamespot.com/ps2/914724-espn-nhl-hockey/saves
+  * Tekken 5 - https://gamefaqs.gamespot.com/ps2/920588-tekken-5/saves
+  * Red Faction - https://gamefaqs.gamespot.com/ps2/367196-red-faction/saves
+  * Sly Cooper - https://gamefaqs.gamespot.com/ps2/561378-sly-cooper-and-the-thievius-raccoonus/saves
+  * Sly 2 - https://gamefaqs.gamespot.com/ps2/919949-sly-2-band-of-thieves/saves
+  * Rayman 2 (Mcd004) - Seems to have slashes in the filenames?
+  * Timesplitters 2 - Exports OK but is white in browser vs blue in mymc preview, it is due to the lighting which is not yet done in the website.
+
 ___
 ### Random Notes
+PS2 Memcard file download here: had like 15 games in it, might be useful to find others: https://www.thetechgame.com/Downloads/id=173604/we-love-katamari-pcsx2-memory-card-save-file.html
+
 PS2 Icon Format v0.5 PDF.
 Trying to get access to the 
 Hi there, on your website there is this page: https://www.ps2savetools.com/documents/ps2-icon-format-v05/

@@ -174,3 +174,7 @@ class IconSys:
         title2 = shift_jis_conv(self._title_sjis[self._title_line_offset:], encoding)
         title1 = shift_jis_conv(self._title_sjis[:self._title_line_offset], encoding)
         return title1, title2
+    
+    def get_title_joined(self, encoding):
+        titles = self.get_title(encoding)
+        return titles[0] + ('' if len(titles[1]) == 0 else (" " + titles[1]))
