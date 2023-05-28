@@ -1,0 +1,20 @@
+name: Site Build/Test
+
+on: ["push"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - run: cd Site
+    - run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
+    - name: Setup Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
