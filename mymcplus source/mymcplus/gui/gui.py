@@ -90,7 +90,7 @@ class GuiFrame(wx.Frame):
     ID_CMD_DELETE = wx.ID_DELETE
     ID_CMD_ASCII = 106
 
-    ID_CMD_EXPORT_OBJ = 107
+    ID_CMD_EXPORT_ICONS = 107
 
     def message_box(self, message, caption = "mymcplus", style = wx.OK,
             x = -1, y = -1):
@@ -135,7 +135,7 @@ class GuiFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.evt_cmd_open, id=self.ID_CMD_OPEN)
         self.Bind(wx.EVT_MENU, self.evt_cmd_import, id=self.ID_CMD_IMPORT)
         self.Bind(wx.EVT_MENU, self.evt_cmd_export, id=self.ID_CMD_EXPORT)
-        self.Bind(wx.EVT_MENU, self.evt_cmd_export_obj, id=self.ID_CMD_EXPORT_OBJ)
+        self.Bind(wx.EVT_MENU, self.evt_cmd_export_icons, id=self.ID_CMD_EXPORT_ICONS)
         self.Bind(wx.EVT_MENU, self.evt_cmd_delete, id=self.ID_CMD_DELETE)
         self.Bind(wx.EVT_MENU, self.evt_cmd_ascii, id=self.ID_CMD_ASCII)
 
@@ -147,7 +147,7 @@ class GuiFrame(wx.Frame):
         self.export_menu_item = filemenu.Append(self.ID_CMD_EXPORT, "&Export...", "Export a save file from this image.")
         self.delete_menu_item = filemenu.Append(self.ID_CMD_DELETE, "&Delete")
         filemenu.AppendSeparator()
-        self.export_fbx_menu_item = filemenu.Append(self.ID_CMD_EXPORT_OBJ, "Export Icon OBJ")
+        self.export_fbx_menu_item = filemenu.Append(self.ID_CMD_EXPORT_ICONS, "Export Icons")
         filemenu.AppendSeparator()
         filemenu.Append(self.ID_CMD_EXIT, "E&xit")
 
@@ -180,7 +180,7 @@ class GuiFrame(wx.Frame):
 
         self.item_context_menu = wx.Menu()
         self.item_context_menu.Append(self.ID_CMD_DELETE, "Delete")
-        self.item_context_menu.Append(self.ID_CMD_EXPORT_OBJ, "Export Icon OBJ")
+        self.item_context_menu.Append(self.ID_CMD_EXPORT_ICONS, "Export Icons")
 
         self.dirlist = DirListControl(splitter_window,
                                       self.evt_dirlist_item_focused,
@@ -534,7 +534,7 @@ class GuiFrame(wx.Frame):
         self.config.set_ascii(not self.config.get_ascii())
         self.refresh()
 
-    def evt_cmd_export_obj(self, event):
+    def evt_cmd_export_icons(self, event):
         dialog = wx.TextEntryDialog(self, "Enter name for new folder for icons to be extracted to:", "MYMC++")
         if dialog.ShowModal() != wx.ID_OK:
             return
@@ -546,13 +546,22 @@ class GuiFrame(wx.Frame):
 
         iconsys = self.icon_win._icon_sys
 
-        # Place names of the icon files into a dictionary, removing duplicates.
-        icon_dict = {
-            iconsys.icon_file_normal: self.icon_win._icon_normal,
-            iconsys.icon_file_copy: self.icon_win._icon_copy,
-            iconsys.icon_file_delete: self.icon_win._icon_delete,
-        }
-        iconexport.export_iconsys(f"icon_exports/{entered_text}/", iconsys, icon_dict)
+        try: 
+            # Place names of the icon files into a dictionary, removing duplicates.
+            icon_dict = {
+                iconsys.icon_file_normal: self.icon_win._icon_normal,
+                iconsys.icon_file_copy: self.icon_win._icon_copy,
+                iconsys.icon_file_delete: self.icon_win._icon_delete,
+            }
+            iconexport.export_iconsys(f"icon_exports/{entered_text}/", iconsys, icon_dict)
+        except Exception as e:
+            dialog = wx.MessageDialog(
+                self, 
+                f"An error occured trying to export icons.\n\n'{str(e)}'\n\nPlease consider opening an issue on GitHub with the memory card file attached.", 
+                "Icon Export Error", 
+                wx.OK | wx.ICON_ERROR)
+            dialog.ShowModal()
+            dialog.Destroy()
 
     def evt_cmd_exit(self, event):
         self.Close(True)
