@@ -35,6 +35,7 @@ from .. import ps2mc, ps2iconsys
 from ..save import ps2save
 from .icon_window import IconWindow
 from .dirlist_control import DirListControl
+from .savefiledroptarget import SaveFileDropTarget
 from . import utils
 from PIL import Image
 
@@ -123,6 +124,8 @@ class GuiFrame(wx.Frame):
 
         size = (800, 400)
         wx.Frame.__init__(self, parent, wx.ID_ANY, title, size = size)
+        drop_target = SaveFileDropTarget(self, self.evt_cmd_dragdrop)
+        self.SetDropTarget(drop_target)
 
         self.Bind(wx.EVT_CLOSE, self.evt_close)
 
@@ -569,6 +572,19 @@ class GuiFrame(wx.Frame):
     def evt_close(self, event):
         self._close_mc()
         self.Destroy()
+
+    def evt_cmd_dragdrop(self, path):
+        extension = os.path.splitext(path)[1]
+        filename = str.split(path, '/')
+        if (extension == ".ps2"):
+            confirm_dialog = wx.MessageDialog(self, f"Do you want to close this memory card and open {filename}?", "MYMC++", wx.YES_NO | wx.ICON_QUESTION)
+            confirm = confirm_dialog.ShowModal()
+            confirm_dialog.Destroy()
+            if (confirm == wx.ID_YES):
+                self.open_mc(path)
+        else:
+            self._do_import(path)
+        self.refresh()
 
 def run(filename = None):
     """Display a GUI for working with memory card images."""
