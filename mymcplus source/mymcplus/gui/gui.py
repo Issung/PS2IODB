@@ -124,8 +124,8 @@ class GuiFrame(wx.Frame):
 
         size = (800, 400)
         wx.Frame.__init__(self, parent, wx.ID_ANY, title, size = size)
-        drop_target = SaveFileDropTarget(self, self.evt_cmd_dragdrop)
-        self.SetDropTarget(drop_target)
+        file_drop_target = SaveFileDropTarget(self, self.evt_cmd_dragdrop)
+        self.SetDropTarget(file_drop_target)
 
         self.Bind(wx.EVT_CLOSE, self.evt_close)
 
