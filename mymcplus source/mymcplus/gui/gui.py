@@ -575,9 +575,8 @@ class GuiFrame(wx.Frame):
 
     def evt_cmd_dragdrop(self, path):
         extension = os.path.splitext(path)[1]
-        filename = str.split(path, '/')
         if (extension == ".ps2"):
-            confirm_dialog = wx.MessageDialog(self, f"Do you want to close this memory card and open {filename}?", "MYMC++", wx.YES_NO | wx.ICON_QUESTION)
+            confirm_dialog = wx.MessageDialog(self, f"Do you want to close this memory card and open '{path}'?", "MYMC++", wx.YES_NO | wx.ICON_QUESTION)
             confirm = confirm_dialog.ShowModal()
             confirm_dialog.Destroy()
             if (confirm == wx.ID_YES):
