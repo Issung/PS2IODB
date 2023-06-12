@@ -457,7 +457,7 @@ class GuiFrame(wx.Frame):
         filename = str.split(path, '\\')[-1]
         busy_info_flags = wx.BusyInfoFlags()
         busy_info_flags.Parent(self)
-        busy_info_flags.Text(f"Importing {filename}...")
+        busy_info_flags.Text(f"Importing {filename}... This can take a while for larger saves.")
         busy_info = wx.BusyInfo(busy_info_flags)
         try:
             format = ps2save.poll_format(file_stream)

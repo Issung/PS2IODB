@@ -25,7 +25,6 @@ class SaveFileDropTarget(wx.FileDropTarget):
         invalid_extensions = []
         for filename in filenames:
             # Process each dropped file
-            print(f"File dropped: {filename}")
             extension = self.get_extension(filename)
             if (extension not in self.FILE_EXTENSIONS):
                 invalid_extensions.append(extension)
