@@ -451,22 +451,28 @@ class GuiFrame(wx.Frame):
                      % count)
 
 
-    def _do_import(self, fn):
+    def _do_import(self, path):
         sf = ps2save.PS2SaveFile()
-        f = open(fn, "rb")
+        file_stream = open(path, "rb")
+        filename = str.split(path, '\\')[-1]
+        busy_info_flags = wx.BusyInfoFlags()
+        busy_info_flags.Parent(self)
+        busy_info_flags.Text(f"Importing {filename}...")
+        busy_info = wx.BusyInfo(busy_info_flags)
         try:
-            format = ps2save.poll_format(f)
-            f.seek(0)
+            format = ps2save.poll_format(file_stream)
+            file_stream.seek(0)
             if format is not None:
-                format.load(sf, f)
+                format.load(sf, file_stream)
+                if not self.mc.import_save_file(sf, True):
+                    del busy_info
+                    self.error_box(path + ": Save file already present.")
             else:
-                self.error_box(fn + ": Save file format not recognized.")
+                self.error_box(path + ": Save file format not recognized.")
                 return
         finally:
-            f.close()
-
-        if not self.mc.import_save_file(sf, True):
-            self.error_box(fn + ": Save file already present.")
+            file_stream.close()
+            del busy_info
 
     def evt_cmd_import(self, event):
         if self.mc == None:
