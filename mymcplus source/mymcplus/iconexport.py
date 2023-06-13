@@ -5,6 +5,7 @@ import json
 from PIL import Image
 
 def export_iconsys(path, iconsys, icon_dict):
+    """Export iconsys.json and all other assets."""
     for icon_filename in icon_dict:
         export_variant(path, icon_filename, icon_dict[icon_filename])
 
@@ -37,6 +38,7 @@ def export_iconsys(path, iconsys, icon_dict):
     print(f"Wrote {path}/iconsys.json")
 
 def export_variant(path, icon_filename, icon):
+    """Export all assets for an icon variant: obj, texture & anim."""
     full_path_without_extension = f"{path}{icon_filename}"
     # Write OBJ
     with open(f"{full_path_without_extension}.obj", 'w') as obj:
@@ -52,7 +54,11 @@ def export_variant(path, icon_filename, icon):
             vertex_x = -icon.vertex_data[vertex_index * 3] / range_max
             vertex_y = -icon.vertex_data[vertex_index * 3 + 1] / range_max
             vertex_z = icon.vertex_data[vertex_index * 3 + 2] / range_max
-            obj.write(f"v {vertex_x:.6f} {vertex_y:.6f} {vertex_z:.6f}\n")
+            vertex_r = icon.color_data[vertex_index * 4 + 0] / 255  # Colors are stored as 8 bit ints in RGBA, must store them as a float so divide by max number of 8 bits.
+            vertex_g = icon.color_data[vertex_index * 4 + 1] / 255
+            vertex_b = icon.color_data[vertex_index * 4 + 2] / 255
+            vertex_a = icon.color_data[vertex_index * 4 + 3] / 255
+            obj.write(f"v {vertex_x:.6f} {vertex_y:.6f} {vertex_z:.6f} {vertex_r:.6f} {vertex_g:.6f} {vertex_b:.6f} #{vertex_a:.6f}\n")
         # Output 'vt' rows (UV mappings)
         for uv_index in range(icon.vertex_count):
             u = round(icon.uv_data[uv_index * 2] / 4096, 6)   # Divide by 4096 because that's supposedly the max u/v value?
@@ -161,6 +167,10 @@ class SingleLineList:
         self.list[key] = value
 
 class CustomJSONEncoder(json.JSONEncoder):
+    """
+        JSON Encoder that adds special wrapping characters for SingleLineObject/List.
+        Remember to string replace the special sequences with empty strings.
+    """
     def default(self, item):
         if isinstance(item, SingleLineObject):
             return "##<{}>##".format(item.object)
