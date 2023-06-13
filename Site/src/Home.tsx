@@ -100,9 +100,9 @@ const Home: React.FC = () => {
                     </div>
                 </div>
                 <div className="row justify-content-center">
-                    <Link className="col-6 col-md-2 btn btn-primary" to="test1">GitHub</Link>
-                    <Link className="col-6 col-md-2 btn btn-primary" to="test2">How to Contribute</Link>
-                    <Link className="col-6 col-md-2 btn btn-primary" to="test3">Donate</Link>
+                    <Link className="col-6 col-md-2 btn btn-primary" to="/faq">FAQ</Link>
+                    <Link className="col-6 col-md-2 btn btn-primary" to="/contribute">How to Contribute</Link>
+                    <Link className="col-6 col-md-2 btn btn-primary" to="https://github.com/Issung/PS2SaveIconResearch">GitHub</Link>
                 </div>
             </div>
             {/* TODO: Turn this entire alphabetial/category select into a component. */}
@@ -147,7 +147,7 @@ const Home: React.FC = () => {
                         </div>
                         <div className="col">
                             <Link to="/search/category/icons" style={{ textDecoration: 'none' }} title="Titles that have icons uploaded">
-                                <h3 style={{ textAlign: 'center' }}>Has Icons</h3>
+                                <h3 style={{ textAlign: 'center' }}>Uploaded</h3>
                             </Link>
                         </div>
                         <div className="col">
