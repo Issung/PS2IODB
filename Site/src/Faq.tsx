@@ -7,7 +7,7 @@ const Faq: React.FC = () => {
                 <div className="row">
                     <div className="col">
                         <h1>PS2 Icon Open Database</h1>
-                        <h3>Frequently Asked Questions</h3>
+                        <h2>Frequently Asked Questions</h2>
                     </div>
                     <hr/>
                     <h4>What is this website?</h4>
