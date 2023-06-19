@@ -6,6 +6,7 @@ const Faq: React.FC = () => {
             <div className="container-fluid" style={{ height: "100vh", maxHeight: 800 }}>
                 <div className="row">
                     <div className="col">
+                        <Link to="/">← Home</Link>
                         <h1>PS2 Icon Open Database</h1>
                         <h2>Frequently Asked Questions</h2>
                     </div>
@@ -18,7 +19,7 @@ const Faq: React.FC = () => {
 
                     <h4>Is website official?</h4>
                     <p>
-                        No, this website is fan-made and contributions/uploads are made by fans.
+                        No, this website is fan-made. Contributions & uploads are made by fans.
                     </p>
 
                     <h4>How do I use this website?</h4>
@@ -49,8 +50,10 @@ const Faq: React.FC = () => {
                             </p>
                         </li>
                     </ol>
-                    <p>Once you have found the title you wish to view, if it has been uploaded you may click it to go to the interactive 3D model viewer.</p>
-                    <p>If the title you wish to view has not been uploaded you can contribute it yourself! </p>
+                    <p>
+                        Once you have found the title you wish to view, if it has been uploaded you may click it to go to the interactive 3D model viewer.<br/>
+                        If the title you wish to view has not been uploaded you can contribute it yourself!
+                    </p>
 
                     <h4>How can I help/contribute?</h4>
                     <p>
@@ -61,7 +64,7 @@ const Faq: React.FC = () => {
                     <h4>Who can I contact for more info?</h4>
                     <p>If your inquiry relates to a problem consider creating a GitHub issue, else e-mail the site founder Issun for <a href="mailto: issun@sonofgoran.com">issun@sonofgoran.com</a> for all other inqueries.</p>
 
-                    <h4>How can I issue a takedown request?</h4>
+                    <h4>How can I issue a takedown request / DMCA?</h4>
                     <p>Send an email to <a href="mailto: issun@sonofgoran.com">issun@sonofgoran.com</a> detailing your request.</p>
                 </div>
             </div>
