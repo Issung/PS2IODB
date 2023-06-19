@@ -1357,7 +1357,7 @@ export const GameList: Game[] = [
     new Game(`Guilty Gear Isuka`),
     new Game(`Guilty Gear X`),
     new Game(`Guilty Gear X Plus`),
-    new Game(`Guilty Gear X2`),
+    new Game(`Guilty Gear X2`, `guiltygearx2`),
     new Game(`Guilty Gear X2 #Reload`),
     new Game(`Guilty Gear XX: Accent Core`),
     new Game(`Guilty Gear XX: Accent Core Plus`),
