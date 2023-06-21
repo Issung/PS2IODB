@@ -17,6 +17,7 @@
 
 """Manipulate PS2 memory card images."""
 
+from io import BufferedRandom
 import sys
 import array
 import struct
@@ -606,7 +607,17 @@ class ps2mc(object):
              - self.allocatable_cluster_offset)
         self.allocatable_cluster_limit = limit
 
-    def __init__(self, f, ignore_ecc = False, params = None):
+    def __init__(
+            self, 
+            stream: BufferedRandom, 
+            ignore_ecc: bool = False, 
+            format_params: tuple = None):
+        """
+            Constructor.\n
+            :param stream: Memory card file stream.
+            :param ignore_ecc: Ignore Error Correcting Code.
+            :param format_params: Parameters for formatting new cards.
+        """
         self.open_files = {}
         self.fat_cache = lru_cache(12)
         self.alloc_cluster_cache = lru_cache(64)
@@ -614,16 +625,16 @@ class ps2mc(object):
         self.f = None
         self.rootdir = None
         
-        f.seek(0)
-        s = f.read(0x154)
-        if len(s) != 0x154 or not s.startswith(PS2MC_MAGIC):
-            if (params == None):
-                raise corrupt("Not a PS2 memory card image",
-                        f)
-            self.f = f
-            self.format(params)
+        stream.seek(0)
+        super_bytes = stream.read(0x154)
+
+        if len(super_bytes) != 0x154 or not super_bytes.startswith(PS2MC_MAGIC):
+            if (format_params == None):
+                raise corrupt("Not a PS2 memory card image", stream)
+            self.f = stream
+            self.format(format_params)
         else:
-            sb = unpack_superblock(s)
+            sb = unpack_superblock(super_bytes)
             self.version = sb[1]
             self.page_size = sb[2]
             self.pages_per_cluster = sb[3]
@@ -639,7 +650,7 @@ class ps2mc(object):
 
             self._calculate_derived()
 
-            self.f = f
+            self.f = stream
             self.ignore_ecc = False
 
             try:
@@ -696,8 +707,10 @@ class ps2mc(object):
     def format(self, params):
         """Create (format) a new memory card image."""
         
-        (with_ecc, page_size,
-         pages_per_erase_block, param_pages_per_card) = params
+        (with_ecc, 
+         page_size,
+         pages_per_erase_block, 
+         param_pages_per_card) = params
 
         if pages_per_erase_block < 1:
             raise error("invalid pages per erase block (%d)"
@@ -1614,6 +1627,7 @@ class ps2mc(object):
         """Recursively delete a directory."""
         
         (dirloc, ent, is_dir) = self.path_search(dirname)
+
         if dirloc == None:
             raise path_not_found(dirname)
         if ent == None:
@@ -1626,6 +1640,7 @@ class ps2mc(object):
 
         if dirname != "" and dirname[-1] != "/":
             dirname += "/"
+
         self._remove_dir(dirloc, ent, dirname)
 
     def get_free_space(self):

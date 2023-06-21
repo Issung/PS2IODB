@@ -85,6 +85,7 @@ class GuiFrame(wx.Frame):
     """The main top level window."""
 
     ID_CMD_EXIT = wx.ID_EXIT
+    ID_CMD_NEW = wx.ID_NEW
     ID_CMD_OPEN = wx.ID_OPEN
     ID_CMD_EXPORT = 103
     ID_CMD_IMPORT = 104
@@ -135,6 +136,7 @@ class GuiFrame(wx.Frame):
         self.SetIcon(wx.Icon(utils.get_png_resource_bmp("icon.png")))
 
         self.Bind(wx.EVT_MENU, self.evt_cmd_exit, id=self.ID_CMD_EXIT)
+        self.Bind(wx.EVT_MENU, self.evt_cmd_new, id=self.ID_CMD_NEW)
         self.Bind(wx.EVT_MENU, self.evt_cmd_open, id=self.ID_CMD_OPEN)
         self.Bind(wx.EVT_MENU, self.evt_cmd_import, id=self.ID_CMD_IMPORT)
         self.Bind(wx.EVT_MENU, self.evt_cmd_export, id=self.ID_CMD_EXPORT)
@@ -142,15 +144,15 @@ class GuiFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.evt_cmd_delete, id=self.ID_CMD_DELETE)
         self.Bind(wx.EVT_MENU, self.evt_cmd_ascii, id=self.ID_CMD_ASCII)
 
-
         filemenu = wx.Menu()
+        filemenu.Append(self.ID_CMD_NEW, "&New...", "Create a new PS2 memory card image.")
         filemenu.Append(self.ID_CMD_OPEN, "&Open...", "Opens an existing PS2 memory card image.")
         filemenu.AppendSeparator()
         self.import_menu_item = filemenu.Append(self.ID_CMD_IMPORT, "&Import...", "Import a save file into this image.")
         self.export_menu_item = filemenu.Append(self.ID_CMD_EXPORT, "&Export...", "Export a save file from this image.")
-        self.delete_menu_item = filemenu.Append(self.ID_CMD_DELETE, "&Delete")
+        self.delete_menu_item = filemenu.Append(self.ID_CMD_DELETE, "&Delete", "Delete selected save files from this image.")
         filemenu.AppendSeparator()
-        self.export_fbx_menu_item = filemenu.Append(self.ID_CMD_EXPORT_ICONS, "Export Icons")
+        self.export_icon_assets_menu_item = filemenu.Append(self.ID_CMD_EXPORT_ICONS, "Export Icon Assets", "Export all icon assets for the selected save file.")
         filemenu.AppendSeparator()
         filemenu.Append(self.ID_CMD_EXIT, "E&xit")
 
@@ -183,7 +185,7 @@ class GuiFrame(wx.Frame):
 
         self.item_context_menu = wx.Menu()
         self.item_context_menu.Append(self.ID_CMD_DELETE, "Delete")
-        self.item_context_menu.Append(self.ID_CMD_EXPORT_ICONS, "Export Icons")
+        self.item_context_menu.Append(self.ID_CMD_EXPORT_ICONS, "Export Icon Assets")
 
         self.dirlist = DirListControl(splitter_window,
                                       self.evt_dirlist_item_focused,
@@ -240,8 +242,10 @@ class GuiFrame(wx.Frame):
 
         self.Show(True)
 
-        if self.mc == None:
-            self.evt_cmd_open()
+        # It is possible for the gui to be opened with a memory card pre-selected via the command line.
+        # If no memory card is pre-selected then open the file select window right now.
+        #if self.mc == None:
+        #   self.evt_cmd_open()
 
     def _close_mc(self):
         if self.mc != None:
@@ -308,6 +312,7 @@ class GuiFrame(wx.Frame):
         selected = self.mc is not None and len(self.dirlist.selected) > 0
         self.export_menu_item.Enable(selected)
         self.delete_menu_item.Enable(selected)
+        self.export_icon_assets_menu_item.Enable(selected)
         self.ascii_menu_item.Check(self.config.get_ascii())
         if self.icon_win is not None:
             self.icon_win.update_menu(self.icon_menu)
@@ -365,6 +370,20 @@ class GuiFrame(wx.Frame):
 
     def evt_dirlist_rightclick(self, event):
         self.PopupMenu(self.item_context_menu)
+
+    def evt_cmd_new(self, event = None):
+        """Create new memory card UI event"""
+        # TODO: Confirm with user if they want to make a new memory card if they already have one open.
+        # TODO: Let user chose location and name of new memory card with file dialog.
+        file = open('test.ps2', "x+b")
+        # TODO: I hate this tuple shit, let's make a class to hold these params and replace existing usages.
+        params = (True,
+          ps2mc.PS2MC_STANDARD_PAGE_SIZE,
+          ps2mc.PS2MC_STANDARD_PAGES_PER_ERASE_BLOCK,
+          ps2mc.PS2MC_STANDARD_PAGES_PER_CARD)
+        newcard = ps2mc.ps2mc(file, False, params)
+        newcard.close()
+        self.open_mc('test.ps2')
 
     def evt_cmd_open(self, event = None):
         fn = wx.FileSelector("Open Memory Card Image",
@@ -514,8 +533,8 @@ class GuiFrame(wx.Frame):
         selected = self.dirlist.selected
         dirtable = self.dirlist.dirtable
 
-        dirnames = [dirtable[i].dirent[8].decode("ascii")
-                for i in selected]
+        dirnames = [dirtable[i].dirent[8].decode("ascii") for i in selected]
+
         if len(selected) == 1:
             title = dirtable[list(selected)[0]].title
             s = dirnames[0] + " (" + utils.single_title(title) + ")"
@@ -523,10 +542,9 @@ class GuiFrame(wx.Frame):
             s = ", ".join(dirnames)
             if len(s) > 200:
                 s = s[:200] + "..."
-        r = self.message_box("Are you sure you want to delete "
-                     + s + "?",
-                     "Delete Save File Confirmation",
-                     wx.YES_NO)
+
+        r = self.message_box(f"Are you sure you want to delete {s}?", "Delete Save File Confirmation", wx.YES_NO)
+
         if r != wx.YES:
             return
 
@@ -581,14 +599,24 @@ class GuiFrame(wx.Frame):
 
     def evt_cmd_dragdrop(self, path):
         extension = os.path.splitext(path)[1]
-        if (extension == ".ps2"):
-            confirm_dialog = wx.MessageDialog(self, f"Do you want to close this memory card and open '{path}'?", "MYMC++", wx.YES_NO | wx.ICON_QUESTION)
-            confirm = confirm_dialog.ShowModal()
-            confirm_dialog.Destroy()
-            if (confirm == wx.ID_YES):
+        if extension == ".ps2":
+            if self.mc == None:
+                # If no memorycard open currently just open the dragged one immediately.
                 self.open_mc(path)
+            else:
+                # If there is a memory card currently open confirm the action before loading.
+                confirm_dialog = wx.MessageDialog(self, f"Do you want to close this memory card and open '{path}'?", "MYMC++", wx.YES_NO | wx.ICON_QUESTION)
+                confirm = confirm_dialog.ShowModal()
+                confirm_dialog.Destroy()
+                if (confirm == wx.ID_YES):
+                    self.open_mc(path)
         else:
-            self._do_import(path)
+            if self.mc == None:
+                dialog = wx.MessageDialog(self.window,  f"A memory card must be open before importing saves.", "Save Import Error", wx.OK | wx.ICON_ERROR | wx.STAY_ON_TOP)
+                dialog.ShowModal()
+                dialog.Destroy()
+            else:
+                self._do_import(path)
         self.refresh()
 
 def run(filename = None):
