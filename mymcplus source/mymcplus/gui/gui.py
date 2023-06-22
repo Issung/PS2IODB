@@ -382,14 +382,13 @@ class GuiFrame(wx.Frame):
         # If not cancelled (not an empty string)
         if path.strip():
             stream = open(path, "x+b")
-
-            # TODO: I hate this tuple shit, let's make a class to hold these params and replace existing usages.
-            params = (True,
+            params = ps2mc.ps2mc_format_params(True,
                 ps2mc.PS2MC_STANDARD_PAGE_SIZE,
                 ps2mc.PS2MC_STANDARD_PAGES_PER_ERASE_BLOCK,
                 ps2mc.PS2MC_STANDARD_PAGES_PER_CARD)
             newcard = ps2mc.ps2mc(stream, False, params)
             newcard.close()
+            stream.close()
 
             self.open_mc(path)
 

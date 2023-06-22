@@ -584,6 +584,19 @@ class _root_directory(ps2mc_directory):
 
     def real_close(self):
         ps2mc_directory.close(self)
+
+class ps2mc_format_params:
+    def __init__(
+            self, 
+            error_correction_code: bool,
+            page_size: int,
+            pages_per_erase_block: int,
+            pages_per_card: int) -> None:
+        self.error_correction_code = error_correction_code
+        """Use error correction code (encoding data so that random bit errors can be detected and fixed)."""
+        self.page_size = page_size
+        self.pages_per_erase_block = pages_per_erase_block
+        self.pages_per_card = pages_per_card
         
 class ps2mc(object):
     """A PlayStation 2 memory card filesystem implementation.
@@ -611,7 +624,7 @@ class ps2mc(object):
             self, 
             stream: BufferedRandom, 
             ignore_ecc: bool = False, 
-            format_params: tuple = None):
+            format_params: ps2mc_format_params = None):
         """
             Constructor.\n
             :param stream: Memory card file stream.
@@ -629,8 +642,10 @@ class ps2mc(object):
         super_bytes = stream.read(0x154)
 
         if len(super_bytes) != 0x154 or not super_bytes.startswith(PS2MC_MAGIC):
+            # If no format params given (not expecting new creation) then error.
             if (format_params == None):
                 raise corrupt("Not a PS2 memory card image", stream)
+            # Else format a new card.
             self.f = stream
             self.format(format_params)
         else:
@@ -704,31 +719,24 @@ class ps2mc(object):
         self.modified = False
         return
         
-    def format(self, params):
+    def format(self, params: ps2mc_format_params):
         """Create (format) a new memory card image."""
-        
-        (with_ecc, 
-         page_size,
-         pages_per_erase_block, 
-         param_pages_per_card) = params
 
-        if pages_per_erase_block < 1:
-            raise error("invalid pages per erase block (%d)"
-                      % page_size)
+        if params.pages_per_erase_block < 1:
+            raise error("invalid pages per erase block (%d)" % params.page_size)
             
-        pages_per_card = round_down(param_pages_per_card,
-                        pages_per_erase_block)
+        pages_per_card = round_down(params.pages_per_card, params.pages_per_erase_block)
         cluster_size = PS2MC_CLUSTER_SIZE
-        pages_per_cluster = cluster_size // page_size
-        clusters_per_erase_block = pages_per_erase_block // pages_per_cluster
-        erase_blocks_per_card = pages_per_card // pages_per_erase_block
+        pages_per_cluster = cluster_size // params.page_size
+        clusters_per_erase_block = params.pages_per_erase_block // pages_per_cluster
+        erase_blocks_per_card = pages_per_card // params.pages_per_erase_block
         clusters_per_card = pages_per_card // pages_per_cluster
         epc = cluster_size // 4
 
-        if (page_size < PS2MC_DIRENT_LENGTH
+        if (params.page_size < PS2MC_DIRENT_LENGTH
             or pages_per_cluster < 1
-            or pages_per_cluster * page_size != cluster_size):
-            raise error("invalid page size (%d)" % page_size)
+            or pages_per_cluster * params.page_size != cluster_size):
+            raise error("invalid page size (%d)" % params.page_size)
         
         good_block1 = erase_blocks_per_card - 1
         good_block2 = erase_blocks_per_card - 2
@@ -759,9 +767,9 @@ class ps2mc(object):
             ifc_list[i] = first_ifc + i
 
         self.version = b"1.2.0.0"
-        self.page_size = page_size
+        self.page_size = params.page_size
         self.pages_per_cluster = pages_per_cluster
-        self.pages_per_erase_block = pages_per_erase_block
+        self.pages_per_erase_block = params.pages_per_erase_block
         self.clusters_per_card = clusters_per_card
         self.allocatable_cluster_offset = allocatable_cluster_offset
         self.allocatable_cluster_end = allocatable_clusters
@@ -774,9 +782,9 @@ class ps2mc(object):
         
         self._calculate_derived()
 
-        self.ignore_ecc = not with_ecc
-        erased = b"\0" * page_size
-        if not with_ecc:
+        self.ignore_ecc = not params.error_correction_code
+        erased = b"\0" * params.page_size
+        if not params.error_correction_code:
             self.spare_size = 0
         else:
             ecc = b"".join([bytes(s) for s in ecc_calculate_page(erased)])
