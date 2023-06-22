@@ -373,17 +373,25 @@ class GuiFrame(wx.Frame):
 
     def evt_cmd_new(self, event = None):
         """Create new memory card UI event"""
-        # TODO: Confirm with user if they want to make a new memory card if they already have one open.
-        # TODO: Let user chose location and name of new memory card with file dialog.
-        file = open('test.ps2', "x+b")
-        # TODO: I hate this tuple shit, let's make a class to hold these params and replace existing usages.
-        params = (True,
-          ps2mc.PS2MC_STANDARD_PAGE_SIZE,
-          ps2mc.PS2MC_STANDARD_PAGES_PER_ERASE_BLOCK,
-          ps2mc.PS2MC_STANDARD_PAGES_PER_CARD)
-        newcard = ps2mc.ps2mc(file, False, params)
-        newcard.close()
-        self.open_mc('test.ps2')
+        path = wx.FileSelector("Choose location for new memory card file",
+                     self.config.get_memcard_dir(""),
+                     "NewCard.ps2", "ps2", "*.ps2",
+                     wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT,
+                     self)
+        
+        # If not cancelled (not an empty string)
+        if path.strip():
+            stream = open(path, "x+b")
+
+            # TODO: I hate this tuple shit, let's make a class to hold these params and replace existing usages.
+            params = (True,
+                ps2mc.PS2MC_STANDARD_PAGE_SIZE,
+                ps2mc.PS2MC_STANDARD_PAGES_PER_ERASE_BLOCK,
+                ps2mc.PS2MC_STANDARD_PAGES_PER_CARD)
+            newcard = ps2mc.ps2mc(stream, False, params)
+            newcard.close()
+
+            self.open_mc(path)
 
     def evt_cmd_open(self, event = None):
         fn = wx.FileSelector("Open Memory Card Image",
