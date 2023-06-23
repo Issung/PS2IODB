@@ -242,11 +242,6 @@ class GuiFrame(wx.Frame):
 
         self.Show(True)
 
-        # It is possible for the gui to be opened with a memory card pre-selected via the command line.
-        # If no memory card is pre-selected then open the file select window right now.
-        #if self.mc == None:
-        #   self.evt_cmd_open()
-
     def _close_mc(self):
         if self.mc != None:
             try:
