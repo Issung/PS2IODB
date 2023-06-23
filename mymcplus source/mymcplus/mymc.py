@@ -426,7 +426,7 @@ def do_format(cmd, mcname, opts, args, opterr):
     if opts.clusters != None:
         pages_per_cluster = (ps2mc.PS2MC_CLUSTER_SIZE // ps2mc.PS2MC_STANDARD_PAGE_SIZE)
         pages_per_card = opts.clusters * pages_per_cluster
-    params = (not opts.no_ecc,
+    format_params = ps2mc.ps2mc_format_params(not opts.no_ecc,
           ps2mc.PS2MC_STANDARD_PAGE_SIZE,
           ps2mc.PS2MC_STANDARD_PAGES_PER_ERASE_BLOCK,
           pages_per_card)
@@ -442,7 +442,7 @@ def do_format(cmd, mcname, opts, args, opterr):
 
     f = open(mcname, "w+b")
     try:
-        ps2mc.ps2mc(f, True, params).close()
+        ps2mc.ps2mc(f, True, format_params).close()
     finally:
         f.close()
 
@@ -581,7 +581,7 @@ cmd_table = {
            []),
     "set": (do_setmode, "r+b",
         "filename ...",
-        "Set mode flags on files and directories",
+        "Set mode flags on files and directories.",
         [opt("-p", "--protected", action="store_true",
              help = "Set copy protected flag"),
          opt("-P", "--psx", action="store_true",
@@ -600,7 +600,7 @@ cmd_table = {
              help = 'Set mode to "mode".')]),
     "clear": (do_setmode, "r+b",
         "filename ...",
-        "Clear mode flags on files and directories",
+        "Clear mode flags on files and directories.",
         [opt("-p", "--protected", action="store_false",
              help = "Clear copy protected flag"),
          opt("-P", "--psx", action="store_false",
@@ -632,13 +632,16 @@ cmd_table = {
           []),
     "format": (do_format, None,
            "",
-           "Creates a new memory card image.",
+           "Format/create a memory card image.",
            [opt("-c", "--clusters", type="int",
             help = "Size in clusters of the memory card."),
             opt("-f", "--overwrite-existing", action="store_true",
             help = "Overwrite any existing file"),
             opt("-e", "--no-ecc", action="store_true",
             help = "Create an image without ECC")]),
+    "create": (None, None, 
+            "", 
+            "To create a new memory card use the 'format' command."),
     "gui": (do_gui, None,
         "",
         "Starts the graphical user interface.",
