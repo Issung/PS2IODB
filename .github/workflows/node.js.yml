@@ -12,9 +12,9 @@ jobs:
       run: ls -a
     - name: List files inside Site
       run: ls -a
-      working-directory: ./Site
+      working-directory: ./website
     - name: Load node version from .nvmrc
-      run: echo "NODE_VERSION=$(cat ./Site/.nvmrc)" >> $GITHUB_ENV
+      run: echo "NODE_VERSION=$(cat ./website/.nvmrc)" >> $GITHUB_ENV
     - name: Setup Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v3
       with:
@@ -22,7 +22,7 @@ jobs:
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
     - name: Build and Test
-      working-directory: ./Site
+      working-directory: ./website
       run: |
         npm ci
         npm run build
