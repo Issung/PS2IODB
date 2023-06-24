@@ -9,6 +9,10 @@ VSCode is a good IDE for this project, many extensions may help you but recommen
 
 With your terminal in the `/website`, you can these commands:
 
+### `npm install`
+You will need to run this first before running anything else.\
+This command installs all dependencies of the website, listed in `package.json`, without these dependencies the website cannot work.
+
 ### `npm start`
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
