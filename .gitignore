@@ -351,5 +351,5 @@ MigrationBackup/
 test.png
 test.mtl
 test.anim
-Site/build
-Site/public/icons
+website/build
+website/public/icons
