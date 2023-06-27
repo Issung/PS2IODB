@@ -1,78 +1,18 @@
-# PS2SaveIconResearch
-Research on PS2 save icon formats and model display.
-The end goal of this research is to:
-* Create a tool that allows people to easily view and extract the icons.
-* Create an archive of all PS2 icon models that can be viewed within the browser.
+# PlayStation 2 Icon Open Database <img align="right" width="70" height="90" src="https://upload.wikimedia.org/wikipedia/commons/d/d2/PS2_Memory_Card.png">
 
-For this we need to be able to extract:
-* The model geometry.
-* Animation data.
-* Texture data.
+Welcome to the official repository for PS2IODB, or more fully, the PlayStation 2 Icon Open Database, this project has 2 goals: 
+1. Provide a tool for people to easily extract PS2 save game icon assets. 
+2. Provide a website for the community to contribute icon assets to, in order to fully archive all assets.
 
-# TODO List:
-1. ~~Make a way to view different icon modes (normal, copy, delete).~~
-    * Send all 3 to the icon_window and added context menu radio items to select the type.
-2. Fix errors relating to 'too small' in mymcplus that don't occur in original mymc.
-    * ~~Load issue was occuring for Frequency & FF10, they had texture type '6'.~~
-      This was fixed by changing __load_texture to do the uncompressed branch for value 6 as well as 7.
-    * ~~Jak and Daxter is now having a problem with 'Data length is smaller than expected vertex data size'.~~
-    * ~~Katamari Damaci is causing an error when being imported: 'struct.error: required argument is not an integer'.~~
-    * ~~Ico is also having issues sporting a texture_type of 3. 'Data length is smaller than expected compressed texture header size.'.~~
-    * A bunch of issues seem to be happening from ovewritten files from things like Gameshark, it seems Gameshark don't write theirs correctly.
-3. Understand/document the icon visual data format.
-    * Understanding is now much greater, after converting c++ code to python in gui.py. Need to refactor and write down some documentation somewhere. 
-    * Maybe make a pattern for ImHex?
-4. ~~Find a way to extract that data to a format that can contain it (likely .FBX).~~
-    * We are currently exporting to .obj and .png.
-5. Find a way to publish the tool that is cross-platform and allows people to do it easily.
-6. Find a way to display that data within the browser and make it:
-    * ~~Textured.~~
-    * ~~Animated.~~
-        * With proper timing/tweening.
-    * ~~Rotateable/Zoomable/Pannable~~.
-7. Create guide on how to contribute.
-8. Design website look/layout.
-9. Create the website.
-10. Generate publicity so the community can help build the archive.
+## Icon Extraction Tool
+The first goal is attained by mymc++, a CLI/GUI Python tool that allows for manipulation of memory cards, importing and exporting saves, and extracting icon assets.
 
-# Known Bugs
-* ~~Weird UV mapping issues occuring on Ratchet & Clank + Simpsons Fish.~~
-* Vertex colors are not currently output. May be an issue for things like Okami? Investigate.
-* ~~Currently application can only output the normal icon.~~
-* ~~Animation output not currently supported (or understood).~~
-* Can't drag save files onto interface (improvement).
-* Grid column sorting resets when importing save file.
-* Trying to import a save file (.max, e.g. gran turismo 4) when you have a lot leads to a silent error.
-* Importing large save files leads to a UI freeze with no feedback.
-* Need to figure out the format for iconsys background colors, light colors+directions, and export in iconsys.json.
-* Problematic games:
-  * NBA Street
-  * Ico
-  * Shadow of the Colossus
-  * ESPN NHL Hockey - https://gamefaqs.gamespot.com/ps2/914724-espn-nhl-hockey/saves
-  * Tekken 5 - https://gamefaqs.gamespot.com/ps2/920588-tekken-5/saves
-  * Red Faction - https://gamefaqs.gamespot.com/ps2/367196-red-faction/saves
-  * Sly Cooper - https://gamefaqs.gamespot.com/ps2/561378-sly-cooper-and-the-thievius-raccoonus/saves
-  * Sly 2 - https://gamefaqs.gamespot.com/ps2/919949-sly-2-band-of-thieves/saves
-  * Rayman 2 (Mcd004) - Seems to have slashes in the filenames?
-  * Timesplitters 2 - Exports OK but is white in browser vs blue in mymc preview, it is due to the lighting which is not yet done in the website.
+To learn more about the tool, how it works and how to improve it see [/mymc++/README.md](mymc++/README.md).
 
-___
-### Random Notes
-PS2 Memcard file download here: had like 15 games in it, might be useful to find others: https://www.thetechgame.com/Downloads/id=173604/we-love-katamari-pcsx2-memory-card-save-file.html
+## Open Database Website
+To achieve the second goal a React site has been built, which has a list of all PlayStation 2 titles, allows for browsing of them all, provides guides on how to contribute, and allows for interactive viewing of all assets directly in the browser.
 
-PS2 Icon Format v0.5 PDF.
-Trying to get access to the 
-Hi there, on your website there is this page: https://www.ps2savetools.com/documents/ps2-icon-format-v05/
-It has a link to a PDF describing the PS2 icon format, but the link leads to an IP and doesn't load: http://35.176.43.5/ps2icon-0.5.pdf
-I would very much like to see this PDF as it likely has invaluable information that I require for a project of mine.
-It is possible to update the link on the site or to send the PDF to me directly? It would be much appreciated, thank you in advance. 😁
+To learn more about the website, how it works and how to improve it see [/website/README.md](website/README.md).
 
-https://www.ps2savetools.com/contact-us/?contact-form-id=473&contact-form-sent=3210&contact-form-hash=c4c087c25aa1c1eed9967eb8150e3b1f6d5b9a89&_wpnonce=d0c528eebc#contact-form-473
-
-Related thread on twitter about vertex animation
-https://twitter.com/ZweiLuke/status/1649935762392072193
-
-GTA Vice City stores the same icon file 3 times, instead of once and referencing it 3 times, checked the hashes.
-This is inneficient use of the precious memory card storage space.
-
+## Icon Contribution
+For users that wish to contribute icons to the database, see the [Contribution Guide](https://ps2iodb.com/contribute).
