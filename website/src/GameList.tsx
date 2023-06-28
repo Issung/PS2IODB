@@ -1,16 +1,5 @@
 import { Game } from "./Game";
 
-/*
-Useful script to find all games listed that start with non english chraracters.
-
-const nonEnglishStartGames = GameList.filter((game) => {
-    const firstChar = game.name.charAt(0);
-    return !(/[0-9a-zA-Z]/).test(firstChar);
-});
-console.log(nonEnglishStartGames.map(g=>g.name).join(', '));
-
-*/
-
 export const GameList: Game[] = [
     new Game(`¡Qué pasa Neng! El videojuego`),
     new Game(`.hack//frägment`),
@@ -4388,5 +4377,16 @@ export const GameList: Game[] = [
     new Game(`Zone of the Enders: The 2nd Runner`),
     new Game(`Zoo Puzzle`),
     new Game(`ZooCube`),
-    new Game(`Zwei: The Arges Adventur`),
+    new Game(`Zwei: The Arges Adventure`),
 ];
+
+/*
+Useful script to find all games listed that start with non english chraracters.
+
+const nonEnglishStartGames = GameList.filter((game) => {
+    const firstChar = game.name.charAt(0);
+    return !(/[0-9a-zA-Z]/).test(firstChar);
+});
+console.log(nonEnglishStartGames.map(g=>g.name).join(', '));
+
+*/
