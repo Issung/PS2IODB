@@ -22,7 +22,7 @@ long_description = \
 It is based on the classic mymc utility created by Ross Ridge."""
 
 setup(
-    name="mymc++",
+    name="mymcplus",
     version="3.0.5",
     description="A PlayStation 2 memory card manager",
     long_description=long_description,

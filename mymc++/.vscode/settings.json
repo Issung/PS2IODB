@@ -1,6 +1,6 @@
 {
     "python.testing.pytestArgs": [
-        "test.py",
+        "./test"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true
