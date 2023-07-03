@@ -27,12 +27,13 @@ jobs:
       run: |
         npm ci
         CI=true npm test  # CI=true will run tests in non-interactive fashion.
-    - name: Upload Test Results
-      uses: actions/upload-artifact@v2
+    - name: Test Report
+      uses: dorny/test-reporter@v1
       if: success() || failure()
       with:
-        name: site-test-results
+        name: Website Jest Test Results
         path: ./website/reports/report.xml
+        reporter: jest-junit
     - name: Build
       working-directory: ./website
       run: npm run build
