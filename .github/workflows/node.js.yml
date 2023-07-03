@@ -27,6 +27,12 @@ jobs:
       run: |
         npm ci
         CI=true npm test  # CI=true will run tests in non-interactive fashion.
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v2
+      if: success() || failure()
+      with:
+        name: site-test-results
+        path: ./website/reports/report.xml
     - name: Build
       working-directory: ./website
       run: npm run build

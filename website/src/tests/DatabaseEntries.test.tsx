@@ -60,7 +60,10 @@ test('All icon directories have populated GameList entry', () => {
         .map((entry) => entry.name);
 
     iconDirectories.forEach(directory => {
-        let gameListHasItemWithCodeMatchingDirectory = GameList.some(game => game.code === directory);
-        expect(gameListHasItemWithCodeMatchingDirectory).toBe(true);
+        let gameListHasMatchingEntry = GameList.some(game => game.code === directory);
+        expect(gameListHasMatchingEntry).toBe(true);
     });
 });
+
+// TODO: Assert icon directory has 1 iconsys.json file.
+// TODO: Assert each icon directory's files matches what is specified inside the iconsys.json file.
