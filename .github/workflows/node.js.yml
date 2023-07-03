@@ -3,6 +3,7 @@ name: Site Build/Test
 on: ["push"]
 
 permissions:
+  contents: read
   checks: write
 
 jobs:
