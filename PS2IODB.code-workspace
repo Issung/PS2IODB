@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "Root",
+		},
+		{
+			"name": "MYMC++",
+			"path": "./mymc++"
+		},
+		{
+			"name": "Website",
+			"path": "./website"
+		},
+	],
+	"settings": {
+		// https://github.com/microsoft/vscode/issues/82145#issuecomment-829347865
+		"files.exclude": {
+			"website": true,
+			"mymc++": true,
+		},
+		"jest.rootPath": "./website/src",
+		"jest.disabledWorkspaceFolders": [
+			"Root",
+			"MYMC++"
+		]
+	}
+}

@@ -2,10 +2,15 @@ name: Site Build/Test
 
 on: ["push"]
 
+permissions:
+  contents: read
+  checks: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      CI: "true"
     steps:
     - uses: actions/checkout@v3
     - name: List files at root
@@ -21,8 +26,18 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
-    - name: Build and Test
+    - name: Install & Test
       working-directory: ./website
       run: |
         npm ci
-        npm run build
+        CI=true npm test  # CI=true will run tests in non-interactive fashion.
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: Website Jest Test Results
+        path: ./website/reports/report.xml
+        reporter: jest-junit
+    - name: Build
+      working-directory: ./website
+      run: npm run build
