@@ -5,12 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "MYMCPLUS Module",
+            "name": "MYMC++ Debug",
             "cwd": "${workspaceFolder}/mymc++",
             "type": "python",
             "request": "launch",
             "module": "mymcplus",
             "justMyCode": true
+        },
+        {
+            "name": "NPM Start Website",
+            "cwd": "${workspaceFolder}/website",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["run", "start"]
         }
     ]
 }
