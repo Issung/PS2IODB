@@ -6,9 +6,10 @@
     "configurations": [
         {
             "name": "MYMCPLUS Module",
+            "cwd": "${workspaceFolder}/mymc++",
             "type": "python",
             "request": "launch",
-            "module": "mymcplus source.mymcplus.__main__",
+            "module": "mymcplus",
             "justMyCode": true
         }
     ]
