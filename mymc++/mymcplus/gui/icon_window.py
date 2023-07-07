@@ -100,9 +100,9 @@ class IconWindow(wx.Window):
         menu.AppendRadioItem(IconWindow.ID_CMD_BACKGROUND_BLACK, "Black Background")
         menu.AppendRadioItem(IconWindow.ID_CMD_BACKGROUND_WHITE, "White Background")
         menu.AppendSeparator()
-        self.normal_icon_radioitem = menu.AppendRadioItem(IconWindow.ID_CMD_ICON_NORMAL, "Normal Icon")
-        self.copy_icon_radioitem = menu.AppendRadioItem(IconWindow.ID_CMD_ICON_COPY, "Copy Icon")
-        self.delete_icon_radioitem = menu.AppendRadioItem(IconWindow.ID_CMD_ICON_DELETE, "Delete Icon")
+        self.normal_icon_radioitem = menu.AppendRadioItem(IconWindow.ID_CMD_ICON_NORMAL, "Normal Icon\tCTRL+1")
+        self.copy_icon_radioitem = menu.AppendRadioItem(IconWindow.ID_CMD_ICON_COPY, "Copy Icon\tCTRL+2")
+        self.delete_icon_radioitem = menu.AppendRadioItem(IconWindow.ID_CMD_ICON_DELETE, "Delete Icon\tCTRL+3")
         self.selected_icon_type = IconWindow.ID_CMD_ICON_NORMAL
         menu.AppendSeparator()
         menu.Append(IconWindow.ID_CMD_CAMERA_RESET, "Reset Camera")
