@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { init, animate, setAnimationState } from "./ModelView";
 import { IconSys } from "./IconSys";
+import ModelView from './ModelView';
 
+/**
+ * This component serves as a page, routed to by App.tsx.
+ * It contains an IconRenderer, and controls to interact with such as:
+ * - Animation select.
+ * - Lighting select.
+ * - Shading select (wireframe, textured, etc).
+ * - Play/pause controls.
+ */
 const Icon: React.FC = () => {
     // Get icon code from the url
     const { iconcode } = useParams();
@@ -23,6 +31,7 @@ const Icon: React.FC = () => {
 
         // The 'icons' folder goes inside the 'Site/public' folder.
         var url = `/icons/${iconcode}/iconsys.json`;
+
         fetch(url)
             .then(response => {
                 response
@@ -39,8 +48,8 @@ const Icon: React.FC = () => {
 
                             // Initialise the threejs model viewer and start the animation (if there is any).
                             if (iconcode != null && tmpiconsys.normal != null) {
-                                init(iconcode, tmpiconsys.normal);
-                                animate();
+                                //init(iconcode, tmpiconsys.normal);
+                                //animate();
                             }
                         }
                         else {
@@ -52,8 +61,8 @@ const Icon: React.FC = () => {
 
     useEffect(() => {
         if (iconcode != null && iconsys != null && variant != null) {
-            init(iconcode, variant);
-            animate();
+            //init(iconcode, variant);
+            //animate();
         }
     }, [iconcode, iconsys, variant]);
 
@@ -66,7 +75,7 @@ const Icon: React.FC = () => {
                 iconsys != null && (
                     <div id="iconoptions">
                         <label>Animate Model: </label>
-                        <input type="checkbox" checked={doAnimation} onChange={e => {setAnimation(e.target.checked); setAnimationState(e.target.checked);}}/>
+                        <input type="checkbox" checked={doAnimation} onChange={e => {setAnimation(e.target.checked); /*setAnimationState(e.target.checked);*/}}/>
                         <br/>
                         <label>Icon Variant:</label>
                         <select value={variant} onChange={e => setVariant(e.target.value)}>
@@ -80,7 +89,7 @@ const Icon: React.FC = () => {
                 )
             }
             <br/>
-            <canvas id="iconRenderCanvas" width={640} height={480}/>
+            <ModelView/>
         </div>
     );
 };
