@@ -23,35 +23,29 @@ const Icon: React.FC = () => {
     // Nasty side effect of React.StrictMode, useEffect runs twice. https://react.dev/learn/you-might-not-need-an-effect#initializing-the-application
     //let firstRun: boolean = true;
     
-    // TODO: Because of useEffect running twice on init which is an unintended side effect, its possible we should instead be doing icon rendering in a separate component
-    //       to this one, then the useState effect should only run once, then double initialising shouldn't be an issue.
-
     // TODO: Clean up, try to use async-await instead of fluent.
     useEffect(() => {
+        async function fetchIconSys() {
+            // The 'icons' folder goes inside the 'Site/public' folder.
+            var url = `/icons/${iconcode}/iconsys.json`;
+            var response = await fetch(url);
+            var text = await response.text();
 
-        // The 'icons' folder goes inside the 'Site/public' folder.
-        var url = `/icons/${iconcode}/iconsys.json`;
+            if (text.startsWith('{')) {
+                // The silly React server will return the index on random paths and be a 200 so verify that the text doesn't start with the html prefix.
+                setExists('exists!')
+                setBody(text);
 
-        fetch(url)
-            .then(response => {
-                response
-                    .text()
-                    .then(text => {
-                        if (text.startsWith('{')) {
-                            // The silly React server will return the index on random paths and be a 200 so verify that the text doesn't start with the html prefix.
-                            //setExists((response.status.toString()[0] == '2' && !text.startsWith('<!DOCTYPE html>')) ? 'exists!' : 'does not exist.');
-                            setExists('exists!')
-                            setBody(text);
+                let tmpiconsys = JSON.parse(text) as IconSys;
+                setIconSys(tmpiconsys);
+                setVariant(tmpiconsys.normal);
+            }
+            else {
+                setExists('does not exist.')
+            }
+        }
 
-                            let tmpiconsys = JSON.parse(text) as IconSys;
-                            setIconSys(tmpiconsys);
-                            setVariant(tmpiconsys.normal);
-                        }
-                        else {
-                            setExists('does not exist.')
-                        }
-                    });
-            });
+        fetchIconSys();
     }, [iconcode]);
 
 
@@ -68,7 +62,8 @@ const Icon: React.FC = () => {
                         <br/>
                         <label>Icon Variant:</label>
                         <select value={variant} onChange={e => setVariant(e.target.value)}>
-                            {[iconsys.normal, iconsys.copy, iconsys.delete].map(val => (
+                            {/* Make a Set to remove duplicates, then turn back to Array to use .map(). */}
+                            {Array.from(new Set([iconsys.normal, iconsys.copy, iconsys.delete])).map(val => (
                                 <option value={val} key={val}>
                                     {val}
                                 </option>

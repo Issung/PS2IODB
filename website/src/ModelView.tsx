@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import ModelRendererImpl from "./ModelRendererImpl";
 
 interface ModelViewProps {
@@ -7,25 +7,25 @@ interface ModelViewProps {
     animate: boolean;
 }
 
-// Have to put this outside of the actual component because otherwise it gets re-constructed
-// constantly??
-const renderer = new ModelRendererImpl();
-
 const ModelView: React.FC<ModelViewProps> = ({ iconcode, variant, animate }) => {
+    const renderer = useRef(new ModelRendererImpl());
+
     useEffect(() => {
-        renderer.init();
-        return renderer.dispose;
+        renderer.current.init();
+        return renderer.current.dispose;
     }, []);
 
+    // Effect for iconcode or variant changing, requires loading of new assets.
     useEffect(() => {
         if (iconcode && variant) {
-            renderer.loadNewIcon(iconcode, variant);
+            renderer.current.loadNewIcon(iconcode, variant);
         }
     }, [iconcode, variant])
 
+    // Effect for view options, does not require loading new assets.
     useEffect(() => {
         if (renderer) {
-            renderer.prop_animate = animate;
+            renderer.current.prop_animate = animate;
         }
     }, [animate])
 

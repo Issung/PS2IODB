@@ -2,7 +2,6 @@ import * as THREE from "three";
 import { AnimationData } from "./AnimationData";
 import * as OBJLoader from 'three/examples/jsm/loaders/OBJLoader'
 import Stats from 'stats.js';
-import { create } from "domain";
 
 enum MouseButton {
     NONE = -1,
@@ -11,6 +10,10 @@ enum MouseButton {
     RIGHT = 2,
 };
 
+/**
+ * Implementation of the 3D model view and interactions in threejs.
+ * Used by ModelView.tsx component.
+ */
 class ModelRendererImpl {
     public prop_animate: boolean = true;
 
@@ -66,7 +69,6 @@ class ModelRendererImpl {
         document.addEventListener('mouseup', (e) => this.onMouseUp(e), false);
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('mousemove', (e) => this.onDocumentMouseMove(e));
-        document.addEventListener('mousewheel', (e) => this.onMouseWheel(e));
         document.addEventListener('resize', (e) => this.onWindowResize());
         
         this.assetLoadComplete = this.assetLoadComplete.bind(this);
@@ -77,60 +79,65 @@ class ModelRendererImpl {
     
     public init() {
         console.log(`ModelRendererImpl init. Init value: ${this.initialised}.`);
-        if (/*!this.initialised*/ true) {
-            this.initialised = true;
-
-            this.canvas = document.querySelector('#iconRenderCanvas') as HTMLCanvasElement;
-            this.canvas.before(this.stats.dom);
-            
-            //this.renderer?.dispose();
-            this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
-            
-            //renderer.setPixelRatio(window.devicePixelRatio);
-            //renderer.setSize(window.innerWidth, window.innerHeight);
-        }
+        this.initialised = true;
+        
+        this.canvas = document.querySelector('#iconRenderCanvas') as HTMLCanvasElement;
+        this.canvas.addEventListener('mousewheel', (e) => this.onMouseWheel(e));
+        this.canvas.before(this.stats.dom);
+        
+        this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
+        
+        //renderer.setPixelRatio(window.devicePixelRatio);
+        //renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
-    public loadNewIcon(code: string, variant: string) {
+    public async loadNewIcon(code: string, variant: string) {
         console.log(`ModelRendererImpl loadNewIcon. Code: ${code}, Variant: ${variant}.`);
+
+        // Remove existing icon if there is one.
         if (this.pivot) {
             this.scene.remove(this.pivot);
         }
 
         const loadingManager = new THREE.LoadingManager(this.assetLoadComplete);
 
+        // Fetch OBJ (model) file.
         const objLoader = new OBJLoader.OBJLoader(loadingManager);
-        objLoader.load(`/icons/${code}/${variant}.obj`, (obj) => { 
-            this.icon = obj; 
-        }, onProgress, onError);
+        objLoader.load(`/icons/${code}/${variant}.obj`, (obj) => { this.icon = obj; }, onProgress, onError);
 
+        // Fetch texture/material.
         const textureLoader = new THREE.TextureLoader(loadingManager);
         this.texture = textureLoader.load(`/icons/${code}/${variant}.png` /* 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' */);
         this.texture.colorSpace = THREE.SRGBColorSpace;
 
-        function onProgress(xhr: ProgressEvent) {
+        function onProgress(e: ProgressEvent) {
             // TODO: Maybe display download progress for model + texture.
-            /*if (xhr.lengthComputable) {
-                const percentComplete = xhr.loaded / xhr.total * 100;
-                console.log('model ' + Math.round(percentComplete) + '% downloaded');
-            }*/
+            //if (e.lengthComputable) {
+            //    const percentComplete = e.loaded / e.total * 100;
+            //    console.log('model ' + Math.round(percentComplete) + '% downloaded');
+            //}
         }
 
-        function onError() {
-            console.log('model load error');
+        function onError(e: ErrorEvent) {
+            console.error(`OBJ Model load error. Message:' + ${e.message}`);
         }
 
-        fetch(`/icons/${code}/${variant}.anim`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Request failed with status ${response.status}`);
-                }
-                return response.json();
-            })
-            .then((data: AnimationData) => {
-                this.animData = data;
-            })
-            .catch(error => console.log(error));
+        // Fetch animation data (if request doesn't succeed assume there is no animation).
+        var animResponse = await fetch(`/icons/${code}/${variant}.anim`);
+        if (animResponse.ok) {
+            var animText = await animResponse.text();
+
+            if (animText.startsWith('{')) {
+                var animJson = JSON.parse(animText) as AnimationData;
+                this.animData = animJson;
+            }
+            else {
+                console.warn('Animation data request response did not look like JSON.');
+            }
+        }
+        else {
+            console.warn(`Request for animation data failed with status ${animResponse.status}`);
+        }
     }
 
     // Ran when either obj or texture loading is complete.
@@ -173,6 +180,7 @@ class ModelRendererImpl {
         this.geometry?.dispose();
         this.texture?.dispose();
         this.renderer?.dispose();
+        this.initialised = false;
         console.log('ModelRendererImpl dispose.');
     }
 
