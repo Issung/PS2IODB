@@ -12,32 +12,33 @@ enum MouseButton {
 };
 
 class ModelRendererImpl {
-    private canvas: HTMLCanvasElement;
+    public prop_animate: boolean = true;
+
     private clock = new THREE.Clock(true);
     
     private camera: THREE.PerspectiveCamera;
     private scene: THREE.Scene;
-    private renderer: THREE.Renderer;
     private stats: Stats;
+
+    private initialised: boolean = false;
+    private renderer: THREE.WebGLRenderer | undefined;
+    private canvas: HTMLCanvasElement | undefined;
     
     private mouse = MouseButton.NONE;
-    private mouseX : number = 0  
+    private mouseX : number = 0;
     private mouseY : number = 0;
     
-    private icon: THREE.Group | null = null;
-    private pivot: THREE.Group | null = null;
-    private mesh: THREE.Mesh | null = null;
-    private geometry: THREE.BufferGeometry | null = null;
-    private texture: THREE.Texture | null = null;
-    private animData: AnimationData | null = null;
-    public prop_animate: boolean = true;
+    private icon: THREE.Group | undefined;
+    private pivot: THREE.Group | undefined;
+    private geometry: THREE.BufferGeometry | undefined;
+    private texture: THREE.Texture | undefined;
+    private animData: AnimationData | undefined;
 
     //const framesPerAnimationFrame = 60;
     static readonly secondsPerAnimationFrame = 0.15;
 
     constructor() {
-        this.canvas = document.querySelector('#iconRenderCanvas') as HTMLCanvasElement;
-
+        console.log(`ModelRendererImpl constructor.`);
         this.scene = new THREE.Scene();
 
         this.camera = new THREE.PerspectiveCamera(45, /*window.innerWidth / window.innerHeight*/ 640/480, 0.01, 2000);
@@ -58,48 +59,68 @@ class ModelRendererImpl {
         const pointLight = new THREE.PointLight(0xffffff, 0.8);
         this.camera.add(pointLight);
 
-        
-        this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
-        //renderer.setPixelRatio(window.devicePixelRatio);
-        //renderer.setSize(window.innerWidth, window.innerHeight);
-        
         this.stats = this.createStats();
-        this.canvas.before(this.stats.dom);
-
+        
         // Bind event listeners. Must use arrow syntax so that 'this' is not undefined inside the functions.
         document.addEventListener('mousedown', (e) => this.onMouseDown(e), false);
         document.addEventListener('mouseup', (e) => this.onMouseUp(e), false);
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('mousemove', (e) => this.onDocumentMouseMove(e));
-        window.addEventListener('resize', (e) => this.onWindowResize());
-        this.canvas.addEventListener('mousewheel', (e) => this.onMouseWheel(e));
-
+        document.addEventListener('mousewheel', (e) => this.onMouseWheel(e));
+        document.addEventListener('resize', (e) => this.onWindowResize());
+        
+        this.assetLoadComplete = this.assetLoadComplete.bind(this);
+        this.dispose = this.dispose.bind(this);
         this.animate = this.animate.bind(this);
         this.animate();
     }
+    
+    public init() {
+        console.log(`ModelRendererImpl init. Init value: ${this.initialised}.`);
+        if (/*!this.initialised*/ true) {
+            this.initialised = true;
 
-    public loadNewIcon(code: string, iconName: string) {
+            this.canvas = document.querySelector('#iconRenderCanvas') as HTMLCanvasElement;
+            this.canvas.before(this.stats.dom);
+            
+            //this.renderer?.dispose();
+            this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
+            
+            //renderer.setPixelRatio(window.devicePixelRatio);
+            //renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+    }
+
+    public loadNewIcon(code: string, variant: string) {
+        console.log(`ModelRendererImpl loadNewIcon. Code: ${code}, Variant: ${variant}.`);
+        if (this.pivot) {
+            this.scene.remove(this.pivot);
+        }
+
         const loadingManager = new THREE.LoadingManager(this.assetLoadComplete);
 
         const objLoader = new OBJLoader.OBJLoader(loadingManager);
-        objLoader.load(`/icons/${code}/${iconName}.obj`, (obj) => { this.icon = obj; }, onProgress, onError);
+        objLoader.load(`/icons/${code}/${variant}.obj`, (obj) => { 
+            this.icon = obj; 
+        }, onProgress, onError);
 
         const textureLoader = new THREE.TextureLoader(loadingManager);
-        this.texture = textureLoader.load(`/icons/${code}/${iconName}.png` /* 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' */);
+        this.texture = textureLoader.load(`/icons/${code}/${variant}.png` /* 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' */);
         this.texture.colorSpace = THREE.SRGBColorSpace;
 
         function onProgress(xhr: ProgressEvent) {
-            if (xhr.lengthComputable) {
+            // TODO: Maybe display download progress for model + texture.
+            /*if (xhr.lengthComputable) {
                 const percentComplete = xhr.loaded / xhr.total * 100;
                 console.log('model ' + Math.round(percentComplete) + '% downloaded');
-            }
+            }*/
         }
 
         function onError() {
             console.log('model load error');
         }
 
-        fetch(`/icons/${code}/${iconName}.anim`)
+        fetch(`/icons/${code}/${variant}.anim`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Request failed with status ${response.status}`);
@@ -127,7 +148,7 @@ class ModelRendererImpl {
             let center = new THREE.Vector3();
             boundingBox.getCenter(center);  // Weird library design, rather than use the return value, copies the result into the parameter.
     
-            console.log(`center: ${center.x}, ${center.y}, ${center.z}`);
+            //console.log(`center: ${center.x}, ${center.y}, ${center.z}`);
     
             this.pivot = new THREE.Group();
             this.icon.position.sub(center);
@@ -148,10 +169,11 @@ class ModelRendererImpl {
     }
 
     public dispose() {
-        this.animData = null;
+        this.animData = undefined;
         this.geometry?.dispose();
         this.texture?.dispose();
-        console.log('disposed of model view resources.');
+        this.renderer?.dispose();
+        console.log('ModelRendererImpl dispose.');
     }
 
     onWindowResize() {
@@ -234,7 +256,7 @@ class ModelRendererImpl {
     }
 
     render() {
-        if (this.mesh && this.prop_animate && this.animData && this.geometry) 
+        if (this.prop_animate && this.animData && this.geometry) 
         {
             var animationTotalFrames = this.animData.frames.length;
             var secondsForWholeAnimation = ModelRendererImpl.secondsPerAnimationFrame * animationTotalFrames;
@@ -261,7 +283,7 @@ class ModelRendererImpl {
             this.geometry.setAttribute('position', new THREE.BufferAttribute(updatedPositions, 3));
         }
 
-        this.renderer.render(this.scene, this.camera);
+        this.renderer?.render(this.scene, this.camera);
     }
 
     /*function getNextStep(current: number, max: number, step: number) {

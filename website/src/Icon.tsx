@@ -16,7 +16,7 @@ const Icon: React.FC = () => {
     const { iconcode } = useParams();
     const [exists, setExists] = useState('...');
     const [body, setBody] = useState('');
-    const [doAnimation, setAnimation] = useState(true);
+    const [doAnimation, setDoAnimation] = useState(true);
     const [iconsys, setIconSys] = useState<IconSys | null>(null);
     const [variant, setVariant] = useState<string>();
     
@@ -26,8 +26,8 @@ const Icon: React.FC = () => {
     // TODO: Because of useEffect running twice on init which is an unintended side effect, its possible we should instead be doing icon rendering in a separate component
     //       to this one, then the useState effect should only run once, then double initialising shouldn't be an issue.
 
+    // TODO: Clean up, try to use async-await instead of fluent.
     useEffect(() => {
-        console.log(`useeffect, first run, continuing.`);
 
         // The 'icons' folder goes inside the 'Site/public' folder.
         var url = `/icons/${iconcode}/iconsys.json`;
@@ -45,12 +45,7 @@ const Icon: React.FC = () => {
 
                             let tmpiconsys = JSON.parse(text) as IconSys;
                             setIconSys(tmpiconsys);
-
-                            // Initialise the threejs model viewer and start the animation (if there is any).
-                            if (iconcode != null && tmpiconsys.normal != null) {
-                                //init(iconcode, tmpiconsys.normal);
-                                //animate();
-                            }
+                            setVariant(tmpiconsys.normal);
                         }
                         else {
                             setExists('does not exist.')
@@ -59,12 +54,6 @@ const Icon: React.FC = () => {
             });
     }, [iconcode]);
 
-    useEffect(() => {
-        if (iconcode != null && iconsys != null && variant != null) {
-            //init(iconcode, variant);
-            //animate();
-        }
-    }, [iconcode, iconsys, variant]);
 
     return(
         <div>
@@ -75,7 +64,7 @@ const Icon: React.FC = () => {
                 iconsys != null && (
                     <div id="iconoptions">
                         <label>Animate Model: </label>
-                        <input type="checkbox" checked={doAnimation} onChange={e => {setAnimation(e.target.checked); /*setAnimationState(e.target.checked);*/}}/>
+                        <input type="checkbox" checked={doAnimation} onChange={e => setDoAnimation(e.target.checked)}/>
                         <br/>
                         <label>Icon Variant:</label>
                         <select value={variant} onChange={e => setVariant(e.target.value)}>
@@ -89,7 +78,7 @@ const Icon: React.FC = () => {
                 )
             }
             <br/>
-            <ModelView/>
+            <ModelView iconcode={iconcode} variant={variant} animate={doAnimation} />
         </div>
     );
 };
