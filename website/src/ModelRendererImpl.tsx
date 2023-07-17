@@ -1,14 +1,8 @@
 import * as THREE from "three";
 import { AnimationData } from "./AnimationData";
-import * as OBJLoader from 'three/examples/jsm/loaders/OBJLoader'
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'stats.js';
-
-enum MouseButton {
-    NONE = -1,
-    LEFT = 0,
-    MIDDLE = 1,
-    RIGHT = 2,
-};
 
 /**
  * Implementation of the 3D model view and interactions in threejs.
@@ -22,14 +16,11 @@ class ModelRendererImpl {
     private camera: THREE.PerspectiveCamera;
     private scene: THREE.Scene;
     private stats: Stats;
-
+    
     private initialised: boolean = false;
     private renderer: THREE.WebGLRenderer | undefined;
     private canvas: HTMLCanvasElement | undefined;
-    
-    private mouse = MouseButton.NONE;
-    private mouseX : number = 0;
-    private mouseY : number = 0;
+    private controls: OrbitControls | undefined;
     
     private icon: THREE.Group | undefined;
     private pivot: THREE.Group | undefined;
@@ -52,9 +43,12 @@ class ModelRendererImpl {
         let axesHelper = new THREE.AxesHelper(1);
         this.scene.add(axesHelper);
 
-        let gridHelper = new THREE.GridHelper(2, 5);
-        gridHelper.setRotationFromEuler(new THREE.Euler(90, 0, 0));
-        this.scene.add(gridHelper);
+        let gridHelperVertical = new THREE.GridHelper(2, 5);
+        gridHelperVertical.setRotationFromEuler(new THREE.Euler(THREE.MathUtils.degToRad(90), 0, 0));
+        this.scene.add(gridHelperVertical);
+
+        let gridHelperHorizontal = new THREE.GridHelper(2, 5);
+        this.scene.add(gridHelperHorizontal);
 
         const ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
         this.scene.add(ambientLight);
@@ -63,12 +57,7 @@ class ModelRendererImpl {
         this.camera.add(pointLight);
 
         this.stats = this.createStats();
-        
-        // Bind event listeners. Must use arrow syntax so that 'this' is not undefined inside the functions.
-        document.addEventListener('mousedown', (e) => this.onMouseDown(e), false);
-        document.addEventListener('mouseup', (e) => this.onMouseUp(e), false);
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        document.addEventListener('mousemove', (e) => this.onDocumentMouseMove(e));
+
         document.addEventListener('resize', (e) => this.onWindowResize());
         
         this.assetLoadComplete = this.assetLoadComplete.bind(this);
@@ -82,11 +71,12 @@ class ModelRendererImpl {
         this.initialised = true;
         
         this.canvas = document.querySelector('#iconRenderCanvas') as HTMLCanvasElement;
-        this.canvas.addEventListener('mousewheel', (e) => this.onMouseWheel(e));
         this.canvas.before(this.stats.dom);
         
         this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
-        
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+        this.controls.rotateSpeed = 0.2;
+        this.controls.update();
         //renderer.setPixelRatio(window.devicePixelRatio);
         //renderer.setSize(window.innerWidth, window.innerHeight);
     }
@@ -102,7 +92,7 @@ class ModelRendererImpl {
         const loadingManager = new THREE.LoadingManager(this.assetLoadComplete);
 
         // Fetch OBJ (model) file.
-        const objLoader = new OBJLoader.OBJLoader(loadingManager);
+        const objLoader = new OBJLoader(loadingManager);
         objLoader.load(`/icons/${code}/${variant}.obj`, (obj) => { this.icon = obj; }, onProgress, onError);
 
         // Fetch texture/material.
@@ -194,72 +184,10 @@ class ModelRendererImpl {
         //renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
-    onMouseDown(event: MouseEvent) {
-        this.mouse = event.button;
-        this.mouseX = event.clientX;
-        this.mouseY = event.clientY;
-    }
-
-    onMouseUp(event: MouseEvent) {
-        // Don't prevent default if user is using side mouse buttons to go back/forward.
-        if (this.mouse >= 1 && this.mouse <= 2) {
-            event.preventDefault();
-        }
-
-        this.mouse = MouseButton.NONE;
-    }
-
-    onDocumentMouseMove(event: MouseEvent) {
-        if (this.mouse === MouseButton.NONE)
-        {
-            document.body.style.cursor = "auto";
-            return;
-        }
-        else if (this.mouse === MouseButton.LEFT || this.mouse === MouseButton.RIGHT)
-        {
-            event.preventDefault();
-            var deltaX = event.clientX - this.mouseX;
-            var deltaY = event.clientY - this.mouseY;
-            this.mouseX = event.clientX;
-            this.mouseY = event.clientY;
-
-            if (this.mouse === MouseButton.LEFT)
-            {
-                document.body.style.cursor = "grabbing";
-                this.rotateScene(deltaX, deltaY);
-            }
-            else if (this.mouse === MouseButton.RIGHT)
-            {
-                document.body.style.cursor = "move";
-                this.moveScene(deltaX, deltaY);
-            }
-        }
-    }
-
-    rotateScene(deltaX: number, deltaY: number) {
-        if (this.pivot) {
-            this.pivot.rotation.y += deltaX / 100;
-            this.pivot.rotation.x -= deltaY / 100;
-        }
-    }
-
-    moveScene(deltaX: number, deltaY: number) {
-        //this.camera.position.x += deltaX / 1000;
-        //this.camera.position.y += deltaY / 1000;
-        if (this.pivot) {
-            this.pivot.position.x -= deltaX / 1000;
-            this.pivot.position.y -= deltaY / 1000;
-        }
-    }
-
-    onMouseWheel(event: WheelEvent | any) {
-        this.camera.position.z -= event.deltaY / 500;
-        event.preventDefault();
-    }
-
     public animate() {
         requestAnimationFrame(this.animate);
         this.render();
+        this.controls?.update();
         this.stats.update();
     }
 
