@@ -28,7 +28,6 @@ class ModelRendererImpl {
     private texture: THREE.Texture | undefined;
     private animData: AnimationData | undefined;
 
-    //const framesPerAnimationFrame = 60;
     static readonly secondsPerAnimationFrame = 0.15;
 
     constructor() {
@@ -158,9 +157,6 @@ class ModelRendererImpl {
     createStats() : Stats {
         var stats = new Stats();
         stats.dom.style.position = 'initial';
-        //stats.dom.style.position = 'absolute';
-        //stats.dom.style.left = '0';
-        //stats.dom.style.top = '0';
 
         return stats;
     }

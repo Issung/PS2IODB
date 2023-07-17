@@ -5,7 +5,7 @@ import ModelView from './ModelView';
 
 /**
  * This component serves as a page, routed to by App.tsx.
- * It contains an IconRenderer, and controls to interact with such as:
+ * It contains a ModelView, and controls to interact with it, such as:
  * - Animation select.
  * - Lighting select.
  * - Shading select (wireframe, textured, etc).
@@ -20,19 +20,15 @@ const Icon: React.FC = () => {
     const [iconsys, setIconSys] = useState<IconSys | null>(null);
     const [variant, setVariant] = useState<string>();
     
-    // Nasty side effect of React.StrictMode, useEffect runs twice. https://react.dev/learn/you-might-not-need-an-effect#initializing-the-application
-    //let firstRun: boolean = true;
-    
-    // TODO: Clean up, try to use async-await instead of fluent.
     useEffect(() => {
         async function fetchIconSys() {
-            // The 'icons' folder goes inside the 'Site/public' folder.
+            // The 'icons' folder goes inside the 'website/public' folder.
             var url = `/icons/${iconcode}/iconsys.json`;
             var response = await fetch(url);
             var text = await response.text();
 
             if (text.startsWith('{')) {
-                // The silly React server will return the index on random paths and be a 200 so verify that the text doesn't start with the html prefix.
+                // The silly React server will return the index page on unknown paths and be a 200 so verify that the text starts as expected JSON.
                 setExists('exists!')
                 setBody(text);
 
