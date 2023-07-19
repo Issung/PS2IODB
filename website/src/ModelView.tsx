@@ -1,13 +1,18 @@
 import { useEffect, useRef } from "react";
+import './ModelView.scss';
 import ModelRendererImpl from "./ModelRendererImpl";
+import { TextureType } from "./Icon";
 
 interface ModelViewProps {
     iconcode: string | undefined;
     variant: string | undefined;
+
     animate: boolean;
+    grid: boolean;
+    textureType: TextureType;
 }
 
-const ModelView: React.FC<ModelViewProps> = ({ iconcode, variant, animate }) => {
+const ModelView: React.FC<ModelViewProps> = ({ iconcode, variant, animate, grid, textureType }) => {
     const renderer = useRef(new ModelRendererImpl());
 
     useEffect(() => {
@@ -18,19 +23,20 @@ const ModelView: React.FC<ModelViewProps> = ({ iconcode, variant, animate }) => 
     // Effect for iconcode or variant changing, requires loading of new assets.
     useEffect(() => {
         if (iconcode && variant) {
-            renderer.current.loadNewIcon(iconcode, variant);
+            renderer.current.loadNewIcon(iconcode, variant, textureType);
         }
-    }, [iconcode, variant])
+    }, [iconcode, variant, textureType])
 
     // Effect for view options, does not require loading new assets.
     useEffect(() => {
         if (renderer) {
             renderer.current.prop_animate = animate;
+            renderer.current.prop_grid = grid;
         }
-    }, [animate])
+    }, [animate, grid])
 
     return(
-        <canvas id="iconRenderCanvas" width={640} height={480}/>
+        <canvas id="iconRenderCanvas" />
     )
 };
 
