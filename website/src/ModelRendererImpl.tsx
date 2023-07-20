@@ -3,7 +3,7 @@ import { AnimationData } from "./AnimationData";
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'stats.js';
-import { TextureType } from "./Icon";
+import { MeshType, TextureType } from "./ModelViewParams";
 
 /**
  * Implementation of the 3D model view and interactions in threejs.
@@ -14,6 +14,8 @@ class ModelRendererImpl {
     public prop_animate: boolean = true;
     public prop_grid: boolean = true;
     public prop_textureType: TextureType = TextureType.Icon;
+    public prop_meshType: MeshType = MeshType.Mesh;
+    public prop_backgroundColor: string = '#000000';
 
     private clock = new THREE.Clock(true);
     
@@ -34,6 +36,7 @@ class ModelRendererImpl {
     private geometry: THREE.BufferGeometry | undefined;
     private texture: THREE.Texture | undefined;
     private animData: AnimationData | undefined;
+    private mesh: THREE.Mesh<any, any> | undefined;
 
     static readonly secondsPerAnimationFrame = 0.15;
 
@@ -91,8 +94,8 @@ class ModelRendererImpl {
         this.canvas.addEventListener('click', (e) => { this.controls!.autoRotate = false; });
     }
 
-    public async loadNewIcon(code: string, variant: string, textureType: TextureType) {
-        console.log(`ModelRendererImpl loadNewIcon. Code: ${code}, Variant: ${variant}.`);
+    public async loadNewIcon(iconcode: string, variant: string, textureType: TextureType) {
+        console.log(`ModelRendererImpl loadNewIcon. Code: ${iconcode}, Variant: ${variant}.`);
 
         // Remove existing icon if there is one.
         if (this.pivot) {
@@ -103,12 +106,12 @@ class ModelRendererImpl {
 
         // Fetch OBJ (model) file.
         const objLoader = new OBJLoader(loadingManager);
-        objLoader.load(`/icons/${code}/${variant}.obj`, (obj) => { this.icon = obj; }, onProgress, onError);
+        objLoader.load(`/icons/${iconcode}/${variant}.obj`, (obj) => { this.icon = obj; }, onProgress, onError);
 
         // Fetch texture/material.
         //var textureUrl = textureType === TextureType.Icon ? `/icons/${code}/${variant}.png` : 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg';//'https://threejs.org/examples/textures/uv_grid_opengl.jpg';
         let textureUrl = 
-            textureType === TextureType.Icon ? `/icons/${code}/${variant}.png` :
+            textureType === TextureType.Icon ? `/icons/${iconcode}/${variant}.png` :
             textureType === TextureType.Test ? 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' :
             textureType === TextureType.Plain ? 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg' : 
             (() => { throw new Error("Unknown TextureType"); })();
@@ -130,7 +133,7 @@ class ModelRendererImpl {
         }
 
         // Fetch animation data (if request doesn't succeed assume there is no animation).
-        var animResponse = await fetch(`/icons/${code}/${variant}.anim`);
+        var animResponse = await fetch(`/icons/${iconcode}/${variant}.anim`);
         if (animResponse.ok) {
             var animText = await animResponse.text();
 
@@ -152,8 +155,10 @@ class ModelRendererImpl {
         if (this.icon) {
             this.icon.traverse(child => {
                 if (child instanceof THREE.Mesh) {
+                    this.mesh = child;
                     this.geometry = child.geometry;
                     child.material.map = this.texture;
+                    child.material.wireframe = true;
                 }
             });
 
@@ -215,6 +220,11 @@ class ModelRendererImpl {
         this.axesHelper.visible = this.prop_grid;
         this.verticalGridHelper.visible = this.prop_grid;
         this.horizontalGridHelper.visible = this.prop_grid;
+        this.renderer?.setClearColor(new THREE.Color(this.prop_backgroundColor));
+
+        if (this.mesh) {
+            this.mesh.material.wireframe = this.prop_meshType === MeshType.Wireframe;
+        }
 
         if (this.prop_animate && this.animData && this.geometry) {
             var animationTotalFrames = this.animData.frames.length;

@@ -4,4 +4,11 @@ label {
 
 div#iconoptions {
     float: left;
+    background-color: rgba(0, 0, 0, 0.25);
+    padding-top: 10px;
+    padding-right: 15px;
+}
+
+div input[type="color"] {
+    height: 19px;
 }

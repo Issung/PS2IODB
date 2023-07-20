@@ -3,18 +3,7 @@ import { useParams } from "react-router-dom";
 import { IconSys } from "./IconSys";
 import ModelView from './ModelView';
 import './Icon.scss'
-
-export enum TextureType {
-    Icon = 'Default',
-    Test = 'Test Map',
-    Plain = 'Plain',
-}
-
-export enum MeshType {
-    Faces = 'Faces',
-    Wireframe = 'Wireframe',
-    FaceAndWireframe = 'Faces And Wireframe',
-}
+import { MeshType, TextureType } from "./ModelViewParams";
 
 /**
  * This component serves as a page, routed to by App.tsx.
@@ -25,8 +14,8 @@ export enum MeshType {
  * - Play/pause controls.
  */
 const Icon: React.FC = () => {
-    const [exists, setExists] = useState('...');
-    const [body, setBody] = useState('');
+    //const [exists, setExists] = useState('...');
+    //const [body, setBody] = useState('');
     const [iconsys, setIconSys] = useState<IconSys | null>(null);
 
     // Get icon code from the url
@@ -36,7 +25,8 @@ const Icon: React.FC = () => {
     const [doAnimation, setDoAnimation] = useState(true);
     const [grid, setGrid] = useState(true);
     const [textureType, setTextureType] = useState(TextureType.Icon);
-    const [meshType, setMeshType] = useState(MeshType.Faces);
+    const [meshType, setMeshType] = useState(MeshType.Mesh);
+    const [backgroundColor, setBackgroundColor] = useState('#020202');
     
     useEffect(() => {
         async function fetchIconSys() {
@@ -47,15 +37,15 @@ const Icon: React.FC = () => {
 
             if (text.startsWith('{')) {
                 // The silly React server will return the index page on unknown paths and be a 200 so verify that the text starts as expected JSON.
-                setExists('exists!')
-                setBody(text);
+                //setExists('exists!')
+                //setBody(text);
 
                 let tmpiconsys = JSON.parse(text) as IconSys;
                 setIconSys(tmpiconsys);
                 setVariant(tmpiconsys.normal);
             }
             else {
-                setExists('does not exist.')
+                //setExists('does not exist.')
             }
         }
 
@@ -65,10 +55,10 @@ const Icon: React.FC = () => {
 
     return(
         <div>
-            <code>'{iconcode}' {exists}</code>
+            {/* <code>'{iconcode}' {exists}</code>
             <br/>
             <code>{body}</code>
-            <br/><br/>
+            <br/><br/> */}
             {
                 iconsys != null && (
                     <div id="iconoptions">
@@ -112,12 +102,16 @@ const Icon: React.FC = () => {
                                     ))}
                                 </select>
                             </li>
+                            <li>
+                                <label>Background Color: </label>
+                                <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
+                            </li>
                         </ul>
                     </div>
                 )
             }
             <br/>
-            <ModelView iconcode={iconcode} variant={variant} animate={doAnimation} grid={grid} textureType={textureType}/>
+            <ModelView iconcode={iconcode} variant={variant} animate={doAnimation} grid={grid} textureType={textureType} meshType={meshType} backgroundColor={backgroundColor} />
         </div>
     );
 };
