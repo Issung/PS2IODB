@@ -4,6 +4,7 @@ import { IconSys } from "./IconSys";
 import ModelView from './ModelView';
 import './Icon.scss'
 import { MeshType, TextureType } from "./ModelViewParams";
+import JSZip from "jszip";
 
 /**
  * This component serves as a page, routed to by App.tsx.
@@ -35,7 +36,8 @@ const Icon: React.FC = () => {
             var response = await fetch(url);
             var text = await response.text();
 
-            if (text.startsWith('{')) {
+            if (text.startsWith('{'))
+            {
                 // The silly React server will return the index page on unknown paths and be a 200 so verify that the text starts as expected JSON.
                 //setExists('exists!')
                 //setBody(text);
@@ -44,7 +46,8 @@ const Icon: React.FC = () => {
                 setIconSys(tmpiconsys);
                 setVariant(tmpiconsys.normal);
             }
-            else {
+            else
+            {
                 //setExists('does not exist.')
             }
         }
@@ -52,8 +55,63 @@ const Icon: React.FC = () => {
         fetchIconSys();
     }, [iconcode]);
 
+    async function download() {
+        if (!iconsys) {
+            return;
+        }
 
-    return(
+        let variants = new Set([iconsys.normal, iconsys.copy, iconsys.delete]);
+        let files: string[] = [];
+
+        variants.forEach(variant => {
+            files.push(`${variant}.anim`);
+            files.push(`${variant}.mtl`);
+            files.push(`${variant}.obj`);
+            files.push(`${variant}.png`);
+        });
+
+        files.push('iconsys.json');
+
+        const promises = files.map(async (file) => {
+            var response = await fetch(`/icons/${iconcode}/${file}`);
+            if (response.ok) {
+                // TODO: Downloading the PNGs as text isn't going to work.
+                var text = await response.text();
+
+                // TODO: How do we check for this issue in the PNG cases? Check response mimetype?
+                // Silly react server will return index page on 404s.
+                if (!text.startsWith('<!DOCTYPE html>')) {
+                    return {file, text}
+                }
+            }
+
+            return null;
+        });
+        var results = await Promise.allSettled(promises);   // Await fetching of each file in parallel.
+
+        const zip = new JSZip();
+
+        results.forEach(result => {
+            if (result.status === 'fulfilled' && result.value) {
+                zip.file(result.value.file, result.value.text);
+            }
+        });
+
+        const zipContent = await zip.generateAsync({ type: 'blob' });
+
+        // Create a download link for the zip file.
+        const url = URL.createObjectURL(zipContent);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${iconcode}.zip`;
+        document.body.appendChild(a);
+        a.click();
+
+        // Clean up the created URL.
+        URL.revokeObjectURL(url);
+    }
+
+    return (
         <div>
             {/* <code>'{iconcode}' {exists}</code>
             <br/>
@@ -105,6 +163,9 @@ const Icon: React.FC = () => {
                             <li>
                                 <label>Background Color: </label>
                                 <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
+                            </li>
+                            <li>
+                                <button onClick={download}>Download</button>
                             </li>
                         </ul>
                     </div>
