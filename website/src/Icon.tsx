@@ -79,7 +79,7 @@ const Icon: React.FC = () => {
             var response = await fetch(`/icons/${iconcode}/${file}`);
             if (response.ok) {
                 // For PNGs we need a blob, not text. Check content-type header in case react returned index page on 404.
-                if (file.endsWith('.png') && response.headers.get('content-type') == 'image/png') {
+                if (file.endsWith('.png') && response.headers.get('content-type') === 'image/png') {
                     var png = await response.blob();
                     return { file, content: png };
                 }
@@ -179,7 +179,7 @@ const Icon: React.FC = () => {
                                 <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
                             </li>
                             <li>
-                                <button onClick={download}>Download</button>
+                                <button onClick={download}>Download ⬇️</button>
                             </li>
                         </ul>
                     </div>
