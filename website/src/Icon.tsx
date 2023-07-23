@@ -60,28 +60,43 @@ const Icon: React.FC = () => {
             return;
         }
 
+        // Get all unique variants (duplicates discarded by set).
         let variants = new Set([iconsys.normal, iconsys.copy, iconsys.delete]);
         let files: string[] = [];
 
+        // Assets required for each variant.
         variants.forEach(variant => {
-            files.push(`${variant}.anim`);
+            files.push(`${variant}.anim`);  // Optional, not all icons/variants have animations.
             files.push(`${variant}.mtl`);
             files.push(`${variant}.obj`);
             files.push(`${variant}.png`);
         });
 
-        files.push('iconsys.json');
+        files.push('iconsys.json'); // iconsys.json is always needed.
 
+        // Create a list of promises to load each asset, and await them in parallel with allSettled.
         const promises = files.map(async (file) => {
             var response = await fetch(`/icons/${iconcode}/${file}`);
             if (response.ok) {
-                // TODO: Downloading the PNGs as text isn't going to work.
-                var text = await response.text();
+                // For PNGs we need a blob, not text. Check content-type header in case react returned index page on 404.
+                if (file.endsWith('.png') && response.headers.get('content-type') == 'image/png') {
+                    var png = await response.blob();
+                    return { file, content: png };
+                }
+                else {
+                    var text = await response.text();
+                    
+                    // Silly react server will return index page on 404s.
+                    if (!text.startsWith('<!DOCTYPE html>')) {
+                        return { file, content: text };
+                    }
+                }
 
-                // TODO: How do we check for this issue in the PNG cases? Check response mimetype?
-                // Silly react server will return index page on 404s.
-                if (!text.startsWith('<!DOCTYPE html>')) {
-                    return {file, text}
+                if (file.endsWith('.anim')) {
+                    console.warn(`Error loading ${file}, it is an anim file so there is a chance the icon just doesn't have an animation.`);
+                }
+                else {
+                    console.error(`Error loading ${file}.`);
                 }
             }
 
@@ -89,17 +104,16 @@ const Icon: React.FC = () => {
         });
         var results = await Promise.allSettled(promises);   // Await fetching of each file in parallel.
 
+        // Create a zip file, load all successful files in and generate blob.
         const zip = new JSZip();
-
         results.forEach(result => {
             if (result.status === 'fulfilled' && result.value) {
-                zip.file(result.value.file, result.value.text);
+                zip.file(result.value.file, result.value.content);
             }
         });
-
         const zipContent = await zip.generateAsync({ type: 'blob' });
 
-        // Create a download link for the zip file.
+        // Create URL for blob and create anchor element with the blob, then programmatically click element to begin download.
         const url = URL.createObjectURL(zipContent);
         const a = document.createElement('a');
         a.href = url;
@@ -107,7 +121,7 @@ const Icon: React.FC = () => {
         document.body.appendChild(a);
         a.click();
 
-        // Clean up the created URL.
+        // Clean up the created blob URL.
         URL.revokeObjectURL(url);
     }
 
