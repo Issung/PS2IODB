@@ -1,5 +1,10 @@
 label {
-    margin-right: 10px;
+    user-select: none
+}
+
+label input,
+label select {
+    margin-left: 10px;
 }
 
 div#iconoptions {

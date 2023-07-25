@@ -136,47 +136,53 @@ const Icon: React.FC = () => {
                     <div id="iconoptions">
                         <ul>
                             <li>
-                                <label>Animate Model: </label>
-                                <input type="checkbox" checked={doAnimation} onChange={e => setDoAnimation(e.target.checked)}/>
+                                <label>Animate Model: 
+                                    <input type="checkbox" checked={doAnimation} onChange={e => setDoAnimation(e.target.checked)}/>
+                                </label>
                             </li>
                             <li>
-                                <label>Display Grid: </label>
-                                <input type="checkbox" checked={grid} onChange={e => setGrid(e.target.checked)}/>
+                                <label>Display Grid: 
+                                    <input type="checkbox" checked={grid} onChange={e => setGrid(e.target.checked)}/>
+                                </label>
                             </li>
                             <li>
-                                <label>Icon Variant: </label>
-                                <select value={variant} onChange={e => setVariant(e.target.value)}>
-                                    {/* Make a Set to remove duplicates, then turn back to Array to use .map(). */}
-                                    {Array.from(new Set([iconsys.normal, iconsys.copy, iconsys.delete])).map(val => (
-                                        <option value={val} key={val}>
-                                            {val}
-                                        </option>
-                                    ))}
-                                </select>
+                                <label>Icon Variant: 
+                                    <select value={variant} onChange={e => setVariant(e.target.value)}>
+                                        {/* Make a Set to remove duplicates, then turn back to Array to use .map(). */}
+                                        {Array.from(new Set([iconsys.normal, iconsys.copy, iconsys.delete])).map(val => (
+                                            <option value={val} key={val}>
+                                                {val}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </label>
                             </li>
                             <li>
-                                <label>Material: </label>
-                                <select value={textureType} onChange={e => setTextureType(e.target.value as TextureType)}>
-                                    {Object.values(TextureType).map((type) => (
-                                        <option key={type} value={type}>
-                                            {type}
-                                        </option>
-                                    ))}
-                                </select>
+                                <label>Material:
+                                    <select value={textureType} onChange={e => setTextureType(e.target.value as TextureType)}>
+                                        {Object.values(TextureType).map((type) => (
+                                            <option key={type} value={type}>
+                                                {type}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </label>
                             </li>
                             <li>
-                                <label>Mesh: </label>
-                                <select value={meshType} onChange={e => setMeshType(e.target.value as MeshType)}>
-                                    {Object.values(MeshType).map((type) => (
-                                        <option key={type} value={type}>
-                                            {type}
-                                        </option>
-                                    ))}
-                                </select>
+                                <label>Mesh: 
+                                    <select value={meshType} onChange={e => setMeshType(e.target.value as MeshType)}>
+                                        {Object.values(MeshType).map((type) => (
+                                            <option key={type} value={type}>
+                                                {type}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </label>
                             </li>
                             <li>
-                                <label>Background Color: </label>
-                                <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
+                                <label>Background Color: 
+                                    <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
+                                </label>
                             </li>
                             <li>
                                 <button onClick={download}>Download ⬇️</button>
