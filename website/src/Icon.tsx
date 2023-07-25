@@ -15,11 +15,9 @@ import JSZip from "jszip";
  * - Play/pause controls.
  */
 const Icon: React.FC = () => {
-    //const [exists, setExists] = useState('...');
-    //const [body, setBody] = useState('');
+    const [iconError, setIconError] = useState<string | undefined>(undefined);
     const [iconsys, setIconSys] = useState<IconSys | null>(null);
 
-    // Get icon code from the url
     const { iconcode } = useParams();
     const [variant, setVariant] = useState<string>();
     
@@ -28,27 +26,33 @@ const Icon: React.FC = () => {
     const [textureType, setTextureType] = useState(TextureType.Icon);
     const [meshType, setMeshType] = useState(MeshType.Mesh);
     const [backgroundColor, setBackgroundColor] = useState('#020202');
+
+    const [downloadStatus, setDownloadStatus] = useState('');
     
     useEffect(() => {
         async function fetchIconSys() {
-            // The 'icons' folder goes inside the 'website/public' folder.
-            var url = `/icons/${iconcode}/iconsys.json`;
-            var response = await fetch(url);
-            var text = await response.text();
+            try {
 
-            if (text.startsWith('{'))
-            {
-                // The silly React server will return the index page on unknown paths and be a 200 so verify that the text starts as expected JSON.
-                //setExists('exists!')
-                //setBody(text);
-
-                let tmpiconsys = JSON.parse(text) as IconSys;
-                setIconSys(tmpiconsys);
-                setVariant(tmpiconsys.normal);
+                // The 'icons' folder goes inside the 'website/public' folder.
+                var url = `/icons/${iconcode}/iconsys.json`;
+                var response = await fetch(url);
+                var text = await response.text();
+                
+                if (text.startsWith('{'))
+                {
+                    let tmpiconsys = JSON.parse(text) as IconSys;
+                    setIconSys(tmpiconsys);
+                    setVariant(tmpiconsys.normal);
+                }
+                else
+                {
+                    throw new Error(`IconSys JSON response did not start with '{'. Body: ${text}.`)
+                }
             }
-            else
-            {
-                //setExists('does not exist.')
+            catch (e) {
+                if (e instanceof Error) {
+                    setIconError('Error loading icon data. ' + e.message);
+                }
             }
         }
 
@@ -56,6 +60,16 @@ const Icon: React.FC = () => {
     }, [iconcode]);
 
     async function download() {
+        setDownloadStatus('Loading...');
+        downloadImpl()
+            .then(() => setDownloadStatus(''))
+            .catch((e) => {
+                console.error(e);
+                setDownloadStatus('Error. Check console.');
+            });
+    }
+
+    async function downloadImpl() {
         if (!iconsys) {
             return;
         }
@@ -127,10 +141,7 @@ const Icon: React.FC = () => {
 
     return (
         <div>
-            {/* <code>'{iconcode}' {exists}</code>
-            <br/>
-            <code>{body}</code>
-            <br/><br/> */}
+            {iconError && (<code>{iconError}</code>)}
             {
                 iconsys != null && (
                     <div id="iconoptions">
@@ -185,7 +196,8 @@ const Icon: React.FC = () => {
                                 </label>
                             </li>
                             <li>
-                                <button onClick={download}>Download ⬇️</button>
+                                <button onClick={download} style={{marginRight: 5}}>Download ⬇️</button>
+                                <label>{downloadStatus}</label>
                             </li>
                         </ul>
                     </div>
