@@ -3,19 +3,28 @@ import { AnimationData } from "./AnimationData";
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'stats.js';
+import { MeshType, TextureType } from "./ModelViewParams";
 
 /**
  * Implementation of the 3D model view and interactions in threejs.
  * Used by ModelView.tsx component.
  */
 class ModelRendererImpl {
+    // Display properties here, defaults will be overriden by Icon.tsx.
     public prop_animate: boolean = true;
+    public prop_grid: boolean = true;
+    public prop_textureType: TextureType = TextureType.Icon;
+    public prop_meshType: MeshType = MeshType.Mesh;
+    public prop_backgroundColor: string = '#000000';
 
     private clock = new THREE.Clock(true);
     
     private camera: THREE.PerspectiveCamera;
     private scene: THREE.Scene;
     private stats: Stats;
+    private axesHelper: THREE.AxesHelper;
+    private verticalGridHelper: THREE.GridHelper;
+    private horizontalGridHelper: THREE.GridHelper;
     
     private initialised: boolean = false;
     private renderer: THREE.WebGLRenderer | undefined;
@@ -27,6 +36,7 @@ class ModelRendererImpl {
     private geometry: THREE.BufferGeometry | undefined;
     private texture: THREE.Texture | undefined;
     private animData: AnimationData | undefined;
+    private mesh: THREE.Mesh<any, any> | undefined;
 
     static readonly secondsPerAnimationFrame = 0.15;
 
@@ -34,20 +44,21 @@ class ModelRendererImpl {
         console.log(`ModelRendererImpl constructor.`);
         this.scene = new THREE.Scene();
 
-        this.camera = new THREE.PerspectiveCamera(45, /*window.innerWidth / window.innerHeight*/ 640/480, 0.01, 2000);
+        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 2000);
         this.camera.position.z = -2;
+        this.camera.position.y = 0.75;
         this.camera.lookAt(0, 0, 0);
         this.scene.add(this.camera);
 
-        let axesHelper = new THREE.AxesHelper(1);
-        this.scene.add(axesHelper);
+        this.axesHelper = new THREE.AxesHelper(0.5);
+        this.scene.add(this.axesHelper);
 
-        let gridHelperVertical = new THREE.GridHelper(2, 5);
-        gridHelperVertical.setRotationFromEuler(new THREE.Euler(THREE.MathUtils.degToRad(90), 0, 0));
-        this.scene.add(gridHelperVertical);
+        this.verticalGridHelper = new THREE.GridHelper(1, 3);
+        this.verticalGridHelper.setRotationFromEuler(new THREE.Euler(THREE.MathUtils.degToRad(90), 0, 0));
+        this.scene.add(this.verticalGridHelper);
 
-        let gridHelperHorizontal = new THREE.GridHelper(2, 5);
-        this.scene.add(gridHelperHorizontal);
+        this.horizontalGridHelper = new THREE.GridHelper(1, 3);
+        this.scene.add(this.horizontalGridHelper);
 
         const ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
         this.scene.add(ambientLight);
@@ -57,7 +68,7 @@ class ModelRendererImpl {
 
         this.stats = this.createStats();
 
-        document.addEventListener('resize', (e) => this.onWindowResize());
+        window.addEventListener('resize', (e) => this.onWindowResize());
         
         this.assetLoadComplete = this.assetLoadComplete.bind(this);
         this.dispose = this.dispose.bind(this);
@@ -73,15 +84,18 @@ class ModelRendererImpl {
         this.canvas.before(this.stats.dom);
         
         this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
+        this.onWindowResize();
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+        this.controls.autoRotate = true;
+        this.controls.autoRotateSpeed = -2;
         this.controls.rotateSpeed = 0.2;
         this.controls.update();
-        //renderer.setPixelRatio(window.devicePixelRatio);
-        //renderer.setSize(window.innerWidth, window.innerHeight);
+
+        this.canvas.addEventListener('click', (e) => { this.controls!.autoRotate = false; });
     }
 
-    public async loadNewIcon(code: string, variant: string) {
-        console.log(`ModelRendererImpl loadNewIcon. Code: ${code}, Variant: ${variant}.`);
+    public async loadNewIcon(iconcode: string, variant: string, textureType: TextureType) {
+        console.log(`ModelRendererImpl loadNewIcon. Code: ${iconcode}, Variant: ${variant}.`);
 
         // Remove existing icon if there is one.
         if (this.pivot) {
@@ -92,11 +106,18 @@ class ModelRendererImpl {
 
         // Fetch OBJ (model) file.
         const objLoader = new OBJLoader(loadingManager);
-        objLoader.load(`/icons/${code}/${variant}.obj`, (obj) => { this.icon = obj; }, onProgress, onError);
+        objLoader.load(`/icons/${iconcode}/${variant}.obj`, (obj) => { this.icon = obj; }, onProgress, onError);
 
         // Fetch texture/material.
+        //var textureUrl = textureType === TextureType.Icon ? `/icons/${code}/${variant}.png` : 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg';//'https://threejs.org/examples/textures/uv_grid_opengl.jpg';
+        let textureUrl = 
+            textureType === TextureType.Icon ? `/icons/${iconcode}/${variant}.png` :
+            textureType === TextureType.Test ? 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' :
+            textureType === TextureType.Plain ? 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg' : 
+            (() => { throw new Error("Unknown TextureType"); })();
+
         const textureLoader = new THREE.TextureLoader(loadingManager);
-        this.texture = textureLoader.load(`/icons/${code}/${variant}.png` /* 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' */);
+        this.texture = textureLoader.load(textureUrl);
         this.texture.colorSpace = THREE.SRGBColorSpace;
 
         function onProgress(e: ProgressEvent) {
@@ -112,7 +133,7 @@ class ModelRendererImpl {
         }
 
         // Fetch animation data (if request doesn't succeed assume there is no animation).
-        var animResponse = await fetch(`/icons/${code}/${variant}.anim`);
+        var animResponse = await fetch(`/icons/${iconcode}/${variant}.anim`);
         if (animResponse.ok) {
             var animText = await animResponse.text();
 
@@ -134,8 +155,10 @@ class ModelRendererImpl {
         if (this.icon) {
             this.icon.traverse(child => {
                 if (child instanceof THREE.Mesh) {
+                    this.mesh = child;
                     this.geometry = child.geometry;
                     child.material.map = this.texture;
+                    child.material.wireframe = true;
                 }
             });
 
@@ -156,7 +179,9 @@ class ModelRendererImpl {
 
     createStats() : Stats {
         var stats = new Stats();
-        stats.dom.style.position = 'initial';
+        stats.dom.style.position = 'absolute';
+        stats.dom.style.bottom = '0px';
+        stats.dom.style.top = '';
 
         return stats;
     }
@@ -173,23 +198,35 @@ class ModelRendererImpl {
     onWindowResize() {
         //windowHalfX = window.innerWidth / 2;
         //windowHalfY = window.innerHeight / 2;
+        console.log('Resize!');
 
-        this.camera.aspect = 640/480;//window.innerWidth / window.innerHeight;
+        this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
 
-        //renderer.setSize(window.innerWidth, window.innerHeight);
+        if (this.renderer) {
+            this.renderer.setSize(window.innerWidth, window.innerHeight);
+            this.renderer.setPixelRatio(window.devicePixelRatio);
+        }
     }
 
     public animate() {
         requestAnimationFrame(this.animate);
-        this.render();
         this.controls?.update();
         this.stats.update();
+        this.render();
     }
 
     render() {
-        if (this.prop_animate && this.animData && this.geometry) 
-        {
+        this.axesHelper.visible = this.prop_grid;
+        this.verticalGridHelper.visible = this.prop_grid;
+        this.horizontalGridHelper.visible = this.prop_grid;
+        this.renderer?.setClearColor(new THREE.Color(this.prop_backgroundColor));
+
+        if (this.mesh) {
+            this.mesh.material.wireframe = this.prop_meshType === MeshType.Wireframe;
+        }
+
+        if (this.prop_animate && this.animData && this.geometry) {
             var animationTotalFrames = this.animData.frames.length;
             var secondsForWholeAnimation = ModelRendererImpl.secondsPerAnimationFrame * animationTotalFrames;
             var animationFrame = Math.floor((this.clock.getElapsedTime() % secondsForWholeAnimation) / ModelRendererImpl.secondsPerAnimationFrame);

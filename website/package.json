@@ -12,6 +12,7 @@
     "@types/stats.js": "^0.17.0",
     "@types/three": "^0.152.0",
     "bootstrap": "^5.2.3",
+    "jszip": "^3.10.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-ga4": "^2.1.0",

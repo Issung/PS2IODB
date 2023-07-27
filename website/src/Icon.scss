@@ -1,0 +1,28 @@
+label {
+    user-select: none
+}
+
+label input,
+label select {
+    margin-left: 10px;
+}
+
+div#iconoptions {
+    float: left;
+    background-color: rgba(0, 0, 0, 0.25);
+    padding-top: 10px;
+    padding-right: 15px;
+}
+
+div button {
+    color: black;
+}
+
+div input[type="color"] {
+    height: 19px;
+}
+
+code {
+    margin: 15px;
+    font-size: 1.2em !important;
+}
