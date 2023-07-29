@@ -62,4 +62,45 @@
     a[href^="/directory/"] > h3:hover {
         background-color: #fffeff0f;
     }
+
+    > hr {
+        width: 50%;
+        padding-left: 50%;
+        transform: translateX(50%);
+        margin: 0px;
+    }
+
+    #progress-container .row:not(:last-child) {
+        margin-bottom: 25px;
+    }
+
+    #progress {
+        background-color: #0b0b0b;
+        min-height: 50px;
+        padding: 0;
+        overflow: hidden;
+        border-radius: 6px;
+    }
+
+    #progress #fill {
+        height: 100%;
+        //min-width: fit-content;
+        background-color: #0b5cd4;
+        transition: width 4s;
+    }
+
+    #progress #fill strong {
+        text-align: center;
+        //width: 100%;
+        height: 100%;
+        padding-top: 12px;
+        display: block;
+        margin-right: 14px;
+        right: -40px;
+        position: relative;
+    }
+
+    #progress-paragraph {
+        text-align: center;
+    }
 }

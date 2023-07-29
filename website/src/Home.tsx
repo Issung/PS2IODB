@@ -11,7 +11,18 @@ const Home: React.FC = () => {
     const { type: paramType, index: paramIndex } = useParams();
     const [games, setGames] = useState<Game[]>([]);
     const [keywords, setKeywords] = useState(Array<string>);
+    const [contributed, setContributed] = useState(0);
+    const [progress, setProgress] = useState(0);
     const highlightColor: string = '#ffffff1f';
+
+    useEffect(() => {
+        let contributedCount = GameList.filter(g => g.code).length;
+        setContributed(contributedCount);
+        let totalCount = GameList.length;
+        let p = (contributedCount / totalCount) * 100;
+        console.log(`progress is ${p}`);
+        setProgress(p);
+    }, []);
 
     useEffect(() => {
         // Define inside useEffect so it's not seen as a dependency.
@@ -85,7 +96,7 @@ const Home: React.FC = () => {
 
     return (
         <div id="Home">
-            <div className="container-fluid" style={{ height: "100vh", maxHeight: 800 }}>
+            <div className="container-fluid" style={{ height: "fit-content", maxHeight: 800 }}>
                 <div className="row">
                     <div className="col">
                         <h1>PS2 Icon Open Database</h1>
@@ -106,7 +117,33 @@ const Home: React.FC = () => {
                 </div>
             </div>
             {/* TODO: Turn this entire alphabetial/category select into a component. */}
+            <div className="container" id="progress-container" style={{ minHeight: 300 }}>
+                <div className="row justify-content-center">
+                    <div className="col">
+                        <h1>Progress</h1>
+                    </div>
+                </div>
+                <div className="row justify-content-center">
+                    <div id="progress" className="col-10 col-sm-12">
+                        <div id="fill" style={{width:`${progress}%`}}>
+                            <strong>{progress.toFixed(2)}%</strong>
+                        </div>
+                    </div>
+                </div>
+                <div className="row justify-content-center">
+                    <p id="progress-paragraph">
+                        Currently {contributed} titles out of {GameList.length} total ({progress.toFixed(2)}%) have been archived.<br/>
+                        To get to 100% we need support from you! Learn how <Link to="/contribute">here</Link>. {/* TODO Fix link hover visuals */}
+                    </p>
+                </div>
+            </div>
+            <hr/>
             <div className="container" style={{ minHeight: 700 }}>
+                <div className="row justify-content-center">
+                    <div className="col">
+                        <h1>Browse</h1>
+                    </div>
+                </div>
                 <div className="row justify-content-center">
                     <div className="col">
                         <Link to="/search/alphabetical" style={{ textDecoration: 'none' }} title="Explore titles by alphabetical sections">
@@ -120,7 +157,7 @@ const Home: React.FC = () => {
                     </div>
                     <div className="col">
                         <Link to="/search/text" style={{ textDecoration: 'none' }} title="Explore titles with free text search">
-                            <h2 style={{ textAlign: 'center' }}>Text Search</h2>
+                            <h2 style={{ textAlign: 'center' }}>Text&nbsp;Search</h2>
                         </Link>
                     </div>
                 </div>
