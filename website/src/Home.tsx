@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import './Home.scss';
 import SearchBar from "./SearchBar";
 import SearchResults from "./SearchResults";
@@ -12,21 +12,16 @@ const Home: React.FC = () => {
     const [games, setGames] = useState<Game[]>([]);
     const [keywords, setKeywords] = useState(Array<string>);
 
-    const [contributed, setContributed] = useState(GameList.filter(g => g.code).length);
-    const [progress, setProgress] = useState((GameList.filter(g => g.code).length / GameList.length) * 100);
+    const [contributed] = useState(GameList.filter(g => g.code).length);
+    const [progress] = useState((GameList.filter(g => g.code).length / GameList.length) * 100);
     const [barProgress, setBarProgress] = useState(0); // Need a seperate variable for bar progress because it needs to initially be set to 0 then another value to be transitioned by the CSS.
     const [animatedProgress, setAnimatedProgress] = useState(0);
     const highlightColor: string = '#ffffff1f';
 
-    const animationDuration = 4000; // 4 Seconds, matching CSS transition.
-    const startTime = Date.now();
+    const [animationDuration] = useState(4000); // 4 Seconds, matching CSS transition.
+    const [startTime] = useState(Date.now());
 
-    useEffect(() => {
-        setBarProgress(progress);
-        requestAnimationFrame(() => updatePercentage(progress));
-    }, []);
-
-    const updatePercentage = (progress: number) => {
+    const updatePercentage = useCallback((progress: number) => {
         const currentTime = Date.now();
         const elapsedTime = currentTime - startTime;
         const percentage = Math.min(elapsedTime / animationDuration, 100);
@@ -37,7 +32,12 @@ const Home: React.FC = () => {
         if (percentage < 1) {
             requestAnimationFrame(() => updatePercentage(progress));
         }
-    };
+    }, [animationDuration, startTime]);
+
+    useEffect(() => {
+        setBarProgress(progress);
+        requestAnimationFrame(() => updatePercentage(progress));
+    }, [progress, updatePercentage]);
 
     useEffect(() => {
         // Define inside useEffect so it's not seen as a dependency.
