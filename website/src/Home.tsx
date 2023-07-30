@@ -11,18 +11,33 @@ const Home: React.FC = () => {
     const { type: paramType, index: paramIndex } = useParams();
     const [games, setGames] = useState<Game[]>([]);
     const [keywords, setKeywords] = useState(Array<string>);
-    const [contributed, setContributed] = useState(0);
-    const [progress, setProgress] = useState(0);
+
+    const [contributed, setContributed] = useState(GameList.filter(g => g.code).length);
+    const [progress, setProgress] = useState((GameList.filter(g => g.code).length / GameList.length) * 100);
+    const [barProgress, setBarProgress] = useState(0); // Need a seperate variable for bar progress because it needs to initially be set to 0 then another value to be transitioned by the CSS.
+    const [animatedProgress, setAnimatedProgress] = useState(0);
     const highlightColor: string = '#ffffff1f';
 
+    const animationDuration = 4000; // 4 Seconds, matching CSS transition.
+    const startTime = Date.now();
+
     useEffect(() => {
-        let contributedCount = GameList.filter(g => g.code).length;
-        setContributed(contributedCount);
-        let totalCount = GameList.length;
-        let p = (contributedCount / totalCount) * 100;
-        console.log(`progress is ${p}`);
-        setProgress(p);
+        setBarProgress(progress);
+        requestAnimationFrame(() => updatePercentage(progress));
     }, []);
+
+    const updatePercentage = (progress: number) => {
+        const currentTime = Date.now();
+        const elapsedTime = currentTime - startTime;
+        const percentage = Math.min(elapsedTime / animationDuration, 100);
+        const newValue = progress * percentage;
+        console.log(`elapsedTime: ${elapsedTime}, percentage: ${percentage}, newValue: ${newValue}.`)
+        setAnimatedProgress(newValue);
+
+        if (percentage < 1) {
+            requestAnimationFrame(() => updatePercentage(progress));
+        }
+    };
 
     useEffect(() => {
         // Define inside useEffect so it's not seen as a dependency.
@@ -41,23 +56,28 @@ const Home: React.FC = () => {
         let typeLink = document.querySelector(`a[href="/search/${type}"] > h2`) as HTMLHeadingElement;
         typeLink.style.backgroundColor = highlightColor;
 
-        if (type === "alphabetical") {
+        if (type === "alphabetical")
+        {
             let index = (paramIndex === undefined || paramIndex < 'A' || paramIndex > 'Z') ? "misc" : paramIndex;
 
             document.querySelectorAll('a[href^="/search/alphabetical"] > h3').forEach(a => (a as HTMLHeadingElement).style.backgroundColor = '');
             let letterLink = document.querySelector(`a[href="/search/alphabetical/${index}"] > h3`) as HTMLHeadingElement;
             letterLink.style.backgroundColor = highlightColor;
 
-            if (index === 'misc') {
+            if (index === 'misc')
+            {
                 // All things that come before the first game that starts with 'A'.
                 let firstA = GameList.findIndex(g => g.name.startsWith('A'));
                 setGames(GameList.slice(0, firstA));
             }
-            else {
+            else
+            {
                 let characters = additionalCharacterIncludes[index] ?? [index];
                 let results = GameList.filter(g => {
-                    for (const char of characters) {
-                        if (g.name.startsWith(char)) {
+                    for (const char of characters)
+                    {
+                        if (g.name.startsWith(char))
+                        {
                             return true;
                         }
                     }
@@ -66,26 +86,32 @@ const Home: React.FC = () => {
                 setGames(results);
             }
         }
-        else if (type === "category") {
+        else if (type === "category")
+        {
             let index = paramIndex ?? "icons";
 
             document.querySelectorAll('a[href^="/search/category"] > h3').forEach(a => (a as HTMLHeadingElement).style.backgroundColor = '');
             var categoryLink = document.querySelector(`a[href="/search/category/${index}"] > h3`) as HTMLHeadingElement;
             categoryLink.style.backgroundColor = highlightColor;
 
-            if (index === 'all') {
+            if (index === 'all')
+            {
                 setGames(GameList);
             }
-            else if (index.endsWith('icons')) {
-                if (index === 'noicons') {
+            else if (index.endsWith('icons'))
+            {
+                if (index === 'noicons')
+                {
                     let gamesInCategory = GameList.filter(g => g.code == null);
                     setGames(gamesInCategory);
                 }
-                else if (index === 'icons') {
+                else if (index === 'icons')
+                {
                     let gamesInCategory = GameList.filter(g => g.code != null);
                     setGames(gamesInCategory);
                 }
-                else {
+                else
+                {
                     let number = parseInt(index[0]);
                     let gamesInCategory = GameList.filter(g => g.icons === number);
                     setGames(gamesInCategory);
@@ -125,19 +151,19 @@ const Home: React.FC = () => {
                 </div>
                 <div className="row justify-content-center">
                     <div id="progress" className="col-10 col-sm-12">
-                        <div id="fill" style={{width:`${progress}%`}}>
-                            <strong>{progress.toFixed(2)}%</strong>
+                        <div id="fill" style={{ width: `${barProgress}%` }}>
+                            <strong>{animatedProgress.toFixed(2)}%</strong>
                         </div>
                     </div>
                 </div>
                 <div className="row justify-content-center">
                     <p id="progress-paragraph">
-                        Currently {contributed} titles out of {GameList.length} total ({progress.toFixed(2)}%) have been archived.<br/>
+                        Currently {contributed} titles out of {GameList.length} total ({progress.toFixed(2)}%) have been archived.<br />
                         To get to 100% we need support from you! Learn how <Link to="/contribute">here</Link>. {/* TODO Fix link hover visuals */}
                     </p>
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div className="container" style={{ minHeight: 700 }}>
                 <div className="row justify-content-center">
                     <div className="col">
@@ -162,7 +188,7 @@ const Home: React.FC = () => {
                     </div>
                 </div>
                 <hr />
-                { paramType === "alphabetical" && (
+                {paramType === "alphabetical" && (
                     <div className="row justify-content-center">
                         {['#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(char => (
                             <div className="col-1" style={{ textAlign: 'center' }}>
@@ -175,7 +201,7 @@ const Home: React.FC = () => {
                         <GameTable games={games} />
                     </div>
                 )}
-                { (paramType ?? "category") === "category" && (
+                {(paramType ?? "category") === "category" && (
                     <div className="row justify-content-center">
                         <div className="col">
                             <Link to="/search/category/all" style={{ textDecoration: 'none' }} title="List all titles">
@@ -211,12 +237,12 @@ const Home: React.FC = () => {
                         <GameTable games={games} />
                     </div>
                 )}
-                { paramType === "text" && (
+                {paramType === "text" && (
                     <div className="row">
                         <div className="col-4">
-                            <SearchBar keywords={keywords} onKeywordsChange={newKeywords => setKeywords(newKeywords)}/>
-                            <br/>
-                            <br/>
+                            <SearchBar keywords={keywords} onKeywordsChange={newKeywords => setKeywords(newKeywords)} />
+                            <br />
+                            <br />
                             <SearchResults keywords={keywords} />
                         </div>
                     </div>
