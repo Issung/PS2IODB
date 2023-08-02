@@ -1,7 +1,9 @@
 """Utility functions for exporting icons as 3D models, with textures and animations."""
 
 from functools import reduce
+import hashlib
 import json
+import os
 from PIL import Image
 
 def export_iconsys(path, iconsys, icon_dict):
@@ -36,6 +38,22 @@ def export_iconsys(path, iconsys, icon_dict):
         output = output.replace('"##<', "").replace('>##"', "").replace("'", '"')
         file.write(output)
     print(f"Wrote {path}/iconsys.json")
+
+    # Attempt to consolidate duplicates
+    files = dir_files(path)
+    image_files = list(filter(lambda f: f.endswith(".png"), files))
+    image_md5s = list(map(lambda f: md5_file(f), image_files))
+    print(image_md5s)
+
+    for i in range(len(icon_dict) - 1, 0, -1):
+        if (image_md5s[i] == image_md5s[i - 1]):
+            image_filename = image_files[i]
+            files.pop(files.index(image_filename))
+            image_files.pop(i)
+            image_md5s.pop(i)
+
+    print("done")
+
 
 def export_variant(path, icon_filename, icon):
     """Export all assets for an icon variant: obj, texture & anim."""
@@ -100,7 +118,7 @@ def export_variant(path, icon_filename, icon):
         b = (((col >> 10)) << 3) & 0xFF 
         a = 255
         image.putpixel((x, y), (r, g, b, a))
-    image.save(f'{full_path_without_extension}.png', 'PNG')
+    image.save(f'{full_path_without_extension}.png', 'PNG', optimize=True)
     print(f"Wrote {full_path_without_extension}.png")
 
     # Write ANIM (if required).
@@ -136,6 +154,29 @@ def export_variant(path, icon_filename, icon):
             output = output.replace('"##<', "").replace('>##"', "").replace("'", '"')
             file.write(output)
         print(f"Wrote {full_path_without_extension}.anim ({frames} frames)")
+
+def md5_file(path):
+    """Get MD5 hash of file at given path."""
+    md5_hash = hashlib.md5()
+    with open(path, "rb") as file:
+        while chunk := file.read(4096):  # Read the file in 4KB chunks
+            md5_hash.update(chunk)
+    return md5_hash.hexdigest()
+
+def md5_object(obj):
+    """Get MD5 hash of an object."""
+    obj_str = repr(obj).encode('utf-8')  # Convert object to its string representation and encode to bytes
+    md5_hash = hashlib.md5(obj_str)
+    return md5_hash.hexdigest()
+
+def dir_files(directory_path):
+    """Get list of files in directory_path."""
+    files = []
+    for filename in os.listdir(directory_path):
+        file_path = os.path.join(directory_path, filename)
+        if os.path.isfile(file_path):
+            files.append(file_path)
+    return files
 
 # Hacky JSON converters to export objects and lists with set prefixes and suffixes mixed in, which can then be string replaced in order to have that 
 # entire object or list printed on a singular line. Useful for things like a very long vertex coordinates array.
