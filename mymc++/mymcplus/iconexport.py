@@ -41,19 +41,49 @@ def export_iconsys(path, iconsys, icon_dict):
 
     # Attempt to consolidate duplicates
     files = dir_files(path)
+    mtl_files = list(filter(lambda f: f.endswith(".mtl"), files))
     image_files = list(filter(lambda f: f.endswith(".png"), files))
     image_md5s = list(map(lambda f: md5_file(f), image_files))
+    count = len(image_files)
     print(image_md5s)
+    
+    # Comparisons to make in the case of 3.
+    # Compare 0 to 1, 0 to 2 and 1 to 2.
+    #
+    #      ┌─────────────────────────┐
+    #      │                         🠇
+    #   ╭─────╮      ╭─────╮      ╭─────╮
+    #   |  0  | ---> |  1  | ---> |  2  |
+    #   ╰─────╯      ╰─────╯      ╰─────╯
+    #
+    #   In the case of 2 there is only 1 comparison, and in the case of 1 there is no comparison to be made.
 
-    for i in range(len(icon_dict) - 1, 0, -1):
-        if (image_md5s[i] == image_md5s[i - 1]):
-            image_filename = image_files[i]
-            files.pop(files.index(image_filename))
-            image_files.pop(i)
-            image_md5s.pop(i)
+    # List of duplicates, integer tuples e.g. (0, 2) indicates 0 is a duplicate of 2 (or vice versa).
+    duplicates = []
+
+    # Find duplicates.
+    if (count == 1):
+        pass
+    elif (count == 2):
+        if (image_md5s[0] == image_md5s[1]):
+            duplicates.append((0, 1))
+    elif (count == 3):
+        if (image_md5s[0] == image_md5s[1]):
+            duplicates.append((0, 1))
+        if (image_md5s[0] == image_md5s[2]):
+            duplicates.append((0, 2))
+        if (image_md5s[0] == image_md5s[1]):
+            duplicates.append((1, 2))
+
+    # Delete duplicates.
+    for duplicate in duplicates:
+        # Check if file exists before deleting incase it was deleted by other duplicate
+        if os.path.isfile(mtl_files[duplicate[1]]): 
+            os.remove(mtl_files[duplicate[1]])
+        if os.path.isfile(image_files[duplicate[1]]): 
+            os.remove(image_files[duplicate[1]])
 
     print("done")
-
 
 def export_variant(path, icon_filename, icon):
     """Export all assets for an icon variant: obj, texture & anim."""

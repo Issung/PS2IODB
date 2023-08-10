@@ -734,7 +734,7 @@ def main(argv=sys.argv):
     if len(args) == 0:
         try:
             from .gui import gui
-        except ImportError:
+        except ImportError as e:
             gui = None
         if gui != None:
             gui.run()
