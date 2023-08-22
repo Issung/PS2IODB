@@ -42,7 +42,7 @@ const Icon: React.FC = () => {
                 {
                     let tmpiconsys = JSON.parse(text) as IconSys;
                     setIconSys(tmpiconsys);
-                    setVariant(tmpiconsys.normal);
+                    setVariant(tmpiconsys.idle);
                 }
                 else
                 {
@@ -75,7 +75,7 @@ const Icon: React.FC = () => {
         }
 
         // Get all unique variants (duplicates discarded by set).
-        let variants = new Set([iconsys.normal, iconsys.copy, iconsys.delete]);
+        let variants = new Set([iconsys.idle, iconsys.copy, iconsys.delete]);
         let files: string[] = [];
 
         // Assets required for each variant.
@@ -160,7 +160,7 @@ const Icon: React.FC = () => {
                                 <label>Icon Variant: 
                                     <select value={variant} onChange={e => setVariant(e.target.value)}>
                                         {/* Make a Set to remove duplicates, then turn back to Array to use .map(). */}
-                                        {Array.from(new Set([iconsys.normal, iconsys.copy, iconsys.delete])).map(val => (
+                                        {Array.from(new Set([iconsys.idle, iconsys.copy, iconsys.delete])).map(val => (
                                             <option value={val} key={val}>
                                                 {val}
                                             </option>

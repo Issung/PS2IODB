@@ -23,6 +23,8 @@ import optparse
 import textwrap
 from errno import EEXIST, EIO
 
+from mymcplus.utils import zero_terminate
+
 from . import ps2mc
 from .save import ps2save
 from .ps2mc_dir import *
@@ -734,7 +736,7 @@ def main(argv=sys.argv):
     if len(args) == 0:
         try:
             from .gui import gui
-        except ImportError:
+        except ImportError as e:
             gui = None
         if gui != None:
             gui.run()
