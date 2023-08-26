@@ -94,7 +94,7 @@ class ModelRendererImpl {
         this.canvas.addEventListener('click', (e) => { this.controls!.autoRotate = false; });
     }
 
-    public async loadNewIcon(iconcode: string, variant: string, textureType: TextureType) {
+    public async loadNewIcon(iconcode: string, variant: number, textureType: TextureType) {
         console.log(`ModelRendererImpl loadNewIcon. Code: ${iconcode}, Variant: ${variant}.`);
 
         // Remove existing icon if there is one.

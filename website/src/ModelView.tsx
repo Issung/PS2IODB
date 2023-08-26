@@ -2,21 +2,23 @@ import { useEffect } from "react";
 import './ModelView.scss';
 import ModelRendererImpl from "./ModelRendererImpl";
 import { MeshType, TextureType } from "./ModelViewParams";
+import { IconSys } from "./IconSys";
 
 interface ModelViewProps {
     iconcode: string | undefined;
-    variant: string | undefined;
+    iconsys: IconSys | undefined;
+    variant: number;
+    textureType: TextureType;
 
     animate: boolean;
     grid: boolean;
-    textureType: TextureType;
     meshType: MeshType;
     backgroundColor: string;
 }
 
 const renderer = new ModelRendererImpl();
 
-const ModelView: React.FC<ModelViewProps> = ({ iconcode, variant, textureType, animate, grid, meshType, backgroundColor }) => {
+const ModelView: React.FC<ModelViewProps> = ({ iconcode, iconsys, variant, textureType, animate, grid, meshType, backgroundColor }) => {
     //const renderer = useRef(new ModelRendererImpl());
 
     useEffect(() => {
@@ -26,10 +28,10 @@ const ModelView: React.FC<ModelViewProps> = ({ iconcode, variant, textureType, a
 
     // Effect for iconcode or variant changing, requires loading of new assets.
     useEffect(() => {
-        if (iconcode && variant) {
+        if (iconcode && iconsys) {
             renderer/*.current*/.loadNewIcon(iconcode, variant, textureType);
         }
-    }, [iconcode, variant, textureType])
+    }, [iconcode, iconsys, variant, textureType])
 
     // Effect for view options, does not require loading new assets.
     useEffect(() => {

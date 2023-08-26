@@ -16,10 +16,11 @@ import JSZip from "jszip";
  */
 const Icon: React.FC = () => {
     const [iconError, setIconError] = useState<string | undefined>(undefined);
-    const [iconsys, setIconSys] = useState<IconSys | null>(null);
+    const [iconsys, setIconSys] = useState<IconSys | undefined>(undefined);
 
     const { iconcode } = useParams();
-    const [variant, setVariant] = useState<string>();
+    
+    const [variant, setVariant] = useState<number>(0);
     
     const [doAnimation, setDoAnimation] = useState(true);
     const [grid, setGrid] = useState(true);
@@ -42,7 +43,6 @@ const Icon: React.FC = () => {
                 {
                     let tmpiconsys = JSON.parse(text) as IconSys;
                     setIconSys(tmpiconsys);
-                    setVariant(tmpiconsys.idle);
                 }
                 else
                 {
@@ -75,7 +75,7 @@ const Icon: React.FC = () => {
         }
 
         // Get all unique variants (duplicates discarded by set).
-        let variants = new Set([iconsys.idle, iconsys.copy, iconsys.delete]);
+        let variants = new Set([iconsys.normalFilename, iconsys.copyFilename, iconsys.deleteFilename]);
         let files: string[] = [];
 
         // Assets required for each variant.
@@ -158,11 +158,11 @@ const Icon: React.FC = () => {
                             </li>
                             <li>
                                 <label>Icon Variant: 
-                                    <select value={variant} onChange={e => setVariant(e.target.value)}>
+                                    <select value={variant} onChange={e => setVariant(parseInt(e.target.value))}>
                                         {/* Make a Set to remove duplicates, then turn back to Array to use .map(). */}
-                                        {Array.from(new Set([iconsys.idle, iconsys.copy, iconsys.delete])).map(val => (
-                                            <option value={val} key={val}>
-                                                {val}
+                                        {Array.from(new Set([iconsys.normalFilename, iconsys.copyFilename, iconsys.deleteFilename])).map(i => (
+                                            <option value={i} key={iconsys.filenames[i]}>
+                                                {iconsys.filenames[i]}
                                             </option>
                                         ))}
                                     </select>
@@ -204,7 +204,7 @@ const Icon: React.FC = () => {
                 )
             }
             <br/>
-            <ModelView iconcode={iconcode} variant={variant} animate={doAnimation} grid={grid} textureType={textureType} meshType={meshType} backgroundColor={backgroundColor} />
+            <ModelView iconcode={iconcode} iconsys={iconsys} variant={variant} animate={doAnimation} grid={grid} textureType={textureType} meshType={meshType} backgroundColor={backgroundColor} />
         </div>
     );
 };
