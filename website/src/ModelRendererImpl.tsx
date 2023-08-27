@@ -1,9 +1,9 @@
 import * as THREE from "three";
 import { AnimationData } from "./AnimationData";
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'stats.js';
 import { MeshType, TextureType } from "./ModelViewParams";
+import { TexturedOBJLoader } from "./TexturedOBJLoader";
 
 /**
  * Implementation of the 3D model view and interactions in threejs.
@@ -18,19 +18,19 @@ class ModelRendererImpl {
     public prop_backgroundColor: string = '#000000';
 
     private clock = new THREE.Clock(true);
-    
+
     private camera: THREE.PerspectiveCamera;
     private scene: THREE.Scene;
     private stats: Stats;
     private axesHelper: THREE.AxesHelper;
     private verticalGridHelper: THREE.GridHelper;
     private horizontalGridHelper: THREE.GridHelper;
-    
+
     private initialised: boolean = false;
     private renderer: THREE.WebGLRenderer | undefined;
     private canvas: HTMLCanvasElement | undefined;
     private controls: OrbitControls | undefined;
-    
+
     private icon: THREE.Group | undefined;
     private pivot: THREE.Group | undefined;
     private geometry: THREE.BufferGeometry | undefined;
@@ -69,20 +69,20 @@ class ModelRendererImpl {
         this.stats = this.createStats();
 
         window.addEventListener('resize', (e) => this.onWindowResize());
-        
+
         this.assetLoadComplete = this.assetLoadComplete.bind(this);
         this.dispose = this.dispose.bind(this);
         this.animate = this.animate.bind(this);
         this.animate();
     }
-    
+
     public init() {
         console.log(`ModelRendererImpl init. Init value: ${this.initialised}.`);
         this.initialised = true;
-        
+
         this.canvas = document.querySelector('#iconRenderCanvas') as HTMLCanvasElement;
         this.canvas.before(this.stats.dom);
-        
+
         this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
         this.onWindowResize();
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -98,66 +98,67 @@ class ModelRendererImpl {
         console.log(`ModelRendererImpl loadNewIcon. Code: ${iconcode}, Variant: ${variant}.`);
 
         // Remove existing icon if there is one.
-        if (this.pivot) {
+        if (this.pivot)
+        {
             this.scene.remove(this.pivot);
         }
 
         const loadingManager = new THREE.LoadingManager(this.assetLoadComplete);
 
-        // Fetch OBJ (model) file.
-        const objLoader = new OBJLoader(loadingManager);
-        objLoader.load(`/icons/${iconcode}/${variant}.obj`, (obj) => { this.icon = obj; }, onProgress, onError);
-
-        // Fetch texture/material.
-        //var textureUrl = textureType === TextureType.Icon ? `/icons/${code}/${variant}.png` : 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg';//'https://threejs.org/examples/textures/uv_grid_opengl.jpg';
-        let textureUrl = 
-            textureType === TextureType.Icon ? `/icons/${iconcode}/${variant}.png` :
-            textureType === TextureType.Test ? 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' :
-            textureType === TextureType.Plain ? 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg' : 
-            (() => { throw new Error("Unknown TextureType"); })();
-
-        const textureLoader = new THREE.TextureLoader(loadingManager);
-        this.texture = textureLoader.load(textureUrl);
-        this.texture.colorSpace = THREE.SRGBColorSpace;
+        // Load model & texture.
+        let textureUrl =
+            textureType === TextureType.Icon ? undefined :
+                textureType === TextureType.Test ? 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' :
+                    textureType === TextureType.Plain ? 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg' :
+                        (() => { throw new Error("Unknown TextureType"); })();
+        const objLoader = new TexturedOBJLoader(loadingManager);
+        objLoader.loadV2(
+            `/icons/${iconcode}/${variant}.obj`,
+            textureUrl,
+            (obj) => { this.icon = obj; },
+            onProgress,
+            onError
+        );
 
         function onProgress(e: ProgressEvent) {
             // TODO: Maybe display download progress for model + texture.
-            //if (e.lengthComputable) {
-            //    const percentComplete = e.loaded / e.total * 100;
-            //    console.log('model ' + Math.round(percentComplete) + '% downloaded');
-            //}
         }
 
         function onError(e: ErrorEvent) {
-            console.error(`OBJ Model load error. Message:' + ${e.message}`);
+            console.error(`OBJ Model load error. Message: '${e.message}'`);
         }
 
         // Fetch animation data (if request doesn't succeed assume there is no animation).
         var animResponse = await fetch(`/icons/${iconcode}/${variant}.anim`);
-        if (animResponse.ok) {
+        if (animResponse.ok)
+        {
             var animText = await animResponse.text();
 
-            if (animText.startsWith('{')) {
+            if (animText.startsWith('{'))
+            {
                 var animJson = JSON.parse(animText) as AnimationData;
                 this.animData = animJson;
             }
-            else {
+            else
+            {
                 console.warn('Animation data request response did not look like JSON.');
             }
         }
-        else {
+        else
+        {
             console.warn(`Request for animation data failed with status ${animResponse.status}`);
         }
     }
 
     // Ran when either obj or texture loading is complete.
     assetLoadComplete() {
-        if (this.icon) {
+        if (this.icon)
+        {
             this.icon.traverse(child => {
-                if (child instanceof THREE.Mesh) {
+                if (child instanceof THREE.Mesh)
+                {
                     this.mesh = child;
                     this.geometry = child.geometry;
-                    child.material.map = this.texture;
                     child.material.wireframe = true;
                 }
             });
@@ -166,18 +167,15 @@ class ModelRendererImpl {
             let boundingBox = new THREE.Box3().setFromObject(this.icon)
             let center = new THREE.Vector3();
             boundingBox.getCenter(center);  // Weird library design, rather than use the return value, copies the result into the parameter.
-    
-            //console.log(`center: ${center.x}, ${center.y}, ${center.z}`);
-    
+
             this.pivot = new THREE.Group();
             this.icon.position.sub(center);
             this.pivot.add(this.icon);
             this.scene.add(this.pivot);
-            //pivot.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), -180);
         }
     }
 
-    createStats() : Stats {
+    createStats(): Stats {
         var stats = new Stats();
         stats.dom.style.position = 'absolute';
         stats.dom.style.bottom = '0px';
@@ -203,7 +201,8 @@ class ModelRendererImpl {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
 
-        if (this.renderer) {
+        if (this.renderer)
+        {
             this.renderer.setSize(window.innerWidth, window.innerHeight);
             this.renderer.setPixelRatio(window.devicePixelRatio);
         }
@@ -222,11 +221,13 @@ class ModelRendererImpl {
         this.horizontalGridHelper.visible = this.prop_grid;
         this.renderer?.setClearColor(new THREE.Color(this.prop_backgroundColor));
 
-        if (this.mesh) {
+        if (this.mesh)
+        {
             this.mesh.material.wireframe = this.prop_meshType === MeshType.Wireframe;
         }
 
-        if (this.prop_animate && this.animData && this.geometry) {
+        if (this.prop_animate && this.animData && this.geometry)
+        {
             var animationTotalFrames = this.animData.frames.length;
             var secondsForWholeAnimation = ModelRendererImpl.secondsPerAnimationFrame * animationTotalFrames;
             var animationFrame = Math.floor((this.clock.getElapsedTime() % secondsForWholeAnimation) / ModelRendererImpl.secondsPerAnimationFrame);
