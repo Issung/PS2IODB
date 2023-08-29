@@ -3,8 +3,7 @@
 from functools import reduce
 import json
 from PIL import Image
-from mymcplus.customjson import CustomJSONEncoder, SingleLineList, SingleLineObject
-
+from mymcplus.jsonencoding import CustomJSONEncoder, SingleLineList, SingleLineObject
 from mymcplus.iconsys_dto import IconSysDto
 
 def export_iconsys(path, iconsys, icon_dict):

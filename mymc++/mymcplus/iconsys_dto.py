@@ -1,5 +1,5 @@
 import json
-from mymcplus.customjson import CustomJSONEncoder, SingleLineList
+from mymcplus.jsonencoding import CustomJSONEncoder, SingleLineList
 from mymcplus.ps2iconsys import IconSys
 
 class IconSysDto:
