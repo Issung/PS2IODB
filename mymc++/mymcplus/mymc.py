@@ -23,6 +23,8 @@ import optparse
 import textwrap
 from errno import EEXIST, EIO
 
+from mymcplus.utils import zero_terminate
+
 from . import ps2mc
 from .save import ps2save
 from .ps2mc_dir import *
