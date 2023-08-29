@@ -1,5 +1,4 @@
 import json
-from typing import Optional
 from mymcplus.customjson import CustomJSONEncoder, SingleLineList
 from mymcplus.ps2iconsys import IconSys
 
@@ -18,38 +17,23 @@ class IconSysDto:
     bgColBR: str
 
     # Light details.
-    # Directions are arrays of 4 floats ranging 0.0 - 1.0 representing ...(?)
+    # Directions are arrays of 4 floats ranging 0.0 - 1.0 representing ...(?).
     light1Dir: list[float]
     light2Dir: list[float]
     light3Dir: list[float]
-    # Lights are arrays of 4 floats ranging 0.0 - 1.0 representing r, g, b & unknown.
+    # Lights are arrays of 4 floats ranging 0.0 - 1.0 representing r, g, b & unknown (intensity?).
     light1Col: list[float]
     light2Col: list[float]
     light3Col: list[float]
     ambiLightCol: list[float]
 
-    # Both titles of the save joined
+    # Both titles of the save joined.
     title: str = ""
 
-    # List of icon files filenames that were in the save directory.
-    filenames: list[str] = []
-    
-    # The index in filenames that each file state was supposed to use.
-    normalFilename: int
-    copyFilename: int
-    deleteFilename: int
-
-    # Which obj file to load for each different icon state.
-    normalObj: int
-    copyObj: int
-    deleteObj: int
-
-    # Which animation file to load for each different icon state.
-    # If not set then attempt to load animation with same filename.
-    # If set then it is an abnormal case where the anim filename does not match the obj filename, load that anim instead.
-    normalAnim: Optional[int] = None
-    copyAnim: Optional[int] = None
-    deleteAnim: Optional[int] = None
+    # Filenames of the normal, copy & delete icons.
+    normal: str
+    copy: str
+    delete: str
 
     @staticmethod
     def from_iconsys(iconsys: IconSys) -> 'IconSysDto':
@@ -60,15 +44,9 @@ class IconSysDto:
         new = IconSysDto()
         new.title = iconsys.get_title_joined("ascii")
 
-        allfilenames = [iconsys.icon_file_normal, iconsys.icon_file_copy, iconsys.icon_file_delete]
-        new.filenames = list(set(allfilenames)) # Remove duplicates.
-        new.normalFilename = new.filenames.index(iconsys.icon_file_normal)
-        new.copyFilename = new.filenames.index(iconsys.icon_file_copy)
-        new.deleteFilename = new.filenames.index(iconsys.icon_file_delete)
-
-        new.normalObj = new.filenames.index(iconsys.icon_file_normal)
-        new.copyObj = new.filenames.index(iconsys.icon_file_copy)
-        new.deleteObj = new.filenames.index(iconsys.icon_file_delete)
+        new.normal = iconsys.icon_file_normal
+        new.copy = iconsys.icon_file_copy
+        new.delete = iconsys.icon_file_delete
 
         new.bgOpacity = iconsys.background_transparency
         new.bgColTL = arr_to_col(iconsys.bg_colors[0])
@@ -93,6 +71,7 @@ class IconSysDto:
             separators = (',', ':'),
             cls = CustomJSONEncoder # Custom encoder for single line lists.
         )
+        # Replace single line lists wrapping delimiters.
         output = output.replace('"##<', "").replace('>##"', "").replace("'", '"')
         return output
 

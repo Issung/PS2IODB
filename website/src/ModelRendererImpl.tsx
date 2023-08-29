@@ -60,7 +60,7 @@ class ModelRendererImpl {
         this.horizontalGridHelper = new THREE.GridHelper(1, 3);
         this.scene.add(this.horizontalGridHelper);
 
-        const ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
+        const ambientLight = new THREE.AmbientLight(0xcccccc, 3);
         this.scene.add(ambientLight);
 
         const pointLight = new THREE.PointLight(0xffffff, 0.8);
@@ -94,7 +94,11 @@ class ModelRendererImpl {
         this.canvas.addEventListener('click', (e) => { this.controls!.autoRotate = false; });
     }
 
-    public async loadNewIcon(iconcode: string, variant: number, textureType: TextureType) {
+    public async loadNewIcon(
+        iconcode: string,
+        variant: string,
+        textureType: TextureType
+    ) {
         console.log(`ModelRendererImpl loadNewIcon. Code: ${iconcode}, Variant: ${variant}.`);
 
         // Remove existing icon if there is one.
@@ -108,9 +112,9 @@ class ModelRendererImpl {
         // Load model & texture.
         let textureUrl =
             textureType === TextureType.Icon ? undefined :
-                textureType === TextureType.Test ? 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' :
-                    textureType === TextureType.Plain ? 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg' :
-                        (() => { throw new Error("Unknown TextureType"); })();
+            textureType === TextureType.Test ? 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' :
+            textureType === TextureType.Plain ? 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg' :
+            (() => { throw new Error("Unknown TextureType"); })();
         const objLoader = new TexturedOBJLoader(loadingManager);
         objLoader.loadV2(
             `/icons/${iconcode}/${variant}.obj`,

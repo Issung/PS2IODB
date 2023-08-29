@@ -9,8 +9,8 @@ from mymcplus.iconsys_dto import IconSysDto
 
 def export_iconsys(path, iconsys, icon_dict):
     """Export iconsys.json and all other assets."""
-    for index, icon_filename in enumerate(icon_dict):
-        export_variant(path, index, icon_dict[icon_filename])
+    for icon_filename in icon_dict:
+        export_variant(path, icon_filename, icon_dict[icon_filename])
 
     with open(f"{path}/iconsys.json", 'w') as file:
         dto = IconSysDto.from_iconsys(iconsys)

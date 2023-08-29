@@ -28,10 +28,8 @@ export class TexturedOBJLoader extends OBJLoader {
         loader.setRequestHeader(this.requestHeader);
         loader.setWithCredentials(this.withCredentials);
         loader.load(objUrl, text => {
-            try
-            {
-                if (text instanceof ArrayBuffer) 
-                {
+            try {
+                if (text instanceof ArrayBuffer) {
                     const arrayBufferView = new Uint8Array(text);
                     text = new TextDecoder().decode(arrayBufferView);
                 }
@@ -41,7 +39,6 @@ export class TexturedOBJLoader extends OBJLoader {
                 scope.loadMtl(
                     mtlFileUrl,
                     () => {
-                        console.log('REACHED load ONLOAD');
                         let group = scope.parse(text as string);
                         onLoadComplete(group);
                     },
@@ -49,14 +46,11 @@ export class TexturedOBJLoader extends OBJLoader {
                     onError
                 );
             }
-            catch (e)
-            {
-                if (onError)
-                {
+            catch (e) {
+                if (onError) {
                     onError(e as ErrorEvent);
                 }
-                else
-                {
+                else {
                     console.error(e);
                 }
 
@@ -75,8 +69,6 @@ export class TexturedOBJLoader extends OBJLoader {
         mtlLoader.load(
             mtlFileUrl,
             materials => {
-                console.log('REACHED parseMtl ONLOAD');
-                //materials.preload();
                 this.setMaterials(materials);
                 onLoadComplete();
             },
@@ -110,7 +102,7 @@ export class TexturedOBJLoader extends OBJLoader {
 
     /**
      * Since we can't access MTLLoader.MaterialCreator directly for whatever reason 
-     * @param textureUrl An absolute texture url, e.g. 'https://test.com/image.jpg'/
+     * @param textureUrl An absolute texture url, e.g. 'https://test.com/image.jpg'
      * @returns Blob url for a mtl file that points to textureUrl.
      */
     createBlobMtlForUrl(textureUrl: string): string {
