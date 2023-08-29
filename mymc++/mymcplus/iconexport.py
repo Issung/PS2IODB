@@ -3,37 +3,18 @@
 from functools import reduce
 import json
 from PIL import Image
+from mymcplus.customjson import CustomJSONEncoder, SingleLineList, SingleLineObject
+
+from mymcplus.iconsys_dto import IconSysDto
 
 def export_iconsys(path, iconsys, icon_dict):
     """Export iconsys.json and all other assets."""
     for icon_filename in icon_dict:
         export_variant(path, icon_filename, icon_dict[icon_filename])
 
-    hx = lambda number: format(number, '02x') # Convert number to hex with no prefix + minimum 2 chars.
-    arr_to_col = lambda arr: '#' + hx(arr[0]) + hx(arr[1]) + hx(arr[2]) # Convert array of 3 numbers to hex color.
-
-    # Must match IconSys.tsx.
-    iconsysoutput = {
-        "title": iconsys.get_title_joined("ascii"),
-        "normal": iconsys.icon_file_normal,
-        "copy": iconsys.icon_file_copy,
-        "delete": iconsys.icon_file_delete,
-        "bgOpacity": iconsys.background_transparency,
-        "bgColTL": arr_to_col(iconsys.bg_colors[0]),
-        "bgColTR": arr_to_col(iconsys.bg_colors[1]),
-        "bgColBL": arr_to_col(iconsys.bg_colors[2]),
-        "bgColBR": arr_to_col(iconsys.bg_colors[3]),
-        "light1Dir": SingleLineList(list(iconsys.light_dirs[0])),
-        "light2Dir": SingleLineList(list(iconsys.light_dirs[1])),
-        "light3Dir": SingleLineList(list(iconsys.light_dirs[2])),
-        "light1Col": SingleLineList(list(iconsys.light_colors[0])),
-        "light2Col": SingleLineList(list(iconsys.light_colors[1])),
-        "light3Col": SingleLineList(list(iconsys.light_colors[2])),
-        "ambiLightCol": SingleLineList(list(iconsys.ambient_light_color)),
-    }
     with open(f"{path}/iconsys.json", 'w') as file:
-        output = json.dumps(iconsysoutput, indent = 4, separators = (',', ':'), cls = CustomJSONEncoder)
-        output = output.replace('"##<', "").replace('>##"', "").replace("'", '"')
+        dto = IconSysDto.from_iconsys(iconsys)
+        output = dto.to_json()
         file.write(output)
     print(f"Wrote {path}/iconsys.json")
 
@@ -136,43 +117,3 @@ def export_variant(path, icon_filename, icon):
             output = output.replace('"##<', "").replace('>##"', "").replace("'", '"')
             file.write(output)
         print(f"Wrote {full_path_without_extension}.anim ({frames} frames)")
-
-# Hacky JSON converters to export objects and lists with set prefixes and suffixes mixed in, which can then be string replaced in order to have that 
-# entire object or list printed on a singular line. Useful for things like a very long vertex coordinates array.
-class SingleLineObject:
-    """An object that gets serialised without newlines if serialised with CustomJSONEncoder"""
-    object = None
-    def __init__(self, object):
-        self.object = object
-
-    def __getitem__(self, key):
-        return self.object[key]
-    
-    def __setitem__(self, key, value):
-        self.object[key] = value
-
-class SingleLineList:
-    """A list that gets serialised without newlines if serialised with CustomJSONEncoder"""
-    list = None
-    def __init__(self, list):
-        self.list = list
-    
-    def __len__(self):
-        return len(self.list)
-    
-    def __getitem__(self, key):
-        return self.list[key]
-    
-    def __setitem__(self, key, value):
-        self.list[key] = value
-
-class CustomJSONEncoder(json.JSONEncoder):
-    """
-        JSON Encoder that adds special wrapping characters for SingleLineObject/List.
-        Remember to string replace the special sequences with empty strings.
-    """
-    def default(self, item):
-        if isinstance(item, SingleLineObject):
-            return "##<{}>##".format(item.object)
-        if isinstance(item, SingleLineList):
-            return "##<{}>##".format(item.list)

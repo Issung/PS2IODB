@@ -16,7 +16,7 @@ import JSZip from "jszip";
  */
 const Icon: React.FC = () => {
     const [iconError, setIconError] = useState<string | undefined>(undefined);
-    const [iconsys, setIconSys] = useState<IconSys | null>(null);
+    const [iconsys, setIconSys] = useState<IconSys | undefined>(undefined);
 
     const { iconcode } = useParams();
     const [variant, setVariant] = useState<string>();
@@ -131,7 +131,7 @@ const Icon: React.FC = () => {
         const url = URL.createObjectURL(zipContent);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${iconcode}.zip`;
+        a.download = `ps2iodb_${iconcode}.zip`;
         document.body.appendChild(a);
         a.click();
 
