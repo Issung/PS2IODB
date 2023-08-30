@@ -22,7 +22,7 @@ def export_iconsys(path: str, iconsys: IconSys, icon_dict):
         file.write(output)
     print(f"Wrote {path}/iconsys.json")
 
-    remove_duplicates(path)
+    merge_duplicate_images(path)
     print("completed exporting iconsys and removing duplicates")
 
 def export_variant(path: str, icon_filename: str, icon: Icon):
@@ -125,22 +125,25 @@ def export_variant(path: str, icon_filename: str, icon: Icon):
             file.write(output)
         print(f"Wrote {full_path_without_extension}.anim ({frames} frames)")
 
-def remove_duplicates(path: str):
-    # Attempt to consolidate duplicates
+def merge_duplicate_images(path: str):
+    """Check all png files in path, merge them if they are identical, remove redundant mtl files, and update related obj files mtllib references."""
     files = dir_files(path)
     obj_files = list(filter(lambda f: f.endswith(".obj"), files))
     mtl_files = list(filter(lambda f: f.endswith(".mtl"), files))
-    image_files = list(filter(lambda f: f.endswith(".png"), files))
-    image_md5s = list(map(lambda f: md5_file(f), image_files))
-    image_duplicates = find_duplicates(image_md5s)
+    png_files = list(filter(lambda f: f.endswith(".png"), files))
+    png_md5s = list(map(lambda f: md5_file(f), png_files))
+    png_duplicates = find_duplicates(png_md5s)
+    if (len(obj_files) != len(mtl_files) != len(png_files)):
+        print("Amount of obj, mtl & png files were unexpectedly non equal.")
+        return
 
     # Delete duplicate images and thus .mtl files, alter obj files to reference the remaining .mtl files.
-    for duplicate in image_duplicates:
+    for duplicate in png_duplicates:
         # Check if file exists before deleting incase it was deleted by other duplicate
         remain_i = duplicate[0]
         remove_i = duplicate[1]
-        if os.path.isfile(image_files[remove_i]):
-            os.remove(image_files[remove_i])
+        if os.path.isfile(png_files[remove_i]):
+            os.remove(png_files[remove_i])
         if os.path.isfile(mtl_files[remove_i]):
             os.remove(mtl_files[remove_i])
         # Replace mtllib reference in obj file with the remaining file.
