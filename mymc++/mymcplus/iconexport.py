@@ -8,8 +8,10 @@ import re
 from PIL import Image
 from mymcplus.jsonencoding import CustomJSONEncoder, SingleLineList, SingleLineObject
 from mymcplus.iconsys_dto import IconSysDto
+from mymcplus.ps2icon import Icon
+from mymcplus.ps2iconsys import IconSys
 
-def export_iconsys(path, iconsys, icon_dict):
+def export_iconsys(path: str, iconsys: IconSys, icon_dict):
     """Export iconsys.json and all other assets."""
     for icon_filename in icon_dict:
         export_variant(path, icon_filename, icon_dict[icon_filename])
@@ -20,103 +22,10 @@ def export_iconsys(path, iconsys, icon_dict):
         file.write(output)
     print(f"Wrote {path}/iconsys.json")
 
-    # Attempt to consolidate duplicates
-    files = dir_files(path)
-    mtl_files = list(filter(lambda f: f.endswith(".mtl"), files))
-    obj_files = list(filter(lambda f: f.endswith(".obj"), files))
-    image_files = list(filter(lambda f: f.endswith(".png"), files))
-    image_md5s = list(map(lambda f: md5_file(f), image_files))
-    print(image_md5s)
-    
-    image_duplicates = find_duplicates_in_list(image_md5s)
-
-    # Delete duplicate images and thus .mtl files, alter obj files to reference the remaining .mtl files.
-    for duplicate in image_duplicates:
-        # Check if file exists before deleting incase it was deleted by other duplicate
-        remain_i = duplicate[0]
-        remove_i = duplicate[1]
-        if os.path.isfile(image_files[remove_i]):
-            os.remove(image_files[remove_i])
-        if os.path.isfile(mtl_files[remove_i]):
-            os.remove(mtl_files[remove_i])
-        # Replace mtllib reference in obj file with the remaining file.
-        remainingMtlFilename = without_path(mtl_files[remain_i])
-        objFilePath = obj_files[remove_i]
-        replace_string_in_file(objFilePath, f"^mtllib .*$", f"mtllib {remainingMtlFilename}")
-
-    # Now that images and mtl files have been consolidated and obj files altered, we can check for duplicate objs.
-    obj_md5s = list(map(lambda f: md5_file(f), obj_files))
-    obj_duplicates = find_duplicates_in_list(obj_md5s)
-    for duplicate in obj_duplicates:
-        # Check if file exists before deleting incase it was deleted by other duplicate
-        remove_i = duplicate[1]
-        if os.path.isfile(obj_files[remove_i]):
-            os.remove(obj_files[remove_i])
-
-    # TODO: Check for duplicate anim files? If there is any.
-
-    # TODO: Update iconsys.json with the changes.
-
+    remove_duplicates(path)
     print("completed exporting iconsys and removing duplicates")
 
-def without_path(path: str) -> str:
-    """Get a the last part of a path string, the filename"""
-    ret = os.path.basename(os.path.normpath(path))
-    return ret
-
-def find_duplicates_in_list(md5s: list) -> list:
-    """ Find the duplicates in a list of md5 strings.
-        Returns a list of tuples, e.g. [(0, 1)] meaning 0 was the same as 1.
-    """ 
-    # Comparisons to make in the case of 3.
-    # Compare 0 to 1, 0 to 2 and 1 to 2.
-    # Arrows are labeled with their order.
-    #                   2
-    #      ┌─────────────────────────┐
-    #      │                         🠇
-    #   ╭─────╮      ╭─────╮      ╭─────╮
-    #   |  0  | -3-> |  1  | -1-> |  2  |
-    #   ╰─────╯      ╰─────╯      ╰─────╯
-    # The order is important because we want the end result to be a "collapse" of all the duplicates.
-    # In the case of 2 there is only 1 comparison, and in the case of 1 there is no comparison to be made.
-    count = len(md5s)
-    duplicates = []
-
-    # Find duplicates.
-    if (count == 1):
-        pass
-    elif (count == 2):
-        if (md5s[0] == md5s[1]):
-            duplicates.append((0, 1))
-    elif (count == 3):
-        if (md5s[1] == md5s[2]):
-            duplicates.append((1, 2))
-        if (md5s[0] == md5s[2]):
-            duplicates.append((0, 2))
-        if (md5s[0] == md5s[1]):
-            duplicates.append((0, 1))
-
-    return duplicates
-
-def replace_string_in_file(file_path: str, match_regex: str, new_string: str):
-    """Replace regex matches in file at file_path with new_string"""
-    try:
-        # Open the file for reading
-        with open(file_path, 'r') as file:
-            file_content = file.read()
-
-        # Replace the old string with the new string
-        modified_content = re.sub(match_regex, new_string, file_content, flags=re.M) #re.M = multiline matches.
-
-        # Open the file for writing (overwrite the content)
-        with open(file_path, 'w') as file:
-            file.write(modified_content)
-
-        print(f"File '{file_path}' replaced regex matches of '{match_regex}' -> '{new_string}'.")
-    except Exception as e:
-        print(f"An error replacing text in file: {e}")
-
-def export_variant(path, icon_filename, icon):
+def export_variant(path: str, icon_filename: str, icon: Icon):
     """Export all assets for an icon variant: obj, texture & anim."""
     full_path_without_extension = f"{path}{icon_filename}"
     # Write OBJ
@@ -216,7 +125,87 @@ def export_variant(path, icon_filename, icon):
             file.write(output)
         print(f"Wrote {full_path_without_extension}.anim ({frames} frames)")
 
-def md5_file(path):
+def remove_duplicates(path: str):
+    # Attempt to consolidate duplicates
+    files = dir_files(path)
+    obj_files = list(filter(lambda f: f.endswith(".obj"), files))
+    mtl_files = list(filter(lambda f: f.endswith(".mtl"), files))
+    image_files = list(filter(lambda f: f.endswith(".png"), files))
+    image_md5s = list(map(lambda f: md5_file(f), image_files))
+    image_duplicates = find_duplicates(image_md5s)
+
+    # Delete duplicate images and thus .mtl files, alter obj files to reference the remaining .mtl files.
+    for duplicate in image_duplicates:
+        # Check if file exists before deleting incase it was deleted by other duplicate
+        remain_i = duplicate[0]
+        remove_i = duplicate[1]
+        if os.path.isfile(image_files[remove_i]):
+            os.remove(image_files[remove_i])
+        if os.path.isfile(mtl_files[remove_i]):
+            os.remove(mtl_files[remove_i])
+        # Replace mtllib reference in obj file with the remaining file.
+        remainingMtlFilename = without_path(mtl_files[remain_i])
+        objFilePath = obj_files[remove_i]
+        replace_string_in_file(objFilePath, f"^mtllib .*$", f"mtllib {remainingMtlFilename}")
+
+def without_path(path: str) -> str:
+    """Get a the last part of a path string, the filename"""
+    ret = os.path.basename(os.path.normpath(path))
+    return ret
+
+def find_duplicates(md5s: list[str]) -> list[tuple[int, int]]:
+    """ Find the duplicates in a list of (md5) strings.
+        Returns a list of tuples, e.g. [(0, 1)] meaning item at index 0 was the same as item at index 1.
+    """ 
+    # Comparisons to make in the case of 3.
+    # Compare 0 to 1, 0 to 2 and 1 to 2.
+    # Arrows are labeled with their order.
+    #                   2
+    #      ┌─────────────────────────┐
+    #      │                         🠇
+    #   ╭─────╮      ╭─────╮      ╭─────╮
+    #   |  0  | -3-> |  1  | -1-> |  2  |
+    #   ╰─────╯      ╰─────╯      ╰─────╯
+    # The order is important because we want the end result to be a "collapse" of all the duplicates.
+    # In the case of 2 there is only 1 comparison, and in the case of 1 there is no comparison to be made.
+    count = len(md5s)
+    duplicates = []
+
+    # Find duplicates.
+    if (count == 1):
+        pass
+    elif (count == 2):
+        if (md5s[0] == md5s[1]):
+            duplicates.append((0, 1))
+    elif (count == 3):
+        if (md5s[1] == md5s[2]):
+            duplicates.append((1, 2))
+        if (md5s[0] == md5s[2]):
+            duplicates.append((0, 2))
+        if (md5s[0] == md5s[1]):
+            duplicates.append((0, 1))
+
+    return duplicates
+
+def replace_string_in_file(file_path: str, match_regex: str, new_string: str):
+    """Replace regex matches in file at file_path with new_string"""
+    try:
+        # Open the file for reading
+        with open(file_path, 'r') as file:
+            file_content = file.read()
+
+        # Replace the old string with the new string
+        modified_content = re.sub(match_regex, new_string, file_content, flags=re.M) #re.M = multiline matches.
+
+        # Open the file for writing (overwrite the content)
+        with open(file_path, 'w') as file:
+            file.write(modified_content)
+
+        print(f"File '{file_path}' replaced regex matches of '{match_regex}' -> '{new_string}'.")
+    except Exception as e:
+        print(f"An error replacing text in file: {e}")
+
+def md5_file(path: str) -> str:
     """Get MD5 hash of file at given path."""
     md5_hash = hashlib.md5()
     with open(path, "rb") as file:
@@ -224,13 +213,7 @@ def md5_file(path):
             md5_hash.update(chunk)
     return md5_hash.hexdigest()
 
-def md5_object(obj):
-    """Get MD5 hash of an object."""
-    obj_str = repr(obj).encode('utf-8')  # Convert object to its string representation and encode to bytes
-    md5_hash = hashlib.md5(obj_str)
-    return md5_hash.hexdigest()
-
-def dir_files(directory_path):
+def dir_files(directory_path: str) -> list[str]:
     """Get list of files in directory_path."""
     files = []
     for filename in os.listdir(directory_path):
@@ -238,43 +221,3 @@ def dir_files(directory_path):
         if os.path.isfile(file_path):
             files.append(file_path)
     return files
-
-# Hacky JSON converters to export objects and lists with set prefixes and suffixes mixed in, which can then be string replaced in order to have that 
-# entire object or list printed on a singular line. Useful for things like a very long vertex coordinates array.
-class SingleLineObject:
-    """An object that gets serialised without newlines if serialised with CustomJSONEncoder"""
-    object = None
-    def __init__(self, object):
-        self.object = object
-
-    def __getitem__(self, key):
-        return self.object[key]
-    
-    def __setitem__(self, key, value):
-        self.object[key] = value
-
-class SingleLineList:
-    """A list that gets serialised without newlines if serialised with CustomJSONEncoder"""
-    list = None
-    def __init__(self, list):
-        self.list = list
-    
-    def __len__(self):
-        return len(self.list)
-    
-    def __getitem__(self, key):
-        return self.list[key]
-    
-    def __setitem__(self, key, value):
-        self.list[key] = value
-
-class CustomJSONEncoder(json.JSONEncoder):
-    """
-        JSON Encoder that adds special wrapping characters for SingleLineObject/List.
-        Remember to string replace the special sequences with empty strings.
-    """
-    def default(self, item):
-        if isinstance(item, SingleLineObject):
-            return "##<{}>##".format(item.object)
-        if isinstance(item, SingleLineList):
-            return "##<{}>##".format(item.list)
