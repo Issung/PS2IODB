@@ -68,7 +68,7 @@ setup(
         ]
     },
     python_requires=">=3.4",
-    install_requires=[],
+    install_requires=["Pillow"],
     extras_require={
         "gui": ["wxPython", "pyopengl"]
     }
