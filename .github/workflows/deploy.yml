@@ -1,0 +1,17 @@
+name: Site Deploy
+on:
+  workflow_run:
+    workflows: ["Site Test"]
+    #branches: [main]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    # Only run if dependent build/test job was successful.
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Build
+      working-directory: ./website
+      run: npm run build

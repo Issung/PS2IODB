@@ -1,4 +1,4 @@
-name: Site Build/Test
+name: Site Test
 
 on: ["push"]
 
@@ -7,7 +7,7 @@ permissions:
   checks: write
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     env:
       CI: "true"
@@ -38,6 +38,3 @@ jobs:
         name: Website Jest Test Results
         path: ./website/reports/report.xml
         reporter: jest-junit
-    - name: Build
-      working-directory: ./website
-      run: npm run build
