@@ -1,5 +1,6 @@
 name: Site Deploy
 on:
+  # The workflow_run event only triggers if the workflow file is on the default branch.
   workflow_run:
     workflows: ["Site Test"]
     #branches: [main]
@@ -8,10 +9,24 @@ on:
 
 jobs:
   deploy:
-    # Only run if dependent build/test job was successful.
+    # Only run if above workflow was successful.
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Load node version from .nvmrc
+        run: echo "NODE_VERSION=$(cat ./website/.nvmrc)" >> $GITHUB_ENV
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
       - name: Build
         working-directory: ./website
         run: npm run build
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: ./website/build
+            publish_branch: gh-pages
