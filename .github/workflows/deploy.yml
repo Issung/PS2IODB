@@ -13,6 +13,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Load node version from .nvmrc
         run: echo "NODE_VERSION=$(cat ./website/.nvmrc)" >> $GITHUB_ENV
       - name: Setup Node.js ${{ env.NODE_VERSION }}
