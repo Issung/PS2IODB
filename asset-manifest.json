@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.a747fdf0.css",
-    "main.js": "/static/js/main.d27eb329.js",
-    "static/js/787.dd4029b4.chunk.js": "/static/js/787.dd4029b4.chunk.js",
-    "static/media/background.png": "/static/media/background.d63c1029abaf76885f64.png",
-    "index.html": "/index.html",
-    "main.a747fdf0.css.map": "/static/css/main.a747fdf0.css.map",
-    "main.d27eb329.js.map": "/static/js/main.d27eb329.js.map",
-    "787.dd4029b4.chunk.js.map": "/static/js/787.dd4029b4.chunk.js.map"
+    "main.css": "/PS2IODB/static/css/main.c08c580d.css",
+    "main.js": "/PS2IODB/static/js/main.ae2ccf3b.js",
+    "static/js/787.dd4029b4.chunk.js": "/PS2IODB/static/js/787.dd4029b4.chunk.js",
+    "static/media/background.png": "/PS2IODB/static/media/background.d63c1029abaf76885f64.png",
+    "index.html": "/PS2IODB/index.html",
+    "main.c08c580d.css.map": "/PS2IODB/static/css/main.c08c580d.css.map",
+    "main.ae2ccf3b.js.map": "/PS2IODB/static/js/main.ae2ccf3b.js.map",
+    "787.dd4029b4.chunk.js.map": "/PS2IODB/static/js/787.dd4029b4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a747fdf0.css",
-    "static/js/main.d27eb329.js"
+    "static/css/main.c08c580d.css",
+    "static/js/main.ae2ccf3b.js"
   ]
 }
