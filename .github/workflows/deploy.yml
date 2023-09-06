@@ -27,7 +27,7 @@ jobs:
         run: npm install
       - name: Build
         working-directory: ./website
-        run: npm run build
+        run: npm run predeploy  # The predeploy script runs build & performs any special preperations for GitHub pages.
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
