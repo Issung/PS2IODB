@@ -11,6 +11,10 @@ from mymcplus.iconsys_dto import IconSysDto
 from mymcplus.ps2icon import Icon
 from mymcplus.ps2iconsys import IconSys
 
+MAX_CONST = 4096
+"""4096 is used in the ps2iconsys c++ tool to convert f16 to f32 and back, normalising the values stored on the memory card.
+   e.g. vertex positions and uv coordinates."""
+
 def export_iconsys(path: str, iconsys: IconSys, icon_dict):
     """Export iconsys.json and all other assets."""
     for icon_filename in icon_dict:
@@ -34,14 +38,10 @@ def export_variant(path: str, icon_filename: str, icon: Icon):
         # Output 'mtllib' row (which material library to load materials from)
         obj.write(f"mtllib {icon_filename}.mtl\n")
         # Output 'v' rows (vertices positions).
-        range_x = abs(min(icon.vertex_data[0::3]) - max(icon.vertex_data[0::3]))
-        range_y = abs(min(icon.vertex_data[1::3]) - max(icon.vertex_data[1::3]))
-        range_z = abs(min(icon.vertex_data[2::3]) - max(icon.vertex_data[2::3]))
-        range_max = max([range_x, range_y, range_z])
         for vertex_index in range(icon.vertex_count):
-            vertex_x = -icon.vertex_data[vertex_index * 3] / range_max
-            vertex_y = -icon.vertex_data[vertex_index * 3 + 1] / range_max
-            vertex_z = icon.vertex_data[vertex_index * 3 + 2] / range_max
+            vertex_x = -icon.vertex_data[vertex_index * 3] / MAX_CONST
+            vertex_y = -icon.vertex_data[vertex_index * 3 + 1] / MAX_CONST
+            vertex_z = icon.vertex_data[vertex_index * 3 + 2] / MAX_CONST
             vertex_r = icon.color_data[vertex_index * 4 + 0] / 255  # Colors are stored as 8 bit ints in RGBA, must store them as a float so divide by max number of 8 bits.
             vertex_g = icon.color_data[vertex_index * 4 + 1] / 255
             vertex_b = icon.color_data[vertex_index * 4 + 2] / 255
@@ -49,14 +49,14 @@ def export_variant(path: str, icon_filename: str, icon: Icon):
             obj.write(f"v {vertex_x:.6f} {vertex_y:.6f} {vertex_z:.6f} {vertex_r:.6f} {vertex_g:.6f} {vertex_b:.6f} #{vertex_a:.6f}\n")
         # Output 'vt' rows (UV mappings)
         for uv_index in range(icon.vertex_count):
-            u = round(icon.uv_data[uv_index * 2] / 4096, 6)   # Divide by 4096 because that's supposedly the max u/v value?
-            v = round(icon.uv_data[uv_index * 2 + 1] / 4096, 6)
+            u = round(icon.uv_data[uv_index * 2] / MAX_CONST, 6)
+            v = round(icon.uv_data[uv_index * 2 + 1] / MAX_CONST, 6)
             obj.write(f"vt {u:.6f} {v:.6f} 0.000000\n")
         # Output 'vn' rows (vertex normals)
         for normal_index in range(icon.vertex_count):
-            normal_x = icon.vertex_normals[normal_index * 3]
-            normal_y = icon.vertex_normals[normal_index * 3 + 1]
-            normal_z = icon.vertex_normals[normal_index * 3 + 2]
+            normal_x = icon.vertex_normals[normal_index * 3] / MAX_CONST
+            normal_y = icon.vertex_normals[normal_index * 3 + 1] / MAX_CONST
+            normal_z = icon.vertex_normals[normal_index * 3 + 2] / MAX_CONST
             obj.write(f"vn {normal_x:.6f} {normal_y:.6f} {normal_z:.6f}\n")
         # Output 'usemtl' row (which material to use for the following faces)
         obj.write("usemtl Texture\n")
@@ -109,7 +109,7 @@ def export_variant(path: str, icon_filename: str, icon: Icon):
             frame["vertexData"] = SingleLineList(icon.vertex_data[v_from:v_to])
             # Normalise all vertex coords so everything isn't too large (0.0 - 1.0) is ideal.
             for i in range(len(frame["vertexData"])):
-                frame["vertexData"][i] = frame["vertexData"][i] / range_max
+                frame["vertexData"][i] = frame["vertexData"][i] / MAX_CONST
 
             # Write key data.
             for key_index in range(icon.frames[frame_index].key_count):
@@ -212,7 +212,7 @@ def md5_file(path: str) -> str:
     """Get MD5 hash of file at given path."""
     md5_hash = hashlib.md5()
     with open(path, "rb") as file:
-        while chunk := file.read(4096):  # Read the file in 4KB chunks
+        while chunk := file.read(8192):  # Read the file in 8KB chunks
             md5_hash.update(chunk)
     return md5_hash.hexdigest()
 

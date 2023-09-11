@@ -17,6 +17,9 @@ class ModelRendererImpl {
     public prop_meshType: MeshType = MeshType.Mesh;
     public prop_backgroundColor: string = '#000000';
 
+    private last_iconcode: string | undefined;
+    private last_variant: string | undefined;
+
     private clock = new THREE.Clock(true);
 
     private camera: THREE.PerspectiveCamera;
@@ -45,10 +48,8 @@ class ModelRendererImpl {
         this.scene = new THREE.Scene();
 
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 2000);
-        this.camera.position.z = -2;
-        this.camera.position.y = 0.75;
-        this.camera.lookAt(0, 0, 0);
         this.scene.add(this.camera);
+        this.reposition(undefined);
 
         this.axesHelper = new THREE.AxesHelper(0.5);
         this.scene.add(this.axesHelper);
@@ -91,7 +92,14 @@ class ModelRendererImpl {
         this.controls.rotateSpeed = 0.2;
         this.controls.update();
 
-        this.canvas.addEventListener('click', (e) => { this.controls!.autoRotate = false; });
+        this.canvas.addEventListener('click', (e) => { 
+            this.controls!.autoRotate = false;
+            this.controls!.rotateSpeed = 0.2;  // Speed for mice.
+        });
+        this.canvas.addEventListener('touchstart', (e) => { 
+            this.controls!.autoRotate = false;
+            this.controls!.rotateSpeed = 0.4;   // Speed for touch screens.
+        });
     }
 
     public async loadNewIcon(
@@ -107,7 +115,9 @@ class ModelRendererImpl {
             this.scene.remove(this.pivot);
         }
 
-        const loadingManager = new THREE.LoadingManager(this.assetLoadComplete);
+        // TODO: Detect if full model reload is required or can we just load a new texture and apply it to existing model.
+        let requireReposition = this.last_iconcode !== iconcode || this.last_variant !== variant;
+        const loadingManager = new THREE.LoadingManager(() => this.assetLoadComplete(requireReposition));
 
         // Load model & texture.
         let textureUrl =
@@ -152,10 +162,32 @@ class ModelRendererImpl {
         {
             console.warn(`Request for animation data failed with status ${animResponse.status}`);
         }
+
+        this.last_iconcode = iconcode;
+        this.last_variant = variant;
+    }
+
+    /**
+     * Adjust camera position, grid size, etc according to current model bounding box.
+     * @param boundingBox Bounding box information of the current model.
+     */
+    reposition(boundingBox: THREE.Box3 | undefined) {
+        let size = new THREE.Vector3();
+        if (boundingBox) {
+            boundingBox.getSize(size);
+        }
+        let maxSize = Math.max(size.x, size.y, size.z);
+        this.camera.position.z = Math.min(-maxSize * 1.5, -2);
+        this.camera.position.y = Math.max(size.y * 0.5, 0.75);
+        this.camera.position.x = 0;
+        
+        let gridSize = Math.max(maxSize, 1);
+        this.verticalGridHelper?.scale.set(gridSize, gridSize, gridSize);
+        this.horizontalGridHelper?.scale.set(gridSize, gridSize, gridSize);
     }
 
     // Ran when either obj or texture loading is complete.
-    assetLoadComplete() {
+    assetLoadComplete(reposition: boolean) {
         if (this.icon)
         {
             this.icon.traverse(child => {
@@ -167,15 +199,20 @@ class ModelRendererImpl {
                 }
             });
 
-            // Detect "center" of icon and place it on a pivot by there.
+            // Calculate bounding box and "center" of icon.
             let boundingBox = new THREE.Box3().setFromObject(this.icon)
             let center = new THREE.Vector3();
             boundingBox.getCenter(center);  // Weird library design, rather than use the return value, copies the result into the parameter.
 
+            // Place icon on pivot at center so rotation feels natural.
             this.pivot = new THREE.Group();
             this.icon.position.sub(center);
             this.pivot.add(this.icon);
             this.scene.add(this.pivot);
+
+            if (reposition) {
+                this.reposition(boundingBox);
+            }
         }
     }
 
