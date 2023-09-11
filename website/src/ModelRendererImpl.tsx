@@ -116,7 +116,7 @@ class ModelRendererImpl {
         }
 
         // TODO: Detect if full model reload is required or can we just load a new texture and apply it to existing model.
-        let requireReposition = this.last_iconcode != iconcode || this.last_variant != variant;
+        let requireReposition = this.last_iconcode !== iconcode || this.last_variant !== variant;
         const loadingManager = new THREE.LoadingManager(() => this.assetLoadComplete(requireReposition));
 
         // Load model & texture.
