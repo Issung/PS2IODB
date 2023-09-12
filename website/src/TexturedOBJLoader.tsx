@@ -6,51 +6,71 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
  * Custom extension of OBJLoader that can load a given texture url or load the mtl 
  * file specified inside the obj file.
  */
-export class TexturedOBJLoader extends OBJLoader {
+export class TexturedOBJLoader extends OBJLoader 
+{
     /**
      * New load function, use this one and no others.
      * @param objUrl Url of the obj file.
      * @param textureUrl Set a custom texture to load, if undefined then will load mtl file specified in obj file.
-     * @param onLoadComplete
      * @param onProgress
+     * @param onMtlTextureFileUrlFound An event fired when the 'mtllib' line of the obj file is loaded, containing the relative url of the texture file.
      * @param onError
+     * @param onLoadComplete
      */
     loadV2(
         objUrl: string,
         textureUrl: string | undefined,
-        onLoadComplete: (group: Group) => void,
         onProgress?: (event: ProgressEvent) => void,
+        onMtlTextureFileUrlFound?: (event: string) => void,
         onError?: (event: ErrorEvent) => void,
-    ): void {
+        onLoadComplete?: (group: Group) => void,
+    ): void 
+    {
         const scope = this;
         const loader = new FileLoader(this.manager);
         loader.setPath(this.path);
         loader.setRequestHeader(this.requestHeader);
         loader.setWithCredentials(this.withCredentials);
-        loader.load(objUrl, text => {
-            try {
-                if (text instanceof ArrayBuffer) {
+        loader.load(objUrl, text => 
+        {
+            try 
+            {
+                if (text instanceof ArrayBuffer) 
+                {
                     const arrayBufferView = new Uint8Array(text);
                     text = new TextDecoder().decode(arrayBufferView);
                 }
 
-                let mtlFileUrl = textureUrl ? this.createBlobMtlForUrl(textureUrl) : this.getRelativeMtlUrl(objUrl, text);
+                let relativeMtlUrl = undefined;
+                if (onMtlTextureFileUrlFound)
+                {
+                    relativeMtlUrl = this.getRelativeMtlUrl(objUrl, text);
+                    onMtlTextureFileUrlFound(relativeMtlUrl);
+                }
+
+                let mtlFileUrl = textureUrl ? this.createBlobMtlForUrl(textureUrl) : (relativeMtlUrl ?? this.getRelativeMtlUrl(objUrl, text));
 
                 scope.loadMtl(
                     mtlFileUrl,
-                    () => {
+                    () => 
+                    {
                         let group = scope.parse(text as string);
-                        onLoadComplete(group);
+                        if (onLoadComplete) {
+                            onLoadComplete(group);
+                        }
                     },
                     onProgress,
                     onError
                 );
             }
-            catch (e) {
-                if (onError) {
+            catch (e) 
+            {
+                if (onError) 
+                {
                     onError(e as ErrorEvent);
                 }
-                else {
+                else 
+                {
                     console.error(e);
                 }
 
@@ -64,7 +84,8 @@ export class TexturedOBJLoader extends OBJLoader {
         onLoadComplete: () => void,
         onProgress?: (event: ProgressEvent) => void,
         onError?: (event: ErrorEvent) => void
-    ): void {
+    ): void 
+    {
         const mtlLoader = new MTLLoader(this.manager);
         mtlLoader.load(
             mtlFileUrl,
@@ -84,7 +105,8 @@ export class TexturedOBJLoader extends OBJLoader {
      * @param objFileContents Text content of the obj file.
      * @returns Relative URL of the mtl file specified in the obj file.
      */
-    getRelativeMtlUrl(objUrl: string, objFileContents: string): string {
+    getRelativeMtlUrl(objUrl: string, objFileContents: string): string
+    {
         const lines = objFileContents.split('\n');
         let mtlFilename = lines.find(l => l.startsWith('mtllib'))?.split(' ')[1];
 
@@ -105,7 +127,8 @@ export class TexturedOBJLoader extends OBJLoader {
      * @param textureUrl An absolute texture url, e.g. 'https://test.com/image.jpg'
      * @returns Blob url for a mtl file that points to textureUrl.
      */
-    createBlobMtlForUrl(textureUrl: string): string {
+    createBlobMtlForUrl(textureUrl: string): string 
+    {
         const textContent = `newmtl Texture\nmap_Kd ${textureUrl}`;
         const blob = new Blob([textContent], { type: 'text/plain' });
         const blobUrl = URL.createObjectURL(blob);

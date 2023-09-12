@@ -19,14 +19,19 @@ class ModelRendererImpl {
 
     private last_iconcode: string | undefined;
     private last_variant: string | undefined;
+    private last_textureType: TextureType = TextureType.Plain;
 
+    /**
+    When an obj file is loaded, this is the relative url of the texture found inside the mtllib. 
+    This is saved here so that when we wish to change only the texture, we have this without having to load the obj again. */
+    private relativeMtlTextureUrl: string | undefined;
+    
     private clock = new THREE.Clock(true);
 
     private camera: THREE.PerspectiveCamera;
     private scene: THREE.Scene;
     private stats: Stats;
     private axesHelper: THREE.AxesHelper;
-    private verticalGridHelper: THREE.GridHelper;
     private horizontalGridHelper: THREE.GridHelper;
 
     private initialised: boolean = false;
@@ -53,10 +58,6 @@ class ModelRendererImpl {
 
         this.axesHelper = new THREE.AxesHelper(0.5);
         this.scene.add(this.axesHelper);
-
-        this.verticalGridHelper = new THREE.GridHelper(1, 3);
-        this.verticalGridHelper.setRotationFromEuler(new THREE.Euler(THREE.MathUtils.degToRad(90), 0, 0));
-        this.scene.add(this.verticalGridHelper);
 
         this.horizontalGridHelper = new THREE.GridHelper(1, 3);
         this.scene.add(this.horizontalGridHelper);
@@ -100,6 +101,10 @@ class ModelRendererImpl {
             this.controls!.autoRotate = false;
             this.controls!.rotateSpeed = 0.4;   // Speed for touch screens.
         });
+
+        this.last_iconcode = undefined;
+        this.last_variant = undefined;
+        this.last_textureType = TextureType.Icon;
     }
 
     public async loadNewIcon(
@@ -116,7 +121,9 @@ class ModelRendererImpl {
         }
 
         // TODO: Detect if full model reload is required or can we just load a new texture and apply it to existing model.
-        let requireReposition = this.last_iconcode !== iconcode || this.last_variant !== variant;
+        let loadNewModel = this.last_iconcode !== iconcode || this.last_variant !== variant;
+        let loadNewTexture = this.last_textureType !== textureType;
+        let requireReposition = loadNewModel;
         const loadingManager = new THREE.LoadingManager(() => this.assetLoadComplete(requireReposition));
 
         // Load model & texture.
@@ -125,14 +132,32 @@ class ModelRendererImpl {
             textureType === TextureType.Test ? 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' :
             textureType === TextureType.Plain ? 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg' :
             (() => { throw new Error("Unknown TextureType"); })();
-        const objLoader = new TexturedOBJLoader(loadingManager);
-        objLoader.loadV2(
-            `/icons/${iconcode}/${variant}.obj`,
-            textureUrl,
-            (obj) => { this.icon = obj; },
-            onProgress,
-            onError
-        );
+        if (loadNewModel) 
+        {
+            const objLoader = new TexturedOBJLoader(loadingManager);
+            objLoader.loadV2(
+                `/icons/${iconcode}/${variant}.obj`,
+                textureUrl,
+                onProgress,
+                (str) => { this.relativeMtlTextureUrl = str; },
+                onError,
+                (obj) => { this.icon = obj; },
+            );
+        }
+        else if (loadNewTexture)
+        {
+            // TODO: Can we somehow save the initially loaded material for-reuse, and not even have to re-request the image?
+            // Can we do that for all materials? Dictionary?
+            const textureLoader = new THREE.TextureLoader(loadingManager);
+            let url = textureUrl ?? this.relativeMtlTextureUrl?.replace('.mtl', '.png') ?? 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg';
+            let texture = await textureLoader.loadAsync(url);
+            if (this.mesh) {
+                let material = new THREE.MeshPhongMaterial();
+                material.map = texture;
+                material.map.colorSpace = THREE.SRGBColorSpace; // Must set this or else the texture looks washed out.
+                this.mesh.material = material;
+            }
+        }
 
         function onProgress(e: ProgressEvent) {
             // TODO: Maybe display download progress for model + texture.
@@ -143,28 +168,33 @@ class ModelRendererImpl {
         }
 
         // Fetch animation data (if request doesn't succeed assume there is no animation).
-        var animResponse = await fetch(`/icons/${iconcode}/${variant}.anim`);
-        if (animResponse.ok)
-        {
-            var animText = await animResponse.text();
-
-            if (animText.startsWith('{'))
+        if (loadNewModel) {
+            let animResponse = await fetch(`/icons/${iconcode}/${variant}.anim`);
+            if (animResponse.ok)
             {
-                var animJson = JSON.parse(animText) as AnimationData;
-                this.animData = animJson;
+                let animText = await animResponse.text();
+
+                if (animText.startsWith('{'))
+                {
+                    let animJson = JSON.parse(animText) as AnimationData;
+                    this.animData = animJson;
+                }
+                else
+                {
+                    let preview = animText.substring(0, 50).replaceAll('\n', '');
+                    let dots = animText.length > 50 ? '...' : '';
+                    console.warn(`Animation data request response did appear to be JSON. Preview: ${preview}${dots}`);
+                }
             }
             else
             {
-                console.warn('Animation data request response did not look like JSON.');
+                console.warn(`Request for animation data failed with status ${animResponse.status}`);
             }
         }
-        else
-        {
-            console.warn(`Request for animation data failed with status ${animResponse.status}`);
-        }
-
+            
         this.last_iconcode = iconcode;
         this.last_variant = variant;
+        this.last_textureType = textureType;
     }
 
     /**
@@ -176,14 +206,16 @@ class ModelRendererImpl {
         if (boundingBox) {
             boundingBox.getSize(size);
         }
-        let maxSize = Math.max(size.x, size.y, size.z);
-        this.camera.position.z = Math.min(-maxSize * 1.5, -2);
-        this.camera.position.y = Math.max(size.y * 0.5, 0.75);
+        let maxAxes = Math.max(size.x, size.y, size.z);
+        this.camera.position.z = Math.min(-maxAxes * 1.25, -2);
+        this.camera.position.y = Math.max(size.x * 0.5, 0.75);
         this.camera.position.x = 0;
         
-        let gridSize = Math.max(maxSize, 1);
-        this.verticalGridHelper?.scale.set(gridSize, gridSize, gridSize);
+        let gridSize = Math.max(maxAxes, 1);    // Grid size is the size of the largest axes, minimum of 1.
         this.horizontalGridHelper?.scale.set(gridSize, gridSize, gridSize);
+        this.horizontalGridHelper?.position.setY(-size.y / 2);
+        this.axesHelper?.scale.set(gridSize, gridSize, gridSize);
+        this.axesHelper?.position.setY(-size.y / 2);
     }
 
     // Ran when either obj or texture loading is complete.
@@ -219,9 +251,10 @@ class ModelRendererImpl {
     createStats(): Stats {
         var stats = new Stats();
         stats.dom.style.position = 'absolute';
-        stats.dom.style.bottom = '0px';
         stats.dom.style.top = '';
-
+        stats.dom.style.right = '0px';
+        stats.dom.style.bottom = '0px';
+        stats.dom.style.left = '';
         return stats;
     }
 
@@ -258,7 +291,6 @@ class ModelRendererImpl {
 
     render() {
         this.axesHelper.visible = this.prop_grid;
-        this.verticalGridHelper.visible = this.prop_grid;
         this.horizontalGridHelper.visible = this.prop_grid;
         this.renderer?.setClearColor(new THREE.Color(this.prop_backgroundColor));
 

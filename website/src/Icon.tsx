@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { IconSys } from "./IconSys";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { MeshType, TextureType } from "./ModelViewParams";
 import ModelView from './ModelView';
 import './Icon.scss'
-import { MeshType, TextureType } from "./ModelViewParams";
 import JSZip from "jszip";
 
 /**
@@ -15,6 +16,7 @@ import JSZip from "jszip";
  * - Play/pause controls.
  */
 const Icon: React.FC = () => {
+    const navigate = useNavigate();
     const [iconError, setIconError] = useState<string | undefined>(undefined);
     const [iconsys, setIconSys] = useState<IconSys | undefined>(undefined);
 
@@ -140,7 +142,8 @@ const Icon: React.FC = () => {
     }
 
     return (
-        <div>
+        <div id="icon">
+            <a id="back" href="/" onClick={(e) => { e.preventDefault(); navigate(-1); }}>← Back</a>
             {iconError && (<code>{iconError}</code>)}
             {
                 iconsys != null && (
@@ -154,6 +157,11 @@ const Icon: React.FC = () => {
                             <li>
                                 <label>Display Grid: 
                                     <input type="checkbox" checked={grid} onChange={e => setGrid(e.target.checked)}/>
+                                </label>
+                            </li>
+                            <li>
+                                <label>Background Color: 
+                                    <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
                                 </label>
                             </li>
                             <li>
@@ -188,11 +196,6 @@ const Icon: React.FC = () => {
                                             </option>
                                         ))}
                                     </select>
-                                </label>
-                            </li>
-                            <li>
-                                <label>Background Color: 
-                                    <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
                                 </label>
                             </li>
                             <li>
