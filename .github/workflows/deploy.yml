@@ -1,16 +1,15 @@
 name: Site Deploy
 on:
-  # The workflow_run event only triggers if the workflow file is on the default branch.
-  workflow_run:
+  workflow_dispatch:  # Allow manual dispatching of this workflow.
+  workflow_run: # The workflow_run event only triggers if the workflow file is on the default branch.
     workflows: ["Site Test"]
-    #branches: [main]
     types:
       - completed
 
 jobs:
   deploy:
-    # Only run if above workflow was successful.
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # Only run if this is not caused by a workflow_run, or if it is from workflow_run, if the conclusion of the last workflow was success.
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
