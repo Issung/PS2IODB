@@ -23,6 +23,7 @@
 		"jest.disabledWorkspaceFolders": [
 			"Root",
 			"MYMC++"
-		]
+		],
+		"liveServer.settings.multiRootWorkspaceName": "Website"
 	}
 }

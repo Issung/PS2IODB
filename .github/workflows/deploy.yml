@@ -1,0 +1,36 @@
+name: Site Deploy
+on:
+  workflow_dispatch:  # Allow manual dispatching of this workflow.
+  workflow_run: # The workflow_run event only triggers if the workflow file is on the default branch.
+    branches: [main]
+    workflows: ["Site Test"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    # Only run if this is not caused by a workflow_run, or if it is from workflow_run, if the conclusion of the last workflow was success.
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Load node version from .nvmrc
+        run: echo "NODE_VERSION=$(cat ./website/.nvmrc)" >> $GITHUB_ENV
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      - name: Install & Test
+        working-directory: ./website
+        run: npm install
+      - name: Build
+        working-directory: ./website
+        run: npm run predeploy  # The predeploy script runs build & performs any special preperations for GitHub pages.
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: ./website/build
+            publish_branch: gh-pages
