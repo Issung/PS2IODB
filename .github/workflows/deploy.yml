@@ -2,6 +2,7 @@ name: Site Deploy
 on:
   workflow_dispatch:  # Allow manual dispatching of this workflow.
   workflow_run: # The workflow_run event only triggers if the workflow file is on the default branch.
+    branches: [main]
     workflows: ["Site Test"]
     types:
       - completed
