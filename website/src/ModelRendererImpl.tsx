@@ -17,6 +17,7 @@ class ModelRendererImpl {
     public prop_meshType: MeshType = MeshType.Mesh;
     public prop_backgroundColor: string = '#000000';
 
+    // Store the last props set, to skip loading things already loaded.
     private last_iconcode: string | undefined;
     private last_variant: string | undefined;
     private last_textureType: TextureType = TextureType.Plain;
@@ -112,15 +113,7 @@ class ModelRendererImpl {
         variant: string,
         textureType: TextureType
     ) {
-        console.log(`ModelRendererImpl loadNewIcon. Code: ${iconcode}, Variant: ${variant}.`);
-
-        // Remove existing icon if there is one.
-        if (this.pivot)
-        {
-            this.scene.remove(this.pivot);
-        }
-
-        // TODO: Detect if full model reload is required or can we just load a new texture and apply it to existing model.
+        console.log(`ModelRendererImpl loadNewIcon. code: ${iconcode}, variant: ${variant}, textureType: ${textureType}.`);
         let loadNewModel = this.last_iconcode !== iconcode || this.last_variant !== variant;
         let loadNewTexture = this.last_textureType !== textureType;
         let requireReposition = loadNewModel;
@@ -132,69 +125,77 @@ class ModelRendererImpl {
             textureType === TextureType.Test ? 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' :
             textureType === TextureType.Plain ? 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg' :
             (() => { throw new Error("Unknown TextureType"); })();
-        if (loadNewModel) 
-        {
-            const objLoader = new TexturedOBJLoader(loadingManager);
-            objLoader.loadV2(
-                `/icons/${iconcode}/${variant}.obj`,
-                textureUrl,
-                onProgress,
-                (str) => { this.relativeMtlTextureUrl = str; },
-                onError,
-                (obj) => { this.icon = obj; },
-            );
+        if (loadNewModel) {
+            if (this.pivot) {   // Remove existing icon if there is one.
+                this.scene.remove(this.pivot);
+            }
+            this.loadModel(loadingManager, iconcode, variant, textureUrl);
+            this.loadAnimation(iconcode, variant);  // Don't await, let it work in the background.
         }
-        else if (loadNewTexture)
-        {
+        else if (loadNewTexture) {
             // TODO: Can we somehow save the initially loaded material for-reuse, and not even have to re-request the image?
             // Can we do that for all materials? Dictionary?
-            const textureLoader = new THREE.TextureLoader(loadingManager);
-            let url = textureUrl ?? this.relativeMtlTextureUrl?.replace('.mtl', '.png') ?? 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg';
-            let texture = await textureLoader.loadAsync(url);
-            if (this.mesh) {
-                let material = new THREE.MeshPhongMaterial();
-                material.map = texture;
-                material.map.colorSpace = THREE.SRGBColorSpace; // Must set this or else the texture looks washed out.
-                this.mesh.material = material;
-            }
+            this.loadTexture(loadingManager, textureUrl); // Don't await, let it work in the background.
         }
 
-        function onProgress(e: ProgressEvent) {
-            // TODO: Maybe display download progress for model + texture.
-        }
-
-        function onError(e: ErrorEvent) {
-            console.error(`OBJ Model load error. Message: '${e.message}'`);
-        }
-
-        // Fetch animation data (if request doesn't succeed assume there is no animation).
-        if (loadNewModel) {
-            let animResponse = await fetch(`/icons/${iconcode}/${variant}.anim`);
-            if (animResponse.ok)
-            {
-                let animText = await animResponse.text();
-
-                if (animText.startsWith('{'))
-                {
-                    let animJson = JSON.parse(animText) as AnimationData;
-                    this.animData = animJson;
-                }
-                else
-                {
-                    let preview = animText.substring(0, 50).replaceAll('\n', '');
-                    let dots = animText.length > 50 ? '...' : '';
-                    console.warn(`Animation data request response did appear to be JSON. Preview: ${preview}${dots}`);
-                }
-            }
-            else
-            {
-                console.warn(`Request for animation data failed with status ${animResponse.status}`);
-            }
-        }
-            
         this.last_iconcode = iconcode;
         this.last_variant = variant;
         this.last_textureType = textureType;
+    }
+
+    private loadModel(loadingManager: THREE.LoadingManager, iconcode: string, variant: string, textureUrl: string | undefined) {
+        const objLoader = new TexturedOBJLoader(loadingManager);
+        objLoader.loadV2(
+            `/icons/${iconcode}/${variant}.obj`,
+            textureUrl,
+            this.loadProgress,
+            (str) => { this.relativeMtlTextureUrl = str; },
+            this.loadError,
+            (obj) => { this.icon = obj; }
+        );
+    }
+
+    private async loadAnimation(iconcode: string, variant: string) {
+        // Unload existing animData so it is not erroneously applied to a different model.
+        this.animData = undefined;
+        // Fetch animation data (if request doesn't succeed assume there is no animation).
+        let animResponse = await fetch(`/icons/${iconcode}/${variant}.anim`);
+        if (animResponse.ok) {
+            let animText = await animResponse.text();
+
+            if (animText.startsWith('{')) {
+                let animJson = JSON.parse(animText) as AnimationData;
+                this.animData = animJson;
+            }
+            else {
+                let preview = animText.substring(0, 50).replaceAll('\n', '');
+                let dots = animText.length > 50 ? '...' : '';
+                console.warn(`Animation data request response did appear to be JSON. Preview: ${preview}${dots}`);
+            }
+        }
+        else {
+            console.warn(`Request for animation data failed with status ${animResponse.status}`);
+        }
+    }
+
+    private async loadTexture(loadingManager: THREE.LoadingManager, textureUrl: string | undefined) {
+        const textureLoader = new THREE.TextureLoader(loadingManager);
+        let url = textureUrl ?? this.relativeMtlTextureUrl?.replace('.mtl', '.png') ?? 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg';
+        let texture = await textureLoader.loadAsync(url);
+        if (this.mesh) {
+            let material = new THREE.MeshPhongMaterial();
+            material.map = texture;
+            material.map.colorSpace = THREE.SRGBColorSpace; // Must set this or else the texture looks washed out.
+            this.mesh.material = material;
+        }
+    }
+
+    loadProgress(e: ProgressEvent) {
+        // TODO: Maybe display download progress for model + texture.
+    }
+
+    loadError(e: ErrorEvent) {
+        console.error(`Load error. Message: '${e.message}'`);
     }
 
     /**
@@ -220,11 +221,9 @@ class ModelRendererImpl {
 
     // Ran when either obj or texture loading is complete.
     assetLoadComplete(reposition: boolean) {
-        if (this.icon)
-        {
+        if (this.icon) {
             this.icon.traverse(child => {
-                if (child instanceof THREE.Mesh)
-                {
+                if (child instanceof THREE.Mesh) {
                     this.mesh = child;
                     this.geometry = child.geometry;
                     child.material.wireframe = true;
@@ -275,8 +274,7 @@ class ModelRendererImpl {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
 
-        if (this.renderer)
-        {
+        if (this.renderer) {
             this.renderer.setSize(window.innerWidth, window.innerHeight);
             this.renderer.setPixelRatio(window.devicePixelRatio);
         }
@@ -294,13 +292,11 @@ class ModelRendererImpl {
         this.horizontalGridHelper.visible = this.prop_grid;
         this.renderer?.setClearColor(new THREE.Color(this.prop_backgroundColor));
 
-        if (this.mesh)
-        {
+        if (this.mesh) {
             this.mesh.material.wireframe = this.prop_meshType === MeshType.Wireframe;
         }
 
-        if (this.prop_animate && this.animData && this.geometry)
-        {
+        if (this.prop_animate && this.animData && this.geometry) {
             var animationTotalFrames = this.animData.frames.length;
             var secondsForWholeAnimation = ModelRendererImpl.secondsPerAnimationFrame * animationTotalFrames;
             var animationFrame = Math.floor((this.clock.getElapsedTime() % secondsForWholeAnimation) / ModelRendererImpl.secondsPerAnimationFrame);
@@ -309,8 +305,7 @@ class ModelRendererImpl {
             // Modify the positions of each vertex.
             const positionAttribute = this.geometry.attributes.position;
             const updatedPositions = new Float32Array(positionAttribute.count * 3);
-            for (let i = 0; i < positionAttribute.count; i++) 
-            {
+            for (let i = 0; i < positionAttribute.count; i++) {
                 let [x1, y1, z1] = this.wrappedIndex(this.animData.frames, animationFrame).vertexData.slice(i * 3, (i * 3) + 3);
                 x1 = -x1; y1 = -y1;
 
