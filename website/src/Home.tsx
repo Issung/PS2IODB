@@ -126,7 +126,7 @@ const Home: React.FC = () => {
                 <div className="row">
                     <div className="col">
                         {/* <h1>PS2 Icon Open Database</h1> */}
-                        <img id="logo-full" src="images/logo-full.svg" alt="PS2IODB Full Logo" width="30%" style={{ marginLeft: '50%', transform:'translateX(-50%)' }}/>
+                        <img id="logo-full" src="/images/logo-full.svg" alt="PS2IODB Full Logo" width="30%" style={{ marginLeft: '50%', transform:'translateX(-50%)' }}/>
                     </div>
                 </div>
                 <div className="row justify-content-center">
