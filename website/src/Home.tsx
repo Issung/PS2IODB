@@ -26,7 +26,7 @@ const Home: React.FC = () => {
         const elapsedTime = currentTime - startTime;
         const percentage = Math.min(elapsedTime / animationDuration, 100);
         const newValue = progress * percentage;
-        console.log(`elapsedTime: ${elapsedTime}, percentage: ${percentage}, newValue: ${newValue}.`)
+        //console.log(`elapsedTime: ${elapsedTime}, percentage: ${percentage}, newValue: ${newValue}.`)
         setAnimatedProgress(newValue);
 
         if (percentage < 1) {
@@ -125,14 +125,15 @@ const Home: React.FC = () => {
             <div className="container-fluid" style={{ height: "fit-content", maxHeight: 800 }}>
                 <div className="row">
                     <div className="col">
-                        <h1>PS2 Icon Open Database</h1>
+                        {/* <h1>PS2 Icon Open Database</h1> */}
+                        <img id="logo-full" src="/images/logo-full.svg" alt="PS2IODB Full Logo" width="30%" style={{ marginLeft: '50%', transform:'translateX(-50%)' }}/>
                     </div>
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-8 col-xl-6">
                         <h4>
-                            Welcome to the PS2 Icon Open Database (PS2IODB), a crowdsourced collection of
-                            PlayStation 2 save game icons
+                            Welcome to the PS2 Icons Open Database (PS2IODB)<br/> 
+                            A crowdsourced collection of PlayStation 2 save game icons
                         </h4>
                     </div>
                 </div>

@@ -9,17 +9,17 @@ import ReactGA from "react-ga4";
 ReactGA.initialize("G-MTYRQV3C1G");
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <p className="size-indicator xs d-block d-sm-none">[XS] SM MD LG XL</p>
-    <p className="size-indicator sm d-none d-sm-block d-md-none">XS [SM] MD LG XL</p>
-    <p className="size-indicator md d-none d-md-block d-lg-none">XS SM [MD] LG XL</p>
-    <p className="size-indicator lg d-none d-lg-block d-xl-none">XS SM MD [LG] XL</p>
-    <p className="size-indicator d-none d-xl-block">XS SM MD LG [XL]</p>
-    <App />
-  </React.StrictMode>
+    <React.StrictMode>
+        <p className="size-indicator xs d-block d-sm-none">[XS] SM MD LG XL</p>
+        <p className="size-indicator sm d-none d-sm-block d-md-none">XS [SM] MD LG XL</p>
+        <p className="size-indicator md d-none d-md-block d-lg-none">XS SM [MD] LG XL</p>
+        <p className="size-indicator lg d-none d-lg-block d-xl-none">XS SM MD [LG] XL</p>
+        <p className="size-indicator d-none d-xl-block">XS SM MD LG [XL]</p>
+        <App />
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
