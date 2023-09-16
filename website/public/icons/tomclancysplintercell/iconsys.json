@@ -1,8 +1,8 @@
 {
-    "title":"NBA STREET V3",
-    "normal":"nbastv3s.ico",
-    "copy":"nbastv3c.ico",
-    "delete":"nbastv3d.ico",
+    "title":"Splinter Cell",
+    "normal":"Wait.ico",
+    "copy":"Copy.ico",
+    "delete":"Delete.ico",
     "bgOpacity":96,
     "bgColTL":"#800000",
     "bgColTR":"#008000",
