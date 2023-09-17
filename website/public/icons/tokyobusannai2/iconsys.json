@@ -1,0 +1,18 @@
+{
+    "title":"\u6771\u4eac\u30d0\u30b9\u6848\u51852",
+    "normal":"icon.ico",
+    "copy":"icon.ico",
+    "delete":"icon.ico",
+    "bgOpacity":64,
+    "bgColTL":"#ffffff",
+    "bgColTR":"#56b025",
+    "bgColBL":"#e7f3dd",
+    "bgColBR":"#108431",
+    "light1Dir":[0.0, 0.0, 1.0, 1.0],
+    "light2Dir":[0.0, 0.0, 0.0, 1.0],
+    "light3Dir":[0.0, 0.0, 0.0, 1.0],
+    "light1Col":[1.0, 1.0, 1.0, 1.0],
+    "light2Col":[0.0, 0.0, 0.0, 1.0],
+    "light3Col":[0.0, 0.0, 0.0, 1.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 1.0]
+}
