@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import './Home.scss';
 import SearchBar from "./SearchBar";
 import SearchResults from "./SearchResults";
@@ -14,30 +14,15 @@ const Home: React.FC = () => {
 
     const [contributed] = useState(GameList.filter(g => g.code).length);
     const [progress] = useState((GameList.filter(g => g.code).length / GameList.length) * 100);
-    const [barProgress, setBarProgress] = useState(0); // Need a seperate variable for bar progress because it needs to initially be set to 0 then another value to be transitioned by the CSS.
-    const [animatedProgress, setAnimatedProgress] = useState(0);
     const highlightColor: string = '#ffffff1f';
 
-    const [animationDuration] = useState(4000); // 4 Seconds, matching CSS transition.
-    const [startTime] = useState(Date.now());
-
-    const updatePercentage = useCallback((progress: number) => {
-        const currentTime = Date.now();
-        const elapsedTime = currentTime - startTime;
-        const percentage = Math.min(elapsedTime / animationDuration, 100);
-        const newValue = progress * percentage;
-        //console.log(`elapsedTime: ${elapsedTime}, percentage: ${percentage}, newValue: ${newValue}.`)
-        setAnimatedProgress(newValue);
-
-        if (percentage < 1) {
-            requestAnimationFrame(() => updatePercentage(progress));
-        }
-    }, [animationDuration, startTime]);
-
     useEffect(() => {
-        setBarProgress(progress);
-        requestAnimationFrame(() => updatePercentage(progress));
-    }, [progress, updatePercentage]);
+        let progressCounter = document.querySelector("div#progress div#fill strong") as HTMLElement;
+        if (progressCounter) {
+            let value = (progress / 100).toString();
+            progressCounter.style.setProperty("--percent", value);
+        }
+    }, [progress]);;
 
     useEffect(() => {
         // Define inside useEffect so it's not seen as a dependency.
@@ -143,7 +128,6 @@ const Home: React.FC = () => {
                     <Link className="col-6 col-md-2 btn btn-primary" to="https://github.com/Issung/PS2SaveIconResearch">GitHub</Link>
                 </div>
             </div>
-            {/* TODO: Turn this entire alphabetial/category select into a component. */}
             <div className="container" id="progress-container" style={{ minHeight: 300 }}>
                 <div className="row justify-content-center">
                     <div className="col">
@@ -152,8 +136,8 @@ const Home: React.FC = () => {
                 </div>
                 <div className="row justify-content-center">
                     <div id="progress" className="col-10 col-sm-12">
-                        <div id="fill" style={{ width: `${barProgress}%` }}>
-                            <strong>{animatedProgress.toFixed(2)}%</strong>
+                        <div id="fill" style={{ width: `${progress}%` }}>
+                            <strong>{/* The CSS will place content in here. */}</strong>
                         </div>
                     </div>
                 </div>
@@ -171,6 +155,7 @@ const Home: React.FC = () => {
                         <h1>Browse</h1>
                     </div>
                 </div>
+                {/* TODO: Turn this entire alphabetial/category select into a component. */}
                 <div className="row justify-content-center">
                     <div className="col">
                         <Link to="/search/alphabetical" style={{ textDecoration: 'none' }} title="Explore titles by alphabetical sections">
@@ -234,7 +219,6 @@ const Home: React.FC = () => {
                                 <h3 style={{ textAlign: 'center' }}>Missing</h3>
                             </Link>
                         </div>
-                        {games.length === 0 ? <h4 style={{ textAlign: 'left' }}>No Results.</h4> : <h4 style={{ textAlign: 'left' }}>{games.length} Results</h4>}
                         <GameTable games={games} />
                     </div>
                 )}
