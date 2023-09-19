@@ -8,19 +8,22 @@ type GameTableProps = {
 
 const GameTable: React.FC<GameTableProps> = ({ games }: GameTableProps) => {
     return (
-        <table>
-            <thead>
-                <tr>
-                    {/* <th>Game Title</th> */}
-                    {/* <th>Icons</th> */}
-                </tr>
-            </thead>
-            <tbody>
-                {games.map(game => (
-                    <GameRow key={/*game.code*/Math.random()} game={game}/>
-                ))}
-            </tbody>
-        </table>
+        <div className="gametable">
+            {games.length === 0 ? <h4 style={{ textAlign: 'left' }}>No Results.</h4> : <h4 style={{ textAlign: 'left' }}>{games.length} Results</h4>}
+            <table>
+                <thead>
+                    <tr>
+                        {/* <th>Game Title</th> */}
+                        {/* <th>Icons</th> */}
+                    </tr>
+                </thead>
+                <tbody>
+                    {games.map(game => (
+                        <GameRow key={/*game.code*/Math.random()} game={game}/>
+                        ))}
+                </tbody>
+            </table>
+        </div>
     );
 }
 
