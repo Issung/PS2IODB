@@ -140,8 +140,8 @@ const Home: React.FC = () => {
                 </div>
                 <div className="row justify-content-center">
                     <p id="progress-paragraph">
-                        Currently {contributed} titles out of {GameList.length} ({(progress * 100).toFixed(2)}%) titles have been archived.<br />
-                        To get to 100% we need support from you! Learn how <Link to="/contribute">here</Link>. {/* TODO Fix link hover visuals */}
+                        {contributed} out of {GameList.length} ({(progress * 100).toFixed(2)}%) titles have been archived so far.<br />
+                        To get to 100% we need support from <i>you</i>! Learn how <Link to="/contribute">here</Link>. {/* TODO Fix link hover visuals */}
                     </p>
                 </div>
             </div>
