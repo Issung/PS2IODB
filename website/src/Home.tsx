@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import { Game } from './Game';
 import { GameList } from "./GameList";
 import GameTable from "./GameTable";
+import Counter from "./Counter";
 
 const Home: React.FC = () => {
     const { type: paramType, index: paramIndex } = useParams();
@@ -13,16 +14,12 @@ const Home: React.FC = () => {
     const [keywords, setKeywords] = useState(Array<string>);
 
     const [contributed] = useState(GameList.filter(g => g.code).length);
-    const [progress] = useState((GameList.filter(g => g.code).length / GameList.length) * 100);
+    const [progress, setProgress] = useState(0);
     const highlightColor: string = '#ffffff1f';
 
     useEffect(() => {
-        let progressCounter = document.querySelector("div#progress div#fill strong") as HTMLElement;
-        if (progressCounter) {
-            let value = (progress / 100).toString();
-            progressCounter.style.setProperty("--percent", value);
-        }
-    }, [progress]);;
+        setProgress(GameList.filter(g => g.code).length / GameList.length);
+    }, [progress]);
 
     useEffect(() => {
         // Define inside useEffect so it's not seen as a dependency.
@@ -136,14 +133,14 @@ const Home: React.FC = () => {
                 </div>
                 <div className="row justify-content-center">
                     <div id="progress" className="col-10 col-sm-12">
-                        <div id="fill" style={{ width: `${progress}%` }}>
-                            <strong>{/* The CSS will place content in here. */}</strong>
+                        <div id="fill" style={{ width: `${progress * 100}%` }}>
+                            <Counter value={progress}/>
                         </div>
                     </div>
                 </div>
                 <div className="row justify-content-center">
                     <p id="progress-paragraph">
-                        Currently {contributed} titles out of {GameList.length} total ({progress.toFixed(2)}%) have been archived.<br />
+                        Currently {contributed} titles out of {GameList.length} ({(progress * 100).toFixed(2)}%) titles have been archived.<br />
                         To get to 100% we need support from you! Learn how <Link to="/contribute">here</Link>. {/* TODO Fix link hover visuals */}
                     </p>
                 </div>
