@@ -122,7 +122,17 @@ const Home: React.FC = () => {
                 <div className="row justify-content-center">
                     <Link className="col-6 col-md-2 btn btn-primary" to="/faq">FAQ</Link>
                     <Link className="col-6 col-md-2 btn btn-primary" to="/contribute">How to Contribute</Link>
-                    <Link className="col-6 col-md-2 btn btn-primary" to="https://github.com/Issung/PS2SaveIconResearch">GitHub</Link>
+                    <div className="col-6 col-md-2 btn-group">
+                        <Link type="button" className="btn btn-secondary" to="https://github.com/Issung/PS2IODB">
+                            <img src="https://www.svgrepo.com/show/512317/github-142.svg"/>
+                        </Link>
+                        <Link type="button" className="btn btn-secondary" to="https://twitter.com/IssunGee">
+                            <img src="https://www.svgrepo.com/show/513008/twitter-154.svg"/>
+                        </Link>
+                        <Link type="button" className="btn btn-secondary" to="https://discord.gg/SWsuNvWnKw">
+                            <img src="https://www.svgrepo.com/show/506463/discord.svg"/>
+                        </Link>
+                    </div>
                 </div>
             </div>
             <div className="container" id="progress-container" style={{ minHeight: 300 }}>
