@@ -113,25 +113,33 @@ const Home: React.FC = () => {
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-8 col-xl-6">
-                        <h4>
-                            Welcome to the PS2 Icons Open Database (PS2IODB)<br/> 
-                            A crowdsourced collection of PlayStation 2 save game icons
-                        </h4>
+                        <h5 className="p-3" style={{ textAlign: 'center' }}>
+                            Welcome to the PS2 Icons Open Database (PS2IODB), a crowdsourced collection of PlayStation 2 save game icons
+                        </h5>
                     </div>
                 </div>
                 <div className="row justify-content-center">
-                    <Link className="col-6 col-md-2 btn btn-primary" to="/faq">FAQ</Link>
-                    <Link className="col-6 col-md-2 btn btn-primary" to="/contribute">How to Contribute</Link>
-                    <div className="col-6 col-md-2 btn-group">
-                        <Link type="button" className="btn btn-secondary" to="https://github.com/Issung/PS2IODB">
-                            <img src="https://www.svgrepo.com/show/512317/github-142.svg"/>
+                    <div className="col-5 col-md-3 px-1 py-1">
+                        <Link className="btn btn-primary" to="/faq">FAQ</Link>
+                    </div>
+                    <div className="col-5 col-md-3 px-1 py-1">
+                        <Link className="btn btn-primary" to="/contribute">
+                            <span className="d-none d-sm-inline">How to Contribute</span>
+                            <span className="d-inline d-sm-none">Contribute</span>  {/* Shorten text at XS size. */}
                         </Link>
-                        <Link type="button" className="btn btn-secondary" to="https://twitter.com/IssunGee">
-                            <img src="https://www.svgrepo.com/show/513008/twitter-154.svg"/>
-                        </Link>
-                        <Link type="button" className="btn btn-secondary" to="https://discord.gg/SWsuNvWnKw">
-                            <img src="https://www.svgrepo.com/show/506463/discord.svg"/>
-                        </Link>
+                    </div>
+                    <div className="col-10 col-md-3 px-1 py-1">
+                        <div className="btn-group">
+                            <Link type="button" className="btn btn-secondary" to="https://github.com/Issung/PS2IODB">
+                                <img src="https://www.svgrepo.com/show/512317/github-142.svg"/>
+                            </Link>
+                            <Link type="button" className="btn btn-secondary" to="https://twitter.com/IssunGee">
+                                <img src="https://www.svgrepo.com/show/513008/twitter-154.svg"/>
+                            </Link>
+                            <Link type="button" className="btn btn-secondary" to="https://discord.gg/SWsuNvWnKw">
+                                <img src="https://www.svgrepo.com/show/506463/discord.svg"/>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
