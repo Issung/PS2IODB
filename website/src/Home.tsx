@@ -131,13 +131,13 @@ const Home: React.FC = () => {
                     <div className="col-10 col-md-3 px-1 py-1">
                         <div className="btn-group">
                             <Link type="button" className="btn btn-secondary" to="https://github.com/Issung/PS2IODB">
-                                <img src="https://www.svgrepo.com/show/512317/github-142.svg"/>
+                                <img src="https://www.svgrepo.com/show/512317/github-142.svg" alt="GitHub logo"/>
                             </Link>
                             <Link type="button" className="btn btn-secondary" to="https://twitter.com/IssunGee">
-                                <img src="https://www.svgrepo.com/show/513008/twitter-154.svg"/>
+                                <img src="https://www.svgrepo.com/show/513008/twitter-154.svg" alt="Twitter logo"/>
                             </Link>
                             <Link type="button" className="btn btn-secondary" to="https://discord.gg/SWsuNvWnKw">
-                                <img src="https://www.svgrepo.com/show/506463/discord.svg"/>
+                                <img src="https://www.svgrepo.com/show/506463/discord.svg" alt="Discord logo"/>
                             </Link>
                         </div>
                     </div>
