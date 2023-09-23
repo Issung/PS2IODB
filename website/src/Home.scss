@@ -92,29 +92,6 @@
         margin: 0px;
     }
 
-    /* Full logo sizing for different screen widths. */
-    img#logo-full {
-        width: 50%;
-    }
-
-    @media (min-width:680px) {
-        img#logo-full {
-            width: 40%;
-        }
-    }
-
-    @media (min-width:1111px) {
-        img#logo-full {
-            width: 30%;
-        }
-    }
-
-    @media (min-width:1700px) {
-        img#logo-full {
-            width: 25%;
-        }
-    }
-
     #progress-container .row:not(:last-child) {
         margin-bottom: 25px;
     }
