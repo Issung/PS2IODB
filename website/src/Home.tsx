@@ -105,24 +105,41 @@ const Home: React.FC = () => {
     return (
         <div id="Home">
             <div className="container-fluid" style={{ height: "fit-content", maxHeight: 800 }}>
-                <div className="row">
-                    <div className="col">
-                        {/* <h1>PS2 Icon Open Database</h1> */}
-                        <img id="logo-full" src="/images/logo-full.svg" alt="PS2IODB Full Logo" width="30%" style={{ marginLeft: '50%', transform:'translateX(-50%)' }}/>
+                <div className="row justify-content-center">
+                    <div className="col-8 col-md-6 col-lg-5 col-xl-4">
+                        <img id="logo-full" src="/images/logo-full.svg" width="100%" alt="PS2IODB Full Logo"/>
                     </div>
                 </div>
                 <div className="row justify-content-center">
-                    <div className="col-8 col-xl-6">
-                        <h4>
-                            Welcome to the PS2 Icons Open Database (PS2IODB)<br/> 
-                            A crowdsourced collection of PlayStation 2 save game icons
-                        </h4>
+                    <div className="col-10 col-md-7 col-xl-5 col-xxl-4">
+                        <p className="p-3" style={{ textAlign: 'center' }}>
+                            Welcome to the PS2 Icons Open Database (PS2IODB), a crowdsourced collection of PlayStation 2 save game icons.
+                        </p>
                     </div>
                 </div>
                 <div className="row justify-content-center">
-                    <Link className="col-6 col-md-2 btn btn-primary" to="/faq">FAQ</Link>
-                    <Link className="col-6 col-md-2 btn btn-primary" to="/contribute">How to Contribute</Link>
-                    <Link className="col-6 col-md-2 btn btn-primary" to="https://github.com/Issung/PS2SaveIconResearch">GitHub</Link>
+                    <div className="col-5 col-md-3 col-xxl-2 px-1 py-1">
+                        <Link className="btn btn-primary" to="/faq">FAQ</Link>
+                    </div>
+                    <div className="col-5 col-md-3 col-xxl-2 px-1 py-1">
+                        <Link className="btn btn-primary" to="/contribute">
+                            <span className="d-none d-sm-inline">How to Contribute</span>
+                            <span className="d-inline d-sm-none">Contribute</span>  {/* Shorten text at XS size. */}
+                        </Link>
+                    </div>
+                    <div className="col-10 col-md-3 col-xxl-2 px-1 py-1">
+                        <div className="btn-group">
+                            <Link type="button" className="btn btn-secondary" to="https://github.com/Issung/PS2IODB">
+                                <img src="https://www.svgrepo.com/show/512317/github-142.svg" alt="GitHub logo"/>
+                            </Link>
+                            <Link type="button" className="btn btn-secondary" to="https://twitter.com/IssunGee">
+                                <img src="https://www.svgrepo.com/show/513008/twitter-154.svg" alt="Twitter logo"/>
+                            </Link>
+                            <Link type="button" className="btn btn-secondary" to="https://discord.gg/SWsuNvWnKw">
+                                <img src="https://www.svgrepo.com/show/506463/discord.svg" alt="Discord logo"/>
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="container" id="progress-container" style={{ minHeight: 300 }}>

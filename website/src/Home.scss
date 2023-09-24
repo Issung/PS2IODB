@@ -12,17 +12,45 @@
         background-blend-mode: multiply;
         background-color:#5f5f5f;
 
-        > div.row {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
+        > div.row div {
+            > * {
+                width: 100%;
+            }
 
-            > a {
+            > a,
+            > div.btn-group > a {
                 background-color: rgba(255, 255, 255, 0.116);
-                margin:0 1rem 0 1rem;
+                border-color: #0d6efd;
 
-                :hover {
-                    background-color: rgba(255, 255, 255, 0) !important;
-                    border-color: #1667e1;
+                > img {
+                    max-height:20px;
+                    filter: invert(100%);
+                }
+
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.200) !important;
+                    border-color: #69a5ff !important;
+                }
+            }
+
+            > div.btn-group {
+                padding: 0px;
+            }
+
+            > div.btn-group > a:nth-child(1) {
+                border-right: none;
+            }
+
+            > div.btn-group > a:nth-child(2) {
+                border-left: none;
+                border-right: none;
+            }
+
+            > div.btn-group > a:nth-child(3) {
+                border-left: none;
+
+                > img {
+                    max-height: 24px;
                 }
             }
         }
@@ -32,19 +60,13 @@
         color: white;
     }
 
-    a:hover {
-        background-color: #ffffff2e;
-    }
-
     h1 {
         font-size:4rem;
         text-align:center;
-        //margin: 2rem;
     }
 
     h4 {
         text-align:center;
-        //margin:2rem;
     }
 
     button {
@@ -68,29 +90,6 @@
         padding-left: 50%;
         transform: translateX(50%);
         margin: 0px;
-    }
-
-    /* Full logo sizing for different screen widths. */
-    img#logo-full {
-        width: 50%;
-    }
-
-    @media (min-width:680px) {
-        img#logo-full {
-            width: 40%;
-        }
-    }
-
-    @media (min-width:1111px) {
-        img#logo-full {
-            width: 30%;
-        }
-    }
-
-    @media (min-width:1700px) {
-        img#logo-full {
-            width: 25%;
-        }
     }
 
     #progress-container .row:not(:last-child) {
