@@ -157,7 +157,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="row justify-content-center">
                     <p id="progress-paragraph">
-                        {contributed} out of {GameList.length} ({(progress * 100).toFixed(2)}%) titles have been archived so far.<br />
+                        {contributed} out of {GameList.length} ({Math.trunc(progress*100*100)/100}%) titles have been archived so far.<br /> {/* Math trunc magic, need a toFixed that doesn't round. https://stackoverflow.com/a/48100007/8306962 */}
                         To get to 100% we need support from <i>you</i>! Learn how <Link to="/contribute">here</Link>. {/* TODO Fix link hover visuals */}
                     </p>
                 </div>
