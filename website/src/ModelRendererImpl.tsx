@@ -6,7 +6,7 @@ import { MeshType, TextureType } from "./ModelViewParams";
 import { TexturedOBJLoader } from "./TexturedOBJLoader";
 
 /**
- * Callback function for the model renderer report back regarding loaded icon data, e.g. amount of frames.
+ * Callback function for the model renderer report back regarding loaded icon data, e.g. number of frames.
  */
 export type IconInfoCallback = (frameCount: number) => void
 

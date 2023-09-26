@@ -24,7 +24,7 @@ const Icon: React.FC = () => {
     const [variant, setVariant] = useState<string>();
     
     /**
-     * Information obtained from renderer callback, does the current icon have an animation.
+     * Information obtained from renderer callback, how many frames does the current animation have. 0 if no animation.
      */
     const [frameCount, setFrameCount] = useState(0);
 
@@ -67,8 +67,7 @@ const Icon: React.FC = () => {
         fetchIconSys();
     }, [iconcode]);
 
-    function callback(frameCount: number) {
-        console.log(`frameCount: ${frameCount}`);
+    function iconInfoCallback(frameCount: number) {
         setFrameCount(frameCount);
     }
 
@@ -228,7 +227,6 @@ const Icon: React.FC = () => {
                 )
             }
             <ModelView 
-                callback={callback}
                 iconcode={iconcode} 
                 variant={variant} 
                 animate={doAnimation}
@@ -237,6 +235,7 @@ const Icon: React.FC = () => {
                 textureType={textureType} 
                 meshType={meshType} 
                 backgroundColor={backgroundColor} 
+                callback={iconInfoCallback}
                 />
         </div>
     );
