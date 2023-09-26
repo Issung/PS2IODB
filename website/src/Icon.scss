@@ -19,6 +19,12 @@ div#iconoptions {
     padding-right: 15px;
     position: fixed;
     bottom: 0px;
+
+    input[type="range"] {
+        position: relative;
+        top: 3px;
+        margin-right: 3px;
+    }
 }
 
 div button {

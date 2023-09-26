@@ -1,11 +1,11 @@
+import './Icon.scss'
+import JSZip from "jszip";
+import ModelView from './ModelView';
 import { IconSys } from "./IconSys";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { MeshType, TextureType } from "./ModelViewParams";
-import ModelView from './ModelView';
-import './Icon.scss'
-import JSZip from "jszip";
 
 /**
  * This component serves as a page, routed to by App.tsx.
@@ -23,7 +23,13 @@ const Icon: React.FC = () => {
     const { iconcode } = useParams();
     const [variant, setVariant] = useState<string>();
     
+    /**
+     * Information obtained from renderer callback, how many frames does the current animation have. 0 if no animation.
+     */
+    const [frameCount, setFrameCount] = useState(0);
+
     const [doAnimation, setDoAnimation] = useState(true);
+    const [frame, setFrame] = useState(0);
     const [grid, setGrid] = useState(true);
     const [textureType, setTextureType] = useState(TextureType.Icon);
     const [meshType, setMeshType] = useState(MeshType.Mesh);
@@ -60,6 +66,10 @@ const Icon: React.FC = () => {
 
         fetchIconSys();
     }, [iconcode]);
+
+    function iconInfoCallback(frameCount: number) {
+        setFrameCount(frameCount);
+    }
 
     async function download() {
         setDownloadStatus('Loading...');
@@ -149,11 +159,21 @@ const Icon: React.FC = () => {
                 iconsys != null && (
                     <div id="iconoptions">
                         <ul>
-                            <li>
-                                <label>Animate Model: 
-                                    <input type="checkbox" checked={doAnimation} onChange={e => setDoAnimation(e.target.checked)}/>
-                                </label>
-                            </li>
+                            {frameCount > 0 && 
+                                <li>
+                                    <label>Animate Model: 
+                                        <input type="checkbox" checked={doAnimation} onChange={e => setDoAnimation(e.target.checked)}/>
+                                    </label>
+                                </li>
+                            }
+                            {frameCount > 0 && !doAnimation &&
+                                <li>
+                                    <label>Frame: 
+                                        <input type="range" min={0} max={frameCount - 1} value={frame} onChange={e => setFrame(parseInt(e.target.value))}/>
+                                        <output>{frame + 1}/{frameCount}</output>
+                                    </label>
+                                </li>
+                            }
                             <li>
                                 <label>Display Grid: 
                                     <input type="checkbox" checked={grid} onChange={e => setGrid(e.target.checked)}/>
@@ -206,8 +226,17 @@ const Icon: React.FC = () => {
                     </div>
                 )
             }
-            <br/>
-            <ModelView iconcode={iconcode} variant={variant} animate={doAnimation} grid={grid} textureType={textureType} meshType={meshType} backgroundColor={backgroundColor} />
+            <ModelView 
+                iconcode={iconcode} 
+                variant={variant} 
+                animate={doAnimation}
+                frame={frame} 
+                grid={grid} 
+                textureType={textureType} 
+                meshType={meshType} 
+                backgroundColor={backgroundColor} 
+                callback={iconInfoCallback}
+                />
         </div>
     );
 };

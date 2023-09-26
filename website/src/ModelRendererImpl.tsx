@@ -6,16 +6,26 @@ import { MeshType, TextureType } from "./ModelViewParams";
 import { TexturedOBJLoader } from "./TexturedOBJLoader";
 
 /**
+ * Callback function for the model renderer report back regarding loaded icon data, e.g. number of frames.
+ */
+export type IconInfoCallback = (frameCount: number) => void
+
+/**
  * Implementation of the 3D model view and interactions in threejs.
  * Used by ModelView.tsx component.
  */
-class ModelRendererImpl {
+export class ModelRendererImpl {
     // Display properties here, defaults will be overriden by Icon.tsx.
     public prop_animate: boolean = true;
+    public prop_frame: number = 0; // Which frame to display, if there is animation data and prop_animate is false.
     public prop_grid: boolean = true;
     public prop_textureType: TextureType = TextureType.Icon;
     public prop_meshType: MeshType = MeshType.Mesh;
     public prop_backgroundColor: string = '#000000';
+    /**
+     * A callback for the model renderer to use to inform about the icon's status.
+     */
+    public prop_callback: IconInfoCallback = () => {};
 
     // Store the last props set, to skip loading things already loaded.
     private last_iconcode: string | undefined;
@@ -53,7 +63,7 @@ class ModelRendererImpl {
         console.log(`ModelRendererImpl constructor.`);
         this.scene = new THREE.Scene();
 
-        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 2000);
+        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.001, 2000);
         this.scene.add(this.camera);
         this.reposition(undefined);
 
@@ -176,6 +186,8 @@ class ModelRendererImpl {
         else {
             console.warn(`Request for animation data failed with status ${animResponse.status}`);
         }
+
+        this.prop_callback(this.animData?.frames?.length ?? 0);
     }
 
     private async loadTexture(loadingManager: THREE.LoadingManager, textureUrl: string | undefined) {
@@ -296,11 +308,12 @@ class ModelRendererImpl {
             this.mesh.material.wireframe = this.prop_meshType === MeshType.Wireframe;
         }
 
-        if (this.prop_animate && this.animData && this.geometry) {
-            var animationTotalFrames = this.animData.frames.length;
-            var secondsForWholeAnimation = ModelRendererImpl.secondsPerAnimationFrame * animationTotalFrames;
-            var animationFrame = Math.floor((this.clock.getElapsedTime() % secondsForWholeAnimation) / ModelRendererImpl.secondsPerAnimationFrame);
-            //console.log(`animationFrame: ${animationFrame}`);
+        let elapsedTime = this.clock.getElapsedTime();
+        if (this.animData && this.geometry) {
+            let animationTotalFrames = this.animData.frames.length;
+            let secondsForWholeAnimation = ModelRendererImpl.secondsPerAnimationFrame * animationTotalFrames;
+            let animationFrame = !this.prop_animate ? this.clamp(this.prop_frame, 0, animationTotalFrames) : Math.floor((elapsedTime % secondsForWholeAnimation) / ModelRendererImpl.secondsPerAnimationFrame);
+            console.log(`animationFrame: ${animationFrame}`);
 
             // Modify the positions of each vertex.
             const positionAttribute = this.geometry.attributes.position;
@@ -312,7 +325,7 @@ class ModelRendererImpl {
                 let [x2, y2, z2] = this.wrappedIndex(this.animData.frames, animationFrame + 1).vertexData.slice(i * 3, (i * 3) + 3);
                 x2 = -x2; y2 = -y2;
 
-                var interp = (this.clock.getElapsedTime() % ModelRendererImpl.secondsPerAnimationFrame) / ModelRendererImpl.secondsPerAnimationFrame;
+                let interp = !this.prop_animate ? 0 : (elapsedTime % ModelRendererImpl.secondsPerAnimationFrame) / ModelRendererImpl.secondsPerAnimationFrame;
                 updatedPositions[i * 3 + 0] = this.lerp(x1, x2, interp);
                 updatedPositions[i * 3 + 1] = this.lerp(y1, y2, interp);
                 updatedPositions[i * 3 + 2] = this.lerp(z1, z2, interp);
@@ -334,6 +347,10 @@ class ModelRendererImpl {
         return next;
     }*/
 
+    clamp(value: number, min: number, max: number): number {
+        return Math.max(min, Math.min(value, max));
+    }
+
     lerp(start: number, end: number, t: number) {
         return start * (1 - t) + end * t;
     }
@@ -342,5 +359,3 @@ class ModelRendererImpl {
         return array[index % array.length];
     }
 }
-
-export default ModelRendererImpl;
