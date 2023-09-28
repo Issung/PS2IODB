@@ -111,13 +111,10 @@
     }
 
     #progress #fill strong {
-        text-align: center;
-        height: 100%;
-        padding-top: 12px;
-        display: block;
-        margin-right: 14px;
-        right: -40px;
+        line-height: 47px;
         position: relative;
+        float: right;
+        right: -64px;
     }
 
     #progress-paragraph {
