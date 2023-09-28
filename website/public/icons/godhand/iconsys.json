@@ -1,0 +1,18 @@
+{
+    "title":"GOD HAND 02  06:23:46",
+    "normal":"godh0.ico",
+    "copy":"godh0.ico",
+    "delete":"godh0.ico",
+    "bgOpacity":64,
+    "bgColTL":"#785023",
+    "bgColTR":"#785023",
+    "bgColBL":"#785023",
+    "bgColBR":"#785023",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
