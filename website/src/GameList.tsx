@@ -2232,7 +2232,7 @@ export const GameList: Game[] = [
     new Game(`Mercury Meltdown Remix`),
     new Game(`Mermaid Prism`),
     new Game(`Meshimase Roman Sabou`),
-    new Game(`Metal Arms: Glitch in the System`),
+    new Game(`Metal Arms: Glitch in the System`, `metalarmsglitchinthesystem`, 3),
     new Game(`Metal Gear Solid 2: Sons of Liberty`),
     new Game(`Metal Gear Solid 2: Substance`),
     new Game(`Metal Gear Solid 3: Snake Eater`),
