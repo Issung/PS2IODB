@@ -24,6 +24,7 @@ import os
 import sys
 import struct
 import io
+import traceback
 from .. import iconexport
 
 # Work around a problem with mixing wx and py2exe
@@ -336,7 +337,6 @@ class GuiFrame(wx.Frame):
         self.icon_win.load_icon(icon_sys, icon_data_normal, icon_data_copy, icon_data_delete)
 
     def load_icon_data(self, entry, icon_sys, type):
-        """Issun was here"""
         if type == "normal":
             icon_name = icon_sys.icon_file_normal
         elif type == "copy":
@@ -586,7 +586,7 @@ class GuiFrame(wx.Frame):
         except Exception as e:
             dialog = wx.MessageDialog(
                 self, 
-                f"An error occured trying to export icons.\n\n'{str(e)}'\n\nPlease consider opening an issue on GitHub with the memory card file attached.", 
+                f"An error occured trying to export icons.\n\n{traceback.format_exc()}\n\nPlease consider opening an issue on GitHub with the memory card file attached.", 
                 "Icon Export Error", 
                 wx.OK | wx.ICON_ERROR)
             dialog.ShowModal()
