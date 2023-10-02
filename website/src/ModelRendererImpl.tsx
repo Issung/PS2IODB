@@ -96,7 +96,7 @@ export class ModelRendererImpl {
         this.canvas = document.querySelector('#iconRenderCanvas') as HTMLCanvasElement;
         this.canvas.before(this.stats.dom);
 
-        this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
+        this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true });
         this.onWindowResize();
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.autoRotate = true;
