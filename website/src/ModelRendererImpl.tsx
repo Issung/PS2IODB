@@ -1,7 +1,8 @@
 import * as THREE from "three";
-import { AnimationData } from "./AnimationData";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
 import Stats from 'stats.js';
+import { AnimationData } from "./AnimationData";
 import { MeshType, TextureType } from "./ModelViewParams";
 import { TexturedOBJLoader } from "./TexturedOBJLoader";
 
@@ -44,6 +45,7 @@ export class ModelRendererImpl {
     private stats: Stats;
     private axesHelper: THREE.AxesHelper;
     private horizontalGridHelper: THREE.GridHelper;
+    private vertexNormalHelper: VertexNormalsHelper | undefined = undefined;
 
     private initialised: boolean = false;
     private renderer: THREE.WebGLRenderer | undefined;
@@ -229,6 +231,11 @@ export class ModelRendererImpl {
         this.horizontalGridHelper?.position.setY(-size.y / 2);
         this.axesHelper?.scale.set(gridSize, gridSize, gridSize);
         this.axesHelper?.position.setY(-size.y / 2);
+
+        if (this.mesh) {
+            this.vertexNormalHelper = new VertexNormalsHelper(this.mesh, 0.1);
+            this.scene.add(this.vertexNormalHelper);
+        }
     }
 
     // Ran when either obj or texture loading is complete.
@@ -306,6 +313,10 @@ export class ModelRendererImpl {
 
         if (this.mesh) {
             this.mesh.material.wireframe = this.prop_meshType === MeshType.Wireframe;
+            if (this.vertexNormalHelper) {
+                this.vertexNormalHelper.visible = this.prop_meshType === MeshType.Normals;
+            }
+            this.mesh.visible = this.prop_meshType !== MeshType.Normals;
         }
 
         let elapsedTime = this.clock.getElapsedTime();
@@ -332,6 +343,10 @@ export class ModelRendererImpl {
             }
 
             this.geometry.setAttribute('position', new THREE.BufferAttribute(updatedPositions, 3));
+        }
+
+        if (this.vertexNormalHelper?.visible) {
+            this.vertexNormalHelper.update();
         }
 
         this.renderer?.render(this.scene, this.camera);

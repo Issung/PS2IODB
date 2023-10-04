@@ -9,4 +9,5 @@ export enum TextureType {
 export enum MeshType {
     Mesh = 'Mesh',
     Wireframe = 'Wireframe',
+    Normals = 'Normals',
 }
