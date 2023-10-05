@@ -1,6 +1,6 @@
 import React from 'react';
-import { Game } from './Game';
 import { Link } from 'react-router-dom';
+import { Game } from '../model/Game';
 
 type GameTableProps = {
     games: Game[];

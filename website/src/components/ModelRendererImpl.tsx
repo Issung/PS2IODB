@@ -5,6 +5,7 @@ import Stats from 'stats.js';
 import { AnimationData } from "./AnimationData";
 import { MeshType, TextureType } from "./ModelViewParams";
 import { TexturedOBJLoader } from "./TexturedOBJLoader";
+import { MeshType, TextureType } from "./ModelViewParams";
 
 /**
  * Callback function for the model renderer report back regarding loaded icon data, e.g. number of frames.
