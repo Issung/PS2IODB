@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import './Contribute.scss';
+import './TextPage.scss'
 
 const Contribute: React.FC = () => {
     return (
@@ -31,7 +32,7 @@ const Contribute: React.FC = () => {
                         <ul>
                             <li><Link to="https://gamefaqs.gamespot.com/">GameFAQs</Link></li>
                             <li><Link to="https://www.ps2-home.com/forum/viewforum.php?f=70">PS2-Home</Link></li>
-                            <li><Link to="https://www.thetechgame.com/Downloads/cid=310/playstation-2-game-saves.html">PS2-Home</Link></li>
+                            <li><Link to="https://www.thetechgame.com/Downloads/cid=310/playstation-2-game-saves.html">The Tech Game</Link></li>
                             <li>Other various sources found via <Link to="https://www.google.com/search?q=ps2+game+save+files">Google search</Link></li>
                         </ul>
                         <p>Our tool MYMC++ can be used to import these save files and then icon assets can be extracted easily. Steps:</p>
