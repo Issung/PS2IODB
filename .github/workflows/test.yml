@@ -31,6 +31,9 @@ jobs:
       run: |
         npm ci
         CI=true npm test  # CI=true will run tests in non-interactive fashion.
+    - name: Build
+      working-directory: ./website
+      run: npm run build
     - name: Test Report
       uses: dorny/test-reporter@v1
       if: success() || failure()
