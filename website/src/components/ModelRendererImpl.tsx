@@ -2,9 +2,9 @@ import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
 import Stats from 'stats.js';
-import { AnimationData } from "./AnimationData";
-import { MeshType, TextureType } from "./ModelViewParams";
+import { AnimationData } from "../model/AnimationData";
 import { TexturedOBJLoader } from "./TexturedOBJLoader";
+import { MeshType, TextureType } from "./ModelViewParams";
 
 /**
  * Callback function for the model renderer report back regarding loaded icon data, e.g. number of frames.

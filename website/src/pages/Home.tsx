@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import './Home.scss';
-import SearchBar from "./SearchBar";
-import SearchResults from "./SearchResults";
 import { Link, useParams } from "react-router-dom";
-import { Game } from './Game';
-import { GameList } from "./GameList";
-import GameTable from "./GameTable";
-import Counter from "./Counter";
+import './Home.scss';
+import { Game } from '../model/Game';
+import { GameList } from "../model/GameList";
+import Counter from "../components/Counter";
+import SearchBar from "../components/SearchBar";
+import GameTable from "../components/GameTable";
+import SearchResults from "../components/SearchResults";
 
 const Home: React.FC = () => {
     const { type: paramType, index: paramIndex } = useParams();

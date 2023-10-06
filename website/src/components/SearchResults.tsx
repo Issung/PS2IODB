@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-import { Game } from './Game';
-import { GameList } from './GameList';
+import React, { useState, useEffect } from 'react';
 import GameTable from './GameTable';
+import { Game } from '../model/Game';
+import { GameList } from '../model/GameList';
 
 type SearchResultsProps = {
     keywords: string[];

@@ -1,11 +1,10 @@
-import './Icon.scss'
-import JSZip from "jszip";
-import ModelView from './ModelView';
-import { IconSys } from "./IconSys";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { MeshType, TextureType } from "./ModelViewParams";
+import { useParams, useNavigate } from "react-router-dom";
+import JSZip from "jszip";
+import './Icon.scss'
+import { IconSys } from "../model/IconSys";
+import ModelView from '../components/ModelView';
+import { MeshType, TextureType } from "../components/ModelViewParams";
 
 /**
  * This component serves as a page, routed to by App.tsx.
