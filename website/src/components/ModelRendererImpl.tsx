@@ -288,8 +288,6 @@ export class ModelRendererImpl {
     onWindowResize() {
         //windowHalfX = window.innerWidth / 2;
         //windowHalfY = window.innerHeight / 2;
-        console.log('Resize!');
-
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
 
