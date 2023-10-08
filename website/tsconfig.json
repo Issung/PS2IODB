@@ -21,6 +21,9 @@
     "jsx": "react-jsx",
     "sourceMap": true
   },
+  "files": [
+    "node_modules/jest-expect-message/types/index.d.ts"
+  ],
   "include": [
     "src"
   ]

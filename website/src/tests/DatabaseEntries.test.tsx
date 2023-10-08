@@ -49,7 +49,7 @@ describe("Database Entries Tests", () =>
         GameList.forEach(game => {
             if (game.code != undefined)
             {
-                expect(iconDirectories).toContain(game.code);
+                expect(iconDirectories, `GameList entry '${game.code}' does not appear to have a matching directory.`).toContain(game.code);
             }
         });
     });
@@ -65,7 +65,7 @@ describe("Database Entries Tests", () =>
 
         iconDirectories.forEach(directory => {
             let gameListHasMatchingEntry = GameList.some(game => game.code === directory);
-            expect(gameListHasMatchingEntry).toBe(true);
+            expect(gameListHasMatchingEntry, `Directory '${directory}' doesn't seem to have a GameList entry.`).toBe(true);
         });
     });
 
