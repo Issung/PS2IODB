@@ -350,6 +350,21 @@ export class ModelRendererImpl {
         this.renderer?.render(this.scene, this.camera);
     }
 
+    getCurrentAndNextShape() {
+        const framesPerSecond = 60;
+        let framesPerShape = this.animData!.frameLength;
+        let shapeCount = this.animData!.frames.length;
+        let totalFrames = framesPerShape * shapeCount;
+        let secondsForWholeAnimation = (framesPerShape / framesPerSecond) * shapeCount;
+        let currentTime = this.clock.elapsedTime % framesPerSecond;
+        let currentFrame = Math.trunc(secondsForWholeAnimation / currentTime);  // 120 / 60 = 2.
+        let nextFrame = (currentFrame + 1) % shapeCount;
+    }
+
+    getShape() {
+
+    }
+
     /*function getNextStep(current: number, max: number, step: number) {
         const steps = Array.from({ length: (max / step) }, (_, i) => (i + 1) * step);
         let next = steps.find((s) => s > current);
