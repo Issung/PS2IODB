@@ -317,24 +317,18 @@ export class ModelRendererImpl {
             this.mesh.visible = this.prop_meshType !== MeshType.Normals;
         }
 
-        let elapsedTime = this.clock.getElapsedTime();
+        this.clock.getElapsedTime(); // Update clock.
         if (this.animData && this.geometry) {
-            let animationTotalFrames = this.animData.frames.length;
-            let secondsForWholeAnimation = ModelRendererImpl.secondsPerAnimationFrame * animationTotalFrames;
-            let animationFrame = !this.prop_animate ? this.clamp(this.prop_frame, 0, animationTotalFrames) : Math.floor((elapsedTime % secondsForWholeAnimation) / ModelRendererImpl.secondsPerAnimationFrame);
-            console.log(`animationFrame: ${animationFrame}`);
-
-            // Modify the positions of each vertex.
             const positionAttribute = this.geometry.attributes.position;
             const updatedPositions = new Float32Array(positionAttribute.count * 3);
             for (let i = 0; i < positionAttribute.count; i++) {
-                let [x1, y1, z1] = this.wrappedIndex(this.animData.frames, animationFrame).vertexData.slice(i * 3, (i * 3) + 3);
+                let [currentShape, nextShape, interp] = this.prop_animate ? this.getCurrentAndNextShape() : [this.prop_frame, (this.prop_frame + 1) % this.animData.frames.length, 0];
+                let [x1, y1, z1] = this.animData.frames[currentShape].vertexData.slice(i * 3, (i * 3) + 3);
                 x1 = -x1; y1 = -y1;
-
-                let [x2, y2, z2] = this.wrappedIndex(this.animData.frames, animationFrame + 1).vertexData.slice(i * 3, (i * 3) + 3);
+                let [x2, y2, z2] = this.animData.frames[nextShape].vertexData.slice(i * 3, (i * 3) + 3);
                 x2 = -x2; y2 = -y2;
 
-                let interp = !this.prop_animate ? 0 : (elapsedTime % ModelRendererImpl.secondsPerAnimationFrame) / ModelRendererImpl.secondsPerAnimationFrame;
+                //let interp = !this.prop_animate ? 0 : progress;
                 updatedPositions[i * 3 + 0] = this.lerp(x1, x2, interp);
                 updatedPositions[i * 3 + 1] = this.lerp(y1, y2, interp);
                 updatedPositions[i * 3 + 2] = this.lerp(z1, z2, interp);
@@ -351,18 +345,45 @@ export class ModelRendererImpl {
     }
 
     getCurrentAndNextShape() {
-        const framesPerSecond = 60;
-        let framesPerShape = this.animData!.frameLength;
+        const framesPerSecond = 60; // Is this how many frames the PS2 BIOS assumes?
+        let framesPerShape = this.animData!.frameLength; // Is this the proper usage of frameLength?
         let shapeCount = this.animData!.frames.length;
         let totalFrames = framesPerShape * shapeCount;
-        let secondsForWholeAnimation = (framesPerShape / framesPerSecond) * shapeCount;
-        let currentTime = this.clock.elapsedTime % framesPerSecond;
-        let currentFrame = Math.trunc(secondsForWholeAnimation / currentTime);  // 120 / 60 = 2.
-        let nextFrame = (currentFrame + 1) % shapeCount;
+        let secondsPerShape = framesPerShape / framesPerSecond;
+        let secondsPerAnimation = totalFrames / framesPerSecond;
+        let currentSecondForShape = this.clock.elapsedTime % secondsPerShape;
+        let currentSecondForAnimation = this.clock.elapsedTime % secondsPerAnimation;
+        let currentShape = this.getCurrentShape(shapeCount, secondsPerShape, currentSecondForAnimation);
+        let nextShape = (currentShape + 1) % shapeCount;
+        
+        let progressForCurrentShape = currentSecondForShape / secondsPerShape;
+
+        //console.log(`currentShape: ${currentShape}, nextShape: ${nextShape}, progress: ${progressForCurrentShape}.`);
+        return [currentShape, nextShape, progressForCurrentShape];
     }
 
-    getShape() {
+    /**
+     * Identify which shape the animation should be in given the currentSecondsForAnimation.
+     * @param shapeCount How many shapes are in the animation.
+     * @param secondsPerShape How many seconds should be spent on each shape.
+     * @param currentSecondForAnimation How many seconds are we into the entire animation.
+     * @returns Shape number.
+     */
+    getCurrentShape(
+        shapeCount: number, 
+        secondsPerShape: number, 
+        currentSecondForAnimation: number
+    ) {
+        // TODO: There should be an easy way to do this, with probably just 1 math equation.
+        for (let i = 0; i < shapeCount; i++) {
+            let seconds = i * secondsPerShape;
+            let nextSeconds = (i + 1) * secondsPerShape;
+            if (seconds < currentSecondForAnimation && currentSecondForAnimation < nextSeconds) {
+                return i;
+            }
+        }
 
+        return shapeCount - 1;
     }
 
     /*function getNextStep(current: number, max: number, step: number) {
