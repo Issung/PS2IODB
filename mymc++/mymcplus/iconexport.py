@@ -11,6 +11,9 @@ from mymcplus.iconsys_dto import IconSysDto
 from mymcplus.ps2icon import Icon
 from mymcplus.ps2iconsys import IconSys
 
+ICON_ASSETS_FOLDER="icon_exports"
+"""Folder to save exported icon assets into."""
+
 MAX_CONST = 4096
 """4096 is used in the ps2iconsys c++ tool to convert f16 to f32 and back, normalising the values stored on the memory card.
    e.g. vertex positions and uv coordinates."""
@@ -31,6 +34,7 @@ def export_iconsys(path: str, iconsys: IconSys, icon_dict):
 
 def export_variant(path: str, icon_filename: str, icon: Icon):
     """Export all assets for an icon variant: obj, texture & anim."""
+    icon_filename = icon_filename.replace('\\', '_').replace('/', '-') # Replace backslashes with hyphens and forward slashes with underscores.
     full_path_without_extension = f"{path}{icon_filename}"
     # Write OBJ
     with open(f"{full_path_without_extension}.obj", 'w') as obj:

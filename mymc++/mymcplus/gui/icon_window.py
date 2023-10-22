@@ -261,6 +261,7 @@ class IconWindow(wx.Window):
         else:
             raise Exception(f"Unknown icon type id {id}")
         
+        self.menu.Check(id, True)   # Force update the UI to the new selected radio button (for when using keyboard shortcuts).
         self.selected_icon_type = id
         self._renderer.set_icon(self._icon_sys, icon)
         self.canvas.Refresh(eraseBackground=False)
