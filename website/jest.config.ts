@@ -8,7 +8,8 @@ const config: Config = {
   reporters: [
     'default',
     ['jest-junit', { outputDirectory: 'reports', outputName: 'report.xml' }],
-  ]
+  ],
+  setupFilesAfterEnv: [ "jest-expect-message" ]
 };
 
 export default config;
