@@ -1,4 +1,5 @@
 import json
+from mymcplus import iconexport
 from mymcplus.jsonencoding import CustomJSONEncoder, SingleLineList
 from mymcplus.ps2iconsys import IconSys
 
@@ -44,9 +45,9 @@ class IconSysDto:
         new = IconSysDto()
         new.title = iconsys.get_title_joined("ascii")
 
-        new.normal = iconsys.icon_file_normal
-        new.copy = iconsys.icon_file_copy
-        new.delete = iconsys.icon_file_delete
+        new.normal = iconexport.clean_icon_filename(iconsys.icon_file_normal)
+        new.copy = iconexport.clean_icon_filename(iconsys.icon_file_copy)
+        new.delete = iconexport.clean_icon_filename(iconsys.icon_file_delete)
 
         new.bgOpacity = iconsys.background_transparency
         new.bgColTL = arr_to_col(iconsys.bg_colors[0])

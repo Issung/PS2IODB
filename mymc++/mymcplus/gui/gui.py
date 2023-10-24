@@ -21,6 +21,8 @@ import array
 from functools import reduce
 import json
 import os
+import platform
+import subprocess
 import sys
 import struct
 import io
@@ -94,6 +96,7 @@ class GuiFrame(wx.Frame):
     ID_CMD_ASCII = 106
 
     ID_CMD_EXPORT_ICONS = 107
+    ID_CMD_OPEN_EXPORT_ASSETS_FOLDER = 108
 
     def message_box(self, message, caption = "mymcplus", style = wx.OK,
             x = -1, y = -1):
@@ -142,6 +145,7 @@ class GuiFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.evt_cmd_import, id=self.ID_CMD_IMPORT)
         self.Bind(wx.EVT_MENU, self.evt_cmd_export, id=self.ID_CMD_EXPORT)
         self.Bind(wx.EVT_MENU, self.evt_cmd_export_icons, id=self.ID_CMD_EXPORT_ICONS)
+        self.Bind(wx.EVT_MENU, self.evt_open_export_folder, id=self.ID_CMD_OPEN_EXPORT_ASSETS_FOLDER)
         self.Bind(wx.EVT_MENU, self.evt_cmd_delete, id=self.ID_CMD_DELETE)
         self.Bind(wx.EVT_MENU, self.evt_cmd_ascii, id=self.ID_CMD_ASCII)
 
@@ -154,6 +158,7 @@ class GuiFrame(wx.Frame):
         self.delete_menu_item = filemenu.Append(self.ID_CMD_DELETE, "&Delete\tDEL", "Delete selected save files from this image.")
         filemenu.AppendSeparator()
         self.export_icon_assets_menu_item = filemenu.Append(self.ID_CMD_EXPORT_ICONS, "Export Icon Assets\tCTRL+A", "Export all icon assets for the selected save file.")
+        self.open_eported_assets_menu_item = filemenu.Append(self.ID_CMD_OPEN_EXPORT_ASSETS_FOLDER, "Open Exported Assets Folder", "Open folder containing exported assets.")
         filemenu.AppendSeparator()
         filemenu.Append(self.ID_CMD_EXIT, "E&xit\tALT+F4")
 
@@ -185,8 +190,8 @@ class GuiFrame(wx.Frame):
         splitter_window.SetSashGravity(0.5)
 
         self.item_context_menu = wx.Menu()
-        self.item_context_menu.Append(self.ID_CMD_DELETE, "Delete")
-        self.item_context_menu.Append(self.ID_CMD_EXPORT_ICONS, "Export Icon Assets")
+        self.item_context_menu.Append(self.ID_CMD_DELETE, "Delete\tDEL")
+        self.item_context_menu.Append(self.ID_CMD_EXPORT_ICONS, "Export Icon Assets\tCTRL+A")
 
         self.dirlist = DirListControl(splitter_window,
                                       self.evt_dirlist_item_focused,
@@ -570,8 +575,8 @@ class GuiFrame(wx.Frame):
         entered_text = dialog.GetValue()
         dialog.Destroy()
 
-        if not os.path.exists(f"icon_exports/{entered_text}"):
-            os.makedirs(f"icon_exports/{entered_text}")
+        if not os.path.exists(f"{iconexport.ICON_ASSETS_FOLDER}/{entered_text}"):
+            os.makedirs(f"{iconexport.ICON_ASSETS_FOLDER}/{entered_text}")
 
         iconsys = self.icon_win._icon_sys
 
@@ -582,7 +587,7 @@ class GuiFrame(wx.Frame):
                 iconsys.icon_file_copy: self.icon_win._icon_copy,
                 iconsys.icon_file_delete: self.icon_win._icon_delete,
             }
-            iconexport.export_iconsys(f"icon_exports/{entered_text}/", iconsys, icon_dict)
+            iconexport.export_iconsys(f"{iconexport.ICON_ASSETS_FOLDER}/{entered_text}/", iconsys, icon_dict)
         except Exception as e:
             dialog = wx.MessageDialog(
                 self, 
@@ -591,6 +596,15 @@ class GuiFrame(wx.Frame):
                 wx.OK | wx.ICON_ERROR)
             dialog.ShowModal()
             dialog.Destroy()
+
+    def evt_open_export_folder(self, event):
+        # Cross-platform open file explorer https://stackoverflow.com/a/16204023/8306962
+        if platform.system() == "Windows":
+            os.startfile(iconexport.ICON_ASSETS_FOLDER)
+        elif platform.system() == "Darwin":
+            subprocess.Popen(["open", iconexport.ICON_ASSETS_FOLDER])
+        else:
+            subprocess.Popen(["xdg-open", iconexport.ICON_ASSETS_FOLDER])
 
     def evt_cmd_exit(self, event):
         self.Close(True)
