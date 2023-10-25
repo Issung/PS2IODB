@@ -51,6 +51,16 @@ const Contribute: React.FC = () => {
                             <li>Enter a name for a new folder for the exported assets to be grouped under.</li>
                             <li>Go to the MYMC++ directory and find the icon_exports folder, your exported assets will be within.</li>
                         </ol>
+                        <p>A short video of the process can be viewed here:</p>
+                        <iframe 
+                            width="560" 
+                            height="315" 
+                            src="https://www.youtube.com/embed/wbZ59tpBIZ4?si=12EvAUgmiDxooeNd" 
+                            title="YouTube video player" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowFullScreen
+                            style={{marginBottom: '15px'}}>
+                        </iframe>
 
                         <a id="iconextractionmanual" href="#iconextractionmanual">
                             <h4>Icon Extraction: Manually Creating Saves with PCSX2</h4>
