@@ -363,7 +363,7 @@ export const GameList: Game[] = [
     new Game(`Boboboubo Boubobo: Shuumare! Taikan Boubobo`),
     new Game(`Bode Miller Alpine Skiing`),
     new Game(`The Boku no Machidzukuri 2 – Machi-ing Maker 2.1`),
-    new Game(`Boku no Natsuyasumi 2: Umi no Bouken Hen`),
+    new Game(`Boku no Natsuyasumi 2: Umi no Bouken Hen`, `bokunonatsuyasumi2`, 1),
     new Game(`Boku wa Chiisai`),
     new Game(`Bokura no Kazoku`),
     new Game(`Bolt`),
