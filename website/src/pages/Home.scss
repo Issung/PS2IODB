@@ -79,9 +79,8 @@
         color: #61dafb;
     }
 
-    a > h2:hover,
-    a > h3:hover,
-    a[href^="/directory/"] > h3:hover {
+    div.index:hover,
+    div.type:hover {
         background-color: #fffeff0f;
     }
 

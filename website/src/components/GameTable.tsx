@@ -9,7 +9,7 @@ type GameTableProps = {
 const GameTable: React.FC<GameTableProps> = ({ games }: GameTableProps) => {
     return (
         <div className="gametable">
-            {games.length === 0 ? <h4 style={{ textAlign: 'left' }}>No Results.</h4> : <h4 style={{ textAlign: 'left' }}>{games.length} Results</h4>}
+            <h4 style={{ textAlign: 'left' }}>{games.length === 0 ? 'No Results.' : `${games.length} Results`}</h4>
             <table>
                 <thead>
                     <tr>
@@ -20,7 +20,7 @@ const GameTable: React.FC<GameTableProps> = ({ games }: GameTableProps) => {
                 <tbody>
                     {games.map(game => (
                         <GameRow key={/*game.code*/Math.random()} game={game}/>
-                        ))}
+                    ))}
                 </tbody>
             </table>
         </div>
@@ -35,7 +35,12 @@ const GameRow = (props: GameRowProps) => {
     return (
         <tr>
             <td>
-                {props.game.code ? <Link to={`/icon/${props.game.code}`}><h6 style={{color: '#6f6fff'}}>{props.game.name}</h6></Link> : <h6>{props.game.name}</h6>}
+                {props.game.code ? 
+                    <Link to={`/icon/${props.game.code}`}>
+                        <h6 style={{color: '#6f6fff'}}>{props.game.name}</h6>
+                    </Link> : 
+                    <h6>{props.game.name}</h6>
+                }
             </td>
         </tr>
     )

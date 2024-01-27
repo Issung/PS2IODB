@@ -1,41 +1,120 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import GameTable from './GameTable';
 import { Game } from '../model/Game';
 import { GameList } from '../model/GameList';
 
 type SearchResultsProps = {
-    keywords: string[];
+    /**
+     * Either 'alphabetical', 'category' or 'text'.
+     */
+    searchType: string | undefined;
+    searchEntry: string | string[] | undefined;
 }
 
-const SearchResults: React.FC<SearchResultsProps> = ({ keywords: searchKeywords }: SearchResultsProps) =>
+const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }: SearchResultsProps) =>
 {
-    useEffect(filterGames, [searchKeywords])  // Run function whenever keywords prop changes.
     const [games, setGames] = useState(Array<Game>);
 
-    function filterGames()
+    const filterByAlphabet = useCallback(() => 
     {
-        if (searchKeywords[0] === '') // Return whole list.
+        // Define inside useEffect so it's not seen as a dependency.
+        const additionalCharacterIncludes: Record<string, string[]> = {
+            "A": ["A", "Æ"], // Include title "Æon Flux" under "A" listings.
+            "H": ["H", "."], // Include all ".hack*" titles under "H" listings.
+            "Q": ["Q", "¡"], // Include title "¡Qué pasa Neng! El videojuego" under "Q" listings.
+            "S": ["S", "_"], // Include title "_Summer" under "S" listings.
+            "O": ["O", "Ō"], // Include titles "Ōkami" & "Ōokuki" under "O" listings.
+        }
+
+        //let index = (paramIndex === undefined || paramIndex < 'A' || paramIndex > 'Z') ? "misc" : paramIndex;
+
+        // TODO: Refactor out.
+        //document.querySelectorAll('a[href^="/search/alphabetical"] > h3').forEach(a => (a as HTMLHeadingElement).style.backgroundColor = '');
+        //let letterLink = document.querySelector(`a[href="/search/alphabetical/${searchEntry}"] > h3`) as HTMLHeadingElement;
+        //letterLink.style.backgroundColor = highlightColor;
+
+        if (searchEntry === 'misc' || searchEntry === undefined)
+        {
+            // All things that come before the first game that starts with 'A'.
+            let firstA = GameList.findIndex(g => g.name.startsWith('A'));
+            setGames(GameList.slice(0, firstA));
+        }
+        else if (typeof searchEntry === 'string')
+        {
+            let characters = additionalCharacterIncludes[searchEntry] ?? [searchEntry];
+            let results = GameList.filter(g => {
+                for (const char of characters) {
+                    if (g.name.startsWith(char)) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+            setGames(results);
+        }
+    }, [searchEntry]);
+
+    const filterByCategory = useCallback(() => 
+    {
+        let index = typeof searchEntry == 'string' ? searchEntry : "icons";
+
+        // TODO: Refactor out.
+        //document.querySelectorAll('a[href^="/search/category"] > h3').forEach(a => (a as HTMLHeadingElement).style.backgroundColor = '');
+        //var categoryLink = document.querySelector(`a[href="/search/category/${index}"] > h3`) as HTMLHeadingElement;
+        //categoryLink.style.backgroundColor = highlightColor;
+
+        if (index === 'all')
+        {
+            setGames(GameList);
+        }
+        else if (index.endsWith('icons'))
+        {
+            if (index === 'noicons')
+            {
+                let gamesInCategory = GameList.filter(g => g.code == null);
+                setGames(gamesInCategory);
+            }
+            else if (index === 'icons')
+            {
+                let gamesInCategory = GameList.filter(g => g.code != null);
+                setGames(gamesInCategory);
+            }
+            else
+            {
+                let number = parseInt(index[0]);
+                let gamesInCategory = GameList.filter(g => g.icons === number);
+                setGames(gamesInCategory);
+            }
+        }
+    }, [searchEntry]);
+
+    const filterByTextEntryKeywords = useCallback(() =>
+    {
+        if (!Array.isArray(searchEntry))
+            return;
+
+        if (searchEntry[0] === '') // Return whole list.
         {
             setGames([]);
         }
-        else if (searchKeywords.length === 1) // 1 keyword, match just on a 'contains'.
+        else if (searchEntry.length === 1) // 1 keyword, match just on a 'contains'.
         {
-            if (searchKeywords[0].length <= 2)
+            if (searchEntry[0].length <= 2)
             {
                 setGames([]);
             }
             else
             {
-                let results = GameList.filter(g => g.name.toLowerCase().indexOf(searchKeywords[0]) >= 0).slice(0, 10);
+                let results = GameList.filter(g => g.name.toLowerCase().indexOf(searchEntry[0]) >= 0).slice(0, 10);
                 setGames(results);
             }
         }
-        else // Match on keywords of game titles vs entered keywords.
+        else if (Array.isArray(searchEntry)) // Match on keywords of game titles vs entered keywords.
         {
             let results = GameList
                 .map(game => {
                     var gameKeywords = game.name.toLowerCase().split(' ').filter(unique);   // Unique filter on end (don't match on same word twice).
-                    var matches = gameKeywords.map((gkw, i) => searchKeywords.some(skw => skw === gkw) ? i : null).filter(i => i != null);
+                    var matches = gameKeywords.map((gkw, i) => searchEntry.some(skw => skw === gkw) ? i : null).filter(i => i != null);
                     var ret = matches.length > 0 ? { game, matches } : null;
                     if (ret)
                     {
@@ -45,13 +124,26 @@ const SearchResults: React.FC<SearchResultsProps> = ({ keywords: searchKeywords 
                 })
                 .filter(result => result != null)
                 .sort((r1, r2) => r2!.matches.length - r1!.matches.length);
-
+            
             setGames(results.slice(0, 10).map(r => r!.game));
         }
 
         //console.log(`Keywords [${keywords.join(', ')}] matched ${games.length} games: ${games.map(sr => sr.name).join(', ')}`);
         //console.log(`Keywords [${keywords.join(', ')}] matched ${games.length} games.`);
-    }
+    }, [searchEntry]);
+
+    useEffect(() => {
+        if  (searchType === 'alphabetical') {
+            filterByAlphabet();
+        }
+        else if (searchType === 'text') {
+            filterByTextEntryKeywords();
+        }
+        // Fallthrough
+        else /*if (searchType === 'category') */  {
+            filterByCategory();
+        }
+    }, [searchEntry, searchType, filterByAlphabet, filterByCategory, filterByTextEntryKeywords]);
 
     function unique<T>(value: T, index: number, array: Array<T>) {
         return array.indexOf(value) === index;
