@@ -79,9 +79,24 @@
         color: #61dafb;
     }
 
-    div.index:hover,
-    div.type:hover {
-        background-color: #fffeff0f;
+    div.search-type,
+    div.search-index {
+        &.selected {
+            background-color: #ffffff1f;
+        }
+
+        &:hover {
+            background-color: #fffeff0f;
+        }
+
+        a {
+            text-decoration: none;
+            text-align: center; 
+
+            h2, h3 {
+                margin-bottom: 2px;
+            }
+        }
     }
 
     > hr {

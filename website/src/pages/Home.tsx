@@ -5,6 +5,7 @@ import { GameList } from "../model/GameList";
 import Counter from "../components/Counter";
 import SearchBar from "../components/SearchBar";
 import SearchResults from "../components/SearchResults";
+import SearchLink from "../components/SearchLink";
 
 const Home: React.FC = () => {
     const { type: paramType, index: paramIndex } = useParams();
@@ -13,9 +14,6 @@ const Home: React.FC = () => {
 
     const [contributed] = useState(GameList.filter(g => g.code).length);
     const [progress, setProgress] = useState(0);
-
-    // TODO: Move to a scss file and use via a class.
-    const highlightColor: string = '#ffffff1f';
 
     useEffect(() => {
         setProgress(GameList.filter(g => g.code).length / GameList.length);
@@ -98,66 +96,36 @@ const Home: React.FC = () => {
                 </div>
                 {/* TODO: Turn this entire alphabetial/category select into a component. */}
                 <div className="row justify-content-center">
-                    <div className="col type" style={{ backgroundColor: paramType === 'alphabetical' ? highlightColor : '' }}>
-                        <Link to="/search/alphabetical" style={{ textDecoration: 'none' }} title="Explore titles by alphabetical sections">
-                            <h2 style={{ textAlign: 'center' }}>Alphabetical</h2>
-                        </Link>
-                    </div>
-                    <div className="col type" style={{ backgroundColor: paramType === 'category' ? highlightColor : '' }}>
-                        <Link to="/search/category" style={{ textDecoration: 'none' }} title="Explore titles by categories">
-                            <h2 style={{ textAlign: 'center' }}>Category</h2>
-                        </Link>
-                    </div>
-                    <div className="col type" style={{ backgroundColor: paramType === 'text' ? highlightColor : '' }}>
-                        <Link to="/search/text" style={{ textDecoration: 'none' }} title="Explore titles with free text search">
-                            <h2 style={{ textAlign: 'center' }}>Text&nbsp;Search</h2>
-                        </Link>
-                    </div>
+                    <SearchLink className="col" to="/search/_" value="alphabetical" currentValue={paramType} tooltip="Explore titles by alphabetical sections">Alphabetical</SearchLink>
+                    <SearchLink className="col" to="/search/_" value="category" currentValue={paramType} tooltip="Explore titles by categories">Category</SearchLink>
+                    <SearchLink className="col" to="/search/_" value="text" currentValue={paramType} tooltip="Explore titles with free text search">Text&nbsp;Search</SearchLink>
                 </div>
                 <hr />
                 {paramType === "alphabetical" && (
                     <div className="row justify-content-center">
-                        {['#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(char => (
-                            <div className="index col-1" style={{ textAlign: 'center', backgroundColor: paramIndex === char ? highlightColor : '' }}>
-                                <Link to={`/search/alphabetical/${char === '#' ? 'misc' : char}`} style={{ textDecoration: 'none' }}>
-                                    <h3>{char}</h3>
-                                </Link>
-                            </div>
-                        ))]}
+                        {['#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(char => 
+                            <SearchLink
+                                className="col-1"
+                                to="/search/alphabetical/_"
+                                value={char === '#' ? 'misc' : char}
+                                currentValue={paramIndex}
+                                tooltip={char === 'misc' 
+                                ? "Titles starting with numeric or miscellaneous characters"
+                                : `Titles starting with '${char}'`}
+                            >
+                                {char}
+                            </SearchLink>
+                        )]}
                     </div>
                 )}
                 {(paramType ?? "category") === "category" && (
                     <div className="row justify-content-center">
-                        <div className="col index" style={{ backgroundColor: paramIndex === 'all' ? highlightColor : ''}}>
-                            <Link to="/search/category/all" style={{ textDecoration: 'none' }} title="List all titles">
-                                <h3 style={{ textAlign: 'center' }}>All</h3>
-                            </Link>
-                        </div>
-                        <div className="col index" style={{ backgroundColor: paramIndex === 'icons' ? highlightColor : ''}}>
-                            <Link to="/search/category/icons" style={{ textDecoration: 'none' }} title="Titles that have icons uploaded">
-                                <h3 style={{ textAlign: 'center' }}>Uploaded</h3>
-                            </Link>
-                        </div>
-                        <div className="col index" style={{ backgroundColor: paramIndex === '1icons' ? highlightColor : ''}}>
-                            <Link to="/search/category/1icons" style={{ textDecoration: 'none' }} title="Titles with 1 icon">
-                                <h3 style={{ textAlign: 'center' }}>1 Icon</h3>
-                            </Link>
-                        </div>
-                        <div className="col index" style={{ backgroundColor: paramIndex === '2icons' ? highlightColor : ''}}>
-                            <Link to="/search/category/2icons" style={{ textDecoration: 'none' }} title="Titles with 2 icons">
-                                <h3 style={{ textAlign: 'center' }}>2 Icons</h3>
-                            </Link>
-                        </div>
-                        <div className="col index" style={{ backgroundColor: paramIndex === '3icons' ? highlightColor : ''}}>
-                            <Link to="/search/category/3icons" style={{ textDecoration: 'none' }} title="Titles with 3 icons">
-                                <h3 style={{ textAlign: 'center' }}>3 Icons</h3>
-                            </Link>
-                        </div>
-                        <div className="col index" style={{ backgroundColor: paramIndex === 'noicons' ? highlightColor : ''}}>
-                            <Link to="/search/category/noicons" style={{ textDecoration: 'none' }} title="Titles that haven't yet been uploaded">
-                                <h3 style={{ textAlign: 'center' }}>Missing</h3>
-                            </Link>
-                        </div>
+                        <SearchLink className="col" to="/search/category/_" value="all" currentValue={paramIndex} tooltip="List all titles">All</SearchLink>
+                        <SearchLink className="col" to="/search/category/_" value="icons" currentValue={paramIndex} tooltip="Titles that have icons uploaded">Uploaded</SearchLink>
+                        <SearchLink className="col" to="/search/category/_" value="1icons" currentValue={paramIndex} tooltip="Titles with 1 icon">1 Icon</SearchLink>
+                        <SearchLink className="col" to="/search/category/_" value="2icons" currentValue={paramIndex} tooltip="Titles with 2 icons">2 Icons</SearchLink>
+                        <SearchLink className="col" to="/search/category/_" value="3icons" currentValue={paramIndex} tooltip="Titles with 3 icons">3 Icons</SearchLink>
+                        <SearchLink className="col" to="/search/category/_" value="noicons" currentValue={paramIndex} tooltip="Titles that haven't yet been uploaded">Missing</SearchLink>
                     </div>
                 )}
                 {paramType === "text" && (
