@@ -26,13 +26,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
             "O": ["O", "Ō"], // Include titles "Ōkami" & "Ōokuki" under "O" listings.
         }
 
-        //let index = (paramIndex === undefined || paramIndex < 'A' || paramIndex > 'Z') ? "misc" : paramIndex;
-
-        // TODO: Refactor out.
-        //document.querySelectorAll('a[href^="/search/alphabetical"] > h3').forEach(a => (a as HTMLHeadingElement).style.backgroundColor = '');
-        //let letterLink = document.querySelector(`a[href="/search/alphabetical/${searchEntry}"] > h3`) as HTMLHeadingElement;
-        //letterLink.style.backgroundColor = highlightColor;
-
         if (searchEntry === 'misc' || searchEntry === undefined)
         {
             // All things that come before the first game that starts with 'A'.
@@ -57,11 +50,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
     const filterByCategory = useCallback(() => 
     {
         let index = typeof searchEntry == 'string' ? searchEntry : "icons";
-
-        // TODO: Refactor out.
-        //document.querySelectorAll('a[href^="/search/category"] > h3').forEach(a => (a as HTMLHeadingElement).style.backgroundColor = '');
-        //var categoryLink = document.querySelector(`a[href="/search/category/${index}"] > h3`) as HTMLHeadingElement;
-        //categoryLink.style.backgroundColor = highlightColor;
 
         if (index === 'all')
         {
