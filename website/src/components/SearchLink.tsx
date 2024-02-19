@@ -1,0 +1,41 @@
+//import './Counter.scss';
+
+import { ReactNode } from "react";
+import { Link } from "react-router-dom";
+
+interface SearchLinkProps {
+    /** Child HTML inside component. */
+    children: ReactNode;
+    
+    /**
+     * Href with _ to be replaced by index.
+     */
+    to: string;
+
+    /** The value for this link to link to. */
+    value: string;
+
+    /** The current value the user is viewing. */
+    currentValue: string | undefined;
+
+    /** Mouse hover tooltip (title). */
+    tooltip: string;
+
+    /** Aditional classNames to add to div element. Use for bootstrap cols. */
+    className: string;
+}
+
+const SearchLink = (props: SearchLinkProps) => {
+    // Category => Uploaded (icons) is the default selection.
+    const selected = (props.currentValue === undefined && (props.value === "category" || props.value === "icons")) || props.currentValue === props.value;
+
+    return (
+        <div className={`${props.className || ''} ${selected ? 'selected' : ''} search-type`}>
+            <Link to={props.to.replaceAll('_', props.value)} title={props.tooltip}>
+                <h2>{props.children}</h2>
+            </Link>
+        </div>
+    )
+};
+
+export default SearchLink;
