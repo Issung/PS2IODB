@@ -81,6 +81,8 @@
 
     div.search-type,
     div.search-index {
+        padding: 0;
+
         &.selected {
             background-color: #ffffff1f;
         }
