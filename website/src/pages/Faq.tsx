@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import './TextPage.scss'
+import './Faq.scss'
 
 const Faq: React.FC = () => {
     return (
@@ -60,6 +61,15 @@ const Faq: React.FC = () => {
                             See the <Link to="/contribute">How to Contribute</Link> page for guides on different ways to contribute.<br/>
                             Contributions outside of icon uploads can also be made, improvements to the website or memory card management tool are welcome in pull requests!
                         </p>
+
+                        <h4>Who did the design?</h4>
+                        <p>My great friend Tyler @ Typedesigns.</p>
+                        <div className="row">
+                            <div className="col"><a href="https://typedesigns.com.au/">🌐 typedesigns.com.au</a></div>
+                            <div className="col"><a href="https://www.instagram.com/typedesigns_/">📸 instagram</a></div>
+                            <div className="col"><a href="mailto:tyler@typedesigns.com.au">✉️ tyler@typedesigns.com.au</a></div>
+                        </div>
+                        <br/>
 
                         <h4>Who can I contact for more info?</h4>
                         <p>If your inquiry relates to a problem consider creating a GitHub issue, else e-mail the site founder Issun for <a href="mailto: issun@sonofgoran.com">issun@sonofgoran.com</a> for all other inqueries.</p>
