@@ -1,0 +1,14 @@
+#Footer {
+    background-color: #1a1a1a;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    a {
+        color: white;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
