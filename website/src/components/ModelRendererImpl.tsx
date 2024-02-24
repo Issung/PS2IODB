@@ -208,7 +208,8 @@ export class ModelRendererImpl {
         // TODO: Maybe display download progress for model + texture.
     }
 
-    loadError(e: ErrorEvent) {
+    loadError(e: any) {
+        // Properties on `e` are `message` and `stack`.
         console.error(`Load error. Message: '${e.message}'`);
     }
 
