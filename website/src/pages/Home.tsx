@@ -40,7 +40,7 @@ const Home: React.FC = () => {
                     <div className="row justify-content-center">
                         <div className="col-10 col-md-7 col-xl-5 col-xxl-4">
                             <p className="p-3" style={{ textAlign: 'center' }}>
-                                Welcome to the PS2 Icons Open Database (PS2IODB), a crowdsourced collection of PlayStation 2 save game icons.
+                                Welcome to the PlayStation2™ Icons Open Database (PS2IODB), a crowdsourced collection of PlayStation 2 save game icons.
                             </p>
                         </div>
                     </div>

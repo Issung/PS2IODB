@@ -22,7 +22,7 @@ export class TexturedOBJLoader extends OBJLoader
         textureUrl: string | undefined,
         onProgress?: (event: ProgressEvent) => void,
         onMtlTextureFileUrlFound?: (event: string) => void,
-        onError?: (event: ErrorEvent) => void,
+        onError?: (event: unknown) => void,
         onLoadComplete?: (group: Group) => void,
     ): void 
     {
@@ -83,7 +83,7 @@ export class TexturedOBJLoader extends OBJLoader
         mtlFileUrl: string,
         onLoadComplete: () => void,
         onProgress?: (event: ProgressEvent) => void,
-        onError?: (event: ErrorEvent) => void
+        onError?: (event: unknown) => void
     ): void 
     {
         const mtlLoader = new MTLLoader(this.manager);
