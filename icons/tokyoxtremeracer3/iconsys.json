@@ -1,0 +1,18 @@
+{
+    "title":"TXR3 GAME DATA",
+    "normal":"sb01.ico",
+    "copy":"sb01.ico",
+    "delete":"sb01.ico",
+    "bgOpacity":96,
+    "bgColTL":"#808080",
+    "bgColTR":"#000000",
+    "bgColBL":"#404040",
+    "bgColBR":"#202020",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.4000000059604645, -0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
