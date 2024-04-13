@@ -3,13 +3,12 @@ import react from '@vitejs/plugin-react'
 import viteTsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
-    // depending on your application, base can also be "/"
-    base: '',
+    base: '',   // Deployed at ps2iodb.com, no base path needed.
     plugins: [react(), viteTsconfigPaths()],
-    server: {    
+    server: {
         // this ensures that the browser opens upon server start
         open: true,
         // this sets a default port to 3000  
-        port: 3000, 
+        port: 3000,
     },
 })
