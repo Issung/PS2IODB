@@ -24,6 +24,7 @@
 			"Root",
 			"MYMC++"
 		],
-		"liveServer.settings.multiRootWorkspaceName": "Website"
+		"liveServer.settings.multiRootWorkspaceName": "Website",
+		"jest.runMode": "on-demand"
 	}
 }
