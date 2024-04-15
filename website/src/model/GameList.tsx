@@ -612,7 +612,7 @@ export const GameList: Game[] = [
     new Game(`Crazy Frog Racer`),
     new Game(`Crazy Golf`),
     new Game(`Crazy Golf World Tour`),
-    new Game(`Crazy Taxi`),
+    new Game(`Crazy Taxi`, `crazytaxi`, 3),
     new Game(`Crescent Suzuki Racing: Superbikes and Super Sidecars`),
     new Game(`Cricket 07`),
     new Game(`Cricket 2002`),

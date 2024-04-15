@@ -1,0 +1,18 @@
+{
+    "title":"Crazy Taxi  Saved Game",
+    "normal":"slime1.ico",
+    "copy":"slime2.ico",
+    "delete":"slime3.ico",
+    "bgOpacity":96,
+    "bgColTL":"#f07c1f",
+    "bgColTR":"#f1cd1f",
+    "bgColBL":"#f07c1f",
+    "bgColBR":"#f1cd1f",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.6499999761581421, 0.6499999761581421, 0.6499999761581421, 0.0]
+}
