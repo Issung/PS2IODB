@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Game } from '../model/Game';
+import './GameTable.scss'
+import GameRow from './GameRow';
 
 type GameTableProps = {
     games: Game[];
@@ -8,7 +10,7 @@ type GameTableProps = {
 
 const GameTable: React.FC<GameTableProps> = ({ games }: GameTableProps) => {
     return (
-        <div className="gametable">
+        <div id="GameTable">
             <h4 style={{ textAlign: 'left' }}>{games.length === 0 ? 'No Results.' : `${games.length} Results`}</h4>
             <table>
                 <thead>
@@ -26,24 +28,5 @@ const GameTable: React.FC<GameTableProps> = ({ games }: GameTableProps) => {
         </div>
     );
 }
-
-interface GameRowProps {
-    game: Game;
-}
-
-const GameRow = (props: GameRowProps) => {
-    return (
-        <tr>
-            <td>
-                {props.game.code ? 
-                    <Link to={`/icon/${props.game.code}`}>
-                        <h6 style={{color: '#6f6fff'}}>{props.game.name}</h6>
-                    </Link> : 
-                    <h6>{props.game.name}</h6>
-                }
-            </td>
-        </tr>
-    )
-};
 
 export default GameTable;
