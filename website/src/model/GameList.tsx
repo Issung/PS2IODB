@@ -4361,7 +4361,7 @@ export const GameList: Game[] = [
     new Game(`Zero Pilot: Kosora no Kiseki`),
     new Game(`Zero Pilot: Zero`),
     new Game(`Zero Shikikan Josentoki Ni`),
-    new Game(``),
+    new Game(`The Zerosen`),
     new Game(`Zill O'll Infinite`),
     new Game(`Zipang`),
     new Game(`Zoids Infinity Fuzors`),
