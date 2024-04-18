@@ -111,7 +111,7 @@ const Home: React.FC = () => {
                                     to="/search/alphabetical/_"
                                     value={char === '#' ? 'misc' : char}
                                     currentValue={paramIndex}
-                                    tooltip={char === 'misc' 
+                                    tooltip={char === '#' 
                                     ? "Titles starting with numeric or miscellaneous characters"
                                     : `Titles starting with '${char}'`}
                                 >

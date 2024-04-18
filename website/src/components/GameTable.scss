@@ -1,0 +1,51 @@
+#GameTable {
+    .GameRow {
+        td {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        h6 {
+            color: grey;
+            margin-bottom: 3px;
+        }
+
+        a:has(.circle) {
+            text-decoration: none;
+        }
+
+        a h6 {
+            color: #6f6fff;
+        }
+
+        .circle {
+            margin-right: 10px;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            color: white;
+            text-align: center;
+            letter-spacing: -1px;
+            text-decoration: none;
+            font-weight: bold;
+
+            &.n3 {
+                // Slight offset for circles containing "3" to look more centered.
+                letter-spacing: -2px;
+            }
+        }
+
+        &.contributed {
+            .circle {
+                background-color: #0b5cd4;
+            }
+        }
+        
+        &.unknown {
+            .circle {
+                background-color: #454545;
+                color: #afafaf;
+            }
+        }
+    }
+}
