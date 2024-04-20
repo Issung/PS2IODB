@@ -2,22 +2,23 @@ import React, { useState, useEffect, useCallback } from 'react';
 import GameTable from './GameTable';
 import { Game } from '../model/Game';
 import { GameList } from '../model/GameList';
+import SearchKeywordChunker from '../model/SearchKeywordChunker';
 
 type SearchResultsProps = {
     /**
      * Either 'alphabetical', 'category' or 'text'.
      */
     searchType: string | undefined;
-    searchEntry: string | string[] | undefined;
+    searchEntry: string;
 }
 
 const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }: SearchResultsProps) =>
 {
     const [games, setGames] = useState(Array<Game>);
 
-    const filterByAlphabet = useCallback(() => 
+    const filterByAlphabet = useCallback(() =>
     {
-        // Define inside useEffect so it's not seen as a dependency.
+        /** Define inside useEffect so it's not seen as a dependency. */
         const additionalCharacterIncludes: Record<string, string[]> = {
             "A": ["A", "Æ"], // Include title "Æon Flux" under "A" listings.
             "H": ["H", "."], // Include all ".hack*" titles under "H" listings.
@@ -26,13 +27,13 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
             "O": ["O", "Ō"], // Include titles "Ōkami" & "Ōokuki" under "O" listings.
         }
 
-        if (searchEntry === 'misc' || searchEntry === undefined)
+        if (searchEntry === 'misc' || searchEntry === '')
         {
             // All things that come before the first game that starts with 'A'.
             let firstA = GameList.findIndex(g => g.name.startsWith('A'));
             setGames(GameList.slice(0, firstA));
         }
-        else if (typeof searchEntry === 'string')
+        else
         {
             let characters = additionalCharacterIncludes[searchEntry] ?? [searchEntry];
             let results = GameList.filter(g => {
@@ -49,7 +50,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
 
     const filterByCategory = useCallback(() => 
     {
-        let index = typeof searchEntry == 'string' ? searchEntry : "icons";
+        let index = searchEntry.trim() === '' ? "icons" : searchEntry;
 
         if (index === 'all')
         {
@@ -78,36 +79,35 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
 
     const filterByTextEntryKeywords = useCallback(() =>
     {
-        if (!Array.isArray(searchEntry))
-            return;
+        let words = SearchKeywordChunker.chunk(searchEntry);
 
-        if (searchEntry[0] === '') // Return whole list.
+        if (words.length == 0) // No entry, display no games.
         {
             setGames([]);
         }
-        else if (searchEntry.length === 1) // 1 keyword, match just on a 'contains'.
+        else if (words.length === 1) // 1 keyword, match just on a 'contains'.
         {
-            if (searchEntry[0].length <= 2)
+            if (words[0].length <= 2) // Require atleast 2 chars entry.
             {
                 setGames([]);
             }
             else
             {
-                let results = GameList.filter(g => g.name.toLowerCase().indexOf(searchEntry[0]) >= 0).slice(0, 10);
+                let results = GameList.filter(g => g.name.toLowerCase().indexOf(words[0]) >= 0).slice(0, 10);
                 setGames(results);
             }
         }
-        else if (Array.isArray(searchEntry)) // Match on keywords of game titles vs entered keywords.
+        else // Match on keywords of game titles vs entered keywords.
         {
             let results = GameList
                 .map(game => {
                     var gameKeywords = game.name.toLowerCase().split(' ').filter(unique);   // Unique filter on end (don't match on same word twice).
-                    var matches = gameKeywords.map((gkw, i) => searchEntry.some(skw => skw === gkw) ? i : null).filter(i => i != null);
+                    var matches = gameKeywords.map((gkw, i) => words.some(skw => skw === gkw) ? i : null).filter(i => i != null);
                     var ret = matches.length > 0 ? { game, matches } : null;
-                    if (ret)
-                    {
-                        console.log(`Game '${game.name}' got ${matches.length} keyword matches.`);
-                    }
+                    //if (ret)
+                    //{
+                    //    console.log(`Game '${game.name}' got ${matches.length} keyword matches.`);
+                    //}
                     return ret;
                 })
                 .filter(result => result != null)
@@ -121,6 +121,8 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
     }, [searchEntry]);
 
     useEffect(() => {
+        console.log(`Finding games for input: ${searchType}, ${searchEntry}`);
+
         if  (searchType === 'alphabetical') {
             filterByAlphabet();
         }
