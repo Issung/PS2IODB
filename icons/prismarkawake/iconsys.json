@@ -1,0 +1,18 @@
+{
+    "title":"PRISM ARK-AWAKE- Data  01",
+    "normal":"PAD.ICO",
+    "copy":"PAD.ICO",
+    "delete":"PAD.ICO",
+    "bgOpacity":128,
+    "bgColTL":"#808080",
+    "bgColTR":"#808080",
+    "bgColBL":"#202020",
+    "bgColBR":"#202020",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.3999999761581421, -0.09999999403953552, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
