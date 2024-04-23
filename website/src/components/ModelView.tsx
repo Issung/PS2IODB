@@ -9,14 +9,14 @@ interface ModelViewProps {
     variant: string | undefined;
     textureType: TextureType;
 
-    // Properties that don't require and networking.
+    // Properties that don't require any networking.
     animate: boolean;
     frame: number;
     grid: boolean;
     meshType: MeshType;
     backgroundColor: string;
 
-    // Callback for the impl to give information back to the Icon UI.
+    /** Callback for the impl to give information back to the Icon UI. */
     callback: IconInfoCallback;
 }
 
