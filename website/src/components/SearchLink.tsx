@@ -1,5 +1,3 @@
-//import './Counter.scss';
-
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
@@ -7,9 +5,7 @@ interface SearchLinkProps {
     /** Child HTML inside component. */
     children: ReactNode;
     
-    /**
-     * Href with _ to be replaced by index.
-     */
+    /** Href to hyperlink to, with _ to be replaced by 'value' prop. */
     to: string;
 
     /** The value for this link to link to. */
@@ -26,8 +22,9 @@ interface SearchLinkProps {
 }
 
 const SearchLink = (props: SearchLinkProps) => {
-    // Category => Uploaded (icons) is the default selection.
-    const selected = (props.currentValue === undefined && (props.value === "category" || props.value === "icons")) || props.currentValue === props.value;
+    const selected = 
+        props.currentValue === props.value  // This link is selected if the set value is equal to the current value.
+        || (props.currentValue === undefined && (props.value === "misc" || props.value === "icons"));   // Or if the current value is null and the set value is one of the defaults.
 
     return (
         <div className={`${props.className || ''} ${selected ? 'selected' : ''} search-type`}>
