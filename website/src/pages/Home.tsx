@@ -3,15 +3,13 @@ import { Link, useParams } from "react-router-dom";
 import './Home.scss';
 import { GameList } from "../model/GameList";
 import Counter from "../components/Counter";
-import SearchBar from "../components/SearchBar";
 import SearchResults from "../components/SearchResults";
 import SearchLink from "../components/SearchLink";
 import Footer from "../components/Footer";
 
 const Home: React.FC = () => {
     const { type: paramType, index: paramIndex } = useParams();
-    const [keywords, setKeywords] = useState<string[]>([]);
-    const [searchEntry, setSearchEntry] = useState<string | string[] | undefined>();
+    const [searchEntry, setSearchEntry] = useState<string>('');
 
     const [contributed] = useState(GameList.filter(g => g.code).length);
     const [progress, setProgress] = useState(0);
@@ -21,12 +19,8 @@ const Home: React.FC = () => {
     }, [progress]);
 
     useEffect(() => {
-        setSearchEntry(paramIndex);
+        setSearchEntry(paramIndex ?? '');
     }, [paramIndex]);
-
-    useEffect(() => {
-        setSearchEntry(keywords);
-    }, [keywords]);
 
     return (
         <>
@@ -98,8 +92,8 @@ const Home: React.FC = () => {
                     </div>
                     {/* TODO: Turn this entire alphabetial/category select into a component. */}
                     <div className="row justify-content-center">
-                        <SearchLink className="col" to="/search/_" value="alphabetical" currentValue={paramType} tooltip="Explore titles by alphabetical sections">Alphabetical</SearchLink>
-                        <SearchLink className="col" to="/search/_" value="category" currentValue={paramType} tooltip="Explore titles by categories">Category</SearchLink>
+                        <SearchLink className="col" to="/search/_/misc" value="alphabetical" currentValue={paramType} tooltip="Explore titles by alphabetical sections">Alphabetical</SearchLink>
+                        <SearchLink className="col" to="/search/_/icons" value="category" currentValue={paramType} tooltip="Explore titles by categories">Category</SearchLink>
                         <SearchLink className="col" to="/search/_" value="text" currentValue={paramType} tooltip="Explore titles with free text search">Text&nbsp;Search</SearchLink>
                     </div>
                     <hr />
@@ -132,8 +126,14 @@ const Home: React.FC = () => {
                     )}
                     {paramType === "text" && (
                         <div className="row">
-                            <div className="col-4">
-                                <SearchBar keywords={keywords} onKeywordsChange={newKeywords => setKeywords(newKeywords)} />
+                            <div className="col col-md-6 col-lg-4">
+                                <input 
+                                    type="text"
+                                    placeholder="Game Title Search"
+                                    value={searchEntry}
+                                    onChange={entry => setSearchEntry(entry.target.value)}
+                                    style={{width: "100%", height: 40, paddingLeft: '7px'}}
+                                />
                                 <br />
                                 <br />
                             </div>
