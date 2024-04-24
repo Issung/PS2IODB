@@ -22,9 +22,15 @@ interface SearchLinkProps {
 }
 
 const SearchLink = (props: SearchLinkProps) => {
+    const defaults = [
+        "category", // "category" is the default search type.
+        "misc",     // "misc" is the default index for "alphabetical" search type.
+        "icons"     // "icons" is the default index for "category" search type.
+    ]
+
     const selected = 
         props.currentValue === props.value  // This link is selected if the set value is equal to the current value.
-        || (props.currentValue === undefined && (props.value === "misc" || props.value === "icons"));   // Or if the current value is null and the set value is one of the defaults.
+        || (props.currentValue === undefined && defaults.some(d => d == props.value));   // Or if the current value is null and the set value is one of the defaults.
 
     return (
         <div className={`${props.className || ''} ${selected ? 'selected' : ''} search-type`}>
