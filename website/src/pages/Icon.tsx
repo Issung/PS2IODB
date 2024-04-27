@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import JSZip from "jszip";
 import './Icon.scss'
@@ -29,7 +29,8 @@ const Icon: React.FC = () => {
     const [frameCount, setFrameCount] = useState(0);
     const [textureName, setTextureName] = useState<string>();
     const [enlargeTextureView, setEnlargeTextureView] = useState(false);
-    const [imageRotationDegrees, setimageRotationDegrees] = useState(0);
+    const [imageRotationDegrees, setImageRotationDegrees] = useState(0);
+    const [imageFlip, setImageFlip] = useState(false);
 
     const [doAnimation, setDoAnimation] = useState(true);
     const [frame, setFrame] = useState(0);
@@ -39,6 +40,15 @@ const Icon: React.FC = () => {
     const [backgroundColor, setBackgroundColor] = useState('#080808');
 
     const [downloadStatus, setDownloadStatus] = useState<string>();
+    
+    useEffect(() => {
+        // Add/remove event listener when component mounts/dismounts.
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [enlargeTextureView]);
+    
     
     useEffect(() => {
         async function fetchIconSys() {
@@ -157,12 +167,27 @@ const Icon: React.FC = () => {
 
     function rotateImage(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, amount: number) {
         event.stopPropagation();
-        setimageRotationDegrees(imageRotationDegrees + amount);
+        setImageRotationDegrees(imageRotationDegrees + amount);
     }
     
+    function back() {
+        navigate(-1);
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+        if (event.key === 'Escape' || event.key == 'Backspace') {
+            if (enlargeTextureView) {
+                setEnlargeTextureView(false);
+            }
+            else {
+                back();
+            }
+        }
+    }
+
     return (
         <div id="icon">
-            <a id="back" href="/" onClick={(e) => { e.preventDefault(); navigate(-1); }}>← Home</a>
+            <a id="back" href="/" onClick={(e) => { e.preventDefault(); back(); }}>← Home</a>
             <ModelView 
                 iconcode={iconcode} 
                 variant={variant} 
@@ -260,13 +285,20 @@ const Icon: React.FC = () => {
                     <div className="row">
                         <div className="d-flex flex-column justify-content-center align-items-center">
                             <a title={`Icon texture image for '${variant}'.`} onClick={event => event.stopPropagation()}>
-                                <img src={`/icons/${iconcode}/${textureName}.png`} style={{transform: `rotate(${imageRotationDegrees}deg)`}}/>
+                                <img
+                                    src={`/icons/${iconcode}/${textureName}.png`}
+                                    style={{transform: `scale(${imageFlip ? -1 : 1}, 1) rotate(${imageRotationDegrees}deg)`}}
+                                />
                             </a>
                         </div>
                     </div>
                     <div className="row justify-content-center align-items-center">
                         <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
                             <button className="mx-auto d-block" title="Rotate image 90 degrees anti-clockwise" onClick={e => rotateImage(e, -90)}>↺</button>
+                        </div>
+                        <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
+                            <button
+                                className="mx-auto d-block" title="Flip image right to left" onClick={e => {e.stopPropagation(); setImageFlip(!imageFlip); }}>Mirror</button>
                         </div>
                         <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
                             <button
