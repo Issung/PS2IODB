@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import JSZip from "jszip";
-import './Icon.scss'
-import { IconSys } from "../model/IconSys";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import ModelView from '../components/ModelView';
 import { MeshType, TextureType } from "../components/ModelViewParams";
-import { promiseHooks } from "v8";
+import { IconSys } from "../model/IconSys";
+import './Icon.scss';
 
 /**
  * This component serves as a page, routed to by App.tsx.
@@ -165,11 +164,7 @@ const Icon: React.FC = () => {
         URL.revokeObjectURL(url);
     }
 
-    function rotateImage(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, amount: number) {
-        event.stopPropagation();
-        setImageRotationDegrees(imageRotationDegrees + amount);
-    }
-    
+    // TODO: Fix this so that when on an icon page from the home page it goes back and restores search state, and if visiting the icon page in a new tab then go to the home page.
     function back() {
         navigate(-1);
     }
@@ -182,6 +177,16 @@ const Icon: React.FC = () => {
             else {
                 back();
             }
+        }
+    }
+
+    /** Close the texture view if the click event is not on a button or the image. */
+    function maybeCloseTextureView(event: React.MouseEvent<HTMLElement, MouseEvent>) {
+        const targetNode = event.target as HTMLElement;
+        const targetType = targetNode.nodeName;
+        const allowedTypes = ['BUTTON', 'IMG'];
+        if (allowedTypes.indexOf(targetType) === -1) {
+            setEnlargeTextureView(false);
         }
     }
 
@@ -281,10 +286,10 @@ const Icon: React.FC = () => {
                 </div>
             }
             {enlargeTextureView && 
-                <div id="enlarged-texture-view" className="container-fluid" onClick={() => setEnlargeTextureView(false)}>
+                <div id="enlarged-texture-view" className="container-fluid">
                     <div className="row">
-                        <div className="d-flex flex-column justify-content-center align-items-center">
-                            <a title={`Icon texture image for '${variant}'.`} onClick={event => event.stopPropagation()}>
+                        <div className="d-flex flex-column justify-content-center align-items-center" onClick={e => maybeCloseTextureView(e)}>
+                            <a title={`Icon texture image for '${variant}'.`}>
                                 <img
                                     src={`/icons/${iconcode}/${textureName}.png`}
                                     style={{transform: `scale(${imageFlip ? -1 : 1}, 1) rotate(${imageRotationDegrees}deg)`}}
@@ -292,17 +297,17 @@ const Icon: React.FC = () => {
                             </a>
                         </div>
                     </div>
-                    <div className="row justify-content-center align-items-center">
+                    <div className="row justify-content-center align-items-center" onClick={e => maybeCloseTextureView(e)}>
                         <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
-                            <button className="mx-auto d-block" title="Rotate image 90 degrees anti-clockwise" onClick={e => rotateImage(e, -90)}>↺</button>
+                            <button className="mx-auto d-block" title="Rotate image 90 degrees anti-clockwise" onClick={e => setImageRotationDegrees(imageRotationDegrees - 90)}>↺</button>
                         </div>
                         <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
                             <button
-                                className="mx-auto d-block" title="Flip image right to left" onClick={e => {e.stopPropagation(); setImageFlip(!imageFlip); }}>Mirror</button>
+                                className="mx-auto d-block" title="Mirror image vertically" onClick={e => setImageFlip(!imageFlip)}>Mirror</button>
                         </div>
                         <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
                             <button
-                                className="mx-auto d-block" title="Rotate image 90 degrees clockwise" onClick={e => rotateImage(e, +90)}>↻</button>
+                                className="mx-auto d-block" title="Rotate image 90 degrees clockwise" onClick={e => setImageRotationDegrees(imageRotationDegrees + 90)}>↻</button>
                         </div>
                     </div>
                 </div>
