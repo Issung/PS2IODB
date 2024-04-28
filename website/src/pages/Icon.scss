@@ -1,42 +1,122 @@
-div#icon a#back {
-    color: white;
-    margin-left: 10px;
-}
+div#icon {
+    $bgcolor: rgba(0, 0, 0, 0.6);
 
-label {
-    user-select: none
-}
-
-label input,
-label select {
-    margin-left: 10px;
-}
-
-div#iconoptions {
-    color-scheme: light; // Inputs have a weird look due to index.scss color-scheme: dark; Set them back to normal for the inputs in #iconoptions.
-    float: left;
-    background-color: rgba(0, 0, 0, 0.25);
-    padding-top: 10px;
-    padding-right: 15px;
-    position: fixed;
-    bottom: 0px;
-
-    input[type="range"] {
-        position: relative;
-        top: 3px;
-        margin-right: 3px;
+    code {
+        margin: 15px;
+        font-size: 1.2em !important;
     }
-}
 
-div button {
-    color: black;
-}
+    a#back {
+        color: white;
+        padding: 10px 9px 8px 9px;
+        background-color: $bgcolor;
+    }
+    
+    div#texture-details {
+        padding: 10px 0px 0px 10px;
+        background-color: $bgcolor;
 
-div input[type="color"] {
-    height: 19px;
-}
+        img:hover {
+            cursor: pointer;
+        }
+    }
 
-code {
-    margin: 15px;
-    font-size: 1.2em !important;
+    div#enlarged-texture-view {
+        // This div is a bootstrap container-fluid, we want to make it overlap the whole screen.
+        top: 0px;
+        width: 100vw;
+        height: 100vh;
+        z-index: 500;
+        position: absolute;
+
+        background-color: rgba(0, 0, 0, 0.95);
+
+        div.row:nth-child(1) {
+            height: 90%;
+
+            a {
+                height: 90%;
+
+                img {
+                    outline: 5px solid #464646;
+                    height: 100%;
+                    image-rendering: pixelated;
+                }
+            }
+        }
+
+        div.row:nth-child(2) {
+            height: 10%;
+
+            button {
+                width: 100px;
+                height: 40px;
+            }
+        }
+    }
+
+    div#iconoptions {
+        color-scheme: light; // Inputs have a weird look due to index.scss color-scheme: dark; Set them back to normal for the inputs in #iconoptions.
+        float: left;
+        background-color: $bgcolor;
+        padding-top: 10px;
+        padding-right: 15px;
+        position: fixed;
+        bottom: 0px;
+
+        ul {
+            padding-left: 10px;
+            margin-bottom: 10px;
+
+            li {
+                list-style: none;
+                padding-top: 1px;
+            }
+        }
+
+        select {
+            width: 99px;
+        }
+
+        input, select {
+            float: right;
+
+            &[type="checkbox"] {
+                margin-top: 5px;
+            }
+
+            &[type="range"] {
+                margin-right: 3px;
+                position: relative;
+                top: 3px;
+            }
+
+            &[type="color"] {
+                height: 19px;
+                margin-top: 3px;
+            }
+        }
+
+        button {
+            width: 100%;
+            color: black;
+        }
+    
+        label {
+            margin-right: 10px;
+            user-select: none;
+            width: 100%;
+        }
+    }
+
+    #texture-details {
+        text-align: right;
+        position: fixed;
+        right: 0px;
+        bottom: 0px;
+
+        strong {
+            padding-right: 5px;
+        }
+    }
 }

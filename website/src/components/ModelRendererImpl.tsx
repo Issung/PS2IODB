@@ -8,8 +8,10 @@ import { MeshType, TextureType } from "./ModelViewParams";
 
 /**
  * Callback function for the model renderer report back regarding loaded icon data, e.g. number of frames.
+ * @param frameCount The amount of frames the loaded icon has, 0 means no animation.
+ * @param textureName The name of the loaded texture.
  */
-export type IconInfoCallback = (frameCount: number) => void
+export type IconInfoCallback = (frameCount: number, textureName: string | undefined) => void
 
 /**
  * Implementation of the 3D model view and interactions in threejs.
@@ -161,7 +163,10 @@ export class ModelRendererImpl {
             `/icons/${iconcode}/${variant}.obj`,
             textureUrl,
             this.loadProgress,
-            (str) => { this.relativeMtlTextureUrl = str; },
+            (str) => { 
+                this.relativeMtlTextureUrl = str;
+                this.fireCallback();
+            },
             this.loadError,
             (obj) => { this.icon = obj; }
         );
@@ -189,7 +194,7 @@ export class ModelRendererImpl {
             console.warn(`Request for animation data failed with status ${animResponse.status}`);
         }
 
-        this.prop_callback(this.animData?.frames?.length ?? 0);
+        this.fireCallback();
     }
 
     private async loadTexture(loadingManager: THREE.LoadingManager, textureUrl: string | undefined) {
@@ -267,12 +272,20 @@ export class ModelRendererImpl {
         }
     }
 
+    /** Fire prop_callback with the appropriate data. */
+    private fireCallback() {
+        this.prop_callback(
+            this.animData?.frames?.length ?? 0,
+            this.removePathAndExtension(this.relativeMtlTextureUrl)
+        );
+    }
+
     createStats(): Stats {
         var stats = new Stats();
         stats.dom.style.position = 'fixed';
-        stats.dom.style.top = '';
+        stats.dom.style.top = '0px';
         stats.dom.style.right = '0px';
-        stats.dom.style.bottom = '0px';
+        stats.dom.style.bottom = '';
         stats.dom.style.left = '';
         return stats;
     }
@@ -371,5 +384,17 @@ export class ModelRendererImpl {
 
     wrappedIndex<T>(array: T[], index: number): T {
         return array[index % array.length];
+    }
+
+    /** Turn string 'test/bababooey/tet.ico.mtl' into 'tet.ico'. */
+    removePathAndExtension(input: string | undefined): string | undefined {
+        if (!input) {
+            return input;
+        }
+
+        // Match everything after the last slash and before the last dot
+        const regex = /[^\/]+(?=\.[^.]*$)/;
+        const match = input.match(regex);
+        return match ? match[0] : input;
     }
 }
