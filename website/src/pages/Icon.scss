@@ -28,6 +28,7 @@ div#icon {
         height: 100vh;
         z-index: 500;
         position: absolute;
+        overflow: hidden;
 
         background-color: rgba(0, 0, 0, 0.95);
 
@@ -38,9 +39,11 @@ div#icon {
                 height: 90%;
 
                 img {
-                    outline: 5px solid #464646;
                     height: 100%;
+                    width: 100%;
+                    object-fit: contain;
                     image-rendering: pixelated;
+                    transition: transform 0.2s;
                 }
             }
         }

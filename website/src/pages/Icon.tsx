@@ -299,7 +299,13 @@ const Icon: React.FC = () => {
                     </div>
                     <div className="row justify-content-center align-items-center" onClick={e => maybeCloseTextureView(e)}>
                         <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
-                            <button className="mx-auto d-block" title="Rotate image 90 degrees anti-clockwise" onClick={e => setImageRotationDegrees(imageRotationDegrees - 90)}>↺</button>
+                            <button 
+                                className="mx-auto d-block"
+                                title="Rotate image 90 degrees anti-clockwise"
+                                onClick={e => setImageRotationDegrees(imageRotationDegrees - 90)}
+                            >
+                                {imageFlip ? '↻' : '↺'}
+                            </button>
                         </div>
                         <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
                             <button
@@ -307,7 +313,12 @@ const Icon: React.FC = () => {
                         </div>
                         <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
                             <button
-                                className="mx-auto d-block" title="Rotate image 90 degrees clockwise" onClick={e => setImageRotationDegrees(imageRotationDegrees + 90)}>↻</button>
+                                className="mx-auto d-block" 
+                                title="Rotate image 90 degrees clockwise" 
+                                onClick={e => setImageRotationDegrees(imageRotationDegrees + 90)}
+                            >
+                                {imageFlip ? '↺' : '↻'}
+                            </button>
                         </div>
                     </div>
                 </div>
