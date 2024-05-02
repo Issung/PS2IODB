@@ -36,11 +36,15 @@ class Corrupt(Error):
 
 _PS2_ICON_SYS_MAGIC = b"PS2D"
 
-_icon_sys_struct = struct.Struct("<4sHHII"
-                                 "4I4I4I4I" # background colors 
-                                 "4f4f4f" # light dirs
-                                 "4f4f4f4f" # light colors
-                                 "68s64s64s64s512s")
+_icon_sys_struct = struct.Struct(
+    "<4sHHII"
+    "4I4I4I4I" # background colors
+    "4f4f4f" # light dirs
+    "4f4f4f4f" # light colors
+    "68s" # savegame title
+    "64s64s64s" # 3 icon filenames
+    "512s" # 512 bytes of padding
+)
 
 assert _icon_sys_struct.size == 964
 
