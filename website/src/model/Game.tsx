@@ -1,3 +1,5 @@
+import { GameList } from "./GameList";
+
 export const enum IconTypes {
     Normal = 1,
     Copy = 1 << 1,
@@ -21,6 +23,13 @@ export class Game {
      * The number of unique save icons this game has.
      */
     public icons?: number;
+
+    /**
+     * The index of this game in the overall GameList.
+     * Set from GameList.tsx, after the collection's initialisation.
+     * Used as key in the DOM.
+     */
+    public index: number = 0;
 
     /**
      * Constructor.

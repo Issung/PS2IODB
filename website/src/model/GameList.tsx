@@ -1184,7 +1184,6 @@ export const GameList: Game[] = [
     new Game(`Gachinko Pro Yakyuu`),
     new Game(`Gadget & the Gadgetinis`),
     new Game(`Gadget Racers`),
-    new Game(`Gadget Racers`),
     new Game(`Gaelic Games: Football`),
     new Game(`Gaelic Games: Football 2`),
     new Game(`Gaelic Games: Hurling`),
@@ -3979,8 +3978,8 @@ export const GameList: Game[] = [
     new Game(`Train Simulator: Keisei – Toei – Keikyu`),
     new Game(`Train Simulator: Kyuushuu Shinkansen`),
     new Game(`Train Simulator Midousuji-Sen`),
-    new Game(`Transformers`),
-    new Game(`Transformers`),
+    new Game(`Transformers`),   // JP - Dev by Winkysoft
+    new Game(`Transformers`),   // EU - Dev by Melbourne House
     new Game(`Transformers: The Game`),
     new Game(`Transformers: Revenge of the Fallen`),
     new Game(`Transworld Skateboarder`),
@@ -4379,6 +4378,9 @@ export const GameList: Game[] = [
     new Game(`ZooCube`),
     new Game(`Zwei: The Arges Adventure`),
 ];
+
+// Populate index field on each game after the collection is initialised.
+GameList.forEach((game, index) => game.index = index);
 
 /*
 Useful script to find all games listed that start with non english chraracters.

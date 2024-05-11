@@ -21,7 +21,7 @@ const GameTable: React.FC<GameTableProps> = ({ games }: GameTableProps) => {
                 </thead>
                 <tbody>
                     {games.map(game => (
-                        <GameRow key={/*game.code*/Math.random()} game={game}/>
+                        <GameRow key={game.index} game={game}/>
                     ))}
                 </tbody>
             </table>
