@@ -1,8 +1,8 @@
 {
-    "title":"GTA ViceCity",
-    "normal":"vcicon.icn",
-    "copy":"vcicon2.icn",
-    "delete":"vcicon3.icn",
+    "title":"Configuracion de  Los Sims",
+    "normal":"saveicon.ico",
+    "copy":"copyicon.ico",
+    "delete":"deleteicon.ico",
     "bgOpacity":96,
     "bgColTL":"#800000",
     "bgColTR":"#008000",
