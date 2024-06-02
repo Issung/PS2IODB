@@ -1,8 +1,8 @@
 {
-    "title":"GTA ViceCity",
-    "normal":"vcicon.icn",
-    "copy":"vcicon2.icn",
-    "delete":"vcicon3.icn",
+    "title":"Torrente 3",
+    "normal":"view.ico",
+    "copy":"view.ico",
+    "delete":"view.ico",
     "bgOpacity":96,
     "bgColTL":"#800000",
     "bgColTR":"#008000",
