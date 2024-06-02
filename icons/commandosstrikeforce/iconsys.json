@@ -1,8 +1,8 @@
 {
-    "title":"GTA ViceCity",
-    "normal":"vcicon.icn",
-    "copy":"vcicon2.icn",
-    "delete":"vcicon3.icn",
+    "title":"Commandos SF  Opciones",
+    "normal":"comm_ps2.icn",
+    "copy":"comm_ps2.icn",
+    "delete":"comm_ps2.icn",
     "bgOpacity":96,
     "bgColTL":"#800000",
     "bgColTR":"#008000",
