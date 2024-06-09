@@ -19,9 +19,9 @@ const Contribute: React.FC = () => {
                                 If you wish to help the site but don't have the technology or technical know-how to contribute icons then donations are welcome.<br/>
                                 The site & tools take time to maintain and hosting isn't free. Just a few dollars goes a long way, thanks for reading.<br/>
                                 {/* TODO: Add proper links / widgets. */}
-                                <Link to="#" className="btn btn-primary">Ko-fi</Link>
-                                <Link to="#" className="btn btn-primary">PayPal</Link>
-                                <Link to="#" className="btn btn-primary">GitHub Sponsor</Link>
+                                <Link to="https://ko-fi.com/issung" target="_blank" className="btn btn-primary">Ko-fi</Link>
+                                <Link to="https://www.paypal.com/paypalme/Issung" target="_blank" className="btn btn-primary">PayPal</Link>
+                                <Link to="https://github.com/sponsors/Issung" target="_blank" className="btn btn-primary">GitHub Sponsor</Link>
                             </p>
                             <hr/>
                             <h3>Contributing Icons</h3>
@@ -37,9 +37,9 @@ const Contribute: React.FC = () => {
                                 <li><Link to="https://www.thetechgame.com/Downloads/cid=310/playstation-2-game-saves.html">The Tech Game</Link></li>
                                 <li>Other various sources found via <Link to="https://www.google.com/search?q=ps2+game+save+files">Google search</Link></li>
                             </ul>
-                            <p>Our tool MYMC++ can be used to import these save files and then icon assets can be extracted easily. Steps:</p>
+                            <p>Our MYMC++ tool can be used to import these save files and then icon assets can be extracted easily. Steps:</p>
                             <ol>
-                                <li>Download MYMC++ tool.</li>
+                                <li><Link to="https://mega.nz/file/gUMinaCS#c9eu8cAxM22MwWWK6T8Ofzi2tSI-crj3jEeFo2m72Cs" target="_blank">Download MYMC++</Link> tool.</li>
                                 <li>Download the pre-existing save file.</li>
                                 <li>Open MYMC++ and create a new memory card or open an existing one.</li>
                                 <li>
@@ -70,7 +70,7 @@ const Contribute: React.FC = () => {
                             <p>For some less popular games pre-existing save files may not exist on the internet, in this case you need to emulate the game to create a save file manually, then extract icon assets from that file. Steps: </p>
                             <ol>
                                 <li>Using PCSX2 play the title you desire to extract save icons from up until a point where save data is created on a memory card.</li>
-                                <li>Open the MYMC++ tool and open the desired memory card, the typical location is <code>%UserProfile%\Documents\PCSX2\memcards</code>.</li>
+                                <li>Open <Link to="https://mega.nz/file/gUMinaCS#c9eu8cAxM22MwWWK6T8Ofzi2tSI-crj3jEeFo2m72Cs" target="_blank">the MYMC++ tool</Link> and open the desired memory card, the typical location is <code>%UserProfile%\Documents\PCSX2\memcards</code>.</li>
                                 <li>Find the desired title, right click it and chose the <i>Export Icons</i> option, enter a name for a new folder for all assets to be grouped under.</li>
                                 <li>Go to the MYMC++ directory and find the icon_exports folder, your exported assets will be within.</li>
                             </ol>
