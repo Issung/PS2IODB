@@ -1,0 +1,18 @@
+{
+    "title":"Crash  Twinsanity",
+    "normal":"Crash.ico",
+    "copy":"Crash.ico",
+    "delete":"Crash.ico",
+    "bgOpacity":127,
+    "bgColTL":"#c00000",
+    "bgColTR":"#c000c0",
+    "bgColBL":"#c0c000",
+    "bgColBR":"#00c0c0",
+    "light1Dir":[1.0, 0.0, 0.0, 1.0],
+    "light2Dir":[0.0, 1.0, 0.0, 1.0],
+    "light3Dir":[0.0, 0.0, 1.0, 1.0],
+    "light1Col":[1.0, 0.0, 0.0, 1.0],
+    "light2Col":[0.0, 1.0, 0.0, 1.0],
+    "light3Col":[0.0, 0.0, 1.0, 1.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 1.0]
+}
