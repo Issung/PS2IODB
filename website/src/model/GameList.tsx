@@ -2254,7 +2254,7 @@ export const GameList: Game[] = [
     new Game(`Miami Vice`),
     new Game(`Michigan: Report from Hell`),
     new Game(`Micro Machines`),
-    new Game(`Micro Machines V4`, `micromachinesv4`, 1),
+    new Game(`Micro Machines V4`, `micromachinesv4`, 1, Contributors.Typedesigns),
     new Game(`Midnight Club 3: DUB Edition`),
     new Game(`Midnight Club 3: DUB Edition Remix`),
     new Game(`Midnight Club II`),
