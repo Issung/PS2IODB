@@ -1,10 +1,12 @@
 import JSZip from "jszip";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ModelView from '../components/ModelView';
 import { MeshType, TextureType } from "../components/ModelViewParams";
 import { IconSys } from "../model/IconSys";
 import './Icon.scss';
+import { Game } from "../model/Game";
+import { GameList } from "../model/GameList";
 
 /**
  * This component serves as a page, routed to by App.tsx.
@@ -22,6 +24,8 @@ const Icon: React.FC = () => {
     const { iconcode } = useParams();
     const [variant, setVariant] = useState<string>();
     
+    const [game, setGame] = useState<Game | undefined>();
+
     /**
      * Information obtained from renderer callback, how many frames does the current animation have. 0 if no animation.
      */
@@ -50,6 +54,9 @@ const Icon: React.FC = () => {
     
     
     useEffect(() => {
+        let g = GameList.find(g => g.code == iconcode);
+        setGame(g);
+
         async function fetchIconSys() {
             try {
 
@@ -192,7 +199,26 @@ const Icon: React.FC = () => {
 
     return (
         <div id="icon">
+            {/* Back link */}
             <a id="back" href="/" onClick={(e) => { e.preventDefault(); back(); }}>← Home</a>
+
+            {/* Game title and contributor */}
+            <h5 id="title">
+                {game ?
+                    <>
+                        {game.name}
+                        <br/>
+                        <h6>Contributed by {game.contributor?.link ? 
+                            <Link to={game.contributor.link} target="_blank">{game.contributor!.name}</Link>
+                        :
+                            `${game.contributor?.name}`
+                        }</h6>
+                    </>
+                :
+                    "Game not found."
+                }
+            </h5>
+
             <ModelView 
                 iconcode={iconcode} 
                 variant={variant} 
@@ -204,6 +230,7 @@ const Icon: React.FC = () => {
                 backgroundColor={backgroundColor} 
                 callback={iconInfoCallback}
                 />
+                
             {iconError && (<code>{iconError}</code>)}
             {
                 iconsys != null && (

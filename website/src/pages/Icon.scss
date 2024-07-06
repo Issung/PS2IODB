@@ -11,6 +11,18 @@ div#icon {
         padding: 10px 9px 8px 9px;
         background-color: $bgcolor;
     }
+
+    #title {
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+
+        * {
+            color: white;
+        }
+    }
     
     div#texture-details {
         padding: 10px 0px 0px 10px;
