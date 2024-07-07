@@ -1,0 +1,18 @@
+{
+    "title":"    MICHIGAN:    REPORT FROM HELL",
+    "normal":"ghmicon.ico",
+    "copy":"ghmicon.ico",
+    "delete":"ghmicon.ico",
+    "bgOpacity":96,
+    "bgColTL":"#7f7f7f",
+    "bgColTR":"#307f30",
+    "bgColBL":"#7f7f7f",
+    "bgColBR":"#307f30",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
