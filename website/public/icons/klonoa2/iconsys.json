@@ -1,5 +1,18 @@
 {
+    "title":"KLONOA2 Lunatea"s Veil",
     "normal":"icon1.ico",
     "copy":"icon2.ico",
-    "delete":"icon3.ico"
+    "delete":"icon3.ico",
+    "bgOpacity":70,
+    "bgColTL":"#fafa32",
+    "bgColTR":"#32c8c8",
+    "bgColBL":"#c8c800",
+    "bgColBR":"#0064fa",
+    "light1Dir":[10.0, 5.0, 0.0, 1.0],
+    "light2Dir":[-10.0, 10.0, 10.0, 1.0],
+    "light3Dir":[-10.0, 0.0, -10.0, 1.0],
+    "light1Col":[0.25, 0.25, 0.25, 0.0],
+    "light2Col":[0.25, 0.25, 0.25, 0.0],
+    "light3Col":[0.10000000149011612, 0.10000000149011612, 0.10000000149011612, 0.0],
+    "ambiLightCol":[0.20000000298023224, 0.20000000298023224, 0.20000000298023224, 0.0]
 }
