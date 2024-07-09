@@ -7,4 +7,5 @@ export class Contributors {
     public static Typedesigns = new Contributor('Typedesigns', 'https://x.com/typedesigns_');
     public static TravisTouchdown = new Contributor('Travis Touchdown', 'https://x.com/TravisTchDown');
     public static VibiLeFleu = new Contributor('VibiLeFleu', 'https://x.com/VibiLeFleu');
+    public static Sebita = new Contributor('Sebita', 'https://x.com/Sebitaowo');
 }
