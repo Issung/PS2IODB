@@ -1,0 +1,18 @@
+{
+    "title":"DDR SuperNOVA2  SYSTEM",
+    "normal":"output.ico",
+    "copy":"output.ico",
+    "delete":"output.ico",
+    "bgOpacity":64,
+    "bgColTL":"#dfefff",
+    "bgColTR":"#dfefff",
+    "bgColBL":"#00008e",
+    "bgColBR":"#00008e",
+    "light1Dir":[-0.09313104301691055, -0.3100086450576782, 0.99676114320755, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

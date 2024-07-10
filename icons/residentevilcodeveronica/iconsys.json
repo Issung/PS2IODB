@@ -1,0 +1,18 @@
+{
+    "title":"RESIDENT EVIL -CODE:Veronica-X",
+    "normal":"bio_cv.ico",
+    "copy":"bio_cv.ico",
+    "delete":"bio_cv.ico",
+    "bgOpacity":64,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[-0.5, -0.5, -0.5, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.5, 0.5, 0.6000000238418579, 0.0],
+    "light2Col":[0.5, 0.5, 0.6000000238418579, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.20000000298023224, 0.20000000298023224, 0.0, 0.0]
+}
