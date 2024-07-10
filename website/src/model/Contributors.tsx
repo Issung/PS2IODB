@@ -8,4 +8,5 @@ export class Contributors {
     public static TravisTouchdown = new Contributor('Travis Touchdown', 'https://x.com/TravisTchDown');
     public static VibiLeFleu = new Contributor('VibiLeFleu', 'https://x.com/VibiLeFleu');
     public static Sebita = new Contributor('Sebita', 'https://x.com/Sebitaowo');
+    public static ItzCookieX = new Contributor('ItzCookieX', 'https://x.com/chocomuku');
 }

@@ -1,0 +1,18 @@
+{
+    "title":"\u592a\u9f13\u306e\u9054\u4eba TAIKO DRUM MASTER",
+    "normal":"icon.ico",
+    "copy":"icon.ico",
+    "delete":"icon.ico",
+    "bgOpacity":80,
+    "bgColTL":"#f84828",
+    "bgColTR":"#f84828",
+    "bgColBL":"#f84828",
+    "bgColBR":"#f84828",
+    "light1Dir":[0.0, 0.0, 0.0, 1.0],
+    "light2Dir":[0.0, 0.0, 0.0, 1.0],
+    "light3Dir":[0.0, 0.0, 0.0, 1.0],
+    "light1Col":[0.0, 0.0, 0.0, 1.0],
+    "light2Col":[0.0, 0.0, 0.0, 1.0],
+    "light3Col":[0.0, 0.0, 0.0, 1.0],
+    "ambiLightCol":[0.800000011920929, 0.800000011920929, 0.800000011920929, 1.0]
+}
