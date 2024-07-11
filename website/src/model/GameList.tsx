@@ -1911,7 +1911,6 @@ export const GameList: Game[] = [
     new Game(`Kingdom Hearts II`, `kingdomhearts2`, 1, Contributors.Issung),
     new Game(`Kingdom Hearts II: Final Mix +`),
     new Game(`Kingdom Hearts Re:Chain of Memories`),
-    new Game(`Kingdom Hearts: Trinity Master Pieces`),
     new Game(`Kiniro no Corda 2`),
     new Game(`Kiniro no Corda 2 Encore`),
     new Game(`Kiniro no Corda 3`),
