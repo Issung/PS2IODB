@@ -1,0 +1,18 @@
+{
+    "title":"\u30bc\u30ce\u30b5-\u30ac \u30a8\u30d4\u30bd-\u30c91-02 EPISODE 1\u30fb\u7d42\u4e86",
+    "normal":"xenosaga.ico",
+    "copy":"xenosaga.ico",
+    "delete":"xenosaga.ico",
+    "bgOpacity":64,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.5, 0.5, 0.7071067690849304, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.800000011920929, 0.800000011920929, 0.800000011920929, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0]
+}
