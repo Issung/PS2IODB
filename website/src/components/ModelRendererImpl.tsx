@@ -100,7 +100,11 @@ export class ModelRendererImpl {
         this.canvas = document.querySelector('#iconRenderCanvas') as HTMLCanvasElement;
         this.canvas.before(this.stats.dom);
 
-        this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true });
+        this.renderer = new THREE.WebGLRenderer({ 
+            canvas: this.canvas,
+            antialias: true,
+            logarithmicDepthBuffer: true,   // Fixes z-fighting texture flickering on icons, especially when icon is zoomed out a lot.
+        });
         this.onWindowResize();
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.autoRotate = true;
