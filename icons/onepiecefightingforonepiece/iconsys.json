@@ -1,0 +1,18 @@
+{
+    "title":"\u30d5\u30a1\u30a4\u30c6\u30a3\u30f3\u30b0\u30d5\u30a9-\u30ef\u30f3\u30d4-\u30b9 FFOP:\u30b7\u30b9\u30c6\u30e0\u30c7-\u30bf",
+    "normal":"ffop.bin",
+    "copy":"ffop.bin",
+    "delete":"ffop.bin",
+    "bgOpacity":96,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[1.0, 0.0, 0.0, 0.0],
+    "light3Dir":[-1.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
