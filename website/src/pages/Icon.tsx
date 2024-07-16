@@ -86,6 +86,14 @@ const Icon: React.FC = () => {
         fetchIconSys();
     }, [iconcode]);
 
+    useEffect(() => {
+        if (game) {
+            // Change the tab title to the game name.
+            // When navigating back the title on index.html will reset the tab title back.
+            document.title = game.name;
+        }
+    }, [game]);
+
     function iconInfoCallback(frameCount: number, textureName: string | undefined) {
         setFrameCount(frameCount);
         setTextureName(textureName);
