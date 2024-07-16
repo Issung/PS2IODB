@@ -19,9 +19,9 @@ const Faq: React.FC = () => {
                                 This website is a community driven database that aims to archive all of the unique save icon assets from all PlayStation 2 titles.<br/>
                             </p>
 
-                            <h4>Is website official?</h4>
+                            <h4>Is this website official?</h4>
                             <p>
-                                No, this website is fan-made. Contributions & uploads are made by fans.
+                                No, this website is not affiliated with Sony or any of the game developers. Contributions and uploads are made by fans in our spare time.
                             </p>
 
                             <h4>How do I use this website?</h4>
