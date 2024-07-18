@@ -1,0 +1,18 @@
+{
+    "title":"Shining Tears",
+    "normal":"yoghurt1.ico",
+    "copy":"yoghurt1.ico",
+    "delete":"yoghurt1.ico",
+    "bgOpacity":48,
+    "bgColTL":"#0a1480",
+    "bgColTR":"#081080",
+    "bgColBL":"#000064",
+    "bgColBR":"#00005a",
+    "light1Dir":[1.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 1.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 1.0]
+}
