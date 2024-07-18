@@ -1,0 +1,18 @@
+{
+    "title":"Breath of Fire DRAGON QUARTER 1",
+    "normal":"fairy.ico",
+    "copy":"fairy.ico",
+    "delete":"fairy.ico",
+    "bgOpacity":96,
+    "bgColTL":"#008080",
+    "bgColTR":"#008080",
+    "bgColBL":"#008080",
+    "bgColBR":"#008080",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}
