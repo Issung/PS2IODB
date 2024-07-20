@@ -5,6 +5,7 @@ import Home from './Home';
 import Icon from './Icon';
 import Faq from './Faq';
 import Contribute from './Contribute';
+import Everything from './Everything';
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Route path="/icon/:iconcode" element={<Icon/>}/>
                 <Route path="/search/:type/:index" element={<Home/>}/>
                 <Route path="/search/:type" element={<Home/>}/>
+                <Route path="/everything" element={<Everything/>}/>
                 <Route path="*" element={<Home/>}/> {/* Fallback, all non matches above go to home page. */}
             </Routes>
         </Router>
