@@ -10,4 +10,5 @@ export class Contributors {
     public static Sebita = new Contributor('Sebita', 'https://x.com/Sebitaowo');
     public static ItzCookieX = new Contributor('ItzCookieX', 'https://x.com/chocomuku');
     public static Psiences = new Contributor('psiences', 'https://x.com/psiences');
+    public static FenixF = new Contributor('Fenix F', 'https://x.com/_Fenix_F_');
 }
