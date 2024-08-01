@@ -1,0 +1,18 @@
+{
+    "title":"Shrek(R)  SuperSlam",
+    "normal":"Shrek SuperSlam.ico",
+    "copy":"Shrek SuperSlam.ico",
+    "delete":"Shrek SuperSlam.ico",
+    "bgOpacity":128,
+    "bgColTL":"#c09060",
+    "bgColTR":"#c09060",
+    "bgColBL":"#000080",
+    "bgColBR":"#000080",
+    "light1Dir":[1.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.5770000219345093, -0.5770000219345093, -0.5770000219345093, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[1.0, 0.5, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.699999988079071, 0.0]
+}
