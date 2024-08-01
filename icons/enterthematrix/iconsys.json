@@ -1,0 +1,18 @@
+{
+    "title":"Enter The Matrix",
+    "normal":"static.ico",
+    "copy":"static.ico",
+    "delete":"static.ico",
+    "bgOpacity":96,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#004000",
+    "bgColBR":"#000000",
+    "light1Dir":[28.924999237060547, -83.61199951171875, -25.520999908447266, 1.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[64.0, 64.0, 64.0, 128.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.0, 0.0, 0.0, 128.0]
+}
