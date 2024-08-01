@@ -107,8 +107,16 @@ export class TexturedOBJLoader extends OBJLoader
      */
     getRelativeMtlUrl(objUrl: string, objFileContents: string): string
     {
+        const mtllibLineStart = 'mtllib ';
         const lines = objFileContents.split('\n');
-        let mtlFilename = lines.find(l => l.startsWith('mtllib'))?.split(' ')[1];
+        let mtllibLine = lines.find(l => l.startsWith(mtllibLineStart))
+
+        if (!mtllibLine)
+        {
+            throw new Error("No mtllib line found in obj file.");
+        }
+
+        let mtlFilename = mtllibLine?.substring(mtllibLineStart.length).trim();
 
         if (!mtlFilename)
         {
@@ -117,7 +125,7 @@ export class TexturedOBJLoader extends OBJLoader
 
         const urlParts = objUrl.split("/");
         urlParts.pop(); // Remove the last part (filename)
-        urlParts.push(mtlFilename); // Add the new filename
+        urlParts.push(encodeURIComponent(mtlFilename)); // Add the new filename
         const mtlFileUrl = urlParts.join("/");
         return mtlFileUrl;
     }
