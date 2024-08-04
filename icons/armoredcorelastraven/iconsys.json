@@ -1,0 +1,18 @@
+{
+    "title":"ACLR GAME DATA",
+    "normal":"static.ico",
+    "copy":"static.ico",
+    "delete":"static.ico",
+    "bgOpacity":32,
+    "bgColTL":"#19789b",
+    "bgColTR":"#145a82",
+    "bgColBL":"#145a82",
+    "bgColBR":"#0f3764",
+    "light1Dir":[-1.0, -1.0, 1.5, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.3921568691730499, 0.3921568691730499, 0.3921568691730499, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.250980406999588, 0.250980406999588, 0.250980406999588, 0.0]
+}

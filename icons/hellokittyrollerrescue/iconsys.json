@@ -1,0 +1,18 @@
+{
+    "title":"Hello Kitty Roller Rescue",
+    "normal":"death.ico",
+    "copy":"death.ico",
+    "delete":"death.ico",
+    "bgOpacity":114,
+    "bgColTL":"#7f5858",
+    "bgColTR":"#587f58",
+    "bgColBL":"#58587f",
+    "bgColBR":"#7f7f58",
+    "light1Dir":[0.0, 0.0, 1.0, 0.0],
+    "light2Dir":[1.0, 0.0, 0.0, 0.0],
+    "light3Dir":[-1.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.800000011920929, 0.800000011920929, 0.800000011920929, 0.0],
+    "light2Col":[0.5, 0.5, 1.0, 0.0],
+    "light3Col":[1.0, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.4000000059604645, 0.4000000059604645, 0.4000000059604645, 0.0]
+}
