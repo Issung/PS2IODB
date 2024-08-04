@@ -1306,7 +1306,8 @@ export const GameList: Game[] = [
     new Game(`Goosebumps HorrorLand`),
     new Game(`Gradius III and IV`, `gradius3and4`, 1, Contributors.ItzCookieX),
     new Game(`Gradius V`, `gradius5`, 1, Contributors.ItzCookieX),
-    new Game(`Graffiti Kingdom`),
+    new Game(`Graffiti Kingdom (Game Data)`, `graffitikingdomgamedata`, 1, Contributors.ItzCookieX),    // Variants here for game data and extra creation data. Should collapse.
+    new Game(`Graffiti Kingdom (Creation Data)`, `graffitikingdomcreationdata`, 1, Contributors.ItzCookieX),
     new Game(`Gran Turismo 3 A-Spec`, `granturismo3`, 1, Contributors.Issung),
     new Game(`Gran Turismo 3 (Replay)`, `granturismo3replay`, 1, Contributors.Sebita),   // The replay system of GT3? Should maybe be a sub-item?
     new Game(`Gran Turismo 4`, `granturismo4`, 1, Contributors.Issung),
@@ -3654,7 +3655,9 @@ export const GameList: Game[] = [
     new Game(`Street Cricket Champions`),
     new Game(`Street Cricket Champions 2`),
     new Game(`Street Dance`),
-    new Game(`Street Fighter III: 3rd Strike – Fight for the Future`, `streetfighter33rdstrike`, 1, Contributors.ItzCookieX),
+    new Game(`Street Fighter III: 3rd Strike – Fight for the Future (Ryu)`, `streetfighter33rdstrikeryu`, 1, Contributors.ItzCookieX),  // Variants here supposedly for every character? Should collapse.
+    new Game(`Street Fighter III: 3rd Strike – Fight for the Future (Ken)`, `streetfighter33rdstrikeken`, 1, Contributors.ItzCookieX),
+    new Game(`Street Fighter III: 3rd Strike – Fight for the Future (Gill)`, `streetfighter33rdstrikegill`, 1, Contributors.ItzCookieX),
     new Game(`Street Fighter Alpha Anthology`, `streetfighteralphaanthology`, 1, Contributors.ItzCookieX),
     new Game(`Street Fighter EX3`),
     new Game(`Street Golfer`),
