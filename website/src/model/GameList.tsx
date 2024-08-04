@@ -1672,7 +1672,7 @@ export const GameList: Game[] = [
     new Game(`Jak X: Combat Racing`, `jakxcombatracing`, 1, Contributors.Issung),
     new Game(`Jak and Daxter: The Lost Frontier`, `jakanddaxterlostfrontier`, 1, Contributors.Issung),
     new Game(`James Bond 007: Agent Under Fire`),
-    new Game(`James Bond 007: Everything or Nothing`),
+    new Game(`James Bond 007: Everything or Nothing`, `007everythingornothing`, 1, Contributors.NateTool),
     new Game(`James Cameron's Dark Angel`),
     new Game(`James Pond: Codename Robocod`),
     new Game(`Jan Sangoku Musou`),
