@@ -1,0 +1,18 @@
+{
+    "title":"007: NightFire MARTYR",
+    "normal":"007.ICN",
+    "copy":"007.ICN",
+    "delete":"007.ICN",
+    "bgOpacity":64,
+    "bgColTL":"#0000ff",
+    "bgColTR":"#000080",
+    "bgColBL":"#000040",
+    "bgColBR":"#000000",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.75, 0.75, 0.75, 1.0]
+}
