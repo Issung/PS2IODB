@@ -44,7 +44,7 @@ export class ModelRendererImpl {
 
     private camera: THREE.PerspectiveCamera;
     private scene: THREE.Scene;
-    private stats: Stats;
+    private stats: Stats | undefined;
     private axesHelper: THREE.AxesHelper;
     private horizontalGridHelper: THREE.GridHelper;
     private vertexNormalHelper: VertexNormalsHelper | undefined = undefined;
@@ -100,7 +100,9 @@ export class ModelRendererImpl {
         this.initialised = true;
 
         this.canvas = document.querySelector('#iconRenderCanvas') as HTMLCanvasElement;
-        this.canvas.before(this.stats.dom);
+        if (this.stats) {
+            this.canvas.before(this.stats.dom);
+        }
 
         this.renderer = new THREE.WebGLRenderer({ 
             canvas: this.canvas,
@@ -320,7 +322,7 @@ export class ModelRendererImpl {
     public animate() {
         requestAnimationFrame(this.animate);
         this.controls?.update();
-        this.stats.update();
+        this.stats?.update();
         this.render();
     }
 
