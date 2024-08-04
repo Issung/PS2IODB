@@ -83,7 +83,9 @@ export class ModelRendererImpl {
         const pointLight = new THREE.PointLight(0xffffff, 0.8);
         this.camera.add(pointLight);
 
-        this.stats = this.createStats();
+        if (process.env.NODE_ENV === 'development') {
+            this.stats = this.createStats();
+        }
 
         window.addEventListener('resize', (e) => this.onWindowResize());
 

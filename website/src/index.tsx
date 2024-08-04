@@ -13,12 +13,16 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <React.StrictMode>
-        <p className="size-indicator xs d-block d-sm-none">[XS] SM MD LG XL XXL</p>
-        <p className="size-indicator sm d-none d-sm-block d-md-none">XS [SM] MD LG XL XXL</p>
-        <p className="size-indicator md d-none d-md-block d-lg-none">XS SM [MD] LG XL XXL</p>
-        <p className="size-indicator lg d-none d-lg-block d-xl-none">XS SM MD [LG] XL XXL</p>
-        <p className="size-indicator xl d-none d-xl-block d-xxl-none">XS SM MD LG [XL] XXL</p>
-        <p className="size-indicator xxl d-none d-xxl-block">XS SM MD LG XL [XXL]</p>
+        {process.env.NODE_ENV === 'development' &&
+            <>
+                <p className="size-indicator xs d-block d-sm-none">[XS] SM MD LG XL XXL</p>
+                <p className="size-indicator sm d-none d-sm-block d-md-none">XS [SM] MD LG XL XXL</p>
+                <p className="size-indicator md d-none d-md-block d-lg-none">XS SM [MD] LG XL XXL</p>
+                <p className="size-indicator lg d-none d-lg-block d-xl-none">XS SM MD [LG] XL XXL</p>
+                <p className="size-indicator xl d-none d-xl-block d-xxl-none">XS SM MD LG [XL] XXL</p>
+                <p className="size-indicator xxl d-none d-xxl-block">XS SM MD LG XL [XXL]</p>
+            </>
+        }
         <App />
     </React.StrictMode>
 );
