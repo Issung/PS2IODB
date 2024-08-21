@@ -1,0 +1,18 @@
+{
+    "title":"\u868a-\u5c71\u7530\u5bb6\u306e\u590f-  FILE1",
+    "normal":"KA_N.ico",
+    "copy":"KA_C.ico",
+    "delete":"KA_D.ico",
+    "bgOpacity":96,
+    "bgColTL":"#ff9d3d",
+    "bgColTR":"#ffffff",
+    "bgColBL":"#ffffff",
+    "bgColBR":"#ff9d3d",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.4000000059604645, -0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
