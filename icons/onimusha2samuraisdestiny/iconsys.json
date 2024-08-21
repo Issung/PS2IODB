@@ -1,0 +1,18 @@
+{
+    "title":"ONIMUSHA2",
+    "normal":"oni2nml.ico",
+    "copy":"oni2copy.ico",
+    "delete":"oni2del.ico",
+    "bgOpacity":96,
+    "bgColTL":"#800000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.47999998927116394, 0.47999998927116394, 0.029999999329447746, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

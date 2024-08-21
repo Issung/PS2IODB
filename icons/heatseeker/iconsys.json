@@ -1,0 +1,18 @@
+{
+    "title":"Heatseeker",
+    "normal":"game.ico",
+    "copy":"game.ico",
+    "delete":"game.ico",
+    "bgOpacity":0,
+    "bgColTL":"#ffffff",
+    "bgColTR":"#ff7fff",
+    "bgColBL":"#ffff00",
+    "bgColBR":"#ff00af",
+    "light1Dir":[0.0, 0.0, 1.0, 0.0],
+    "light2Dir":[1.0, 0.75, 0.25, 0.0],
+    "light3Dir":[-1.0, 0.75, -0.25, 0.0],
+    "light1Col":[0.8999999761581421, 0.8500000238418579, 0.800000011920929, 0.0],
+    "light2Col":[0.699999988079071, 0.800000011920929, 0.699999988079071, 0.0],
+    "light3Col":[0.30000001192092896, 0.30000001192092896, 0.3499999940395355, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
