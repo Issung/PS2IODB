@@ -12,4 +12,5 @@ export class Contributors {
     public static Psiences = new Contributor('psiences', 'https://x.com/psiences');
     public static FenixF = new Contributor('Fenix F', 'https://x.com/_Fenix_F_');
     public static Zwish343 = new Contributor('Zwish343', 'https://x.com/zwish343');
+    public static Zeroman95 = new Contributor('Zeroman95');
 }
