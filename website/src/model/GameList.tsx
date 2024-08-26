@@ -3401,8 +3401,6 @@ export const GameList: Game[] = [
     new Game(`The Sims Bustin' Out`),
     new Game(`Sinbad Adventure wa Enomoto Kanako de Dou Desu ka`),
     new Game(`SingStar`),
-    new Game(`SingStar (High Scores)`, `singstarhighscores`, 1, Contributors.Zeroman95), // Variants of singstar, there is no base singstar save file. 
-    new Game(`SingStar (Settings)`, `singstarsettings`, 1, Contributors.Zeroman95),
     new Game(`SingStar`),
     new Game(`SingStar '80s`),
     new Game(`SingStar '80s (EU version)`),
@@ -3442,6 +3440,8 @@ export const GameList: Game[] = [
     new Game(`SingStar Party Hits`),
     new Game(`SingStar Patito Feo`),
     new Game(`SingStar Pop`),
+    new Game(`SingStar Pop (High Scores)`, `singstarpophighscores`, 1, Contributors.Zeroman95), // Variants of singstar pop, there is no base singstar save file?
+    new Game(`SingStar Pop (Settings)`, `singstarpopsettings`, 1, Contributors.Zeroman95),
     new Game(`SingStar Pop Hits`),
     new Game(`SingStar Pop Hits 2`),
     new Game(`SingStar Pop Hits 3`),
