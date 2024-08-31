@@ -1,0 +1,18 @@
+{
+    "title":"EIS: PAUSED MISSION DATA",
+    "normal":"tyu_def.ico",
+    "copy":"tyu_def.ico",
+    "delete":"tyu_def.ico",
+    "bgOpacity":127,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[-1.2094879764390498e-08, 0.0, -1.0, 0.0],
+    "light2Dir":[9.698020164705667e-08, -1.248760099770152e-07, 1.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.19215700030326843, 0.09803900122642517, 0.23921599984169006, 0.5]
+}
