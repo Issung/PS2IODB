@@ -1,0 +1,18 @@
+{
+    "title":"TOA  SystemData",
+    "normal":"toa_sys.ico",
+    "copy":"toa_sys.ico",
+    "delete":"toa_sys.ico",
+    "bgOpacity":128,
+    "bgColTL":"#808080",
+    "bgColTR":"#808080",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.0, 1.0, 0.0, 0.0],
+    "light2Dir":[0.0, 1.0, 0.0, 0.0],
+    "light3Dir":[0.0, 1.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}
