@@ -1,0 +1,18 @@
+{
+    "title":"SUNSOFT  COLLECTION",
+    "normal":"SUNSOFT.ICO",
+    "copy":"SUNSOFT.ICO",
+    "delete":"SUNSOFT.ICO",
+    "bgOpacity":112,
+    "bgColTL":"#323232",
+    "bgColTR":"#323232",
+    "bgColBL":"#0a0a0a",
+    "bgColBR":"#0a0a0a",
+    "light1Dir":[0.0, -0.5, 0.0, 0.0],
+    "light2Dir":[0.0, -0.5, -0.5, 0.0],
+    "light3Dir":[-0.25, 1.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[1.0, 1.0, 1.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 0.75, 0.0]
+}
