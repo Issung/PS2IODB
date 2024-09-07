@@ -1,49 +1,30 @@
 import { useMemo } from "react";
 import { Game } from "../model/Game";
-import { Link } from "react-router-dom";
+import RowBase from "./RowBase";
 
 interface GameRowProps {
     game: Game;
 }
 
-const GameRow = (props: GameRowProps) => {
-    const contributed = useMemo(() => props.game.code !== undefined, [props.game.code]);
-    const rowClass = useMemo(() => contributed ? "contributed" : "unknown", [contributed]);
+/** Use for a game with no contribution or a single icon. */
+const GameRow = ({game}: GameRowProps) => {
+    const contributed = useMemo(() => game.icons.some(i => i.code), [game]);
+    const icon = useMemo(() => game.icons.length > 0 ? game.icons[0] : undefined, [game]);
     const tooltip = useMemo(
         () => contributed 
-            ? `This title has ${props.game.icons} unique icon${props.game.icons! > 1 ? 's' : ''}.`
+            ? `This title has 1 icon with ${icon!.variantCount} unique state${icon!.variantCount! > 1 ? 's' : ''}.`
             : "This title has not yet been contributed.",
-        [contributed, props.game.icons]
+        [contributed, game.icons]
     );
     
     return (
-        <tr className={`GameRow ${rowClass}`}
-            title={tooltip}
-        >
-            {contributed ?
-                <>
-                    <td>
-                        <Link to={`/icon/${props.game.code}`}>
-                            <div className={`circle n${props.game.icons}`} style={{}}>{props.game.icons}</div>
-                        </Link> 
-                    </td>
-                    <td>
-                        <Link to={`/icon/${props.game.code}`}>
-                            <h6>{props.game.name}</h6>
-                        </Link> 
-                    </td>
-                </>
-            :
-                <>
-                    <td>
-                        <div className="circle">?</div>
-                    </td>
-                    <td>
-                        <h6>{props.game.name}</h6>
-                    </td>
-                </>
-            }
-        </tr>
+        <RowBase
+            title={game.name}
+            contributed={contributed}
+            variantCount={icon?.variantCount ?? 0}
+            code={icon?.code}
+            tooltip={tooltip}
+        />
     )
 };
 

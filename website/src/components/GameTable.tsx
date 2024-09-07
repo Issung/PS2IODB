@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { Game } from '../model/Game';
 import './GameTable.scss'
 import GameRow from './GameRow';
+import IconRow from './IconRow';
 
 type GameTableProps = {
     games: Game[];
@@ -20,9 +20,17 @@ const GameTable: React.FC<GameTableProps> = ({ games }: GameTableProps) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {games.map(game => (
-                        <GameRow key={game.index} game={game}/>
-                    ))}
+                    {/* TODO: Multiple icon variants are indented below the  */}
+                    {games.map(game => {
+                        if (game.icons.length > 1)
+                        {
+                            return game.icons.map(icon => <IconRow icon={icon} key={icon.index}/>)
+                        }
+                        else
+                        {
+                            return <GameRow game={game} key={game.index}/>
+                        }
+                    })}
                 </tbody>
             </table>
         </div>

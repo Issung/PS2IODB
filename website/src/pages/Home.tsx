@@ -11,11 +11,11 @@ const Home: React.FC = () => {
     const { type: paramType, index: paramIndex } = useParams();
     const [searchEntry, setSearchEntry] = useState<string>('');
 
-    const [contributed] = useState(GameList.filter(g => g.code).length);
+    const [contributed] = useState(GameList.filter(g => g.icons.some(i => i.code)).length);
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-        setProgress(GameList.filter(g => g.code).length / GameList.length);
+        setProgress(GameList.filter(g => g.icons.some(i => i.code)).length / GameList.length);
     }, [progress]);
 
     useEffect(() => {

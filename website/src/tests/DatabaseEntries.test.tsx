@@ -1,21 +1,23 @@
 import fs from 'fs';
-import { GameList } from "../model/GameList";
+import { IconList } from "../model/GameList";
 
 // Tests that test the 2 sources of truth, the GameList file and the icon folders, making sure they match up.
 describe("Database Entries Tests", () => 
 {
     // Assert that all entries in GameList either have just `name` populated, or if `code` is populated then `icons` is too.
-    test('GameList entries have correct number of params', () => {
-        GameList.forEach(game => {
-            expect(game.name).not.toBeUndefined();
+    test('Icons should have correct number of params', () => {
+        IconList.forEach(icon => {
+            expect(icon.name).toBeDefined();
 
-            if (game.code === undefined)
+            if (icon.code === undefined)
             {
-                expect(game.icons, "A gamelist entry with no code set should also have no icon count set.").toBeUndefined();
+                expect(icon.variantCount, "If code is unset, variantCount should be too.").toBeUndefined();
+                expect(icon.contributor, "If code is unset, contributor should be too.").toBeUndefined();
             }
             else
             {
-                expect(game.icons, "A gamelist entry with code set should also have icon count set.").not.toBeUndefined();
+                expect(icon.variantCount, "If code is set, variantCount should be too.").toBeDefined();
+                expect(icon.contributor, "If code is set, contributor should be too.").toBeDefined();
             }
         })
     });
@@ -37,7 +39,7 @@ describe("Database Entries Tests", () =>
     });
 
     // Asser that all items in GameList that have `code` populated have a /public/icons directory matching the `code` value.
-    test('All populated GameList entries have matching icon directory', () => {
+    test('All icons should have matching directory', () => {
         // Read the contents of the directory
         const directoryItems = fs.readdirSync('./public/icons', { withFileTypes: true });
 
@@ -45,16 +47,16 @@ describe("Database Entries Tests", () =>
             .filter((entry) => entry.isDirectory())
             .map((entry) => entry.name);
 
-        GameList.forEach(game => {
-            if (game.code != undefined)
+        IconList.forEach(icon => {
+            if (icon.code != undefined)
             {
-                expect(iconDirectories, `GameList entry '${game.code}' does not appear to have a matching directory.`).toContain(game.code);
+                expect(iconDirectories, `Icon with code '${icon.code}' does not appear to have a matching directory.`).toContain(icon.code);
             }
         });
     });
 
     // Assert all directories in /public/icons have a GameList entry with `code` matching the directory name.
-    test('All icon directories have populated GameList entry', () => {
+    test('All icon directories have 1 icon record', () => {
         // Read the contents of the directory
         const directoryItems = fs.readdirSync('./public/icons', { withFileTypes: true });
 
@@ -63,8 +65,9 @@ describe("Database Entries Tests", () =>
             .map((entry) => entry.name);
 
         iconDirectories.forEach(directory => {
-            let gameListHasMatchingEntry = GameList.some(game => game.code === directory);
-            expect(gameListHasMatchingEntry, `Directory '${directory}' doesn't seem to have a GameList entry.`).toBe(true);
+            let iconsWithMatchingCode = IconList.filter(icon => icon.code === directory).length;
+            expect(iconsWithMatchingCode > 0, `Directory '${directory}' does not have an icon record.`).toBe(true);
+            expect(iconsWithMatchingCode == 1, `Directory '${directory}' has more than 1 icon record.`).toBe(true);
         });
     });
 
@@ -94,7 +97,7 @@ describe("Database Entries Tests", () =>
             .map((entry) => entry.name);
 
         iconFolders.forEach(folder => {
-            const iconCount = GameList.filter(g => g.code == folder)[0].icons!;
+            const iconCount = IconList.filter(i => i.code == folder)[0].variantCount!;
             let directory = `./public/icons/${folder}`;
             let files = fs.readdirSync(directory, { withFileTypes: true }).map(e => e.name);
             let objFiles = files.filter(file => file.endsWith('.obj'));

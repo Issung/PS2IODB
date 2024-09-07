@@ -1,12 +1,12 @@
-import JSZip from "jszip";
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import ModelView from '../components/ModelView';
-import { MeshType, TextureType } from "../components/ModelViewParams";
-import { IconSys } from "../model/IconSys";
 import './Icon.scss';
-import { Game } from "../model/Game";
 import { GameList } from "../model/GameList";
+import { Icon as IconModel } from "../model/Icon";
+import { IconSys } from "../model/IconSys";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { MeshType, TextureType } from "../components/ModelViewParams";
+import { useEffect, useState } from "react";
+import JSZip from "jszip";
+import ModelView from '../components/ModelView';
 
 /**
  * This component serves as a page, routed to by App.tsx.
@@ -24,7 +24,7 @@ const Icon: React.FC = () => {
     const { iconcode } = useParams();
     const [variant, setVariant] = useState<string>();
     
-    const [game, setGame] = useState<Game | undefined>();
+    const [icon, setIcon] = useState<IconModel | undefined>();
 
     /**
      * Information obtained from renderer callback, how many frames does the current animation have. 0 if no animation.
@@ -54,8 +54,8 @@ const Icon: React.FC = () => {
     
     
     useEffect(() => {
-        let g = GameList.find(g => g.code == iconcode);
-        setGame(g);
+        let icon = GameList.flatMap(g => g.icons).find(i => i.code == iconcode);
+        setIcon(icon);
 
         async function fetchIconSys() {
             try {
@@ -87,12 +87,12 @@ const Icon: React.FC = () => {
     }, [iconcode]);
 
     useEffect(() => {
-        if (game) {
+        if (icon) {
             // Change the tab title to the game name.
             // When navigating back the title on index.html will reset the tab title back.
-            document.title = game.name;
+            document.title = icon.name;
         }
-    }, [game]);
+    }, [icon]);
 
     function iconInfoCallback(frameCount: number, textureName: string | undefined) {
         setFrameCount(frameCount);
@@ -212,14 +212,14 @@ const Icon: React.FC = () => {
 
             {/* Game title and contributor */}
             <h5 id="title">
-                {game ?
+                {icon ?
                     <>
-                        {game.name}
+                        {icon.game!.name == icon.name ? icon.name : `${icon.game!.name} (${icon.name})`}
                         <br/>
-                        <h6>Contributed by {game.contributor?.link ? 
-                            <Link to={game.contributor.link} target="_blank">{game.contributor!.name}</Link>
+                        <h6>Contributed by {icon.contributor?.link ? 
+                            <Link to={icon.contributor.link} target="_blank">{icon.contributor!.name}</Link>
                         :
-                            `${game.contributor?.name}`
+                            `${icon.contributor?.name}`
                         }</h6>
                     </>
                 :

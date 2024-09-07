@@ -1,12 +1,6 @@
 import { Contributor } from "./Contributor";
-
-export const enum IconTypes {
-    Normal = 1,
-    Copy = 1 << 1,
-    Delete = 1 << 2,
-
-    All = Normal | Copy | Delete,
-}
+import { IconList } from "./GameList";
+import { Icon } from "./Icon";
 
 export class Game {
     /**
@@ -14,45 +8,42 @@ export class Game {
      */
     public name: string;
 
-    /**
-     * The 'code' of the game. A shortened URL-friendly identifier for this game to be known as.
-     */
-    public code?: string;
-
-    /**
-     * The number of unique save icons this game has.
-     */
-    public icons?: number;
+    public icons: Icon[];
 
     /**
      * The index of this game in the overall GameList.
      * Set from GameList.tsx, after the collection's initialisation.
      * Used as key in the DOM.
      */
-    public index: number = 0;
+    public index: string = '';
 
-    /**
-     * Contributor of the icon, can be left `undefined` for anonymous contributions.
-     */
-    public contributor: Contributor | undefined;
-
-    /**
-     * Constructor.
-     * Either populate just `name` to indicate the game is not yet uploaded, or populate all fields to indicate it is.
-     * @param name The name/title of the game.
-     * @param code The 'code' of the game. A shortened URL-friendly identifier for the game.
-     * @param icons The number of unique save icons this game has.
-     */
+    constructor(name: string);
+    constructor(name: string, iconFactory?: (game: Game) => Icon[]);
+    constructor(name: string, code?: string, variantCount?: number, contributor?: Contributor);
     constructor(
         name: string,
-        code?: string,
-        icons?: number,
+        codeOrIconFactory?: string | ((game: Game) => Icon[]),
+        variantCount?: number,
         contributor?: Contributor
-    ) 
+    )
     {
         this.name = name;
-        this.code = code;
-        this.icons = icons;
-        this.contributor = contributor;
+        this.icons = [];
+        
+        if (codeOrIconFactory)
+        {
+            if (typeof codeOrIconFactory == 'string')
+            {
+                this.icons = [new Icon(this, name, codeOrIconFactory, variantCount, contributor)];
+            }
+            else if (codeOrIconFactory instanceof Function)
+            {
+                this.icons = codeOrIconFactory(this);
+            }
+            else
+            {
+                throw new Error('Unknown type for codeOrIcons in Game constructor.');
+            }
+        }
     }
 }
