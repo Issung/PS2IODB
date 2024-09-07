@@ -125,7 +125,7 @@ export class TexturedOBJLoader extends OBJLoader
 
         const urlParts = objUrl.split("/");
         urlParts.pop(); // Remove the last part (filename)
-        urlParts.push(encodeURIComponent(mtlFilename)); // Add the new filename
+        urlParts.push(this.urlEncode(mtlFilename)); // Add the new filename
         const mtlFileUrl = urlParts.join("/");
         return mtlFileUrl;
     }
@@ -142,4 +142,13 @@ export class TexturedOBJLoader extends OBJLoader
         const blobUrl = URL.createObjectURL(blob);
         return blobUrl;
     }
+
+    /**
+     * Url encode a string, but only spaces for now.
+     * Rayman 2 has semicolons in the filenames and they need to be accessed
+     * without URL encoding for some reason.
+     */
+    urlEncode(str: string) {
+        return str.replace(/ /g, '%20');
+    }    
 }
