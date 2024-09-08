@@ -18,9 +18,9 @@ const IconRow = ({icon}: IconRowProps) => {
 
     return (
         <RowBase
-            title={`${icon.game?.name} (${icon.name})`}
+            title={icon.name}
             contributed={contributed}
-            variantCount={icon?.variantCount ?? 0}
+            circle={icon.variantCount}
             code={icon?.code}
             tooltip={tooltip}
         />

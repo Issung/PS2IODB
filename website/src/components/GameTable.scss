@@ -1,8 +1,18 @@
+// This scss applies `height: 100%` to every parent element of `td.line` 
+// so that when it applies itself `height: 100%` its parent elements have defined
+// heights and it can expand. Otherwise it just stays flat.
+
 #GameTable {
+    height: 100%;
+
     .GameRow {
         td {
             padding-top: 5px;
             padding-bottom: 5px;
+
+            &:nth-child(2) {
+                padding-left: 10px;
+            }
         }
 
         h6 {
@@ -19,7 +29,6 @@
         }
 
         .circle {
-            margin-right: 10px;
             height: 24px;
             width: 24px;
             border-radius: 50%;
@@ -29,15 +38,25 @@
             text-decoration: none;
             font-weight: bold;
 
-            &.n3 {
+            &.icons3 {
                 // Slight offset for circles containing "3" to look more centered.
                 letter-spacing: -2px;
+            }
+
+            &.icons1, &.icons2, &.icons3 {
+                background-color: #0b5cd4;
+            }
+
+            &.multiIcon {
+                background-color: #003b93;
+                font-size: 22px;
+                line-height: 21px;
             }
         }
 
         &.contributed {
-            .circle {
-                background-color: #0b5cd4;
+            h6 {
+                color: #6f6fff;
             }
         }
         
@@ -45,6 +64,34 @@
             .circle {
                 background-color: #454545;
                 color: #afafaf;
+            }
+        }
+    }
+
+    table {
+        height: 100%;
+
+        tbody {
+            height: 100%;
+
+            tr.subicons {
+                height: 100%;
+        
+                td.line {
+                    height: 100%;
+        
+                    &::after {
+                        --border-color: rgb(92, 92, 92); /* Define the color once */
+                        content: "";
+                        display: block;
+                        width: 45%;
+                        height: calc(100%);
+                        margin-left: 46%;
+                        border-left: 2px solid var(--border-color);
+                        border-bottom: 2px solid var(--border-color);
+                        border-radius: 0px 0px 0px 8px;
+                    }
+                }
             }
         }
     }

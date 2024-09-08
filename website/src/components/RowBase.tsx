@@ -1,6 +1,17 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
+export enum Trait {
+    /** Use for games that have multiple icons. */
+    MultiIcon = "multiIcon",
+    /** 
+     * Intended for use by homebrew games. 
+     * This will have to be noted on the game records.
+     * Will it be displayed as 2 circles for the number + 'H'? Interesting UI question there.
+     */
+    Homebrew = "homebrew",
+}
+
 interface RowBaseProps {
     title: string;
 
@@ -10,13 +21,20 @@ interface RowBaseProps {
     /** Will cause this row to become a hyperlink. */
     code?: string;
 
-    /** 0 = no variants. */
-    variantCount: number;
-    
+    /** What to display in the row's circle */
+    circle?: number | Trait;
+
     tooltip?: string;
 }
 
-const RowBase = ({title, contributed, code, variantCount, tooltip}: RowBaseProps) => {
+const RowBase = ({title, contributed, code, circle, tooltip}: RowBaseProps) => {
+    const circleClass = useMemo(() => (typeof circle == 'number') ? ('icons' + circle) : circle, [circle]);
+    const circleText = useMemo(() => 
+        typeof circle == 'number' ? circle.toString() :
+        circle === Trait.MultiIcon ? '+' :
+        circle === Trait.Homebrew ? 'H':
+        /* Undefined: */ '?', 
+        [circle]);
     const rowClass = useMemo(() => contributed ? "contributed" : "unknown", [contributed]);
     
     return (
@@ -27,7 +45,7 @@ const RowBase = ({title, contributed, code, variantCount, tooltip}: RowBaseProps
                 <>
                     <td>
                         <Link to={`/icon/${code}`}>
-                            <div className={`circle n${variantCount}`}>{variantCount}</div>
+                            <div className={`circle ${circleClass}`}>{circleText}</div>
                         </Link>
                     </td>
                     <td>
@@ -39,7 +57,7 @@ const RowBase = ({title, contributed, code, variantCount, tooltip}: RowBaseProps
             :
                 <>
                     <td>
-                        <div className="circle">{variantCount === 0 ? '?' : variantCount}</div>
+                        <div className={`circle ${circleClass}`}>{circleText}</div>
                     </td>
                     <td>
                         <h6>{title}</h6>
