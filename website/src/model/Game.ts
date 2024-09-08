@@ -1,5 +1,4 @@
 import { Contributor } from "./Contributor";
-import { IconList } from "./GameList";
 import { Icon } from "./Icon";
 
 export class Game {

@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
 import './Home.scss';
-import { GameList } from "../model/GameList";
+import { IconList } from "../model/GameList";
+import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Counter from "../components/Counter";
-import SearchResults from "../components/SearchResults";
-import SearchLink from "../components/SearchLink";
 import Footer from "../components/Footer";
+import SearchLink from "../components/SearchLink";
+import SearchResults from "../components/SearchResults";
 
 const Home: React.FC = () => {
     const { type: paramType, index: paramIndex } = useParams();
     const [searchEntry, setSearchEntry] = useState<string>('');
 
-    const [contributed] = useState(GameList.filter(g => g.icons.some(i => i.code)).length);
+    const [contributed] = useState(IconList.filter(i => i.code).length);
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-        setProgress(GameList.filter(g => g.icons.some(i => i.code)).length / GameList.length);
+        setProgress(IconList.filter(i => i.code).length / IconList.length);
     }, [progress]);
 
     useEffect(() => {
@@ -78,7 +78,7 @@ const Home: React.FC = () => {
                     </div>
                     <div className="row justify-content-center">
                         <p id="progress-paragraph">
-                            {contributed} out of {GameList.length} ({Math.trunc(progress*100*100)/100}%) titles have been archived so far.<br /> {/* Math trunc magic, need a toFixed that doesn't round. https://stackoverflow.com/a/48100007/8306962 */}
+                            {contributed} out of {IconList.length} ({Math.trunc(progress*100*100)/100}%) titles have been archived so far.<br /> {/* Math trunc magic, need a toFixed that doesn't round. https://stackoverflow.com/a/48100007/8306962 */}
                             To get to 100% we need support from <i>you</i>! Learn how <Link to="/contribute">here</Link>. {/* TODO Fix link hover visuals */}
                         </p>
                     </div>
