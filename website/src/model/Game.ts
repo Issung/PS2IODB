@@ -45,5 +45,9 @@ export class Game {
                 throw new Error('Unknown type for codeOrIcons in Game constructor.');
             }
         }
+        else
+        {
+            this.icons = [new Icon(this, name)];
+        }
     }
 }
