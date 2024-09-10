@@ -182,10 +182,11 @@ class Icon:
 
             # This is just a hack to check if every alpha value is 0, which is the case for THPS3 for example.
             # Alpha will then be assumed to be 1 for all vertices when rendering, otherwise nothing will be visible.
-            # TODO: There is probably another way to render these icons correctly.
-            if self.color_data[i*4+3] > 0:
-                self.enable_alpha = True
-
+            # There is probably another way to render these icons correctly.
+            # Issung: I don't think ps2 icons are supposed to have alpha.
+            #if self.color_data[i*4+3] > 0:
+                #self.enable_alpha = True
+                
         return offset
 
     def __load_animation_data(self, data, length, offset):
