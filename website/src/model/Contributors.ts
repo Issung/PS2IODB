@@ -12,7 +12,7 @@ export class Contributors {
     public static Psiences = new Contributor('psiences', 'https://x.com/psiences');
     public static FenixF = new Contributor('Fenix F', 'https://x.com/_Fenix_F_');
     public static Zwish343 = new Contributor('Zwish343', 'https://x.com/zwish343');
-    public static Zeroman95 = new Contributor('Zeroman95');
+    public static Zeroman95 = new Contributor('Zeroman95', 'https://www.backloggery.com/Zeroman95BL');
     public static Atat111111 = new Contributor('atat111111'); // Brother of Zeroman95. Uploaded by Zeroman95.
     public static Oddworld2001= new Contributor('Oddworld-2001');
 }
