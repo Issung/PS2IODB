@@ -26,6 +26,7 @@ import subprocess
 import sys
 import struct
 import io
+import traceback
 from .. import iconexport
 
 # Work around a problem with mixing wx and py2exe
@@ -591,7 +592,7 @@ class GuiFrame(wx.Frame):
         except Exception as e:
             dialog = wx.MessageDialog(
                 self, 
-                f"An error occured trying to export icons.\n\n'{str(e)}'\n\nPlease consider opening an issue on GitHub with the memory card file attached.", 
+                f"An error occured trying to export icons.\n\n'{str(e)}'\n\n{traceback.format_exc()}Please consider opening an issue on GitHub with the memory card file attached.", 
                 "Icon Export Error", 
                 wx.OK | wx.ICON_ERROR)
             dialog.ShowModal()
