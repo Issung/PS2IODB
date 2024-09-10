@@ -640,7 +640,7 @@ def run(filename = None):
     """Display a GUI for working with memory card images."""
 
     wx_app = wx.App()
-    frame = GuiFrame(None, "mymc+", filename)
+    frame = GuiFrame(None, "mymc++", filename)
     return wx_app.MainLoop()
 
 if __name__ == "__main__":
