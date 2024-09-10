@@ -246,6 +246,11 @@ class Icon:
         is_uncompressed = self.texture_type in uncompressed_types
         #technique_name = "uncompressed" if is_uncompressed else "compressed"
         #print(f"self.tex_type is {self.texture_type}. Loading with {technique_name} technique.")
+        # No textures to load. This may be the case when are colored without a texture.
+        # Fix copied from https://github.com/Adubbz/mymcplusplus/commit/b7291e691de4badf7d1ff1b6a9a6491781f26121
+        if offset == length:
+            self.texture = [0xFFFF] * _TEXTURE_SIZE # An all white texture
+            return offset
 
         if is_uncompressed:
             return self.__load_texture_uncompressed(data, length, offset)
