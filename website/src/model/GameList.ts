@@ -2351,7 +2351,7 @@ export const GameList: Game[] = [
     new Game(`Monster Trux Extreme: Offroad Edition`),
     new Game(`Monsters, Inc.`, `monstersinc`, 2, Contributors.Sebita),
     new Game(`Monsters, Inc. Scare Island`),
-    new Game(`Monsters vs. Aliens`),
+    new Game(`Monsters vs. Aliens`, `monstersvsaliens`, 1, Contributors.Zeroman95),
     new Game(`Moorhuhn Fun Kart 2008`),
     new Game(`Morita Shogi`),
     new Game(`Mortal Kombat: Armageddon`, `mortalkombatarmageddon`, 1, Contributors.Sebita),
