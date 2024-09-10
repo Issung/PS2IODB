@@ -1,5 +1,6 @@
 import { Game } from "./Game";
 import { Contributors } from "./Contributors";
+import { Icon } from "./Icon";
 
 export const GameList: Game[] = [
     new Game(`¡Qué pasa Neng! El videojuego`, `quepasanengelvideojuego`, 1, Contributors.Zwish343),
@@ -152,8 +153,10 @@ export const GameList: Game[] = [
     new Game(`Aoi Umi no Tristia: Nanoca Flanka Hatsumei Koubouki`),
     new Game(`Aoishiro`),
     new Game(`Ape Escape 2`, `apeescape2`, 2, Contributors.ItzCookieX),
-    new Game(`Ape Escape 3`, `apeescape3`, 1, Contributors.VibiLeFleu),
-    new Game(`Ape Escape 3 (Mesal Gear Solid)`, `apeescape3mesalgearsolid`, 1, Contributors.VibiLeFleu),  // Really a variant from the game above, should be collapsed as so.
+    new Game(`Ape Escape 3`, g => [
+        new Icon(g, `Game Data`, `apeescape3`, 1, Contributors.VibiLeFleu),
+        new Icon(g, `Mesal Gear Solid Game Mode`, `apeescape3mesalgearsolid`, 1, Contributors.VibiLeFleu),
+    ]),
     new Game(`Ape Escape: Pumped & Primed`, `apeescapepumpedandprimed`, 1, Contributors.ItzCookieX),
     new Game(`Apocripha/0`),
     new Game(`Appleseed EX`, `appleseedex`, 1, Contributors.ItzCookieX),
@@ -355,8 +358,10 @@ export const GameList: Game[] = [
     new Game(`BloodRayne`),
     new Game(`BloodRayne 2`),
     new Game(`Bloody Roar 3`, `bloodyroar3`, 3, Contributors.Psiences),
-    new Game(`Bloody Roar 4 (Career Data)`, `bloodyroar4careerdata`, 1, Contributors.Sebita),   // Variants
-    new Game(`Bloody Roar 4 (Game Data)`, `bloodyroar4gamedata`, 1, Contributors.Sebita),
+    new Game(`Bloody Roar 4`, g => [
+        new Icon(g, `Game Data`, `bloodyroar4gamedata`, 1, Contributors.Sebita),
+        new Icon(g, `Career Data`, `bloodyroar4careerdata`, 1, Contributors.Sebita),
+    ]),
     new Game(`BlowOut`),
     new Game(`BMX XXX`),
     new Game(`Board Games Gallery`),
@@ -837,12 +842,16 @@ export const GameList: Game[] = [
     new Game(`Drag Racer USA`),
     new Game(`Dragon Ball Z: Budokai`, `dragonballzbudokai`, 1, Contributors.Sebita),
     new Game(`Dragon Ball Z: Budokai 2`, `dragonballzbudokai2`, 1, Contributors.Sebita),
-    new Game(`Dragon Ball Z: Budokai 3`, `dragonballzbudokai3`, 1, Contributors.Sebita),
-    new Game(`Dragon Ball Z: Budokai 3 (Greatest Hits Ver)`, `dragonballzbudokai3-grestesthitsversion`, 1, Contributors.Oddworld2001),  // Variant
+    new Game(`Dragon Ball Z: Budokai 3`, g => [
+        new Icon(g, `Original Release`, `dragonballzbudokai3`, 1, Contributors.Sebita),
+        new Icon(g, `Greatest Hits Release`, `dragonballzbudokai3-grestesthitsversion`, 1, Contributors.Oddworld2001),
+    ]),
     new Game(`Dragon Ball Z: Budokai Tenkaichi`, `dragonballzbudokaitenkaichi`, 1, Contributors.Sebita),
     new Game(`Dragon Ball Z: Budokai Tenkaichi 2`, `dragonballzbudokaitenkaichi2`, 1, Contributors.Sebita),
-    new Game(`Dragon Ball Z: Budokai Tenkaichi 3`, `dragonballzbudokaitenkaichi3`, 1, Contributors.Sebita),
-    new Game(`Dragon Ball Z: Budokai Tenkaichi 3 (Replay)`, `dragonballzbudokaitenkaichi3replay`, 1, Contributors.Sebita),  // Replay recording variant
+    new Game(`Dragon Ball Z: Budokai Tenkaichi 3`, g => [
+        new Icon(g, `Game Data`, `dragonballzbudokaitenkaichi3`, 1, Contributors.Sebita),
+        new Icon(g, `Replay Data`, `dragonballzbudokaitenkaichi3replay`, 1, Contributors.Sebita),
+    ]),
     new Game(`Dragon Ball Z: Infinite World`, `dragonballinfiniteworld`, 1, Contributors.Sebita),
     new Game(`Dragon Ball Z: Sagas`, `dragonballzsagas`, 1, Contributors.Sebita),
     new Game(`Dragon Blaze`),
@@ -1312,8 +1321,10 @@ export const GameList: Game[] = [
     new Game(`Goosebumps HorrorLand`),
     new Game(`Gradius III and IV`, `gradius3and4`, 1, Contributors.ItzCookieX),
     new Game(`Gradius V`, `gradius5`, 1, Contributors.ItzCookieX),
-    new Game(`Graffiti Kingdom (Game Data)`, `graffitikingdomgamedata`, 1, Contributors.ItzCookieX),    // Variants here for game data and extra creation data. Should collapse.
-    new Game(`Graffiti Kingdom (Creation Data)`, `graffitikingdomcreationdata`, 1, Contributors.ItzCookieX),
+    new Game(`Graffiti Kingdom`, g => [
+        new Icon(g, `Game Data`, `graffitikingdomgamedata`, 1, Contributors.ItzCookieX),
+        new Icon(g, `Creation Data`, `graffitikingdomcreationdata`, 1, Contributors.ItzCookieX),
+    ]),
     new Game(`Gran Turismo 3 A-Spec`, `granturismo3`, 1, Contributors.Issung),
     new Game(`Gran Turismo 3 (Replay)`, `granturismo3replay`, 1, Contributors.Sebita),   // The replay system of GT3? Should maybe be a sub-item?
     new Game(`Gran Turismo 4`, `granturismo4`, 1, Contributors.Issung),
@@ -2306,8 +2317,10 @@ export const GameList: Game[] = [
     new Game(`MLB SlugFest: Loaded`),
     new Game(`Mobile Light Force 2`),
     new Game(`Mobile Suit Gundam: Climax U.C.`),
-    new Game(`Mobile Suit Gundam: Encounters in Space`, `mobilesuitgundamencountersinspace`, 1, Contributors.Atat111111),
-    new Game(`Mobile Suit Gundam: Encounters in Space (Mission Data)`, `mobilesuitgundamencountersinspacemissiondata`, 1, Contributors.Atat111111), // Variant of the above
+    new Game(`Mobile Suit Gundam: Encounters in Space`, g => [
+        new Icon(g, `Game Data`, `mobilesuitgundamencountersinspace`, 1, Contributors.Atat111111),
+        new Icon(g, `Mission Data`, `mobilesuitgundamencountersinspacemissiondata`, 1, Contributors.Atat111111),
+    ]),
     new Game(`Mobile Suit Gundam: Federation vs. Zeon`),
     new Game(`Mobile Suit Gundam: Gundam vs. Zeta Gundam`),
     new Game(`Mobile Suit Gundam: Journey to Jaburo`),
@@ -2651,8 +2664,10 @@ export const GameList: Game[] = [
     new Game(`Oni`, `oni`, 1, Contributors.Issung),
     new Game(`Onimusha 2: Samurai's Destiny`, `onimusha2samuraisdestiny`, 3, Contributors.ItzCookieX),
     new Game(`Onimusha 3: Demon Siege`, `onimusha3demonsiege`, 3, Contributors.ItzCookieX),
-    new Game(`Onimusha Blade Warriors`),
-    new Game(`Onimusha Blade Warriors (JP)`, `onimushabladewarriorsjp`, 1, Contributors.ItzCookieX),   // ItzCookieX claims this is the JP variant of the icon.
+    new Game(`Onimusha Blade Warriors`, g => [
+        new Icon(g, `NTSC Release`),
+        new Icon(g, `PAL Release`, `onimushabladewarriorspal`, 1, Contributors.ItzCookieX),
+    ]),
     new Game(`Onimusha: Dawn of Dreams`, `onimushadawnofdreams`, 1, Contributors.ItzCookieX),
     new Game(`Onimusha: Warlords`, `onimushawarlords`, 3, Contributors.Psiences),
     new Game(`Online Pro Wrestling`),
@@ -3447,9 +3462,10 @@ export const GameList: Game[] = [
     new Game(`SingStar Party`),
     new Game(`SingStar Party Hits`),
     new Game(`SingStar Patito Feo`),
-    new Game(`SingStar Pop`),
-    new Game(`SingStar Pop (High Scores)`, `singstarpophighscores`, 1, Contributors.Zeroman95), // Variants of singstar pop, there is no base singstar save file?
-    new Game(`SingStar Pop (Settings)`, `singstarpopsettings`, 1, Contributors.Zeroman95),
+    new Game(`SingStar Pop`, g => [  // Do all SingStar games share the same save files? If so; how do we model that?
+        new Icon(g, `High Scores`, `singstarpophighscores`, 1, Contributors.Zeroman95),
+        new Icon(g, `Settings`, `singstarpopsettings`, 1, Contributors.Zeroman95),
+    ]),
     new Game(`SingStar Pop Hits`),
     new Game(`SingStar Pop Hits 2`),
     new Game(`SingStar Pop Hits 3`),
@@ -3668,9 +3684,28 @@ export const GameList: Game[] = [
     new Game(`Street Cricket Champions`),
     new Game(`Street Cricket Champions 2`),
     new Game(`Street Dance`),
-    new Game(`Street Fighter III: 3rd Strike – Fight for the Future (Ryu)`, `streetfighter33rdstrikeryu`, 1, Contributors.ItzCookieX),  // Variants here supposedly for every character? Should collapse.
-    new Game(`Street Fighter III: 3rd Strike – Fight for the Future (Ken)`, `streetfighter33rdstrikeken`, 1, Contributors.ItzCookieX),
-    new Game(`Street Fighter III: 3rd Strike – Fight for the Future (Gill)`, `streetfighter33rdstrikegill`, 1, Contributors.ItzCookieX),
+    new Game(`Street Fighter III: 3rd Strike – Fight for the Future`, g => [
+        new Icon(g, 'Alex'),
+        new Icon(g, 'Ryu', 'streetfighter33rdstrikeryu', 1, Contributors.ItzCookieX),
+        new Icon(g, 'Yun'),
+        new Icon(g, 'Dudley'),
+        new Icon(g, 'Necro'),
+        new Icon(g, 'Oro'),
+        new Icon(g, 'OroIbuki'),
+        new Icon(g, 'Elena'),
+        new Icon(g, `Ken`, `streetfighter33rdstrikeken`, 1, Contributors.ItzCookieX),
+        new Icon(g, 'Sean'),
+        new Icon(g, 'Urien'),
+        new Icon(g, 'Akuma'),
+        new Icon(g, 'Chun-Li'),
+        new Icon(g, 'Makoto'),
+        new Icon(g, 'Q'),
+        new Icon(g, 'Remy'),
+        new Icon(g, 'Twelve'),
+        new Icon(g, 'Hugo'),
+        new Icon(g, 'Yang'),
+        new Icon(g, `Gill`, `streetfighter33rdstrikegill`, 1, Contributors.ItzCookieX),
+    ]),
     new Game(`Street Fighter Alpha Anthology`, `streetfighteralphaanthology`, 1, Contributors.ItzCookieX),
     new Game(`Street Fighter EX3`),
     new Game(`Street Golfer`),
@@ -3815,8 +3850,10 @@ export const GameList: Game[] = [
     new Game(`Tak: The Great Juju Challenge`),
     new Game(`Takahashi Naoko no Marathon Shiyouyo!`),
     new Game(`The Tale of Despereaux`),
-    new Game(`Tales of the Abyss`, `talesoftheabyss`, 1, Contributors.Rikineko),   // Contains unused icon not referenced by iconsys.json.
-    new Game(`Tales of the Abyss (System Data)`, `talesoftheabyss-systemdata`, 1, Contributors.Oddworld2001),   // Variant
+    new Game(`Tales of the Abyss`, g => [
+        new Icon(g, 'Game Data', 'talesoftheabyss', 1, Contributors.Rikineko),
+        new Icon(g, 'System Data', 'talesoftheabyss-systemdata', 1, Contributors.Oddworld2001),
+    ]),
     new Game(`Tales of Destiny`, `talesofdestiny`, 1, Contributors.ItzCookieX),
     new Game(`Tales of Destiny 2`, `talesofdestiny2`, 1, Contributors.ItzCookieX),
     new Game(`Tales of Destiny: Director's Cut`, `talesofdestinydirectorscut`, 1, Contributors.ItzCookieX),
@@ -3961,8 +3998,10 @@ export const GameList: Game[] = [
     new Game(`Tomoyo After: It's a Wonderful Life – CS Edition`),
     new Game(`Tony Hawk's American Wasteland`, `tonyhawksamericanwasteland`, 1, Contributors.ItzCookieX),
     new Game(`Tony Hawk's Downhill Jam`, `tonyhawksdownhilljam`, 1, Contributors.ItzCookieX),
-    new Game(`Tony Hawk's Pro Skater 3`, `tonyhawksproskater3`, 1, Contributors.Issung),
-    new Game(`Tony Hawk's Pro Skater 3 (Custom Skater Data)`, `tonyhawksproskater3-customskater`, 1, Contributors.Oddworld2001),    // Variant
+    new Game(`Tony Hawk's Pro Skater 3`, g => [
+        new Icon(g, `Game Data`, `tonyhawksproskater3`, 1, Contributors.Issung),
+        new Icon(g, `Custom Skater Data`, `tonyhawksproskater3-customskater`, 1, Contributors.Oddworld2001),
+    ]),
     new Game(`Tony Hawk's Pro Skater 4`, `tonyhawksproskater4`, 1, Contributors.Issung),
     new Game(`Tony Hawk's Project 8`, `tonyhawksproject8`, 1, Contributors.ItzCookieX),
     new Game(`Tony Hawk's Proving Ground`, `tonyhawksprovingground`, 1, Contributors.ItzCookieX),
@@ -4406,8 +4445,16 @@ export const GameList: Game[] = [
     new Game(`Zwei: The Arges Adventure`),
 ];
 
-// Populate index field on each game after the collection is initialised.
-GameList.forEach((game, index) => game.index = index);
+export const IconList: Icon[] = GameList.filter(g => g.icons.length > 0).flatMap(g => g.icons);
+
+// Populate index for each game & icon after the collection is initialised.
+GameList.forEach((game, gameIndex) => {
+    game.index = gameIndex.toString();
+
+    game.icons.forEach((icon, iconIndex) => {
+        icon.index = gameIndex + '-' + iconIndex;
+    });
+});
 
 /*
 Useful script to find all games listed that start with non english chraracters.
