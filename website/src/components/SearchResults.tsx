@@ -60,12 +60,12 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
         {
             if (index === 'noicons')
             {
-                let gamesInCategory = GameList.filter(g => g.icons.length = 0);
+                let gamesInCategory = GameList.filter(g => !g.icons.some(i => i.code));
                 setGames(gamesInCategory);
             }
             else if (index === 'icons')
             {
-                let gamesInCategory = GameList.filter(g => g.icons.length > 0);
+                let gamesInCategory = GameList.filter(g => g.icons.some(i => i.code));
                 setGames(gamesInCategory);
             }
             else
