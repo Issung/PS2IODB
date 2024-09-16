@@ -15,4 +15,6 @@ export class Contributors {
     public static Zeroman95 = new Contributor('Zeroman95', 'https://www.backloggery.com/Zeroman95BL');
     public static Atat111111 = new Contributor('atat111111'); // Brother of Zeroman95. Uploaded by Zeroman95.
     public static Oddworld2001= new Contributor('Oddworld-2001');
+    public static SqueezedDog = new Contributor('Squeezed Dog');
+    public static NBForever = new Contributor('N & B Forever'); // Uploaded by Squeezed Dog
 }
