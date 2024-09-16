@@ -3763,7 +3763,7 @@ export const GameList: Game[] = [
     new Game(`Super Fruit Fall`),
     new Game(`Super Galdelic Hour`, g => [
         new Icon(g, 'Game Data', `supergaldelic`, 1, Contributors.SqueezedDog),
-        new Icon(g, 'Photo Album Data', `supergaldelic`, 1, Contributors.SqueezedDog),
+        new Icon(g, 'Photo Album Data', `supergaldelicamera`, 1, Contributors.SqueezedDog),
     ]),
     new Game(`Super Micchan`),
     new Game(`Super Monkey Ball Adventure`, `monkeyballadventure`, 1, Contributors.ItzCookieX),
