@@ -17,4 +17,5 @@ export class Contributors {
     public static Oddworld2001= new Contributor('Oddworld-2001');
     public static SqueezedDog = new Contributor('Squeezed Dog');
     public static NBForever = new Contributor('N & B Forever'); // Uploaded by Squeezed Dog
+    public static DrinkMoreWater = new Contributor('Drink More Water!'); // Uploaded by Squeezed Dog
 }
