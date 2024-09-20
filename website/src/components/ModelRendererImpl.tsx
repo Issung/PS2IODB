@@ -259,7 +259,13 @@ export class ModelRendererImpl {
                 if (child instanceof THREE.Mesh) {
                     this.mesh = child;
                     this.geometry = child.geometry;
-                    child.material.wireframe = true;
+
+                    // If the geometry has vertex color data enable display of them.
+                    // If we enable without the data the model will appear black.
+                    // Old contributions made with the first version of mymc++ have no vertex color data.
+                    if (this.geometry!.attributes.color) {
+                        this.mesh.material.vertexColors = true;
+                    }
                 }
             });
 
