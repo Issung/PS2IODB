@@ -30,13 +30,7 @@ jobs:
         run: npm install
       - name: Build
         working-directory: ./website
-        run: npm run predeploy  # The predeploy script runs build & performs any special preperations for GitHub pages.
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: ./website/dist
-            publish_branch: gh-pages
+        run: npm run predeploy  # The predeploy script runs build & performs any special preperations for deployment.
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
