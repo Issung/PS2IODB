@@ -816,7 +816,7 @@ export const GameList: Game[] = [
     new Game(`Dog's Life`, `dogslife`, 1, Contributors.SqueezedDog),
     new Game(`DogStation`),
     new Game(`Dokapon DX: Wataru Sekai wa Oni Darake`),
-    new Game(`Dokapon Kingdom`),
+    new Game(`Dokapon Kingdom`, `dokaponkingdom`, 1, Contributors.Zeroman95),
     new Game(`Dokapon the World`),
     new Game(`Doko Demo Issho: Toro to Ippai`),
     new Game(`Doko Demo Issho: Toro to Nagare Boshi`),
