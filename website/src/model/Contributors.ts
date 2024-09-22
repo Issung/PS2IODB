@@ -18,5 +18,5 @@ export class Contributors {
     public static SqueezedDog = new Contributor('Squeezed Dog');
     public static NBForever = new Contributor('N & B Forever'); // Uploaded by Squeezed Dog
     public static DrinkMoreWater = new Contributor('Drink More Water!'); // Uploaded by Squeezed Dog
-    public static Ps2RomsFree = new Contributor('ps2romsfree');
+    public static Ps2RomsFree = new Contributor('ps2romsfree', 'https://www.youtube.com/@BamhurgeVidNZuffs');
 }
