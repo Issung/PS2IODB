@@ -1,26 +1,23 @@
 import './Home.scss';
 import { IconList } from "../model/GameList";
-import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import Counter from "../components/Counter";
 import Footer from "../components/Footer";
 import SearchLink from "../components/SearchLink";
 import SearchResults from "../components/SearchResults";
+import { FilterTypeSelect, FilterType } from '../components/FilterTypeSelect';
 
 const Home: React.FC = () => {
-    const { type: paramType, index: paramIndex } = useParams();
-    const [searchEntry, setSearchEntry] = useState<string>('');
+    const navigate = useNavigate();
+    const { filterType, filter } = useParams();
 
-    const [contributed] = useState(IconList.filter(i => i.code).length);
+    const contributed = useMemo(() => IconList.filter(i => i.code).length, []);
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
         setProgress(IconList.filter(i => i.code).length / IconList.length);
     }, [progress]);
-
-    useEffect(() => {
-        setSearchEntry(paramIndex ?? '');
-    }, [paramIndex]);
 
     return (
         <>
@@ -90,21 +87,16 @@ const Home: React.FC = () => {
                             <h1>Browse</h1>
                         </div>
                     </div>
-                    {/* TODO: Turn this entire alphabetial/category select into a component. */}
-                    <div className="row justify-content-center">
-                        <SearchLink className="col" to="/search/_/misc" value="alphabetical" currentValue={paramType} tooltip="Explore titles by alphabetical sections">Alphabetical</SearchLink>
-                        <SearchLink className="col" to="/search/_/icons" value="category" currentValue={paramType} tooltip="Explore titles by categories">Category</SearchLink>
-                        <SearchLink className="col" to="/search/_" value="text" currentValue={paramType} tooltip="Explore titles with free text search">Text&nbsp;Search</SearchLink>
-                    </div>
+                    <FilterTypeSelect filterType={filterType as FilterType}/>
                     <hr />
-                    {paramType === "alphabetical" && (
+                    {filterType === "alphabetical" && (
                         <div className="row justify-content-center">
                             {['#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(char => 
                                 <SearchLink
                                     className="col-1"
-                                    to="/search/alphabetical/_"
+                                    to="/browse/alphabetical/_"
                                     value={char === '#' ? 'misc' : char}
-                                    currentValue={paramIndex}
+                                    currentValue={filter}
                                     tooltip={char === '#' 
                                     ? "Titles starting with numeric or miscellaneous characters"
                                     : `Titles starting with '${char}'`}
@@ -114,24 +106,24 @@ const Home: React.FC = () => {
                             )]}
                         </div>
                     )}
-                    {(paramType ?? "category") === "category" && (
+                    {(filterType ?? "category") === "category" && (
                         <div className="row justify-content-center">
-                            <SearchLink className="col" to="/search/category/_" value="all" currentValue={paramIndex} tooltip="List all titles">All</SearchLink>
-                            <SearchLink className="col" to="/search/category/_" value="icons" currentValue={paramIndex} tooltip="Titles that have icons uploaded">Uploaded</SearchLink>
-                            <SearchLink className="col" to="/search/category/_" value="1icons" currentValue={paramIndex} tooltip="Titles with 1 icon">1 Icon</SearchLink>
-                            <SearchLink className="col" to="/search/category/_" value="2icons" currentValue={paramIndex} tooltip="Titles with 2 icons">2 Icons</SearchLink>
-                            <SearchLink className="col" to="/search/category/_" value="3icons" currentValue={paramIndex} tooltip="Titles with 3 icons">3 Icons</SearchLink>
-                            <SearchLink className="col" to="/search/category/_" value="noicons" currentValue={paramIndex} tooltip="Titles that haven't yet been uploaded">Missing</SearchLink>
+                            <SearchLink className="col" to="/browse/category/_" value="all" currentValue={filter} tooltip="List all titles">All</SearchLink>
+                            <SearchLink className="col" to="/browse/category/_" value="icons" currentValue={filter} tooltip="Titles that have icons uploaded">Uploaded</SearchLink>
+                            <SearchLink className="col" to="/browse/category/_" value="1icons" currentValue={filter} tooltip="Titles with 1 icon">1 Icon</SearchLink>
+                            <SearchLink className="col" to="/browse/category/_" value="2icons" currentValue={filter} tooltip="Titles with 2 icons">2 Icons</SearchLink>
+                            <SearchLink className="col" to="/browse/category/_" value="3icons" currentValue={filter} tooltip="Titles with 3 icons">3 Icons</SearchLink>
+                            <SearchLink className="col" to="/browse/category/_" value="noicons" currentValue={filter} tooltip="Titles that haven't yet been uploaded">Missing</SearchLink>
                         </div>
                     )}
-                    {paramType === "text" && (
+                    {filterType === 'search' && (
                         <div className="row">
                             <div className="col col-md-6 col-lg-4">
                                 <input 
                                     type="text"
                                     placeholder="Game Title Search"
-                                    value={searchEntry}
-                                    onChange={entry => setSearchEntry(entry.target.value)}
+                                    value={filterType == FilterType.search ? filter : ''}
+                                    onChange={entry => navigate(`/browse/search/${encodeURIComponent(entry.target.value)}`)}
                                     style={{width: "100%", height: 40, paddingLeft: '7px'}}
                                 />
                                 <br />
@@ -139,7 +131,7 @@ const Home: React.FC = () => {
                             </div>
                         </div>
                     )}
-                    <SearchResults searchType={paramType} searchEntry={searchEntry} />
+                    <SearchResults filterType={filterType as FilterType} filter={filter} />
                 </div>
             </div>
             <Footer />

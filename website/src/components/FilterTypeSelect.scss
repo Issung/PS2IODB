@@ -1,0 +1,21 @@
+#FilterTypeSelect {
+    .col {
+        // Select the label directly following an element with class btn-check that is checked.
+        .btn-check:checked + label {
+            background-color: #0b5cd4;
+        }
+
+        label {
+            margin: 0px 10px 0px 10px;
+            background-color: transparent;
+            border-color: #0b5cd4;
+            font-weight: 500;
+            font-size: 1.2em;
+
+            p {
+                margin: 0;
+                filter: grayscale(100%);    // Black/White emojis (temporary until icons replaced with font awesome).
+            }
+        }
+    }
+}

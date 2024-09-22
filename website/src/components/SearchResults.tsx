@@ -3,16 +3,14 @@ import GameTable from './GameTable';
 import { Game } from '../model/Game';
 import { GameList } from '../model/GameList';
 import SearchKeywordChunker from '../model/SearchKeywordChunker';
+import { FilterType, FilterTypeDefault } from './FilterTypeSelect';
 
 type SearchResultsProps = {
-    /**
-     * Either 'alphabetical', 'category' or 'text'.
-     */
-    searchType: string | undefined;
-    searchEntry: string;
+    filterType: FilterType | undefined;
+    filter: string | undefined;
 }
 
-const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }: SearchResultsProps) =>
+const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: SearchResultsProps) =>
 {
     const [games, setGames] = useState(Array<Game>);
 
@@ -27,7 +25,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
             "O": ["O", "Ō"], // Include titles "Ōkami" & "Ōokuki" under "O" listings.
         }
 
-        if (searchEntry === 'misc' || searchEntry === '')
+        if (filter === 'misc' || filter === '')
         {
             // All things that come before the first game that starts with 'A'.
             let firstA = GameList.findIndex(g => g.name.startsWith('A'));
@@ -35,7 +33,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
         }
         else
         {
-            let characters = additionalCharacterIncludes[searchEntry] ?? [searchEntry];
+            let characters = additionalCharacterIncludes[filter ?? ''] ?? [filter];
             let results = GameList.filter(g => {
                 for (const char of characters) {
                     if (g.name.startsWith(char)) {
@@ -46,11 +44,11 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
             });
             setGames(results);
         }
-    }, [searchEntry]);
+    }, [filter]);
 
     const filterByCategory = useCallback(() => 
     {
-        let index = searchEntry.trim() === '' ? "icons" : searchEntry;
+        let index = !filter || filter.trim() === '' ? "icons" : filter;
 
         if (index === 'all')
         {
@@ -75,11 +73,11 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
                 setGames(gamesInCategory);
             }
         }
-    }, [searchEntry]);
+    }, [filter]);
 
     const filterByTextEntryKeywords = useCallback(() =>
     {
-        let words = SearchKeywordChunker.chunk(searchEntry);
+        let words = SearchKeywordChunker.chunk(filter ?? '');
 
         if (words.length == 0) // No entry, display no games.
         {
@@ -118,22 +116,25 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
 
         //console.log(`Keywords [${keywords.join(', ')}] matched ${games.length} games: ${games.map(sr => sr.name).join(', ')}`);
         //console.log(`Keywords [${keywords.join(', ')}] matched ${games.length} games.`);
-    }, [searchEntry]);
+    }, [filter]);
 
     useEffect(() => {
-        console.log(`Finding games for input: ${searchType}, ${searchEntry}`);
+        let type = filterType ?? FilterTypeDefault;
+        console.log(`Finding games for input: ${type}, ${filter}`);
 
-        if  (searchType === 'alphabetical') {
+        if  (type === FilterType.alphabetical) {
             filterByAlphabet();
         }
-        else if (searchType === 'text') {
-            filterByTextEntryKeywords();
-        }
-        // Fallthrough
-        else /*if (searchType === 'category') */  {
+        else if (type === FilterType.category) {
             filterByCategory();
         }
-    }, [searchEntry, searchType, filterByAlphabet, filterByCategory, filterByTextEntryKeywords]);
+        else if (type === FilterType.search) {
+            filterByTextEntryKeywords();
+        }
+        //else if (type === FilterType.contributors) {
+        //  // ??
+        //}
+    }, [filter, filterType, filterByAlphabet, filterByCategory, filterByTextEntryKeywords]);
 
     function unique<T>(value: T, index: number, array: Array<T>) {
         return array.indexOf(value) === index;
