@@ -1580,7 +1580,7 @@ export const GameList: Game[] = [
     new Game(`Hugo: Cannon Cruise`),
     new Game(`Hugo: Magic In The Troll Woods`),
     new Game(`Hulk`, `hulk`, 1, Contributors.Oddworld2001),
-    new Game(`Hummer Badlands`),
+    new Game(`Hummer Badlands`, `hummerbadlands`, 1, Contributors.Zeroman95),
     new Game(`Hungry Ghosts (PlayStation 2 game)Hungry Ghosts`),
     new Game(`Hunter: The Reckoning: Wayward`),
     new Game(`Hunter X Hunter: Ryumyaku no Saidan`),
