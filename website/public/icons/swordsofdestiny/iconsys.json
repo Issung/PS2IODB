@@ -1,0 +1,18 @@
+{
+    "title":"SWORDS OF  DESTINY",
+    "normal":"soy.ico",
+    "copy":"soy.ico",
+    "delete":"soy.ico",
+    "bgOpacity":0,
+    "bgColTL":"#1e1e80",
+    "bgColTR":"#1e1e80",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.0, 1.0, 0.0, 0.0],
+    "light2Dir":[1.0, 0.0, 0.0, 0.0],
+    "light3Dir":[1.0, 1.0, 0.0, 0.0],
+    "light1Col":[40.0, 40.0, 40.0, 0.0],
+    "light2Col":[40.0, 40.0, 40.0, 0.0],
+    "light3Col":[40.0, 40.0, 40.0, 0.0],
+    "ambiLightCol":[40.0, 40.0, 40.0, 0.0]
+}
