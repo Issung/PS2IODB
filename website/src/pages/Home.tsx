@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import SearchLink from "../components/SearchLink";
 import SearchResults from "../components/SearchResults";
 import { FilterTypeSelect, FilterType } from '../components/FilterTypeSelect';
+import { Category, CategorySelect } from '../components/CategorySelect';
 
 const Home: React.FC = () => {
     const navigate = useNavigate();
@@ -106,16 +107,7 @@ const Home: React.FC = () => {
                             )]}
                         </div>
                     )}
-                    {(filterType ?? "category") === "category" && (
-                        <div className="row justify-content-center">
-                            <SearchLink className="col" to="/browse/category/_" value="all" currentValue={filter} tooltip="List all titles">All</SearchLink>
-                            <SearchLink className="col" to="/browse/category/_" value="icons" currentValue={filter} tooltip="Titles that have icons uploaded">Uploaded</SearchLink>
-                            <SearchLink className="col" to="/browse/category/_" value="1icons" currentValue={filter} tooltip="Titles with 1 icon">1 Icon</SearchLink>
-                            <SearchLink className="col" to="/browse/category/_" value="2icons" currentValue={filter} tooltip="Titles with 2 icons">2 Icons</SearchLink>
-                            <SearchLink className="col" to="/browse/category/_" value="3icons" currentValue={filter} tooltip="Titles with 3 icons">3 Icons</SearchLink>
-                            <SearchLink className="col" to="/browse/category/_" value="noicons" currentValue={filter} tooltip="Titles that haven't yet been uploaded">Missing</SearchLink>
-                        </div>
-                    )}
+                    {(filterType ?? "category") === "category" && <CategorySelect category={filter as Category}/> }
                     {filterType === 'search' && (
                         <div className="row">
                             <div className="col col-md-6 col-lg-4">
@@ -123,7 +115,7 @@ const Home: React.FC = () => {
                                     type="text"
                                     placeholder="Game Title Search"
                                     value={filterType == FilterType.search ? filter : ''}
-                                    onChange={entry => navigate(`/browse/search/${encodeURIComponent(entry.target.value)}`)}
+                                    onChange={entry => navigate(`/browse/search/${encodeURIComponent(entry.target.value)}`)} /* TODO: Debouncing */
                                     style={{width: "100%", height: 40, paddingLeft: '7px'}}
                                 />
                                 <br />

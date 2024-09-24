@@ -1,4 +1,4 @@
-#FilterTypeSelect {
+div.Select {
     .col {
         // Select the label directly following an element with class btn-check that is checked.
         .btn-check:checked + label {
@@ -8,9 +8,13 @@
         label {
             margin: 0px 10px 0px 10px;
             background-color: transparent;
-            border-color: #0b5cd4;
+            border-color: #0b5cd4 !important;
             font-weight: 500;
             font-size: 1.2em;
+
+            &:hover {
+                background-color: #0b5bd48c;
+            }
 
             p {
                 margin: 0;

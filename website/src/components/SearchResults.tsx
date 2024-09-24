@@ -4,6 +4,7 @@ import { Game } from '../model/Game';
 import { GameList } from '../model/GameList';
 import SearchKeywordChunker from '../model/SearchKeywordChunker';
 import { FilterType, FilterTypeDefault } from './FilterTypeSelect';
+import { Category } from './CategorySelect';
 
 type SearchResultsProps = {
     filterType: FilterType | undefined;
@@ -25,7 +26,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
             "O": ["O", "Ō"], // Include titles "Ōkami" & "Ōokuki" under "O" listings.
         }
 
-        if (filter === 'misc' || filter === '')
+        if (!filter || filter === 'misc')
         {
             // All things that come before the first game that starts with 'A'.
             let firstA = GameList.findIndex(g => g.name.startsWith('A'));
@@ -48,30 +49,29 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
 
     const filterByCategory = useCallback(() => 
     {
-        let index = !filter || filter.trim() === '' ? "icons" : filter;
+        let index = !filter || filter.trim() === '' ? Category.uploaded : filter;
 
-        if (index === 'all')
+        if (index === Category.all)
         {
             setGames(GameList);
         }
-        else if (index.endsWith('icons'))
+        else if (index === Category.missing)
         {
-            if (index === 'noicons')
-            {
-                let gamesInCategory = GameList.filter(g => !g.icons.some(i => i.code));
-                setGames(gamesInCategory);
-            }
-            else if (index === 'icons')
-            {
-                let gamesInCategory = GameList.filter(g => g.icons.some(i => i.code));
-                setGames(gamesInCategory);
-            }
-            else
-            {
-                let number = parseInt(index[0]);
-                let gamesInCategory = GameList.filter(g => g.icons.some(i => i.variantCount === number));
-                setGames(gamesInCategory);
-            }
+            let gamesInCategory = GameList.filter(g => !g.icons.some(i => i.code));
+            setGames(gamesInCategory);
+        }
+        else if (index === Category.uploaded)
+        {
+            let gamesInCategory = GameList.filter(g => g.icons.some(i => i.code));
+            setGames(gamesInCategory);
+        }
+        else //if (index > Category.icons1 && index < Category.icons3)
+        {
+            let indexStr = index.toString();
+            let lastChar = indexStr.charAt(index.length - 1);
+            let number = parseInt(lastChar);
+            let gamesInCategory = GameList.filter(g => g.icons.some(i => i.variantCount === number));
+            setGames(gamesInCategory);
         }
     }, [filter]);
 
