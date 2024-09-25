@@ -12,7 +12,8 @@ export class SelectItem {
     constructor(
         public key: string,
         public name: string,
-        public icon?: ReactNode
+        public icon?: ReactNode,
+        public tooltip?: string
     ) {
     }
 }
@@ -42,7 +43,7 @@ export const Select = ({items, defaultKey, selectedKey, onChange, col}: ISelectP
                             checked={(selectedKey ?? defaultKey) === item.key}
                             onChange={() => onChange(item.key)}
                         />
-                        <label className="btn btn-secondary" htmlFor={item.key}>
+                        <label className="btn btn-secondary" htmlFor={item.key} title={item.tooltip}>
                             <span>{item.name} {item.icon}</span>
                         </label>
                         <br/>

@@ -4,7 +4,7 @@ import { Game } from '../model/Game';
 import { GameList } from '../model/GameList';
 import SearchKeywordChunker from '../model/SearchKeywordChunker';
 import { FilterType, FilterTypeDefault } from './FilterTypeSelect';
-import { Category } from './CategorySelect';
+import { Category } from './FilterSelectCategory';
 
 type SearchResultsProps = {
     filterType: FilterType | undefined;

@@ -7,7 +7,8 @@ import Footer from "../components/Footer";
 import SearchLink from "../components/SearchLink";
 import SearchResults from "../components/SearchResults";
 import { FilterTypeSelect, FilterType } from '../components/FilterTypeSelect';
-import { Category, CategorySelect } from '../components/CategorySelect';
+import { Category, FilterSelectCategory } from '../components/FilterSelectCategory';
+import { FilterSelectAlphabetical } from '../components/FilterSelectAlphabetical';
 
 const Home: React.FC = () => {
     const navigate = useNavigate();
@@ -90,24 +91,8 @@ const Home: React.FC = () => {
                     </div>
                     <FilterTypeSelect filterType={filterType as FilterType}/>
                     <hr />
-                    {filterType === "alphabetical" && (
-                        <div className="row justify-content-center">
-                            {['#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(char => 
-                                <SearchLink
-                                    className="col-1"
-                                    to="/browse/alphabetical/_"
-                                    value={char === '#' ? 'misc' : char}
-                                    currentValue={filter}
-                                    tooltip={char === '#' 
-                                    ? "Titles starting with numeric or miscellaneous characters"
-                                    : `Titles starting with '${char}'`}
-                                >
-                                    {char}
-                                </SearchLink>
-                            )]}
-                        </div>
-                    )}
-                    {(filterType ?? "category") === "category" && <CategorySelect category={filter as Category}/> }
+                    {filterType === "alphabetical" && <FilterSelectAlphabetical filter={filter}/> }
+                    {(filterType ?? "category") === "category" && <FilterSelectCategory category={filter as Category}/> }
                     {filterType === 'search' && (
                         <div className="row">
                             <div className="col col-md-6 col-lg-4">
@@ -115,7 +100,8 @@ const Home: React.FC = () => {
                                     type="text"
                                     placeholder="Game Title Search"
                                     value={filterType == FilterType.search ? filter : ''}
-                                    onChange={entry => navigate(`/browse/search/${encodeURIComponent(entry.target.value)}`)} /* TODO: Debouncing */
+                                    /* TODO: Debouncing */
+                                    onChange={entry => navigate(`/browse/search/${encodeURIComponent(entry.target.value)}`)}
                                     style={{width: "100%", height: 40, paddingLeft: '7px'}}
                                 />
                                 <br />
