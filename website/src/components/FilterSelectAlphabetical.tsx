@@ -12,7 +12,6 @@ const items = '#ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     .map(char => new SelectItem(
         char === '#' ? 'misc' : char,
         char,
-        /* icon: */ undefined,
         /* tooltip: */ char === '#' ? 'Titles starting with numeric or miscellaneous characters' : `Titles starting with '${char}'`
     ));
 

@@ -12,8 +12,8 @@ export class SelectItem {
     constructor(
         public key: string,
         public name: string,
-        public icon?: ReactNode,
-        public tooltip?: string
+        public tooltip?: string,
+        public icon?: ReactNode
     ) {
     }
 }

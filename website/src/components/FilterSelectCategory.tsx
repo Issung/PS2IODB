@@ -18,12 +18,12 @@ interface ICategorySelectProps {
 };
 
 const categories = [
-    new SelectItem(Category.all, 'All', <IconCircles/>),
-    new SelectItem(Category.uploaded, 'Uploaded', <IconCirclesFilled/>),
-    new SelectItem(Category.icons1, '1 Icon', <IconCircle1/>),
-    new SelectItem(Category.icons2, '2 Icons', <IconCircle2/>),
-    new SelectItem(Category.icons3, '3 Icons', <IconCircle3/>),
-    new SelectItem(Category.missing, 'Missing', <IconHelpOctagon/>),
+    new SelectItem(Category.all, 'All', 'List all titles', <IconCircles/>),
+    new SelectItem(Category.uploaded, 'Uploaded', 'Titles with icons uploaded', <IconCirclesFilled/>),
+    new SelectItem(Category.icons1, '1 Icon', 'Titles with 1 icon', <IconCircle1/>),
+    new SelectItem(Category.icons2, '2 Icons', 'Titles with 2 icons', <IconCircle2/>),
+    new SelectItem(Category.icons3, '3 Icons', 'Titles with 3 icons', <IconCircle3/>),
+    new SelectItem(Category.missing, 'Missing', 'Titles that haven\'t yet been uploaded', <IconHelpOctagon/>),
 ];
 
 export const FilterSelectCategory = ({category}: ICategorySelectProps) => {

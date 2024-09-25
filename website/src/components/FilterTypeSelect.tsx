@@ -16,9 +16,9 @@ interface IFilterTypeSelectProps {
 };
 
 const filterTypes = [
-    new SelectItem(FilterType.alphabetical, 'Alphabetical', <IconSortAZ style={{height: 30}}/>),
-    new SelectItem(FilterType.category, 'Category', <IconLabel/>),
-    new SelectItem(FilterType.search, 'Search', <IconSearch/>),
+    new SelectItem(FilterType.alphabetical, 'Alphabetical', 'Browse titles alphabetically', <IconSortAZ style={{height: 30}}/>),
+    new SelectItem(FilterType.category, 'Category', 'Browse titles by categories', <IconLabel/>),
+    new SelectItem(FilterType.search, 'Search', 'Browse titles with text search', <IconSearch/>),
 ];
 
 export const FilterTypeSelect = ({filterType}: IFilterTypeSelectProps) => {
