@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Select, SelectItem } from './Select';
+import { IconCircle1, IconCircle2, IconCircle3, IconCircles, IconCirclesFilled, IconHelpOctagon, IconQuestionMark } from '@tabler/icons-react';
 
 export enum Category {
     all = "all",
@@ -17,15 +18,15 @@ interface ICategorySelectProps {
 };
 
 const categories = [
-    new SelectItem(Category.all, 'All', '📃'),
-    new SelectItem(Category.uploaded, 'Uploaded', '📁'),
-    new SelectItem(Category.icons1, '1 Icon', '1️⃣'),
-    new SelectItem(Category.icons2, '2 Icons', '2️⃣'),
-    new SelectItem(Category.icons3, '3 Icons', '3️⃣'),
-    new SelectItem(Category.missing, 'Missing', '🫥'),
+    new SelectItem(Category.all, 'All', <IconCircles/>),
+    new SelectItem(Category.uploaded, 'Uploaded', <IconCirclesFilled/>),
+    new SelectItem(Category.icons1, '1 Icon', <IconCircle1/>),
+    new SelectItem(Category.icons2, '2 Icons', <IconCircle2/>),
+    new SelectItem(Category.icons3, '3 Icons', <IconCircle3/>),
+    new SelectItem(Category.missing, 'Missing', <IconHelpOctagon/>),
 ];
 
-export const CategorySelect = ({category}: ICategorySelectProps) => {
+export const FilterSelectCategory = ({category}: ICategorySelectProps) => {
     const navigate = useNavigate();
 
     return <Select
