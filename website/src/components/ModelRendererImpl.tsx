@@ -314,14 +314,11 @@ export class ModelRendererImpl {
     }
 
     onWindowResize() {
-        //windowHalfX = window.innerWidth / 2;
-        //windowHalfY = window.innerHeight / 2;
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
 
         if (this.renderer) {
-            this.renderer.setSize(window.innerWidth, window.innerHeight);
-            this.renderer.setPixelRatio(window.devicePixelRatio);
+            this.renderer.setDrawingBufferSize(window.innerWidth, window.innerHeight, window.devicePixelRatio);
         }
     }
 

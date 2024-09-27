@@ -35,7 +35,3 @@ This isn't needed by most developers unless you need to specifically test someth
 Multiple tests are included which make assertions on the `GameList.tsx` file (which contains all PS2 titles and their contribution status) and the icon assets directory in `/public/icons`.\
 The key tests are asserting every GameList entry marked as contributed has a matching folder, and every folder that exists has a matching GameList entry. These tests make it harder for contributors to accidentally break the website's structure.\
 These tests can be run using the VSCode test runner, or using `npm test` described above.
-
-## GitHub Pages Hacks
-This website is hosted via GitHub Pages, since it is a single page app a couple of hacks are required. The hacks are detailed here: https://github.com/rafgraph/spa-github-pages.
-They are present in the `index.html` & `404.html` files.

@@ -1,0 +1,18 @@
+{
+    "title":"\"\u30bb\u30ac \u30b9-\u30d1-\u30b9\u30bf-\u30ba\" \u30bb-\u30d6\u30c7-\u30bf",
+    "normal":"superstars.ico",
+    "copy":"superstars.ico",
+    "delete":"superstars.ico",
+    "bgOpacity":64,
+    "bgColTL":"#ff8000",
+    "bgColTR":"#ff8000",
+    "bgColBL":"#ff8000",
+    "bgColBR":"#ff8000",
+    "light1Dir":[38.0, 95.0, 109.0, 0.0],
+    "light2Dir":[-6.0, 11.0, 83.0, 0.0],
+    "light3Dir":[-32.0, -16.0, -40.0, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
