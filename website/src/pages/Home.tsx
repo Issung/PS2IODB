@@ -27,6 +27,12 @@ const Home: React.FC = () => {
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
+        if (filterType == FilterType.search) {
+            document.querySelector<HTMLInputElement>('input[type="text"]')?.focus();
+        }
+    }, [filterType]);
+
+    useEffect(() => {
         setProgress(IconList.filter(i => i.code).length / IconList.length);
     }, [progress]);
 
