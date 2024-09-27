@@ -1917,7 +1917,7 @@ export const GameList: Game[] = [
     new Game(`The King of Fighters 2000`, `thekingoffighters2000`, 1, Contributors.ItzCookieX),
     new Game(`The King of Fighters 2001`, `thekingoffighters2001`, 1, Contributors.ItzCookieX),
     new Game(`The King of Fighters 2002`, `thekingoffighters2002`, 1, Contributors.Psiences),
-    new Game(`The King of Fighters 2002: Unlimited Match`),
+    new Game(`The King of Fighters 2002: Unlimited Match`, `kingoffighters2002unlimitedmatch`, 1, Contributors.ItzCookieX),
     new Game(`The King of Fighters 2003`, `thekingoffighters2003`, 1, Contributors.Psiences),
     new Game(`The King of Fighters 2006 (Maximum Impact 2)`, `thekingoffightersmaximumimpact2`, 1, Contributors.Psiences),
     new Game(`The King of Fighters Collection: The Orochi Saga`, `thekingoffighterstheorochisaga`, 1, Contributors.Psiences),
