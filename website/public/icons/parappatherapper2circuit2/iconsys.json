@@ -1,0 +1,18 @@
+{
+    "title":"PARAPPA2/SYS-02 AAAAAAAB(C 2)",
+    "normal":"icon1.ico",
+    "copy":"icon1.ico",
+    "delete":"icon1.ico",
+    "bgOpacity":64,
+    "bgColTL":"#808080",
+    "bgColTR":"#1979f4",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.0, 0.0, -1.0, 0.0],
+    "light2Dir":[0.0, 0.0, -1.0, 0.0],
+    "light3Dir":[0.0, 0.0, -1.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

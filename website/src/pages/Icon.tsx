@@ -4,7 +4,7 @@ import { Icon as IconModel } from "../model/Icon";
 import { IconSys } from "../model/IconSys";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MeshType, TextureType } from "../components/ModelViewParams";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import JSZip from "jszip";
 import ModelView from '../components/ModelView';
 
@@ -25,6 +25,13 @@ const Icon: React.FC = () => {
     const [variant, setVariant] = useState<string>();
     
     const [icon, setIcon] = useState<IconModel | undefined>();
+    const title = useMemo(() => {
+        if (icon) {
+            return icon.game!.name == icon.name ? icon.name : `${icon.game!.name} (${icon.name})`
+        }
+        
+        return '';
+    }, [icon]);
 
     /**
      * Information obtained from renderer callback, how many frames does the current animation have. 0 if no animation.
@@ -88,9 +95,9 @@ const Icon: React.FC = () => {
 
     useEffect(() => {
         if (icon) {
-            // Change the tab title to the game name.
-            // When navigating back the title on index.html will reset the tab title back.
-            document.title = icon.name;
+            // Change the tab title to the displayed title.
+            // When navigating back the title element on index.html will reset the tab title back.
+            document.title = title;
         }
     }, [icon]);
 
@@ -214,7 +221,7 @@ const Icon: React.FC = () => {
             <h5 id="title">
                 {icon ?
                     <>
-                        {icon.game!.name == icon.name ? icon.name : `${icon.game!.name} (${icon.name})`}
+                        {title}
                         <br/>
                         <h6>Contributed by {icon.contributor?.link ? 
                             <Link to={icon.contributor.link} target="_blank">{icon.contributor!.name}</Link>

@@ -3,16 +3,15 @@ import GameTable from './GameTable';
 import { Game } from '../model/Game';
 import { GameList } from '../model/GameList';
 import SearchKeywordChunker from '../model/SearchKeywordChunker';
+import { FilterType, FilterTypeDefault } from './FilterTypeSelect';
+import { Category } from './FilterSelectCategory';
 
 type SearchResultsProps = {
-    /**
-     * Either 'alphabetical', 'category' or 'text'.
-     */
-    searchType: string | undefined;
-    searchEntry: string;
+    filterType: FilterType | undefined;
+    filter: string | undefined;
 }
 
-const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }: SearchResultsProps) =>
+const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: SearchResultsProps) =>
 {
     const [games, setGames] = useState(Array<Game>);
 
@@ -27,15 +26,15 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
             "O": ["O", "Ō"], // Include titles "Ōkami" & "Ōokuki" under "O" listings.
         }
 
-        if (searchEntry === 'misc' || searchEntry === '')
+        if (!filter || filter === 'misc')
         {
             // All things that come before the first game that starts with 'A'.
-            let firstA = GameList.findIndex(g => g.name.startsWith('A'));
-            setGames(GameList.slice(0, firstA));
+            let miscGames = GameList.findIndex(g => g.name.startsWith('A'));
+            setGames(GameList.slice(0, miscGames));
         }
         else
         {
-            let characters = additionalCharacterIncludes[searchEntry] ?? [searchEntry];
+            let characters = additionalCharacterIncludes[filter ?? ''] ?? [filter];
             let results = GameList.filter(g => {
                 for (const char of characters) {
                     if (g.name.startsWith(char)) {
@@ -46,40 +45,39 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
             });
             setGames(results);
         }
-    }, [searchEntry]);
+    }, [filter]);
 
     const filterByCategory = useCallback(() => 
     {
-        let index = searchEntry.trim() === '' ? "icons" : searchEntry;
+        let index = !filter || filter.trim() === '' ? Category.uploaded : filter;
 
-        if (index === 'all')
+        if (index === Category.all)
         {
             setGames(GameList);
         }
-        else if (index.endsWith('icons'))
+        else if (index === Category.missing)
         {
-            if (index === 'noicons')
-            {
-                let gamesInCategory = GameList.filter(g => g.icons.length = 0);
-                setGames(gamesInCategory);
-            }
-            else if (index === 'icons')
-            {
-                let gamesInCategory = GameList.filter(g => g.icons.length > 0);
-                setGames(gamesInCategory);
-            }
-            else
-            {
-                let number = parseInt(index[0]);
-                let gamesInCategory = GameList.filter(g => g.icons.some(i => i.variantCount === number));
-                setGames(gamesInCategory);
-            }
+            let gamesInCategory = GameList.filter(g => !g.icons.some(i => i.code));
+            setGames(gamesInCategory);
         }
-    }, [searchEntry]);
+        else if (index === Category.uploaded)
+        {
+            let gamesInCategory = GameList.filter(g => g.icons.some(i => i.code));
+            setGames(gamesInCategory);
+        }
+        else //if (index > Category.icons1 && index < Category.icons3)
+        {
+            let indexStr = index.toString();
+            let lastChar = indexStr.charAt(index.length - 1);
+            let number = parseInt(lastChar);
+            let gamesInCategory = GameList.filter(g => g.icons.some(i => i.variantCount === number));
+            setGames(gamesInCategory);
+        }
+    }, [filter]);
 
     const filterByTextEntryKeywords = useCallback(() =>
     {
-        let words = SearchKeywordChunker.chunk(searchEntry);
+        let words = SearchKeywordChunker.chunk(filter ?? '');
 
         if (words.length == 0) // No entry, display no games.
         {
@@ -93,7 +91,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
             }
             else
             {
-                let results = GameList.filter(g => g.name.toLowerCase().indexOf(words[0]) >= 0).slice(0, 10);
+                let results = GameList.filter(g => g.name.toLowerCase().indexOf(words[0]) >= 0);
                 setGames(results);
             }
         }
@@ -113,27 +111,30 @@ const SearchResults: React.FC<SearchResultsProps> = ({ searchType, searchEntry }
                 .filter(result => result != null)
                 .sort((r1, r2) => r2!.matches.length - r1!.matches.length);
             
-            setGames(results.slice(0, 10).map(r => r!.game));
+            setGames(results.map(r => r!.game));
         }
 
         //console.log(`Keywords [${keywords.join(', ')}] matched ${games.length} games: ${games.map(sr => sr.name).join(', ')}`);
         //console.log(`Keywords [${keywords.join(', ')}] matched ${games.length} games.`);
-    }, [searchEntry]);
+    }, [filter]);
 
     useEffect(() => {
-        console.log(`Finding games for input: ${searchType}, ${searchEntry}`);
+        let type = filterType ?? FilterTypeDefault;
+        console.log(`Finding games for input: ${type}, ${filter}`);
 
-        if  (searchType === 'alphabetical') {
+        if  (type === FilterType.alphabetical) {
             filterByAlphabet();
         }
-        else if (searchType === 'text') {
-            filterByTextEntryKeywords();
-        }
-        // Fallthrough
-        else /*if (searchType === 'category') */  {
+        else if (type === FilterType.category) {
             filterByCategory();
         }
-    }, [searchEntry, searchType, filterByAlphabet, filterByCategory, filterByTextEntryKeywords]);
+        else if (type === FilterType.search) {
+            filterByTextEntryKeywords();
+        }
+        //else if (type === FilterType.contributors) {
+        //  // ??
+        //}
+    }, [filter, filterType, filterByAlphabet, filterByCategory, filterByTextEntryKeywords]);
 
     function unique<T>(value: T, index: number, array: Array<T>) {
         return array.indexOf(value) === index;

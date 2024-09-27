@@ -1,0 +1,31 @@
+div.Select {
+    div.d-flex {
+        flex-wrap: wrap;
+         
+        // Select the label directly following an element with class btn-check that is checked.
+        .btn-check:checked + label {
+            background-color: #0b5cd4;
+        }
+
+        label {
+            margin: 0px 10px 0px 10px;
+            background-color: transparent;
+            border-color: #0b5cd4 !important;
+            font-weight: 500;
+            font-size: 1.2em;
+            min-width: 42px;
+            margin-bottom: 10px;
+
+            &:hover {
+                background-color: #0b5bd48c;
+            }
+
+            span {
+                .tabler-icon {
+                    height: 20px;
+                    margin-bottom: 2px;
+                }
+            }
+        }
+    }
+}
