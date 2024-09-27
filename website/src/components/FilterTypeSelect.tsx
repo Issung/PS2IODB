@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Select, SelectItem } from './Select';
-import { IconLabel, IconSearch, IconSortAZ } from '@tabler/icons-react';
+import { IconSearch, IconSortAZ, IconTag } from '@tabler/icons-react';
 
 export enum FilterType {
     alphabetical = "alphabetical",
@@ -17,7 +17,7 @@ interface IFilterTypeSelectProps {
 
 const filterTypes = [
     new SelectItem(FilterType.alphabetical, 'Alphabetical', 'Browse titles alphabetically', <IconSortAZ style={{height: 30}}/>),
-    new SelectItem(FilterType.category, 'Category', 'Browse titles by categories', <IconLabel/>),
+    new SelectItem(FilterType.category, 'Category', 'Browse titles by categories', <IconTag/>),
     new SelectItem(FilterType.search, 'Search', 'Browse titles with text search', <IconSearch/>),
 ];
 
