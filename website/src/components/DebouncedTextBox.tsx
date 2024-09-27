@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import './DebouncedTextBox.scss'
 
 interface DebouncedTextBoxProps extends React.InputHTMLAttributes<HTMLInputElement> {
-    value: string;
+    value: string | undefined;
     debouncedOnChange: (newValue: string) => void;
 }
 
 const DebouncedTextBox = (props: DebouncedTextBoxProps) => {
-    const [inputValue, setInputValue] = useState(props.value);
+    const [inputValue, setInputValue] = useState(props.value ?? '');
 
     useEffect(() => {
         const handler = setTimeout(() => {
-            if (inputValue != props.value) {
+            if (inputValue != (props.value ?? '')) {
                 props.debouncedOnChange(inputValue);
             }
         }, 250);
@@ -22,7 +22,7 @@ const DebouncedTextBox = (props: DebouncedTextBoxProps) => {
     }, [inputValue, props.debouncedOnChange]);
 
     useEffect(() => {
-        setInputValue(props.value);
+        setInputValue(props.value ?? '');
     }, [props.value])
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

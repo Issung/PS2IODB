@@ -10,6 +10,15 @@ import { Category, FilterSelectCategory } from '../components/FilterSelectCatego
 import { FilterSelectAlphabetical } from '../components/FilterSelectAlphabetical';
 import DebouncedTextBox from '../components/DebouncedTextBox';
 
+const exampleSearches = [
+    "Beyond Good & Evil",
+    "Final Fantasy",
+    "Grand Theft Auto",
+    "Katamari",
+    "Ratchet & Clank",
+    "Silent Hill",
+];
+
 const Home: React.FC = () => {
     const navigate = useNavigate();
     const { filterType, filter } = useParams();
@@ -97,9 +106,9 @@ const Home: React.FC = () => {
                         <div className="row">
                             <div className="col col-md-6 col-lg-4">
                                 <DebouncedTextBox
-                                    placeholder="Search"
+                                    placeholder={`Search (e.g. "${exampleSearches[Math.floor(Math.random() * exampleSearches.length)]}")`}
                                     style={{marginBottom: 15}}
-                                    value={filter ?? ''}
+                                    value={filter}
                                     debouncedOnChange={newValue => navigate(`/browse/search/${encodeURIComponent(newValue)}`)}
                                 />
                             </div>
