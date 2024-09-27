@@ -1917,7 +1917,7 @@ export const GameList: Game[] = [
     new Game(`The King of Fighters 2000`, `thekingoffighters2000`, 1, Contributors.ItzCookieX),
     new Game(`The King of Fighters 2001`, `thekingoffighters2001`, 1, Contributors.ItzCookieX),
     new Game(`The King of Fighters 2002`, `thekingoffighters2002`, 1, Contributors.Psiences),
-    new Game(`The King of Fighters 2002: Unlimited Match`),
+    new Game(`The King of Fighters 2002: Unlimited Match`, `kingoffighters2002unlimitedmatch`, 1, Contributors.ItzCookieX),
     new Game(`The King of Fighters 2003`, `thekingoffighters2003`, 1, Contributors.Psiences),
     new Game(`The King of Fighters 2006 (Maximum Impact 2)`, `thekingoffightersmaximumimpact2`, 1, Contributors.Psiences),
     new Game(`The King of Fighters Collection: The Orochi Saga`, `thekingoffighterstheorochisaga`, 1, Contributors.Psiences),
@@ -4464,7 +4464,14 @@ export const GameList: Game[] = [
     new Game(`Zwei: The Arges Adventure`),
 ];
 
-export const IconList: Icon[] = GameList.filter(g => g.icons.length > 0).flatMap(g => g.icons);
+export const IconList: Icon[] = GameList
+    .filter(g => g.icons.length > 0)
+    .flatMap(g => g.icons);
+
+export const UniqueIconsCount: number = IconList
+    .map(i => i.variantCount)
+    .filter(c => c != undefined)
+    .reduce((prevValue, value) => prevValue + (value ?? 0));
 
 // Populate index for each game & icon after the collection is initialised.
 GameList.forEach((game, gameIndex) => {

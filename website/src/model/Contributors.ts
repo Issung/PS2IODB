@@ -20,3 +20,5 @@ export class Contributors {
     public static DrinkMoreWater = new Contributor('Drink More Water!'); // Uploaded by Squeezed Dog
     public static Ps2RomsFree = new Contributor('ps2romsfree', 'https://www.youtube.com/@BamhurgeVidNZuffs');
 }
+
+export const ContributorCount = Object.values(Contributors).length;
