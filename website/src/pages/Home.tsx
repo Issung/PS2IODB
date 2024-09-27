@@ -4,11 +4,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import Counter from "../components/Counter";
 import Footer from "../components/Footer";
-import SearchLink from "../components/SearchLink";
 import SearchResults from "../components/SearchResults";
 import { FilterTypeSelect, FilterType } from '../components/FilterTypeSelect';
 import { Category, FilterSelectCategory } from '../components/FilterSelectCategory';
 import { FilterSelectAlphabetical } from '../components/FilterSelectAlphabetical';
+import DebouncedTextBox from '../components/DebouncedTextBox';
 
 const Home: React.FC = () => {
     const navigate = useNavigate();
@@ -96,16 +96,12 @@ const Home: React.FC = () => {
                     {filterType === 'search' && (
                         <div className="row">
                             <div className="col col-md-6 col-lg-4">
-                                <input 
-                                    type="text"
-                                    placeholder="Game Title Search"
-                                    value={filterType == FilterType.search ? filter : ''}
-                                    /* TODO: Debouncing */
-                                    onChange={entry => navigate(`/browse/search/${encodeURIComponent(entry.target.value)}`)}
-                                    style={{width: "100%", height: 40, paddingLeft: '7px'}}
+                                <DebouncedTextBox
+                                    placeholder="Search"
+                                    style={{marginBottom: 15}}
+                                    value={filter ?? ''}
+                                    debouncedOnChange={newValue => navigate(`/browse/search/${encodeURIComponent(newValue)}`)}
                                 />
-                                <br />
-                                <br />
                             </div>
                         </div>
                     )}

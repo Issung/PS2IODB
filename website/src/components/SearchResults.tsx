@@ -29,8 +29,8 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
         if (!filter || filter === 'misc')
         {
             // All things that come before the first game that starts with 'A'.
-            let firstA = GameList.findIndex(g => g.name.startsWith('A'));
-            setGames(GameList.slice(0, firstA));
+            let miscGames = GameList.findIndex(g => g.name.startsWith('A'));
+            setGames(GameList.slice(0, miscGames));
         }
         else
         {
@@ -91,7 +91,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
             }
             else
             {
-                let results = GameList.filter(g => g.name.toLowerCase().indexOf(words[0]) >= 0).slice(0, 10);
+                let results = GameList.filter(g => g.name.toLowerCase().indexOf(words[0]) >= 0);
                 setGames(results);
             }
         }
@@ -111,7 +111,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
                 .filter(result => result != null)
                 .sort((r1, r2) => r2!.matches.length - r1!.matches.length);
             
-            setGames(results.slice(0, 10).map(r => r!.game));
+            setGames(results.map(r => r!.game));
         }
 
         //console.log(`Keywords [${keywords.join(', ')}] matched ${games.length} games: ${games.map(sr => sr.name).join(', ')}`);
