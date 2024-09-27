@@ -25,6 +25,7 @@ export const FilterTypeSelect = ({filterType}: IFilterTypeSelectProps) => {
     const navigate = useNavigate();
 
     return <Select
+        groupName='filtertype'
         items={filterTypes}
         defaultKey={FilterTypeDefault}
         selectedKey={filterType}

@@ -12,13 +12,14 @@ const items = '#ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     .map(char => new SelectItem(
         char === '#' ? 'misc' : char,
         char,
-        /* tooltip: */ char === '#' ? 'Titles starting with numeric or miscellaneous characters' : `Titles starting with '${char}'`
+        char === '#' ? 'Titles starting with numeric or miscellaneous characters' : `Titles starting with '${char}'`
     ));
 
 export const FilterSelectAlphabetical = ({filter}: IAlphabeticalFilterSelectProps) => {
     const navigate = useNavigate();
 
     return <Select
+        groupName='alphabeticalfilter'
         items={items}
         defaultKey={AlphabeticalFilterDefault}
         selectedKey={filter}

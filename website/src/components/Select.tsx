@@ -19,6 +19,8 @@ export class SelectItem {
 }
 
 interface ISelectProps {
+    /** Unique id for the radio buttons group. */
+    groupName: string;
     items: SelectItem[];
     defaultKey: string;
     selectedKey: string | undefined;
@@ -27,10 +29,7 @@ interface ISelectProps {
     col?: string;
 };
 
-export const Select = ({items, defaultKey, selectedKey, onChange, col}: ISelectProps) => {
-    /** Random name to identify different radio button groups. */
-    const name = Math.random().toString();
-
+export const Select = ({groupName, items, defaultKey, selectedKey, onChange, col}: ISelectProps) => {
     return (
         <div className="Select row justify-content-center">
             <div className={(col ?? 'col') + ' d-flex justify-content-center'}>
@@ -39,7 +38,7 @@ export const Select = ({items, defaultKey, selectedKey, onChange, col}: ISelectP
                         <input
                             type="radio"
                             className="btn-check"
-                            name={name}
+                            name={groupName}
                             id={item.key}
                             checked={(selectedKey ?? defaultKey) === item.key}
                             onChange={() => onChange(item.key)}

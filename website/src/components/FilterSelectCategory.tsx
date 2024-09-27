@@ -30,6 +30,7 @@ export const FilterSelectCategory = ({category}: ICategorySelectProps) => {
     const navigate = useNavigate();
 
     return <Select
+        groupName='categoryfilter'
         selectedKey={category}
         items={categories}
         defaultKey={CategoryDefault}
