@@ -23,6 +23,7 @@ interface ISelectProps {
     defaultKey: string;
     selectedKey: string | undefined;
     onChange: (newKey: string) => void;
+    /** Apply custom bootstrap col rules to this element for better layout of options. */
     col?: string;
 };
 
