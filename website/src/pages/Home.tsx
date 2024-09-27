@@ -9,6 +9,7 @@ import { FilterTypeSelect, FilterType } from '../components/FilterTypeSelect';
 import { Category, FilterSelectCategory } from '../components/FilterSelectCategory';
 import { FilterSelectAlphabetical } from '../components/FilterSelectAlphabetical';
 import DebouncedTextBox from '../components/DebouncedTextBox';
+import { FilterSelectContributor } from '../components/FilterSelectContributor';
 
 const exampleSearches = [
     "Beyond Good & Evil",
@@ -108,6 +109,7 @@ const Home: React.FC = () => {
                     <hr />
                     {filterType === "alphabetical" && <FilterSelectAlphabetical filter={filter}/> }
                     {(filterType ?? "category") === "category" && <FilterSelectCategory category={filter as Category}/> }
+                    {filterType == FilterType.contributor && <FilterSelectContributor contributor={filter} />}
                     {filterType === 'search' && (
                         <div className="row">
                             <div className="col col-md-6 col-lg-4">

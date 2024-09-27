@@ -5,6 +5,7 @@ import { GameList } from '../model/GameList';
 import SearchKeywordChunker from '../model/SearchKeywordChunker';
 import { FilterType, FilterTypeDefault } from './FilterTypeSelect';
 import { Category } from './FilterSelectCategory';
+import { Contributors } from '../model/Contributors';
 
 type SearchResultsProps = {
     filterType: FilterType | undefined;
@@ -118,6 +119,20 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
         //console.log(`Keywords [${keywords.join(', ')}] matched ${games.length} games.`);
     }, [filter]);
 
+    const filterByContributor = useCallback(() => 
+    {
+        let contributor = Object.values(Contributors).find(c => c.name == filter);
+
+        if (contributor) {
+            let games = GameList.filter(g => g.icons.some(i => i.contributor == contributor));
+            setGames(games);
+        }
+        else {
+            setGames([]);
+        }
+
+    }, [filter]);
+
     useEffect(() => {
         let type = filterType ?? FilterTypeDefault;
         console.log(`Finding games for input: ${type}, ${filter}`);
@@ -131,9 +146,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
         else if (type === FilterType.search) {
             filterByTextEntryKeywords();
         }
-        //else if (type === FilterType.contributors) {
-        //  // ??
-        //}
+        else if (type === FilterType.contributor) {
+            filterByContributor();
+        }
     }, [filter, filterType, filterByAlphabet, filterByCategory, filterByTextEntryKeywords]);
 
     function unique<T>(value: T, index: number, array: Array<T>) {
