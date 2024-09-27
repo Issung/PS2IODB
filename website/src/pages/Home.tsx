@@ -1,22 +1,22 @@
 import './Home.scss';
-import { IconList } from "../model/GameList";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
-import Counter from "../components/Counter";
-import Footer from "../components/Footer";
-import SearchResults from "../components/SearchResults";
-import { FilterTypeSelect, FilterType } from '../components/FilterTypeSelect';
 import { Category, FilterSelectCategory } from '../components/FilterSelectCategory';
 import { FilterSelectAlphabetical } from '../components/FilterSelectAlphabetical';
+import { FilterTypeSelect, FilterType } from '../components/FilterTypeSelect';
+import Counter from "../components/Counter";
 import DebouncedTextBox from '../components/DebouncedTextBox';
+import Footer from "../components/Footer";
+import SearchResults from "../components/SearchResults";
+import { ContributorCount } from '../model/Contributors';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { IconList, UniqueIconsCount } from '../model/GameList';
 
 const exampleSearches = [
-    "Beyond Good & Evil",
     "Final Fantasy",
     "Grand Theft Auto",
-    "Katamari",
     "Ratchet & Clank",
     "Silent Hill",
+    "SingStar"
 ];
 
 const Home: React.FC = () => {
@@ -92,7 +92,8 @@ const Home: React.FC = () => {
                     </div>
                     <div className="row justify-content-center">
                         <p id="progress-paragraph">
-                            {contributed} out of {IconList.length} ({Math.trunc(progress*100*100)/100}%) titles have been archived so far.<br /> {/* Math trunc magic, need a toFixed that doesn't round. https://stackoverflow.com/a/48100007/8306962 */}
+                            <b>{contributed}</b> of <b>{IconList.length}</b> titles have had contributions so far.<br/>
+                            <b>{UniqueIconsCount}</b> unique icons have been contributed from <b>{ContributorCount}</b> different contributors!<br/>
                             To get to 100% we need support from <i>you</i>! Learn how <Link to="/contribute">here</Link>. {/* TODO Fix link hover visuals */}
                         </p>
                     </div>

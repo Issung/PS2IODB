@@ -4464,7 +4464,14 @@ export const GameList: Game[] = [
     new Game(`Zwei: The Arges Adventure`),
 ];
 
-export const IconList: Icon[] = GameList.filter(g => g.icons.length > 0).flatMap(g => g.icons);
+export const IconList: Icon[] = GameList
+    .filter(g => g.icons.length > 0)
+    .flatMap(g => g.icons);
+
+export const UniqueIconsCount: number = IconList
+    .map(i => i.variantCount)
+    .filter(c => c != undefined)
+    .reduce((prevValue, value) => prevValue + (value ?? 0));
 
 // Populate index for each game & icon after the collection is initialised.
 GameList.forEach((game, gameIndex) => {
