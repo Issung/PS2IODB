@@ -17,17 +17,11 @@
 
 """Graphical user-interface for mymc+."""
 
-import array
-from functools import reduce
-import json
 import os
 import platform
 import subprocess
 import sys
-import struct
-import io
 import traceback
-
 from mymcplus.gui.about_dialog import AboutDialog
 from mymcplus.gui.version_history_dialog import VersionHistoryDialog
 from .. import iconexport
@@ -37,13 +31,12 @@ if os.name == "nt" and hasattr(sys, "setdefaultencoding"):
     sys.setdefaultencoding("mbcs")
 import wx
 
-from .. import ps2mc, ps2iconsys
+from .. import ps2mc
 from ..save import ps2save
 from .icon_window import IconWindow
 from .dirlist_control import DirListControl
 from .savefiledroptarget import SaveFileDropTarget
 from . import utils
-from PIL import Image
 
 class GuiConfig(wx.Config):
     """A class for holding the persistant configuration state."""
@@ -355,7 +348,6 @@ class GuiFrame(wx.Frame):
         self.icon_win.load_icon(icon_sys, icon_data_normal, icon_data_copy, icon_data_delete)
 
     def load_icon_data(self, entry, icon_sys, type):
-        """Issun was here"""
         if type == "normal":
             icon_name = icon_sys.icon_file_normal
         elif type == "copy":
