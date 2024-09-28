@@ -182,10 +182,11 @@ class Icon:
 
             # This is just a hack to check if every alpha value is 0, which is the case for THPS3 for example.
             # Alpha will then be assumed to be 1 for all vertices when rendering, otherwise nothing will be visible.
-            # TODO: There is probably another way to render these icons correctly.
-            if self.color_data[i*4+3] > 0:
-                self.enable_alpha = True
-
+            # There is probably another way to render these icons correctly.
+            # Issung: I don't think ps2 icons are supposed to have alpha/opacity.
+            #if self.color_data[i*4+3] > 0:
+                #self.enable_alpha = True
+                
         return offset
 
     def __load_animation_data(self, data, length, offset):
@@ -241,15 +242,21 @@ class Icon:
 
 
     def __load_texture(self, data, length, offset):
-        uncompressed_types = [6, 7]
-        is_uncompressed = self.texture_type in uncompressed_types
-        #technique_name = "uncompressed" if is_uncompressed else "compressed"
-        #print(f"self.tex_type is {self.texture_type}. Loading with {technique_name} technique.")
+        # No textures to load. This may be the case when are colored without a texture.
+        # Fix copied from https://github.com/Adubbz/mymcplusplus/commit/b7291e691de4badf7d1ff1b6a9a6491781f26121
+        if offset == length:
+            self.texture = [0xFFFF] * _TEXTURE_SIZE # An all white texture
+            return offset
 
-        if is_uncompressed:
-            return self.__load_texture_uncompressed(data, length, offset)
-        else:
+        compressed_types = [12, 14, 15] # From Ross' ps2icon.c.
+        is_compressed = self.texture_type in compressed_types
+
+        if is_compressed:
+            print(f"texture_type is {self.texture_type} loading as compressed.")
             return self.__load_texture_compressed(data, length, offset)
+        else:
+            print(f"texture_type is {self.texture_type} loading as uncompressed.")
+            return self.__load_texture_uncompressed(data, length, offset)
 
 
     def __load_texture_uncompressed(self, data, length, offset):
