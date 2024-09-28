@@ -27,6 +27,9 @@ import sys
 import struct
 import io
 import traceback
+
+from mymcplus.gui.about_dialog import AboutDialog
+from mymcplus.gui.version_history_dialog import VersionHistoryDialog
 from .. import iconexport
 
 # Work around a problem with mixing wx and py2exe
@@ -98,6 +101,9 @@ class GuiFrame(wx.Frame):
     ID_CMD_EXPORT_ICONS = 107
     ID_CMD_OPEN_EXPORT_ASSETS_FOLDER = 108
 
+    ID_HELP_ABOUT = 300
+    ID_HELP_VERSION_HISTORY = 301
+
     def message_box(self, message, caption = "mymcplus", style = wx.OK,
             x = -1, y = -1):
         return wx.MessageBox(message, caption, style, self, x, y)
@@ -149,6 +155,9 @@ class GuiFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.evt_cmd_delete, id=self.ID_CMD_DELETE)
         self.Bind(wx.EVT_MENU, self.evt_cmd_ascii, id=self.ID_CMD_ASCII)
 
+        self.Bind(wx.EVT_MENU, self.evt_help_about, id=self.ID_HELP_ABOUT)
+        self.Bind(wx.EVT_MENU, self.evt_help_version_history, id=self.ID_HELP_VERSION_HISTORY)
+
         filemenu = wx.Menu()
         filemenu.Append(self.ID_CMD_NEW, "&New...\tCTRL+N", "Create a new PS2 memory card image.")
         filemenu.Append(self.ID_CMD_OPEN, "&Open...\tCTRL+O", "Opens an existing PS2 memory card image.")
@@ -165,6 +174,9 @@ class GuiFrame(wx.Frame):
         optionmenu = wx.Menu()
         self.ascii_menu_item = optionmenu.AppendCheckItem(self.ID_CMD_ASCII, "&ASCII Descriptions", "Show descriptions in ASCII instead of Shift-JIS")
 
+        helpmenu = wx.Menu()
+        helpmenu.Append(self.ID_HELP_ABOUT, "About", "View information about MYMC++")
+        helpmenu.Append(self.ID_HELP_VERSION_HISTORY, "Version History", "View change notes for the current & previous versions")
 
         self.Bind(wx.EVT_MENU_OPEN, self.evt_menu_open)
 
@@ -244,6 +256,7 @@ class GuiFrame(wx.Frame):
         menubar = wx.MenuBar()
         menubar.Append(filemenu, "&File")
         menubar.Append(optionmenu, "&Options")
+        menubar.Append(helpmenu, "Help")
         self.SetMenuBar(menubar)
 
         self.Show(True)
@@ -568,6 +581,16 @@ class GuiFrame(wx.Frame):
     def evt_cmd_ascii(self, event):
         self.config.set_ascii(not self.config.get_ascii())
         self.refresh()
+
+    def evt_help_about(self, event):
+        dialog = AboutDialog(self)
+        dialog.ShowModal()
+        dialog.Destroy()
+
+    def evt_help_version_history(self, event):
+        dialog = VersionHistoryDialog(self)
+        dialog.ShowModal()
+        dialog.Destroy()
 
     def evt_cmd_export_icons(self, event):
         dialog = wx.TextEntryDialog(self, "Enter name for new folder for icons to be extracted to:", "MYMC++")
