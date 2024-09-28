@@ -3,6 +3,8 @@
 # Temporary files are stored in the "build" folder.
 # A single executable file will be created in the "dist" folder.
 
+# Install UPX with `scoop install main/upx` and pyinstller will use it for compression; ~43mb down to 29.
+
 pyinstaller \
     --noconsole \
     --onefile \
