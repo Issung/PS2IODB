@@ -4469,9 +4469,8 @@ export const IconList: Icon[] = GameList
     .flatMap(g => g.icons);
 
 export const UniqueIconsCount: number = IconList
-    .map(i => i.variantCount)
-    .filter(c => c != undefined)
-    .reduce((prevValue, value) => prevValue + (value ?? 0));
+    .map(i => i.variantCount ?? 0)
+    .reduce((prevValue, value) => prevValue + value, 0);
 
 // Populate index for each game & icon after the collection is initialised.
 GameList.forEach((game, gameIndex) => {
