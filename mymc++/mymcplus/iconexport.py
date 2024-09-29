@@ -39,8 +39,10 @@ def export_variant(path: str, icon_filename: str, icon: Icon):
     # Write OBJ
     with open(f"{full_path_without_extension}.obj", 'w') as obj:
         obj.write("# OBJ file\n")
-        # Output 'mtllib' row (which material library to load materials from)
+
+        # Output 'mtllib' row (which material library to load materials from).
         obj.write(f"mtllib {icon_filename}.mtl\n")
+
         # Output 'v' rows (vertices positions).
         for vertex_index in range(icon.vertex_count):
             vertex_x = -icon.vertex_data[vertex_index * 3] / MAX_CONST
@@ -51,19 +53,23 @@ def export_variant(path: str, icon_filename: str, icon: Icon):
             vertex_b = icon.color_data[vertex_index * 4 + 2] / 255
             vertex_a = icon.color_data[vertex_index * 4 + 3] / 255
             obj.write(f"v {vertex_x:.6f} {vertex_y:.6f} {vertex_z:.6f} {vertex_r:.6f} {vertex_g:.6f} {vertex_b:.6f} #{vertex_a:.6f}\n")
+
         # Output 'vt' rows (UV mappings)
         for uv_index in range(icon.vertex_count):
             u = round(icon.uv_data[uv_index * 2] / MAX_CONST, 6)
             v = round(icon.uv_data[uv_index * 2 + 1] / MAX_CONST, 6)
             obj.write(f"vt {u:.6f} {v:.6f} 0.000000\n")
+
         # Output 'vn' rows (vertex normals)
         for normal_index in range(icon.vertex_count):
             normal_x = icon.vertex_normals[normal_index * 3] / MAX_CONST
             normal_y = icon.vertex_normals[normal_index * 3 + 1] / MAX_CONST
             normal_z = icon.vertex_normals[normal_index * 3 + 2] / MAX_CONST
             obj.write(f"vn {normal_x:.6f} {normal_y:.6f} {normal_z:.6f}\n")
+
         # Output 'usemtl' row (which material to use for the following faces)
         obj.write("usemtl Texture\n")
+
         # Output 'f' rows (faces connected to which vertices).
         for face_index in range(int(icon.vertex_count / 3)):
             v1 = face_index * 3 + 1
