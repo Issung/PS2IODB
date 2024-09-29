@@ -1,0 +1,18 @@
+{
+    "title":"ICO",
+    "normal":"boy_blk.ico",
+    "copy":"boy_blk.ico",
+    "delete":"boy_blk.ico",
+    "bgOpacity":128,
+    "bgColTL":"#0d4993",
+    "bgColTR":"#0d4993",
+    "bgColBL":"#0d4993",
+    "bgColBR":"#0d4993",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.0, 0.0, 0.0, 0.0]
+}
