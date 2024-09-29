@@ -32,7 +32,7 @@ const Contribute: React.FC = () => {
                                 <h4>Download MYMC++</h4>
                             </a>
                             <p>You will need a copy of the MYMC++ program to extract save icon assets, download links below:</p>
-                            <b>Latest:</b> <Link to="https://www.dropbox.com/scl/fi/b5wjdzy7vw1k69ttlbx9v/MYMC-v0.1.1.exe">Version 0.1.1</Link>
+                            <b>Latest:</b> <Link to="https://www.dropbox.com/scl/fi/b5wjdzy7vw1k69ttlbx9v/MYMC-v0.1.1.exe?rlkey=4a3ir8l186es8dk2peak8i3uq&st=dxr97pmg&dl=0">Version 0.1.1</Link>
                             <details>
                                 <summary>Previous Versions</summary>
                                 <p>
@@ -40,7 +40,7 @@ const Contribute: React.FC = () => {
                                     Please report regressions via GitHub or in Discord.
                                 </p>
                                 <ul>
-                                    <li><Link to="https://www.dropbox.com/scl/fi/9zfev62q74r1bcb3za72q/MYMC-v0.1.exe">Version 0.1</Link></li>
+                                    <li><Link to="https://www.dropbox.com/scl/fi/9zfev62q74r1bcb3za72q/MYMC-v0.1.exe?rlkey=y4g21uvrrwtcwnu15rr343b29&st=y5rbbps7&dl=0">Version 0.1</Link></li>
                                 </ul>
                             </details>
 
