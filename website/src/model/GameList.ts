@@ -1113,7 +1113,7 @@ export const GameList: Game[] = [
     new Game(`The Flintstones: Bedrock Racing`),
     new Game(`Flipnic: Ultimate Pinball`, `flipnic`, 1, Contributors.ItzCookieX),
     new Game(`Flow: Urban Dance Uprising`),
-    new Game(`Flower, Sun, and Rain`),
+    new Game(`Flower, Sun, and Rain`, `flowersunandrain`, 1, Contributors.TravisTouchdown),
     new Game(`Football Generation`),
     new Game(`Football Kingdom: Trial Edition`),
     new Game(`For Symphony: With All One's Heart`),
