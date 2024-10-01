@@ -3533,7 +3533,7 @@ export const GameList: Game[] = [
     ]),
     new Game(`Siren`, `siren`, 1, Contributors.ItzCookieX),
     new Game(`Siren 2`, `siren2`, 1, Contributors.ItzCookieX),
-    new Game(`Sitting Ducks`),
+    new Game(`Sitting Ducks`, `sittingducks`, 1, Contributors.Zeroman95),
     new Game(`Skate Attack`),
     new Game(`Skateboard Madness Xtreme Edition`),
     new Game(`Ski Alpin 2005`),
