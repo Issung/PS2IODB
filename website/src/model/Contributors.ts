@@ -19,6 +19,7 @@ export class Contributors {
     public static NBForever = new Contributor('N & B Forever'); // Uploaded by Squeezed Dog
     public static DrinkMoreWater = new Contributor('Drink More Water!'); // Uploaded by Squeezed Dog
     public static Ps2RomsFree = new Contributor('ps2romsfree', 'https://www.youtube.com/@BamhurgeVidNZuffs');
+    public static Sharpyroos = new Contributor('Sharpyroos'); // Uploaded by Squeezed Dog
 }
 
 export const ContributorCount = Object.values(Contributors).length;
