@@ -1,0 +1,18 @@
+{
+    "title":"MotoGP3 FILE1",
+    "normal":"motogp.ico",
+    "copy":"motogp.ico",
+    "delete":"motogp.ico",
+    "bgOpacity":120,
+    "bgColTL":"#000000",
+    "bgColTR":"#808080",
+    "bgColBL":"#000000",
+    "bgColBR":"#808080",
+    "light1Dir":[0.0, 0.0, -1.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 1.0],
+    "light2Col":[0.5, 0.5, 0.5, 1.0],
+    "light3Col":[0.5, 0.5, 0.5, 1.0],
+    "ambiLightCol":[9.999999747378752e-05, 9.999999747378752e-05, 9.999999747378752e-05, 0.0]
+}

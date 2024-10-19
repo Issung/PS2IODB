@@ -1,0 +1,18 @@
+{
+    "title":"SD Night of 100 Frights",
+    "normal":"ScoobyIcon01.ico",
+    "copy":"ScoobyIcon02.ico",
+    "delete":"ScoobyIcon03.ico",
+    "bgOpacity":64,
+    "bgColTL":"#003a4e",
+    "bgColTR":"#003a4e",
+    "bgColBL":"#001b25",
+    "bgColBR":"#001b25",
+    "light1Dir":[0.0, 0.0, -2.0, 0.0],
+    "light2Dir":[-2.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 2.0, 0.0, 0.0],
+    "light1Col":[0.30000001192092896, 0.30000001192092896, 0.5, 0.0],
+    "light2Col":[0.30000001192092896, 0.30000001192092896, 0.5, 0.0],
+    "light3Col":[0.30000001192092896, 0.30000001192092896, 0.5, 0.0],
+    "ambiLightCol":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0]
+}
