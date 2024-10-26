@@ -1,4 +1,17 @@
 #Contribute {
+    a {
+        &:not(.btn) {
+            color: #6a83ff;
+        }
+
+        &:has(h1), &:has(h2), &:has(h3), &:has(h4), &:has(h5), &:has(h6) {
+            text-decoration: none;
+            * {
+                color: white;
+            }
+        }
+    }
+
     a.btn {
         background-color: rgba(255, 255, 255, 0.116);
         margin: 1rem 1rem 0 0;

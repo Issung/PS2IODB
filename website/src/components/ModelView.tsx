@@ -11,6 +11,7 @@ interface ModelViewProps {
 
     // Properties that don't require any networking.
     animate: boolean;
+    animationSpeed: number;
     frame: number;
     grid: boolean;
     meshType: MeshType;
@@ -22,7 +23,7 @@ interface ModelViewProps {
 
 const renderer = new ModelRendererImpl();
 
-const ModelView: React.FC<ModelViewProps> = ({ iconcode, variant, textureType, animate, frame, grid, meshType, backgroundColor, callback }) => {
+const ModelView: React.FC<ModelViewProps> = ({ iconcode, variant, textureType, animate, animationSpeed, frame, grid, meshType, backgroundColor, callback }) => {
     useEffect(() => {
         renderer.init();
         return renderer.dispose;
@@ -40,12 +41,13 @@ const ModelView: React.FC<ModelViewProps> = ({ iconcode, variant, textureType, a
     useEffect(() => {
         if (renderer) {
             renderer.prop_animate = animate;
+            renderer.prop_animationSpeed = animationSpeed;
             renderer.prop_frame = frame;
             renderer.prop_grid = grid;
             renderer.prop_meshType = meshType;
             renderer.prop_backgroundColor = backgroundColor;
         }
-    }, [animate, frame, grid, meshType, backgroundColor])
+    }, [animate, animationSpeed, frame, grid, meshType, backgroundColor])
 
     return(
         <canvas id="iconRenderCanvas" />

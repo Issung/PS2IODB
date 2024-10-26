@@ -17,15 +17,13 @@
 
 """Graphical user-interface for mymc+."""
 
-import array
-from functools import reduce
-import json
 import os
 import platform
 import subprocess
 import sys
-import struct
-import io
+import traceback
+from mymcplus.gui.about_dialog import AboutDialog
+from mymcplus.gui.version_history_dialog import VersionHistoryDialog
 from .. import iconexport
 
 # Work around a problem with mixing wx and py2exe
@@ -33,13 +31,12 @@ if os.name == "nt" and hasattr(sys, "setdefaultencoding"):
     sys.setdefaultencoding("mbcs")
 import wx
 
-from .. import ps2mc, ps2iconsys
+from .. import ps2mc
 from ..save import ps2save
 from .icon_window import IconWindow
 from .dirlist_control import DirListControl
 from .savefiledroptarget import SaveFileDropTarget
 from . import utils
-from PIL import Image
 
 class GuiConfig(wx.Config):
     """A class for holding the persistant configuration state."""
@@ -97,6 +94,9 @@ class GuiFrame(wx.Frame):
     ID_CMD_EXPORT_ICONS = 107
     ID_CMD_OPEN_EXPORT_ASSETS_FOLDER = 108
 
+    ID_HELP_ABOUT = 300
+    ID_HELP_VERSION_HISTORY = 301
+
     def message_box(self, message, caption = "mymcplus", style = wx.OK,
             x = -1, y = -1):
         return wx.MessageBox(message, caption, style, self, x, y)
@@ -148,6 +148,9 @@ class GuiFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.evt_cmd_delete, id=self.ID_CMD_DELETE)
         self.Bind(wx.EVT_MENU, self.evt_cmd_ascii, id=self.ID_CMD_ASCII)
 
+        self.Bind(wx.EVT_MENU, self.evt_help_about, id=self.ID_HELP_ABOUT)
+        self.Bind(wx.EVT_MENU, self.evt_help_version_history, id=self.ID_HELP_VERSION_HISTORY)
+
         filemenu = wx.Menu()
         filemenu.Append(self.ID_CMD_NEW, "&New...\tCTRL+N", "Create a new PS2 memory card image.")
         filemenu.Append(self.ID_CMD_OPEN, "&Open...\tCTRL+O", "Opens an existing PS2 memory card image.")
@@ -164,6 +167,9 @@ class GuiFrame(wx.Frame):
         optionmenu = wx.Menu()
         self.ascii_menu_item = optionmenu.AppendCheckItem(self.ID_CMD_ASCII, "&ASCII Descriptions", "Show descriptions in ASCII instead of Shift-JIS")
 
+        helpmenu = wx.Menu()
+        helpmenu.Append(self.ID_HELP_ABOUT, "About", "View information about MYMC++")
+        helpmenu.Append(self.ID_HELP_VERSION_HISTORY, "Version History", "View change notes for the current & previous versions")
 
         self.Bind(wx.EVT_MENU_OPEN, self.evt_menu_open)
 
@@ -243,6 +249,7 @@ class GuiFrame(wx.Frame):
         menubar = wx.MenuBar()
         menubar.Append(filemenu, "&File")
         menubar.Append(optionmenu, "&Options")
+        menubar.Append(helpmenu, "Help")
         self.SetMenuBar(menubar)
 
         self.Show(True)
@@ -341,7 +348,6 @@ class GuiFrame(wx.Frame):
         self.icon_win.load_icon(icon_sys, icon_data_normal, icon_data_copy, icon_data_delete)
 
     def load_icon_data(self, entry, icon_sys, type):
-        """Issun was here"""
         if type == "normal":
             icon_name = icon_sys.icon_file_normal
         elif type == "copy":
@@ -568,6 +574,16 @@ class GuiFrame(wx.Frame):
         self.config.set_ascii(not self.config.get_ascii())
         self.refresh()
 
+    def evt_help_about(self, event):
+        dialog = AboutDialog(self)
+        dialog.ShowModal()
+        dialog.Destroy()
+
+    def evt_help_version_history(self, event):
+        dialog = VersionHistoryDialog(self)
+        dialog.ShowModal()
+        dialog.Destroy()
+
     def evt_cmd_export_icons(self, event):
         dialog = wx.TextEntryDialog(self, "Enter name for new folder for icons to be extracted to:", "MYMC++")
         if dialog.ShowModal() != wx.ID_OK:
@@ -591,7 +607,7 @@ class GuiFrame(wx.Frame):
         except Exception as e:
             dialog = wx.MessageDialog(
                 self, 
-                f"An error occured trying to export icons.\n\n'{str(e)}'\n\nPlease consider opening an issue on GitHub with the memory card file attached.", 
+                f"An error occured trying to export icons.\n\n'{str(e)}'\n\n{traceback.format_exc()}Please consider opening an issue on GitHub with the memory card file attached.", 
                 "Icon Export Error", 
                 wx.OK | wx.ICON_ERROR)
             dialog.ShowModal()
@@ -639,7 +655,7 @@ def run(filename = None):
     """Display a GUI for working with memory card images."""
 
     wx_app = wx.App()
-    frame = GuiFrame(None, "mymc+", filename)
+    frame = GuiFrame(None, "mymc++", filename)
     return wx_app.MainLoop()
 
 if __name__ == "__main__":

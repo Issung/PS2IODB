@@ -42,6 +42,7 @@ const Icon: React.FC = () => {
     const [imageRotationDegrees, setImageRotationDegrees] = useState(0);
     const [imageFlip, setImageFlip] = useState(false);
 
+    const [animationSpeed, setAnimationSpeed] = useState(1);
     const [doAnimation, setDoAnimation] = useState(true);
     const [frame, setFrame] = useState(0);
     const [grid, setGrid] = useState(true);
@@ -238,6 +239,7 @@ const Icon: React.FC = () => {
                 iconcode={iconcode} 
                 variant={variant} 
                 animate={doAnimation}
+                animationSpeed={animationSpeed}
                 frame={frame} 
                 grid={grid} 
                 textureType={textureType} 
@@ -258,10 +260,21 @@ const Icon: React.FC = () => {
                                     </label>
                                 </li>
                             }
+                            {frameCount > 0 && doAnimation &&
+                                <li>
+                                    <label>
+                                        <span onClick={() => setAnimationSpeed(1)} title="Animation playback speed multiplier. Click label to reset to 1x.">
+                                            Speed
+                                        </span>
+                                        <output style={{marginLeft: '5px', minWidth: 50}}>({animationSpeed}x)</output>
+                                        <input type="range" min="0.01" max="5" step="0.01" value={animationSpeed} onChange={e => setAnimationSpeed(parseFloat(e.target.value))}/>
+                                    </label>
+                                </li>
+                            }
                             {frameCount > 0 && !doAnimation &&
                                 <li>
                                     <label>Frame
-                                        <output style={{marginLeft: '5px'}}>{frame + 1}/{frameCount}</output>
+                                        <output style={{marginLeft: '5px', minWidth: 25}}>{frame + 1}/{frameCount}</output>
                                         <input type="range" min={0} max={frameCount - 1} value={frame} onChange={e => setFrame(parseInt(e.target.value))}/>
                                     </label>
                                 </li>

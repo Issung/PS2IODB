@@ -1,10 +1,10 @@
-import * as THREE from "three";
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
-import Stats from 'stats.js';
 import { AnimationData } from "../model/AnimationData";
-import { TexturedOBJLoader } from "./TexturedOBJLoader";
 import { MeshType, TextureType } from "./ModelViewParams";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { TexturedOBJLoader } from "./TexturedOBJLoader";
+import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
+import * as THREE from "three";
+import Stats from 'stats.js';
 
 /**
  * Callback function for the model renderer report back regarding loaded icon data, e.g. number of frames.
@@ -20,6 +20,7 @@ export type IconInfoCallback = (frameCount: number, textureName: string | undefi
 export class ModelRendererImpl {
     // Display properties here, defaults will be overriden by Icon.tsx.
     public prop_animate: boolean = true;
+    public prop_animationSpeed: number = 1;
     public prop_frame: number = 0; // Which frame to display, if there is animation data and prop_animate is false.
     public prop_grid: boolean = true;
     public prop_textureType: TextureType = TextureType.Icon;
@@ -259,7 +260,13 @@ export class ModelRendererImpl {
                 if (child instanceof THREE.Mesh) {
                     this.mesh = child;
                     this.geometry = child.geometry;
-                    child.material.wireframe = true;
+
+                    // If the geometry has vertex color data enable display of them.
+                    // If we enable without the data the model will appear black.
+                    // Old contributions made with the first version of mymc++ have no vertex color data.
+                    if (this.geometry!.attributes.color) {
+                        this.mesh.material.vertexColors = true;
+                    }
                 }
             });
 
@@ -336,12 +343,13 @@ export class ModelRendererImpl {
             this.mesh.visible = this.prop_meshType !== MeshType.Normals;
         }
 
-        let elapsedTime = this.clock.getElapsedTime();
+        // TODO: There's better ways to do this animationSpeed alteration, but that can come with the keyframing refactor eventually.
+        let elapsedTime = this.clock.getElapsedTime() * this.prop_animationSpeed;
         if (this.animData && this.geometry) {
             let animationTotalFrames = this.animData.frames.length;
             let secondsForWholeAnimation = ModelRendererImpl.secondsPerAnimationFrame * animationTotalFrames;
             let animationFrame = !this.prop_animate ? this.clamp(this.prop_frame, 0, animationTotalFrames) : Math.floor((elapsedTime % secondsForWholeAnimation) / ModelRendererImpl.secondsPerAnimationFrame);
-            console.log(`animationFrame: ${animationFrame}`);
+            //console.log(`animationFrame: ${animationFrame}`);
 
             // Modify the positions of each vertex.
             const positionAttribute = this.geometry.attributes.position;

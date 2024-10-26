@@ -73,6 +73,6 @@ class IconSysDto:
             cls = CustomJSONEncoder # Custom encoder for single line lists.
         )
         # Replace single line lists wrapping delimiters.
-        output = output.replace('"##<', "").replace('>##"', "").replace("'", '"')
+        output = output.replace('"##<', "").replace('>##"', "")
         return output
 
