@@ -12,7 +12,6 @@ type GameTableProps = {
 const GameTable: React.FC<GameTableProps> = ({ games }: GameTableProps) => {
     return (
         <div id="GameTable">
-            <h4 style={{ textAlign: 'left' }}>{games.length === 0 ? 'No Results.' : `${games.length} Results`}</h4>
             <table>
                 <tbody>
                     {games.map(game => {

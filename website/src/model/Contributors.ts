@@ -1,6 +1,10 @@
 import { Contributor } from "./Contributor";
 
 export class Contributors {
+    public static GetContributorByName(name: string | undefined): Contributor | undefined {
+        return Object.values(Contributors).find(c => c.name == name) as Contributor;
+    }
+
     public static Issung = new Contributor('Issung', 'https://x.com/IssunGee');
     public static Rikineko = new Contributor('rikineko');
     public static NateTool = new Contributor('Nathan Tool', 'https://www.reddit.com/u/NateTool/');

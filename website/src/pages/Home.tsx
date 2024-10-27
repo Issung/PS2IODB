@@ -2,7 +2,7 @@ import './Home.scss';
 import { Category, FilterSelectCategory } from '../components/FilterSelectCategory';
 import { ContributorCount } from '../model/Contributors';
 import { FilterSelectAlphabetical } from '../components/FilterSelectAlphabetical';
-import { FilterSelectContributor } from '../components/FilterSelectContributor';
+import { ContributorList } from '../components/ContributorList';
 import { FilterTypeSelect, FilterType } from '../components/FilterTypeSelect';
 import { IconList, UniqueIconsCount } from '../model/GameList';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -11,6 +11,7 @@ import Counter from "../components/Counter";
 import DebouncedTextBox from '../components/DebouncedTextBox';
 import Footer from "../components/Footer";
 import SearchResults from "../components/SearchResults";
+import { IconCaretLeft } from '@tabler/icons-react';
 
 const exampleSearches = [
     "Final Fantasy",
@@ -110,7 +111,7 @@ const Home: React.FC = () => {
                     <hr />
                     {filterType === "alphabetical" && <FilterSelectAlphabetical filter={filter}/> }
                     {(filterType ?? "category") === "category" && <FilterSelectCategory category={filter as Category}/> }
-                    {filterType == FilterType.contributor && <FilterSelectContributor contributor={filter} />}
+                    {filterType == FilterType.contributor && !filter && <ContributorList />}
                     {filterType === 'search' && (
                         <div className="row">
                             <div className="col col-md-6 col-lg-4">
@@ -123,6 +124,7 @@ const Home: React.FC = () => {
                             </div>
                         </div>
                     )}
+                    {filterType == FilterType.contributor && filter && <><Link to="/browse/contributor" style={{color: 'white', textDecoration: 'none'}}><IconCaretLeft/>Contributors</Link><br/><br/></>}
                     <SearchResults filterType={filterType as FilterType} filter={filter} />
                 </div>
             </div>

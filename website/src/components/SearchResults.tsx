@@ -6,6 +6,7 @@ import SearchKeywordChunker from '../model/SearchKeywordChunker';
 import { FilterType, FilterTypeDefault } from './FilterTypeSelect';
 import { Category } from './FilterSelectCategory';
 import { Contributors } from '../model/Contributors';
+import { Link } from 'react-router-dom';
 
 type SearchResultsProps = {
     filterType: FilterType | undefined;
@@ -121,7 +122,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
 
     const filterByContributor = useCallback(() => 
     {
-        let contributor = Object.values(Contributors).find(c => c.name == filter);
+        let contributor = Contributors.GetContributorByName(filter);
 
         if (contributor) {
             let games = GameList.filter(g => g.icons.some(i => i.contributor == contributor));
@@ -155,9 +156,31 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
         return array.indexOf(value) === index;
     }
 
-    return (
+    function contributorNameOrLink() : string | JSX.Element {
+        let contributor = Contributors.GetContributorByName(filter);
+
+        if (contributor) {
+            if (contributor.link) {
+                return <Link to={contributor.link}>{contributor.name}</Link>
+            }
+            else {
+                return contributor.name;
+            }
+        }
+        else {
+            return 'Unknown';
+        }
+    }
+
+    return <>
+        <h4 style={{ textAlign: 'left' }}>
+            {filterType == FilterType.contributor
+                ? <>{`${games.length} titles with icons contributed by `}{contributorNameOrLink()}</>
+                : (games.length === 0 ? 'No Results.' : `${games.length} Results`)
+            }
+        </h4>
         <GameTable games={games} />
-    );
+    </>
 }
 
 export default SearchResults;
