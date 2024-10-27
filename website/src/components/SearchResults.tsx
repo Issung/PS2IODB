@@ -161,7 +161,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
 
         if (contributor) {
             if (contributor.link) {
-                return <Link to={contributor.link}>{contributor.name}</Link>
+                return <Link to={contributor.link} target="_blank">{contributor.name}</Link>
             }
             else {
                 return contributor.name;

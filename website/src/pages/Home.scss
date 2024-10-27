@@ -141,4 +141,29 @@
     #progress-paragraph {
         text-align: center;
     }
+
+    #back-to-contributors {
+        color: white;
+        text-decoration: none;
+        margin-bottom: 1em;
+        display: block;
+        border-radius: 10px;
+        padding: 5px;
+        padding-right: 13px;
+
+        svg {
+            padding-bottom: 3px;
+        }
+
+        p {
+            display: contents;
+            padding-top: 50px;
+        }
+
+        &:hover {
+            //text-decoration: underline;
+            background-color: rgba(255, 255, 255, 0.06);
+            width: fit-content;
+        }
+    }
 }

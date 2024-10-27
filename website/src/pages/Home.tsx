@@ -124,8 +124,8 @@ const Home: React.FC = () => {
                             </div>
                         </div>
                     )}
-                    {filterType == FilterType.contributor && filter && <><Link to="/browse/contributor" style={{color: 'white', textDecoration: 'none'}}><IconCaretLeft/>Contributors</Link><br/><br/></>}
-                    <SearchResults filterType={filterType as FilterType} filter={filter} />
+                    {filterType == FilterType.contributor && filter && <Link id="back-to-contributors" to="/browse/contributor"><IconCaretLeft/><p>Contributors</p></Link>}
+                    {(filterType != FilterType.contributor || filter) && <SearchResults filterType={filterType as FilterType} filter={filter} />}
                 </div>
             </div>
             <Footer />

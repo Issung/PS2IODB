@@ -1,4 +1,11 @@
 #ContributorList {
+    padding-top: 0 !important;
+
+    * {
+        text-decoration: none;
+        font-size: 1.3rem;
+    };
+
     h1 {
         font-size: 48px;
     }
@@ -13,5 +20,42 @@
 
     h1, h2, h3, h4, h5, h6 {
         text-align: left;
+    }
+
+    div.row.contributor {
+        padding: 5px;
+        border-radius: 10px;
+        margin-bottom: 0.5em;
+
+        &.top3 {
+            border: 2px solid #0b5cd4;
+
+            &.pos1 {
+                background-color: #0b5cd4;
+                
+                &:hover {
+                    background-color: #084db4;
+                }
+            }
+
+            &.pos3 {
+                border-color: white;
+            }
+        }
+
+        div.placement {
+            svg {
+                margin-bottom: 5px;
+            }
+        }
+        
+        div {
+            text-align: center;
+            align-content: center;
+        }
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.039);
+        }
     }
 }

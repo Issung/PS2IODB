@@ -1,8 +1,11 @@
-import { Link } from 'react-router-dom';
+import './ContributorList.scss'
+import { Contributor } from '../model/Contributor';
 import { Contributors } from '../model/Contributors';
 import { IconList } from '../model/GameList';
-import { Contributor } from '../model/Contributor';
-import './ContributorList.scss'
+import { IconTrophyFilled } from '@tabler/icons-react';
+import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Utils } from '../utils/Utils';
 
 export const AlphabeticalFilterDefault = 'misc';
 
@@ -21,23 +24,46 @@ const contributorData = Object
     })
     .sort((c1, c2) => c2.gameCount - c1.gameCount);
 
-const ContributorListItem = ({data} : {data: ContributorData}) => {
-    return <Link to={`/browse/contributor/${data.contributor.name}`} title={`View ${data.gameCount} titles contributed by ${data.contributor.name}.`}>
-        [{data.gameCount}] {data.contributor.name}
-    </Link>;
+const ContributorListItem = ({position, data} : {position: number, data: ContributorData}) => {
+    const posStyle = useMemo(() => position <= 3 ? `pos${position}` : undefined, [position]);   // pos${x} if top 3.
+
+    return (
+        <Link
+            to={`/browse/contributor/${data.contributor.name}`}
+            title={`View ${data.gameCount} titles with icons contributed by ${data.contributor.name}`}
+        >
+            <div className={`row contributor ${posStyle && 'top3'} ${posStyle}`}>
+                <div className="col-2 placement">
+                    {position == 1 ? <IconTrophyFilled/> : Utils.ordinalSuffixOf(position)}
+                </div>
+                <div className="col-8">
+                    {data.contributor.name}
+                </div>
+                <div className="col-2">
+                    {data.gameCount}
+                </div>
+            </div>
+        </Link>
+    );
 }
 
 export const ContributorList = () => {
-    return <div id="ContributorList">
-        <h1 style={{fontSize: 50}}>Contributors</h1>
-        <h1><ContributorListItem data={contributorData[0]}/></h1>
-        <h2><ContributorListItem data={contributorData[1]}/></h2>
-        <h3><ContributorListItem data={contributorData[2]}/></h3>
-        {contributorData.slice(3).map(c => 
-            <h4>
-                <ContributorListItem data={c}/>
-            </h4>
-        )}
-    </div>
+    return <>
+        <div className="row">
+            <h1 style={{fontSize: 50, textAlign: 'left'}}>Contributors</h1>
+        </div>
+        <div id="ContributorList" className="row">
+            <div className="col-md-9 col-lg-7 col-xl-5 px-4">
+                <div className="row">
+                    <ContributorListItem position={1} data={contributorData[0]} />
+                    <ContributorListItem position={2} data={contributorData[1]} />
+                    <ContributorListItem position={3} data={contributorData[2]} />
+                    {contributorData.slice(3).map((d, index) => 
+                        <ContributorListItem position={4 + index} data={d}/>
+                    )}
+                </div>
+            </div>
+        </div>
+    </>
 };
 
