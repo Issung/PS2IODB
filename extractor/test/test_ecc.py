@@ -16,7 +16,7 @@
 #
 
 import array
-from mymcplus import ps2mc_ecc
+from ps2iodbextractor import ps2mc_ecc
 import base64
 
 

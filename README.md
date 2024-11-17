@@ -5,9 +5,9 @@ Welcome to the official repository for PS2IODB, or more fully, the PlayStation 2
 2. Provide a website for the community to contribute icon assets to, in order to fully archive all assets.
 
 ## Icon Extraction Tool
-The first goal is attained by mymc++, a CLI/GUI Python tool that allows for manipulation of memory cards, importing and exporting saves, and extracting icon assets.
+The first goal is attained by PS2IODB Extractor, a CLI/GUI Python tool that allows for manipulation of memory cards, importing and exporting saves, and extracting icon assets.
 
-To learn more about the tool, how it works and how to improve it see [/mymc++/README.md](mymc++/README.md).
+To learn more about the tool, how it works and how to improve it see [/extractor/README.md](extractor/README.md).
 
 ## Open Database Website
 To achieve the second goal a React site has been built, which has a list of all PlayStation 2 titles, allows for browsing of them all, provides guides on how to contribute, and allows for interactive viewing of all assets directly in the browser.

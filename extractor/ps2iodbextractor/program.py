@@ -23,7 +23,7 @@ import optparse
 import textwrap
 from errno import EEXIST, EIO
 
-from mymcplus.utils import zero_terminate
+from ps2iodbextractor.utils import zero_terminate
 
 from . import ps2mc
 from .save import ps2save

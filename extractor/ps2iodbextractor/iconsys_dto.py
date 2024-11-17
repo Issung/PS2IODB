@@ -1,7 +1,7 @@
 import json
-from mymcplus import iconexport
-from mymcplus.jsonencoding import CustomJSONEncoder, SingleLineList
-from mymcplus.ps2iconsys import IconSys
+from ps2iodbextractor import iconexport
+from ps2iodbextractor.jsonencoding import CustomJSONEncoder, SingleLineList
+from ps2iodbextractor.ps2iconsys import IconSys
 
 class IconSysDto:
     """IconSys DTO class for exporting icon assets.

@@ -22,8 +22,8 @@ import platform
 import subprocess
 import sys
 import traceback
-from mymcplus.gui.about_dialog import AboutDialog
-from mymcplus.gui.version_history_dialog import VersionHistoryDialog
+from ps2iodbextractor.gui.about_dialog import AboutDialog
+from ps2iodbextractor.gui.version_history_dialog import VersionHistoryDialog
 from .. import iconexport
 
 # Work around a problem with mixing wx and py2exe
@@ -168,7 +168,7 @@ class GuiFrame(wx.Frame):
         self.ascii_menu_item = optionmenu.AppendCheckItem(self.ID_CMD_ASCII, "&ASCII Descriptions", "Show descriptions in ASCII instead of Shift-JIS")
 
         helpmenu = wx.Menu()
-        helpmenu.Append(self.ID_HELP_ABOUT, "About", "View information about MYMC++")
+        helpmenu.Append(self.ID_HELP_ABOUT, "About", "View information about PS2IODB Extractor")
         helpmenu.Append(self.ID_HELP_VERSION_HISTORY, "Version History", "View change notes for the current & previous versions")
 
         self.Bind(wx.EVT_MENU_OPEN, self.evt_menu_open)
@@ -585,7 +585,7 @@ class GuiFrame(wx.Frame):
         dialog.Destroy()
 
     def evt_cmd_export_icons(self, event):
-        dialog = wx.TextEntryDialog(self, "Enter name for new folder for icons to be extracted to:", "MYMC++")
+        dialog = wx.TextEntryDialog(self, "Enter name for new folder for icons to be extracted to:", "PS2IODB Extractor")
         if dialog.ShowModal() != wx.ID_OK:
             return
         entered_text = dialog.GetValue()
@@ -637,7 +637,7 @@ class GuiFrame(wx.Frame):
                 self.open_mc(path)
             else:
                 # If there is a memory card currently open confirm the action before loading.
-                confirm_dialog = wx.MessageDialog(self, f"Do you want to close this memory card and open '{path}'?", "MYMC++", wx.YES_NO | wx.ICON_QUESTION)
+                confirm_dialog = wx.MessageDialog(self, f"Do you want to close this memory card and open '{path}'?", "PS2IODB Extractor", wx.YES_NO | wx.ICON_QUESTION)
                 confirm = confirm_dialog.ShowModal()
                 confirm_dialog.Destroy()
                 if (confirm == wx.ID_YES):
@@ -655,7 +655,7 @@ def run(filename = None):
     """Display a GUI for working with memory card images."""
 
     wx_app = wx.App()
-    frame = GuiFrame(None, "mymc++", filename)
+    frame = GuiFrame(None, "PS2IODB Extractor", filename)
     return wx_app.MainLoop()
 
 if __name__ == "__main__":
