@@ -1,0 +1,18 @@
+{
+    "title":"Haunted Mansion  1",
+    "normal":"mansion.ico",
+    "copy":"mansion.ico",
+    "delete":"mansion.ico",
+    "bgOpacity":50,
+    "bgColTL":"#7f1326",
+    "bgColTR":"#7f5a2b",
+    "bgColBL":"#26003f",
+    "bgColBR":"#18003f",
+    "light1Dir":[nan, nan, nan, 0.0],
+    "light2Dir":[-0.6246950626373291, 0.0, -0.7808688282966614, 0.0],
+    "light3Dir":[0.6172134280204773, 0.7715167999267578, -0.15430335700511932, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.5, 0.699999988079071, 1.0, 0.0],
+    "light3Col":[1.0, 0.0, 0.15000000596046448, 0.0],
+    "ambiLightCol":[0.0, 0.0, 0.0, 0.0]
+}
