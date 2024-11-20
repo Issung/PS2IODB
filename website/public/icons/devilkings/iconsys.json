@@ -1,0 +1,18 @@
+{
+    "title":"Devil Kings",
+    "normal":"basara00.ico",
+    "copy":"basara01.ico",
+    "delete":"basara02.ico",
+    "bgOpacity":0,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[-5.551115123125783e-16, 0.7022848725318909, 0.7118960022926331, 1.0],
+    "light2Dir":[0.0, 0.0, 0.0, 1.0],
+    "light3Dir":[0.0, 0.0, 0.0, 1.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 1.0]
+}

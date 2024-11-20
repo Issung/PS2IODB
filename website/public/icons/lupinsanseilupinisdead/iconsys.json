@@ -1,0 +1,18 @@
+{
+    "title":"\u30eb\u30d1\u30f3\u4e09\u4e16 \u30eb\u30d1\u30f3\u306b\u306f\u6b7b\u3092,\u92ad\u5f62\u306b\u306f\u604b\u3092",
+    "normal":"FUJIKO.ico",
+    "copy":"FUJIKO.ico",
+    "delete":"FUJIKO.ico",
+    "bgOpacity":64,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.0, 0.0, 1.0, 0.0],
+    "light2Dir":[0.0, 0.0, 1.0, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 1.0],
+    "light2Col":[0.0, 0.0, 0.0, 1.0],
+    "light3Col":[0.0, 0.0, 0.0, 1.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 1.0]
+}

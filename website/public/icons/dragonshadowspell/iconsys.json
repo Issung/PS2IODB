@@ -1,0 +1,18 @@
+{
+    "title":"  DSS <02>042:59       \u30af\u30ea\u30a2 \u30a8\u30f3\u30c7\u30a3\u30f3\u30b0",
+    "normal":"summer.icn",
+    "copy":"summer.icn",
+    "delete":"summer.icn",
+    "bgOpacity":64,
+    "bgColTL":"#a7172b",
+    "bgColTR":"#a7172b",
+    "bgColBL":"#ca552e",
+    "bgColBR":"#ca552e",
+    "light1Dir":[1.0, 0.0, 0.0, 0.0],
+    "light2Dir":[-1.0, 0.0, 1.0, 0.0],
+    "light3Dir":[-1.0, 0.0, -1.0, 0.0],
+    "light1Col":[0.800000011920929, 0.800000011920929, 0.800000011920929, 0.0],
+    "light2Col":[0.800000011920929, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.800000011920929, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

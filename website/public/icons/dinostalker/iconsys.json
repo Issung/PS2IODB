@@ -1,0 +1,18 @@
+{
+    "title":"DINO STALKER",
+    "normal":"gs3_00.ico",
+    "copy":"gs3_00.ico",
+    "delete":"gs3_00.ico",
+    "bgOpacity":96,
+    "bgColTL":"#800000",
+    "bgColTR":"#008000",
+    "bgColBL":"#000080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.0, -0.5, 1.0, 0.0],
+    "light2Dir":[0.0, 0.4000000059604645, 0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, 0.5, -0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 1.0],
+    "light2Col":[0.0, 0.0, 0.0, 1.0],
+    "light3Col":[0.0, 0.0, 0.0, 1.0],
+    "ambiLightCol":[0.25, 0.25, 0.25, 0.0]
+}

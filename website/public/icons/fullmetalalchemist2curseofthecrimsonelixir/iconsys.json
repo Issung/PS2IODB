@@ -1,0 +1,18 @@
+{
+    "title":"Fullmetal Alchemist2FILE01",
+    "normal":"icon00.ico",
+    "copy":"icon01.ico",
+    "delete":"icon02.ico",
+    "bgOpacity":96,
+    "bgColTL":"#4cd8ff",
+    "bgColTR":"#33a5ff",
+    "bgColBL":"#33a5ff",
+    "bgColBR":"#1972ff",
+    "light1Dir":[0.5, 0.5, 0.5, 0.5],
+    "light2Dir":[0.0, -0.4000000059604645, -0.10000000149011612, 0.5],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.5],
+    "light1Col":[0.5, 0.5, 0.5, 0.5],
+    "light2Col":[0.5, 0.5, 0.5, 0.5],
+    "light3Col":[0.5, 0.5, 0.5, 0.5],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}
