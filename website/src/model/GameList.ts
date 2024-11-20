@@ -2374,6 +2374,10 @@ export const GameList: Game[] = [
     new Game(`Mortal Kombat: Deadly Alliance`, `mortalkombatdeadlyalliance`, 1, Contributors.Oddworld2001),
     new Game(`Mortal Kombat: Deception`, `mortalkombatdeception`, 1, Contributors.Oddworld2001),
     new Game(`Mortal Kombat: Shaolin Monks`, `mortalkombatshaolinmonks`, 1, Contributors.FenixF),
+    new Game(`Motion Gravure Series: Kitagawa Tomomi`),
+    new Game(`Motion Gravure Series: Megumi`, `motiongravureseriesmegumi`, 1, Contributors.Cajas),
+    new Game(`Motion Gravure Series: Mori Hiroko`),
+    new Game(`Motion Gravure Series: Nemoto Harumi`),
     new Game(`Moto X Maniac`),
     //new Game(`Motocross Mania 3`),
     new Game(`Motocross Mania 3 (Career)`, `motocrossmania3career`, 1, Contributors.Sebita),    // These 3 motocross 3 items should be sub-items of Motocross Mania 3.
