@@ -2379,10 +2379,11 @@ export const GameList: Game[] = [
     new Game(`Motion Gravure Series: Mori Hiroko`),
     new Game(`Motion Gravure Series: Nemoto Harumi`),
     new Game(`Moto X Maniac`),
-    //new Game(`Motocross Mania 3`),
-    new Game(`Motocross Mania 3 (Career)`, `motocrossmania3career`, 1, Contributors.Sebita),    // These 3 motocross 3 items should be sub-items of Motocross Mania 3.
-    new Game(`Motocross Mania 3 (Profile)`, `motocrossmania3profile`, 1, Contributors.Sebita),
-    new Game(`Motocross Mania 3 (Scores)`, `motocrossmania3scores`, 1, Contributors.Sebita),
+    new Game(`Motocross Mania 3`, g => [
+        new Icon(g, `Career`, `motocrossmania3career`, 1, Contributors.Sebita),
+        new Icon(g, `Profile`, `motocrossmania3profile`, 1, Contributors.Sebita),
+        new Icon(g, `Scores`, `motocrossmania3scores`, 1, Contributors.Sebita),
+    ]),
     new Game(`MotoGP`, `motogp`, 1, Contributors.SqueezedDog),
     new Game(`MotoGP 07`, `motogp07`, 1, Contributors.SqueezedDog),
     new Game(`MotoGP 08`),
