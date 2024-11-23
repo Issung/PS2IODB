@@ -1085,12 +1085,12 @@ export const GameList: Game[] = [
     new Game(`Final Fantasy X`, `finalfantasy10`, 1, Contributors.Issung),
     new Game(`Final Fantasy X-2`, `finalfantasyfx2`, 1, Contributors.ItzCookieX),
     new Game(`Final Fantasy X-2: International + Last Mission`, `finalfantasyx2international`, 1, Contributors.ItzCookieX),
-    new Game(`Final Fantasy XI`),
-    new Game(`Final Fantasy XI: Chains of Promathia`),
-    new Game(`Final Fantasy XI: Rise of the Zilart`),
-    new Game(`Final Fantasy XI: Seekers of Adoulin`),
-    new Game(`Final Fantasy XI: Treasures of Aht Urhgan`),
-    new Game(`Final Fantasy XI: Wings of the Goddess`),
+    new Game(`Final Fantasy XI`),                           // No icon, saves are done on external harddrive (says ItzCookieX).
+    new Game(`Final Fantasy XI: Chains of Promathia`),      // No icon, saves are done on external harddrive (says ItzCookieX).
+    new Game(`Final Fantasy XI: Rise of the Zilart`),       // No icon, saves are done on external harddrive (says ItzCookieX).
+    new Game(`Final Fantasy XI: Seekers of Adoulin`),       // No icon, saves are done on external harddrive (says ItzCookieX).
+    new Game(`Final Fantasy XI: Treasures of Aht Urhgan`),  // No icon, saves are done on external harddrive (says ItzCookieX).
+    new Game(`Final Fantasy XI: Wings of the Goddess`),     // No icon, saves are done on external harddrive (says ItzCookieX).
     new Game(`Final Fantasy XII`, `finalfantasy12`, 1, Contributors.Issung),
     new Game(`Final Fantasy XII International Zodiac Job System`, `finalfantasy12zodiacjobsystem`, 1, Contributors.Psiences),
     new Game(`Final Fight: Streetwise`),
@@ -1187,8 +1187,8 @@ export const GameList: Game[] = [
     new Game(`Fuuraiki 2`),
     new Game(`Fuuun Shinsengumi`),
     new Game(`Fuuun Super Combo`),
-    new Game(`G-Force (2006)`, `gforce2006`, 1, Contributors.FenixF),
-    new Game(`G-Force`),
+    new Game(`G-Force (2006)`),
+    new Game(`G-Force`, `gforce2006`, 1, Contributors.FenixF),
     new Game(`G-Saviour`),
     new Game(`G-Taste Mahjong`),
     new Game(`G.I. Joe: The Rise of Cobra`),
