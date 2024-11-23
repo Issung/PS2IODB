@@ -1,0 +1,18 @@
+{
+    "title":"\u30be\u30a4\u30c9\u221e\u30d5\u30e5-\u30b6-\u30ba \u30b2-\u30e0\u30c7-\u30bf1",
+    "normal":"GAME.ICO",
+    "copy":"GAME.ICO",
+    "delete":"GAME.ICO",
+    "bgOpacity":96,
+    "bgColTL":"#800000",
+    "bgColTR":"#008000",
+    "bgColBL":"#000080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.3999999761581421, -0.09999999403953552, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

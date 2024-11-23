@@ -1,0 +1,18 @@
+{
+    "title":"\u3089\u304d\u2605\u3059\u305f \u9675\u685c\u5b66\u5712 \u685c\u85e4\u796d",
+    "normal":"lstar1.ico",
+    "copy":"lstar1.ico",
+    "delete":"lstar1.ico",
+    "bgOpacity":96,
+    "bgColTL":"#200080",
+    "bgColTR":"#200080",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[1.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 1.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

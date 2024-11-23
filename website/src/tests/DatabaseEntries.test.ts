@@ -32,7 +32,7 @@ describe("Database Entries Tests", () =>
                 expect(fs.existsSync(filePath)).toBe(true);
                 
                 const buffer = fs.readFileSync(filePath, 'utf-8');
-                expect(() => JSON.parse(buffer)).not.toThrow();
+                expect(() => JSON.parse(buffer), `${icon.code}/iconsys.icon should be parsable`).not.toThrow();
             });
     });
 
