@@ -8,18 +8,32 @@ describe("Database Entries Tests", () =>
     test('Icons should have correct number of params', () => {
         IconList.forEach(icon => {
             expect(icon.name).toBeDefined();
-
+            
             if (icon.code === undefined)
-            {
-                expect(icon.variantCount, "If code is unset, variantCount should be too.").toBeUndefined();
-                expect(icon.contributor, "If code is unset, contributor should be too.").toBeUndefined();
-            }
-            else
-            {
-                expect(icon.variantCount, "If code is set, variantCount should be too.").toBeDefined();
-                expect(icon.contributor, "If code is set, contributor should be too.").toBeDefined();
-            }
-        })
+                {
+                    expect(icon.variantCount, "If code is unset, variantCount should be too.").toBeUndefined();
+                    expect(icon.contributor, "If code is unset, contributor should be too.").toBeUndefined();
+                }
+                else
+                {
+                    expect(icon.variantCount, "If code is set, variantCount should be too.").toBeDefined();
+                    expect(icon.contributor, "If code is set, contributor should be too.").toBeDefined();
+                }
+            })
+        });
+        
+        // Assert all iconsys.json files are valid json.
+        test('All iconsys.json files are valid JSON', () => {
+            IconList
+            .filter(i => i.code)
+            .forEach(icon => {
+                const filePath = `./public/icons/${icon.code}/iconsys.json`;
+
+                expect(fs.existsSync(filePath)).toBe(true);
+                
+                const buffer = fs.readFileSync(filePath, 'utf-8');
+                expect(() => JSON.parse(buffer)).not.toThrow();
+            });
     });
 
     // Assert that /public/icons only has directories, no files, links, sockets, etc.
@@ -38,7 +52,7 @@ describe("Database Entries Tests", () =>
         expect(items.length, "Directory /public/icons directory should only contain directories.").toBe(0);
     });
 
-    // Asser that all items in GameList that have `code` populated have a /public/icons directory matching the `code` value.
+    // Assert that all items in GameList that have `code` populated have a /public/icons directory matching the `code` value.
     test('All icons should have matching directory', () => {
         // Read the contents of the directory
         const directoryItems = fs.readdirSync('./public/icons', { withFileTypes: true });
