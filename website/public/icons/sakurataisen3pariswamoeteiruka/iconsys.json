@@ -1,0 +1,18 @@
+{
+    "title":"\u30b5\u30af\u30e9\u5927\u62263 ~\u5df4\u91cc\u306f\u71c3\u3048\u3066\u3044\u308b\u304b~",
+    "normal":"ICON.ICO",
+    "copy":"ICON.ICO",
+    "delete":"ICON.ICO",
+    "bgOpacity":64,
+    "bgColTL":"#0000ff",
+    "bgColTR":"#0000ff",
+    "bgColBL":"#0000ff",
+    "bgColBR":"#0000ff",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.5, 0.5, 0.5, 0.0],
+    "light3Dir":[0.5, 0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

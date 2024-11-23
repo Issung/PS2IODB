@@ -1,0 +1,18 @@
+{
+    "title":"REMOTE CONTROL   DANDY SF    ",
+    "normal":"normal.ico",
+    "copy":"normal.ico",
+    "delete":"normal.ico",
+    "bgOpacity":112,
+    "bgColTL":"#408080",
+    "bgColTR":"#408080",
+    "bgColBL":"#002020",
+    "bgColBR":"#002020",
+    "light1Dir":[0.5, 0.5, -0.30000001192092896, 0.0],
+    "light2Dir":[-0.5, 0.5, -0.30000001192092896, 0.0],
+    "light3Dir":[0.0, -0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.25, 0.25, 0.25, 0.0]
+}
