@@ -202,7 +202,7 @@ export const GameList: Game[] = [
     new Game(`Ashita no Joe 2: The Anime Super Remix`),
     new Game(`Ashita no Joe Touchi: Typing Namida Hashi`),
     new Game(`Asobi ni Iku Yo!`, `asobiniikuyo`, 1, Contributors.ItzCookieX),
-    new Game(`Assault Suits Valken`),
+    new Game(`Assault Suits Valken`, `assaultsuitsvalken`, 1, Contributors.Cajas),
     new Game(`Asterix & Obelix: Kick Buttix`),
     new Game(`Asterix & Obelix XXL 2: Mission: Las Vegum`),
     new Game(`Asterix at the Olympic Games`, `asterixolympics`, 1, Contributors.Issung),
