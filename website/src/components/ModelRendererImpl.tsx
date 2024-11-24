@@ -78,7 +78,7 @@ export class ModelRendererImpl {
         this.horizontalGridHelper = new THREE.GridHelper(1, 3);
         this.scene.add(this.horizontalGridHelper);
 
-        const ambientLight = new THREE.AmbientLight(0xcccccc, 3);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 6);
         this.scene.add(ambientLight);
 
         const pointLight = new THREE.PointLight(0xffffff, 0.8);
