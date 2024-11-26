@@ -1,0 +1,18 @@
+{
+    "title":"TIMECRISIS2",
+    "normal":"timecrisis2.ico",
+    "copy":"timecrisis2.ico",
+    "delete":"timecrisis2.ico",
+    "bgOpacity":96,
+    "bgColTL":"#601010",
+    "bgColTR":"#204060",
+    "bgColBL":"#604020",
+    "bgColBR":"#101060",
+    "light1Dir":[0.0, -0.25, -1.0, 0.0],
+    "light2Dir":[0.0, 0.25, 1.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 1.0],
+    "light2Col":[0.5, 0.5, 0.5, 1.0],
+    "light3Col":[1.0, 1.0, 1.0, 1.0],
+    "ambiLightCol":[0.009999999776482582, 0.009999999776482582, 0.009999999776482582, 0.0]
+}
