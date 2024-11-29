@@ -1,0 +1,18 @@
+{
+    "title":"FV-System",
+    "normal":"static.ico",
+    "copy":"static.ico",
+    "delete":"static.ico",
+    "bgOpacity":75,
+    "bgColTL":"#ccd7ff",
+    "bgColTR":"#809bff",
+    "bgColBL":"#b9c8ff",
+    "bgColBR":"#1441ff",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.3999999761581421, -1.0, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.640625, 0.640625, 0.6640625, 0.0],
+    "light2Col":[0.2578125, 0.328125, 0.5, 0.0],
+    "light3Col":[0.140625, 0.140625, 0.3828125, 0.0],
+    "ambiLightCol":[0.5859375, 0.5859375, 0.5859375, 0.0]
+}

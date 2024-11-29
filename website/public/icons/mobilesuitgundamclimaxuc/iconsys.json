@@ -1,0 +1,18 @@
+{
+    "title":"\u6a5f\u52d5\u6226\u58eb\u30ac\u30f3\u30c0\u30e0 \u30af\u30e9\u30a4\u30de\u30c3\u30af\u30b9U.C.",
+    "normal":"saga_def.ico",
+    "copy":"saga_cpy.ico",
+    "delete":"saga_del.ico",
+    "bgOpacity":63,
+    "bgColTL":"#000a1e",
+    "bgColTR":"#000a1e",
+    "bgColBL":"#00050a",
+    "bgColBR":"#00050a",
+    "light1Dir":[0.4423547387123108, -0.22495117783546448, -0.8681700825691223, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.4117647409439087, 0.40392160415649414, 0.4431372880935669, 0.5]
+}
