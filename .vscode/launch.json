@@ -5,11 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "MYMC++ Debug",
-            "cwd": "${workspaceFolder}/mymc++",
+            "name": "Extractor Debug",
+            "cwd": "${workspaceFolder}/extractor",
             "type": "python",
             "request": "launch",
-            "module": "mymcplus",
+            "module": "ps2iodbextractor",
             "justMyCode": true
         },
         {

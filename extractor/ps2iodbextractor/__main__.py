@@ -17,7 +17,7 @@
 
 import sys
 
-from . import mymc
+from . import program
 
 if __name__ == "__main__":
-    sys.exit(mymc.main(sys.argv))
+    sys.exit(program.main(sys.argv))

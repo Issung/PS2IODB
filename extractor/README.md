@@ -1,10 +1,8 @@
-# MYMC++ <img align="right" width="90" height="90" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Python_logo_01.svg/2048px-Python_logo_01.svg.png">
+# PS2IODB Extractor <img align="right" width="90" height="90" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Python_logo_01.svg/2048px-Python_logo_01.svg.png">
 
-MYMC++ is a PlayStation 2 memory card manager for use with
-`.ps2` files as created by the PCSX2 emulator.
+PS2IODB Extractor is a PlayStation 2 memory card manager for use with `.ps2` files as created by the PCSX2 emulator.
 
-This tool is based on [mymc+](https://sr.ht/~thestr4ng3r/mymcplus/)
-created by ~thestr4ng3r, which was based on the classic tool [mymc](http://www.csclub.uwaterloo.ca:11068/mymc/) created by Ross Ridge.
+This tool is based on [mymc+](https://sr.ht/~thestr4ng3r/mymcplus/) created by ~thestr4ng3r, which was based on the tool [mymc](http://www.csclub.uwaterloo.ca:11068/mymc/) created by Ross Ridge.
 
 Thanks to the efforts of Ross Ridge and ~thestr4ng3r the code base comes with these benefits:
 * Running on Python 3 and wxPython Phoenix.

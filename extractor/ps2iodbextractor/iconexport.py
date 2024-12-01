@@ -6,10 +6,10 @@ import json
 import os
 import re
 from PIL import Image
-from mymcplus.jsonencoding import CustomJSONEncoder, SingleLineList, SingleLineObject
-from mymcplus.iconsys_dto import IconSysDto
-from mymcplus.ps2icon import Icon
-from mymcplus.ps2iconsys import IconSys
+from ps2iodbextractor.jsonencoding import CustomJSONEncoder, SingleLineList, SingleLineObject
+from ps2iodbextractor.iconsys_dto import IconSysDto
+from ps2iodbextractor.ps2icon import Icon
+from ps2iodbextractor.ps2iconsys import IconSys
 
 ICON_ASSETS_FOLDER="icon_exports"
 """Folder to save exported icon assets into."""

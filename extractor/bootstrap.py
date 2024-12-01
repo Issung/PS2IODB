@@ -4,7 +4,7 @@
 
 import io
 import sys
-from mymcplus import mymc
+from ps2iodbextractor import program
 
 # Because we build the application with `--noconsole` any attempts to print to console will cause an error like `NoneType object has no attribute write` because
 # the streams used by `print()` will be null, so setup some stub streams here. https://stackoverflow.com/questions/75456775/pyinstaller-noconsole-gives-error-and-doesnt-work
@@ -13,4 +13,4 @@ sys.stdout=stream
 sys.stderr=stream
 
 # Run the application as we would in `__main__.py`.
-sys.exit(mymc.main(sys.argv))
+sys.exit(program.main(sys.argv))

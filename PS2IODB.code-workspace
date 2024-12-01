@@ -5,8 +5,8 @@
 			"name": "Root",
 		},
 		{
-			"name": "MYMC++",
-			"path": "./mymc++"
+			"name": "Extractor",
+			"path": "./extractor"
 		},
 		{
 			"name": "Website",
@@ -17,12 +17,12 @@
 		// https://github.com/microsoft/vscode/issues/82145#issuecomment-829347865
 		"files.exclude": {
 			"website": true,
-			"mymc++": true,
+			"extractor": true,
 		},
 		"jest.rootPath": "./website/src",
 		"jest.disabledWorkspaceFolders": [
 			"Root",
-			"MYMC++"
+			"Extractor"
 		],
 		"liveServer.settings.multiRootWorkspaceName": "Website",
 		"jest.runMode": "on-demand"
