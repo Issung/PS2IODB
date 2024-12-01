@@ -209,11 +209,15 @@ class GuiFrame(wx.Frame):
         else:
             self.refresh()
 
-        panel_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        panel_sizer.Add(splitter_window, wx.EXPAND, wx.EXPAND)
-        panel.SetSizer(panel_sizer)
+        main_splitter_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        main_splitter_sizer.Add(splitter_window, wx.EXPAND, wx.EXPAND)
+        panel.SetSizer(main_splitter_sizer)
 
-        info_win = wx.Window(splitter_window)
+        icon_splitter = wx.SplitterWindow(splitter_window, style=wx.SP_LIVE_UPDATE)
+        
+        debug_panel = self.create_debug_panel(icon_splitter)
+
+        info_win = wx.Window(icon_splitter)
         icon_win = IconWindow(info_win, self)
         if icon_win.failed:
             info_win.Destroy()
@@ -244,7 +248,8 @@ class GuiFrame(wx.Frame):
             info_sizer.Add(icon_win, 1, wx.EXPAND)
             info_win.SetSizer(info_sizer)
 
-            splitter_window.SplitVertically(self.dirlist, info_win, int(self.Size.Width * 0.7))
+            splitter_window.SplitVertically(self.dirlist, icon_splitter, int(self.Size.Width * 0.7))
+            icon_splitter.SplitHorizontally(info_win, debug_panel, int(self.Size.Height * 0.5))
 
         menubar = wx.MenuBar()
         menubar.Append(filemenu, "&File")
@@ -253,6 +258,33 @@ class GuiFrame(wx.Frame):
         self.SetMenuBar(menubar)
 
         self.Show(True)
+
+    def create_debug_panel(self, icon_splitter):
+        debug_panel_sizer = wx.BoxSizer(wx.VERTICAL)
+        debug_panel = wx.Panel(icon_splitter)
+        debug_panel.SetBackgroundColour(wx.Colour(200, 200, 200))
+        debug_panel.SetSizer(debug_panel_sizer)
+
+        # Label for the debugger
+        debugger_label = wx.StaticText(debug_panel, label='Debugger')
+        debugger_label.SetFont(debugger_label.GetFont().Bold())
+
+        # Create StaticBox for radio buttons
+        debug_texture_options_box = wx.StaticBox(debug_panel, label='Texture Type')
+        debug_texture_options_sizer = wx.StaticBoxSizer(debug_texture_options_box, wx.HORIZONTAL)
+
+        # Radio buttons for texture options
+        debug_tex_compressed = wx.RadioButton(debug_panel, label='Compressed', style=wx.RB_GROUP)
+        debug_tex_uncompressed = wx.RadioButton(debug_panel, label='Uncompressed')
+
+        # Add radio buttons to the StaticBoxSizer
+        debug_texture_options_sizer.Add(debug_tex_compressed)
+        debug_texture_options_sizer.Add(debug_tex_uncompressed)
+
+        # Add label and StaticBoxSizer to the panel's sizer.
+        debug_panel_sizer.Add(debugger_label, flag=wx.ALL, border=5)
+        debug_panel_sizer.Add(debug_texture_options_sizer, flag=wx.ALL, border=5)
+        return debug_panel
 
     def _close_mc(self):
         if self.mc != None:

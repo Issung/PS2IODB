@@ -17,18 +17,11 @@
 
 from setuptools import setup
 
-long_description = \
-"""mymc+ is a PlayStation 2 memory card manager for to be used with .ps2 images as created by the PCSX2 emulator for example.
-It is based on the classic mymc utility created by Ross Ridge."""
-
 setup(
-    name="mymcplus",
-    version="3.0.5",
-    description="A PlayStation 2 memory card manager",
-    long_description=long_description,
-    long_description_content_type="text/plain",
-    url="https://git.sr.ht/~thestr4ng3r/mymcplus",
-    author="Florian Märkl",
+    name="ps2iodbextractor",
+    version="1.0",
+    description="A tool for extracting save icon assets for the PS2IODB project",
+    author="Issung",
     license="GPLv3",
     clasifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -61,15 +54,21 @@ setup(
         "Topic :: Utilities"
     ],
     keywords="playstation ps2 mymc memory card save emulator",
-    packages=["mymcplus", "mymcplus.gui", "mymcplus.save"],
+    packages=["ps2iodbextractor", "ps2iodbextractor.gui", "ps2iodbextractor.save"],
     entry_points={
         "console_scripts": [
-            "mymcplus = mymcplus.mymc:main"
+            "ps2iodbextractor = ps2iodbextractor.program:main"
         ]
     },
-    python_requires=">=3.4",
-    install_requires=["Pillow"],
+    python_requires=">=3.10.7",
+    install_requires=[
+        "Pillow==11.0.0",
+    ],
     extras_require={
-        "gui": ["wxPython", "pyopengl"]
+        "gui": [
+            "wxPython==4.2.0",
+            "types-wxpython==0.9.7", # https://pypi.org/project/types-wxpython/ For wxPython version 4.2.0
+            "pyopengl==3.1.7",
+        ]
     }
 )
