@@ -16,6 +16,7 @@
 #
 
 import time
+from typing import Callable
 import wx
 from wx import glcanvas
 
@@ -60,7 +61,6 @@ camera_high = [0, 7, -6]
 camera_near = [0, 3, -6]
 camera_flat = [0, 2, -7.5]
 
-
 class IconWindow(wx.Window):
     """Displays a save file's 3D icon."""
 
@@ -86,7 +86,6 @@ class IconWindow(wx.Window):
     background_options = {ID_CMD_BACKGROUND_ICON: None,
                           ID_CMD_BACKGROUND_BLACK: (0.0, 0.0, 0.0),
                           ID_CMD_BACKGROUND_WHITE: (1.0, 1.0, 1.0)}
-
 
     def append_menu_options(self, win, menu):
         menu.AppendCheckItem(IconWindow.ID_CMD_ANIMATE, "Animate Icon")
@@ -123,9 +122,10 @@ class IconWindow(wx.Window):
 
         win.Bind(wx.EVT_MENU, self.evt_menu_camera, id=IconWindow.ID_CMD_CAMERA_RESET)
 
-    def __init__(self, parent, focus):
+    def __init__(self, parent, icon_load_callback: Callable[[], None]):
         super().__init__(parent)
         self.failed = False
+        self.icon_load_callback = icon_load_callback
 
         def make_attrib_list(samples):
             return [
@@ -216,7 +216,7 @@ class IconWindow(wx.Window):
         menu.Check(self.background_id, True)
 
 
-    def load_icon(self, icon_sys, icon_data_normal, icon_data_copy, icon_data_delete):
+    def load_icon(self, icon_sys, icon_data_normal, icon_data_copy, icon_data_delete, use_debug_overrides = False):
         """Pass the raw icon datas to the support DLL for display."""
 
         if self.failed:
@@ -230,13 +230,16 @@ class IconWindow(wx.Window):
         else:
             try:
                 self._icon_sys = icon_sys
-                self._icon_normal = ps2icon.Icon(icon_data_normal) if icon_data_normal else None
-                self._icon_copy = ps2icon.Icon(icon_data_copy) if icon_data_copy else None
-                self._icon_delete = ps2icon.Icon(icon_data_delete) if icon_data_delete else None
+                self._icon_normal = ps2icon.Icon(icon_data_normal, use_debug_overrides) if icon_data_normal else None
+                self._icon_copy = ps2icon.Icon(icon_data_copy, use_debug_overrides) if icon_data_copy else None
+                self._icon_delete = ps2icon.Icon(icon_data_delete, use_debug_overrides) if icon_data_delete else None
             except ps2icon.Error as e:
                 print("Failed to load icon.", e)
                 self._icon_normal = None
                 self._icon_sys = None
+            finally:
+                if (use_debug_overrides is False):
+                    self.icon_load_callback()
 
         map = {
             IconWindow.ID_CMD_ICON_NORMAL: self._icon_normal,

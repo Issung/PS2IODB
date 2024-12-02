@@ -24,6 +24,7 @@ import sys
 import traceback
 from ps2iodbextractor.gui.about_dialog import AboutDialog
 from ps2iodbextractor.gui.version_history_dialog import VersionHistoryDialog
+from ps2iodbextractor.ps2icon import DebugOverrides
 from .. import iconexport
 
 # Work around a problem with mixing wx and py2exe
@@ -218,7 +219,8 @@ class GuiFrame(wx.Frame):
         debug_panel = self.create_debug_panel(icon_splitter)
 
         info_win = wx.Window(icon_splitter)
-        icon_win = IconWindow(info_win, self)
+        icon_win = IconWindow(info_win, self.on_icon_load)
+        icon_win.icon_load_callback
         if icon_win.failed:
             info_win.Destroy()
             info_win = None
@@ -248,7 +250,7 @@ class GuiFrame(wx.Frame):
             info_sizer.Add(icon_win, 1, wx.EXPAND)
             info_win.SetSizer(info_sizer)
 
-            splitter_window.SplitVertically(self.dirlist, icon_splitter, int(self.Size.Width * 0.7))
+            splitter_window.SplitVertically(self.dirlist, icon_splitter, int(self.Size.Width * 0.6))
             icon_splitter.SplitHorizontally(info_win, debug_panel, int(self.Size.Height * 0.5))
 
         menubar = wx.MenuBar()
@@ -258,6 +260,30 @@ class GuiFrame(wx.Frame):
         self.SetMenuBar(menubar)
 
         self.Show(True)
+
+    def on_icon_load(self):
+        self.debug_animation_frames.SetLabel(f'Frames: {DebugOverrides.frame_count}')
+        keycounts = ', '.join(map(str, DebugOverrides.key_counts[0:DebugOverrides.frame_count]))
+        self.debug_animation_keys.SetLabel(f'Keys: {keycounts}')
+        self.debug_textype_none.SetValue(DebugOverrides.texture_type == 'None')
+        self.debug_textype_compressed.SetValue(DebugOverrides.texture_type == 'Compressed')
+        self.debug_textype_uncompressed.SetValue(DebugOverrides.texture_type == 'Uncompressed')
+        pass
+
+    def debug_changed(self):
+        self.icon_win.load_icon(
+            self.icon_sys,
+            self.icon_data_normal,
+            self.icon_data_copy,
+            self.icon_data_delete,
+            use_debug_overrides=True
+        )
+
+    def on_debug_tex_changed(self, event: wx.Event):
+        selected_button = event.GetEventObject()
+        print(f"Radio button selected: {selected_button.GetLabel()}")
+        DebugOverrides.texture_type = selected_button.GetLabel()
+        self.debug_changed()
 
     def create_debug_panel(self, icon_splitter):
         debug_panel_sizer = wx.BoxSizer(wx.VERTICAL)
@@ -269,20 +295,37 @@ class GuiFrame(wx.Frame):
         debugger_label = wx.StaticText(debug_panel, label='Debugger')
         debugger_label.SetFont(debugger_label.GetFont().Bold())
 
+        # Animation box
+        debug_animation_box = wx.StaticBox(debug_panel, label='Animation')
+        debug_animation_box_sizer = wx.StaticBoxSizer(debug_animation_box, wx.VERTICAL)
+
+        self.debug_animation_frames = wx.StaticText(debug_panel, label='Frames: ')
+        self.debug_animation_keys = wx.StaticText(debug_panel, label='Keys: ')
+
+        debug_animation_box_sizer.Add(self.debug_animation_frames)
+        debug_animation_box_sizer.Add(self.debug_animation_keys)
+
         # Create StaticBox for radio buttons
         debug_texture_options_box = wx.StaticBox(debug_panel, label='Texture Type')
         debug_texture_options_sizer = wx.StaticBoxSizer(debug_texture_options_box, wx.HORIZONTAL)
 
         # Radio buttons for texture options
-        debug_tex_compressed = wx.RadioButton(debug_panel, label='Compressed', style=wx.RB_GROUP)
-        debug_tex_uncompressed = wx.RadioButton(debug_panel, label='Uncompressed')
+        self.debug_textype_none = wx.RadioButton(debug_panel, label='None', style=wx.RB_GROUP)
+        self.debug_textype_compressed = wx.RadioButton(debug_panel, label='Compressed')
+        self.debug_textype_uncompressed = wx.RadioButton(debug_panel, label='Uncompressed')
+
+        self.debug_textype_none.Bind(wx.EVT_RADIOBUTTON, self.on_debug_tex_changed)
+        self.debug_textype_compressed.Bind(wx.EVT_RADIOBUTTON, self.on_debug_tex_changed)
+        self.debug_textype_uncompressed.Bind(wx.EVT_RADIOBUTTON, self.on_debug_tex_changed)
 
         # Add radio buttons to the StaticBoxSizer
-        debug_texture_options_sizer.Add(debug_tex_compressed)
-        debug_texture_options_sizer.Add(debug_tex_uncompressed)
+        debug_texture_options_sizer.Add(self.debug_textype_none)
+        debug_texture_options_sizer.Add(self.debug_textype_compressed)
+        debug_texture_options_sizer.Add(self.debug_textype_uncompressed)
 
         # Add label and StaticBoxSizer to the panel's sizer.
         debug_panel_sizer.Add(debugger_label, flag=wx.ALL, border=5)
+        debug_panel_sizer.Add(debug_animation_box_sizer, flag=wx.ALL, border=5)
         debug_panel_sizer.Add(debug_texture_options_sizer, flag=wx.ALL, border=5)
         return debug_panel
 
@@ -366,16 +409,16 @@ class GuiFrame(wx.Frame):
         self.info1.SetLabel(entry.title[0])
         self.info2.SetLabel(entry.title[1])
 
-        icon_sys = entry.icon_sys
+        self.icon_sys = icon_sys = entry.icon_sys
         mc = self.mc
 
         if mc is None or icon_sys is None:
             self.icon_win.load_icon(None, None, None, None)
             return
         
-        icon_data_normal = self.load_icon_data(entry, icon_sys, "normal")
-        icon_data_copy = self.load_icon_data(entry, icon_sys, "copy")
-        icon_data_delete = self.load_icon_data(entry, icon_sys, "delete")
+        self.icon_data_normal = icon_data_normal = self.load_icon_data(entry, icon_sys, "normal")
+        self.icon_data_copy = icon_data_copy = self.load_icon_data(entry, icon_sys, "copy")
+        self.icon_data_delete = icon_data_delete = self.load_icon_data(entry, icon_sys, "delete")
 
         self.icon_win.load_icon(icon_sys, icon_data_normal, icon_data_copy, icon_data_delete)
 

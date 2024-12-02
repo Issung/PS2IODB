@@ -66,6 +66,22 @@ import ctypes
 uint8_t = ctypes.c_uint8
 int16_t = ctypes.c_int16
 
+
+class DebugOverrides:
+    """
+    This class holds data about the currently loaded icon, it is meant to be used statically.
+    When an icon is loaded these values are overridden, they can then be overridden by the user with the debugger UI.
+    """
+
+    frame_count: int
+
+    key_counts: list[int] = [0] * 64    # Make an array of length 64, hopefully that's long enough for all icons.
+
+    texture_type: str
+    """
+    None|Compressed|Uncompressed
+    """
+
 class Icon:
     class AnimationHeader:
         def __init__(self):
@@ -92,9 +108,7 @@ class Icon:
         def __str__(self):
             return f"{{ shape_id: {self.shape_id}, key_count: {self.key_count}, unknown_1: {self.unknown_1}, unknown_2: {self.unknown_2} }}"
 
-
-
-    def __init__(self, data):
+    def __init__(self, data, use_debug_overrides = False):
         self.animation_shapes = 0
         self.texture_type = 0   
         self.header_unknown = 0
@@ -112,8 +126,8 @@ class Icon:
 
         offset = self.__load_header(data, length, offset)
         offset = self.__load_vertex_data(data, length, offset)
-        offset = self.__load_animation_data(data, length, offset)
-        offset = self.__load_texture(data, length, offset)
+        offset = self.__load_animation_data(data, length, offset, use_debug_overrides)
+        offset = self.__load_texture(data, length, offset, use_debug_overrides)
 
         if length > offset:
             print(f"Warning: Icon file larger than expected. Reached offset {offset} but total length is {length}, difference of {length - offset}.")
@@ -189,7 +203,7 @@ class Icon:
                 
         return offset
 
-    def __load_animation_data(self, data, length, offset):
+    def __load_animation_data(self, data, length, offset, use_debug_overrides: bool):
         if length < offset + _anim_header_struct.size:
             raise FileTooSmall("Data length is smaller than expected animation data size.")
 
@@ -201,6 +215,13 @@ class Icon:
          self.anim_header.frame_count) = _anim_header_struct.unpack_from(data, offset)
 
         #print(f"Animation header loaded: {self.anim_header}.")
+
+        if (use_debug_overrides):
+            self.anim_header.frame_count = DebugOverrides.frame_count
+        else:
+            DebugOverrides.frame_count = self.anim_header.frame_count
+            for i in range(len(DebugOverrides.key_counts)):
+                DebugOverrides.key_counts[i] = 0
 
         offset += _anim_header_struct.size
 
@@ -220,6 +241,11 @@ class Icon:
             frame.key_count -= 1;   # Is always 1 too large for some reason.
 
             #print(f"Frame {i}: {frame}.")
+
+            if (use_debug_overrides):
+                frame.key_count = DebugOverrides.key_counts[i]
+            else:
+                DebugOverrides.key_counts[i] = frame.key_count
 
             offset += _frame_data_struct.size
 
@@ -241,21 +267,24 @@ class Icon:
         return offset
 
 
-    def __load_texture(self, data, length, offset):
+    def __load_texture(self, data, length, offset, use_debug_overrides: bool):
         # No textures to load. This may be the case when are colored without a texture.
         # Fix copied from https://github.com/Adubbz/mymcplusplus/commit/b7291e691de4badf7d1ff1b6a9a6491781f26121
-        if offset == length:
+        if (not use_debug_overrides and offset == length) or (use_debug_overrides and DebugOverrides.texture_type == 'None'):
             self.texture = [0xFFFF] * _TEXTURE_SIZE # An all white texture
+            DebugOverrides.texture_type = 'None'
             return offset
 
         compressed_types = [12, 14, 15] # From Ross' ps2icon.c.
         is_compressed = self.texture_type in compressed_types
 
-        if is_compressed:
+        if (not use_debug_overrides and is_compressed) or (use_debug_overrides and DebugOverrides.texture_type == 'Compressed'):
             print(f"texture_type is {self.texture_type} loading as compressed.")
+            DebugOverrides.texture_type = 'Compressed'
             return self.__load_texture_compressed(data, length, offset)
         else:
             print(f"texture_type is {self.texture_type} loading as uncompressed.")
+            DebugOverrides.texture_type = 'Uncompressed'
             return self.__load_texture_uncompressed(data, length, offset)
 
 
