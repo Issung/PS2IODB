@@ -25,6 +25,7 @@ export class Contributors {
     public static Ps2RomsFree = new Contributor('ps2romsfree', 'https://www.youtube.com/@BamhurgeVidNZuffs');
     public static Sharpyroos = new Contributor('Sharpyroos'); // Uploaded by Squeezed Dog
     public static Cajas = new Contributor('Cajas');
+    public static VideoGameKing = new Contributor('Video_Game_King');
 }
 
 export const ContributorCount = Object.values(Contributors).length;
