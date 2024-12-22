@@ -12,6 +12,7 @@ import DebouncedTextBox from '../components/DebouncedTextBox';
 import Footer from "../components/Footer";
 import SearchResults from "../components/SearchResults";
 import { IconCaretLeft } from '@tabler/icons-react';
+import { SessionStorageKeys } from '../utils/Consts';
 
 const exampleSearches = [
     "Final Fantasy",
@@ -21,12 +22,16 @@ const exampleSearches = [
     "SingStar"
 ];
 
-const Home: React.FC = () => {
+const Home = () => {
     const navigate = useNavigate();
     const { filterType, filter } = useParams();
 
     const contributed = useMemo(() => IconList.filter(i => i.code).length, []);
     const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+        sessionStorage.setItem(SessionStorageKeys.HasViewedHomePage, "true");
+    }, []);
 
     useEffect(() => {
         if (filterType == FilterType.search) {

@@ -7,6 +7,7 @@ import { MeshType, TextureType } from "../components/ModelViewParams";
 import { useEffect, useMemo, useState } from "react";
 import JSZip from "jszip";
 import ModelView from '../components/ModelView';
+import { SessionStorageKeys } from '../utils/Consts';
 
 /**
  * This component serves as a page, routed to by App.tsx.
@@ -16,7 +17,7 @@ import ModelView from '../components/ModelView';
  * - Shading select (wireframe, textured, etc).
  * - Play/pause controls.
  */
-const Icon: React.FC = () => {
+const Icon = () => {
     const navigate = useNavigate();
     const [iconError, setIconError] = useState<string | undefined>(undefined);
     const [iconsys, setIconSys] = useState<IconSys | undefined>(undefined);
@@ -187,9 +188,13 @@ const Icon: React.FC = () => {
         URL.revokeObjectURL(url);
     }
 
-    // TODO: Fix this so that when on an icon page from the home page it goes back and restores search state, and if visiting the icon page in a new tab then go to the home page.
     function back() {
-        navigate(-1);
+        if (sessionStorage.getItem(SessionStorageKeys.HasViewedHomePage) === "true") {
+            navigate(-1);
+        }
+        else {
+            navigate('/');
+        }
     }
 
     function handleKeyDown(event: KeyboardEvent) {
