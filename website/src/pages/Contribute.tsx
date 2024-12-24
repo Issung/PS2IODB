@@ -28,11 +28,11 @@ const Contribute: React.FC = () => {
                             
                             <hr/>
 
-                            <a id="downloadmymc++" href="#downloadmymc++">
-                                <h4>Download MYMC++</h4>
+                            <a id="downloadextractor" href="#downloadextractor">
+                                <h4>Download PS2IODB Extractor</h4>
                             </a>
-                            <p>You will need a copy of the MYMC++ program to extract save icon assets, download links below:</p>
-                            <b>Latest:</b> <Link to="https://www.dropbox.com/scl/fi/b5wjdzy7vw1k69ttlbx9v/MYMC-v0.1.1.exe?rlkey=4a3ir8l186es8dk2peak8i3uq&st=dxr97pmg&dl=0">Version 0.1.1</Link>
+                            <p>You will need a copy of the <i>PS2IODB Extractor</i> program to extract save icon assets, download links below:</p>
+                            <b>Latest:</b> <Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.2/PS2IODB.Extractor.v0.1.2.exe">Version 0.1.2</Link>
                             <details>
                                 <summary>Previous Versions</summary>
                                 <p>
@@ -40,7 +40,8 @@ const Contribute: React.FC = () => {
                                     Please report regressions via GitHub or in Discord.
                                 </p>
                                 <ul>
-                                    <li><Link to="https://www.dropbox.com/scl/fi/9zfev62q74r1bcb3za72q/MYMC-v0.1.exe?rlkey=y4g21uvrrwtcwnu15rr343b29&st=y5rbbps7&dl=0">Version 0.1</Link></li>
+                                    <li><Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.1/MYMC++.v0.1.1.exe">Version 0.1.1</Link></li>
+                                    <li><Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1/MYMC++.v0.1.exe">Version 0.1</Link></li>
                                 </ul>
                             </details>
 
@@ -61,18 +62,18 @@ const Contribute: React.FC = () => {
                                 <li><Link to="https://www.thetechgame.com/Downloads/cid=310/playstation-2-game-saves.html">The Tech Game</Link></li>
                                 <li>Other various sources found via <Link to="https://www.google.com/search?q=ps2+game+save+files">Google search</Link></li>
                             </ul>
-                            <p>Our MYMC++ tool can be used to import these save files and then icon assets can be extracted easily. Steps:</p>
+                            <p>The PS2IODB Extractor tool can be used to import these save files and then icon assets can be extracted easily. Steps:</p>
                             <ol>
                                 <li>Download the pre-existing save file.</li>
-                                <li>Open MYMC++ and create a new memory card or open an existing one.</li>
+                                <li>Open PS2IODB Extractor and create a new memory card or open an existing one.</li>
                                 <li>Import the downloaded save file(s) by either:</li>
                                 <ul>
                                     <li>Going to File → Import and navigate to the downloaded save file(s).</li>
-                                    <li>Dragging & Dropping the downloaded save file(s) onto the MYMC++ window.</li>
+                                    <li>Dragging & Dropping the downloaded save file(s) onto the PS2IODB Extractor window.</li>
                                 </ul>
                                 <li>Once importing is complete right click on game you wish to export icon assets from.</li>
                                 <li>Enter a name for a new folder for the exported assets to be grouped under.</li>
-                                <li>Go to the MYMC++ directory and find the icon_exports folder, your exported assets will be within.</li>
+                                <li>Go to the PS2IODB Extractor directory and find the icon_exports folder, your exported assets will be within.</li>
                             </ol>
                             <p>A short video of the process can be viewed here:</p>
                             <iframe 
@@ -91,9 +92,9 @@ const Contribute: React.FC = () => {
                             <p>For some less popular games pre-existing save files may not exist on the internet, in this case you need to emulate the game to create a save file manually, then extract icon assets from that file. Steps: </p>
                             <ol>
                                 <li>Using PCSX2 play the title you desire to extract save icons from up until a point where save data is created on a memory card.</li>
-                                <li>Open MYMC++ and open the desired memory card, the typical location is <code>%UserProfile%\Documents\PCSX2\memcards</code>.</li>
+                                <li>Open PS2IODB Extractor and open the desired memory card, the typical location is <code>%UserProfile%\Documents\PCSX2\memcards</code>.</li>
                                 <li>Find the desired title, right click it and chose the <i>Export Icons</i> option, enter a name for a new folder for all assets to be grouped under.</li>
-                                <li>Go to the MYMC++ directory and find the icon_exports folder, your exported assets will be within.</li>
+                                <li>Go to the PS2IODB Extractor directory and find the icon_exports folder, your exported assets will be within.</li>
                             </ol>
 
                             <a id="iconuploading" href="#iconuploading">
