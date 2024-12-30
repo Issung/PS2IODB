@@ -1,0 +1,18 @@
+{
+    "title":"Super                Bust-A-Move2",
+    "normal":"smily.ico",
+    "copy":"smily.ico",
+    "delete":"smily.ico",
+    "bgOpacity":96,
+    "bgColTL":"#800000",
+    "bgColTR":"#008000",
+    "bgColBL":"#000080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.3999999761581421, -0.09999999403953552, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

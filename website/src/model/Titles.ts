@@ -3898,7 +3898,10 @@ export const Titles: Title[] = [
     new Game(`Sunrise World War`),
     new Game(`Sunsoft Collection`, `sunsoftcollection`, 1, Contributors.Oddworld2001),
     new Game(`Super Bust-A-Move`, `superbustamove`, 1, Contributors.Sebita),
-    new Game(`Super Bust-A-Move 2`, `superbustamove2`, 1, Contributors.Sebita),
+    new Game(`Super Bust-A-Move 2`, g => [
+        new Icon(g, `Variant 1`, `superbustamove2-variant1`, 1, Contributors.Sebita),   // Unknown what causes the variants, maybe just regional differences.
+        new Icon(g, `Variant 2`, `superbustamove2-variant2`, 1, Contributors.Zeroman95),
+    ]),
     new Game(`Super Dragon Ball Z`, `superdragonballz`, 1, Contributors.Zeroman95),
     new Game(`Super Farm`),
     new Game(`Super Fruit Fall`, `superfruitfall`, 1, Contributors.Zeroman95),
