@@ -1,5 +1,5 @@
 import './App.scss';
-import '../model/GameList';
+import '../model/Titles';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Home';
 import Icon from './Icon';

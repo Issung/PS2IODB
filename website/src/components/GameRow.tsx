@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { Game } from "../model/Game";
+import { Title } from "../model/Title";
 import RowBase from "./RowBase";
 
 interface GameRowProps {
-    game: Game;
+    game: Title;
 }
 
 /** Use for a game with no contribution or a single icon. */

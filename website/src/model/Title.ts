@@ -1,8 +1,21 @@
 import { Contributor } from "./Contributor";
 import { Icon } from "./Icon";
-import { Title } from "./Title";
 
-export class Game extends Title {
+export class Title {
+    /**
+     * The name/title of the game in the closest thing to English.
+     */
+    public name: string;
+
+    public icons: Icon[];
+
+    /**
+     * The index of this game in the overall GameList.
+     * Set from GameList.tsx, after the collection's initialisation.
+     * Used as key in the DOM.
+     */
+    public index: string = '';
+
     constructor(name: string);
     constructor(name: string, iconFactory?: (game: Title) => Icon[]);
     constructor(name: string, code?: string, variantCount?: number, contributor?: Contributor);
@@ -11,16 +24,20 @@ export class Game extends Title {
         codeOrIconFactory?: string | ((game: Title) => Icon[]),
         variantCount?: number,
         contributor?: Contributor
-    ) {
+    )
+    {
+        this.name = name;
+        this.icons = [];
+        
         if (codeOrIconFactory)
         {
             if (typeof codeOrIconFactory == 'string')
             {
-                super(name, codeOrIconFactory, variantCount, contributor);
+                this.icons = [new Icon(this, name, codeOrIconFactory, variantCount, contributor)];
             }
             else if (codeOrIconFactory instanceof Function)
             {
-                super(name, codeOrIconFactory);
+                this.icons = codeOrIconFactory(this);
             }
             else
             {
@@ -29,7 +46,7 @@ export class Game extends Title {
         }
         else
         {
-            super(name);
+            this.icons = [new Icon(this, name)];
         }
     }
 }

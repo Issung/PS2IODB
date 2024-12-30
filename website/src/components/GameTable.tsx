@@ -1,12 +1,12 @@
 import './GameTable.scss'
-import { Game } from '../model/Game';
+import { Title } from '../model/Title';
 import GameRow from './GameRow';
 import IconRow from './IconRow';
 import React from 'react';
 import RowBase, { Trait } from './RowBase';
 
 type GameTableProps = {
-    games: Game[];
+    games: Title[];
 }
 
 const GameTable: React.FC<GameTableProps> = ({ games }: GameTableProps) => {

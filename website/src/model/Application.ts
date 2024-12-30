@@ -2,7 +2,7 @@ import { Contributor } from "./Contributor";
 import { Icon } from "./Icon";
 import { Title } from "./Title";
 
-export class Game extends Title {
+export class Application extends Title {
     constructor(name: string);
     constructor(name: string, iconFactory?: (game: Title) => Icon[]);
     constructor(name: string, code?: string, variantCount?: number, contributor?: Contributor);

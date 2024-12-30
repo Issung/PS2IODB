@@ -1,7 +1,7 @@
 import './ContributorList.scss'
 import { Contributor } from '../model/Contributor';
 import { Contributors } from '../model/Contributors';
-import { IconList } from '../model/GameList';
+import { IconList } from '../model/Titles';
 import { IconTrophyFilled } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { useMemo } from 'react';

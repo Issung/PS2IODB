@@ -1,8 +1,10 @@
-import { Game } from "./Game";
+import { Title } from "./Title";
 import { Contributors } from "./Contributors";
 import { Icon } from "./Icon";
+import { Game } from "./Game";
+import { Application } from "./Application";
 
-export const GameList: Game[] = [
+export const Titles: Title[] = [
     new Game(`¡Qué pasa Neng! El videojuego`, `quepasanengelvideojuego`, 1, Contributors.Zwish343),
     new Game(`.hack//frägment`, `dothackfragment`, 3, Contributors.ItzCookieX),
     new Game(`.hack//G.U.vol.1//Rebirth`, `dothackrebirth`, 1, Contributors.ItzCookieX),
@@ -145,6 +147,9 @@ export const GameList: Game[] = [
     new Game(`Angelique Trois: Aizouhen`),
     new Game(`Animal Soccer World`),
     new Game(`Animaniacs: The Great Edgar Hunt`),
+    new Application(`Anime Eikaiwa: 15 Shounen Hyouryuuhen`),
+    new Application(`Anime Eikaiwa: Tondemo Nezumi Daikatsuyaku`),
+    new Application(`Anime Eikaiwa: Totoi`),
     new Game(`The Ant Bully`),
     new Game(`Antz Extreme Racing`, `antzextremeracing`, 1, Contributors.SqueezedDog),
     new Game(`Anubis II`),
@@ -514,6 +519,7 @@ export const GameList: Game[] = [
     new Game(`Charlie and the Chocolate Factory`, `charlieandthechocolatefactory`, 1, Contributors.Sebita),
     new Game(`Charlie's Angels`),
     new Game(`Charlotte's Web`),
+    new Application(`Check-i-TV`),
     new Game(`Cheggers Party Quiz`),
     new Game(`Chemist Tycoon`),
     new Game(`Chenuen no San Goku Shi`),
@@ -527,6 +533,7 @@ export const GameList: Game[] = [
     new Game(`ChopLifter: Crisis Shield`),
     new Game(`ChoroQ`, `choroq`, 1, Contributors.Cajas),
     new Game(`ChoroQ Works`),
+    new Application(`Chou! Rakushii Internet Tomodachi no Wa`),
     new Game(`Chou Gouka! Quiz Ketteiban`),
     new Game(`Chou-jikuu Yousai Macross`, `choujikuuyousaimacross`, 1, Contributors.Atat111111),
     new Game(`Chou-Saisoku! Zokusha King BU`),
@@ -542,6 +549,7 @@ export const GameList: Game[] = [
     new Game(`Chulip`, `chulip`, 1, Contributors.Issung),
     new Game(`CID The Dummy`),
     new Game(`Cinderella`),
+    new Application(`Cinema Surfing: Youga Taizen`),
     new Game(`Circuit Blasters`),
     new Game(`Circus Maximus: Chariot Wars`),
     new Game(`City Crisis`),
@@ -584,6 +592,7 @@ export const GameList: Game[] = [
     new Game(`Coloball 2002`),
     new Game(`Colorful Aquarium: My Little Mermaid`),
     new Game(`Colorful Box: To Love`),
+    new Application(`Colorio: Hagaki Print`),
     new Game(`Colosseum: Road to Freedom`, `colosseumroadtofreedom`, 1, Contributors.Sebita),
     new Game(`Combat Ace`, `combatace`, 1, Contributors.Zeroman95),
     new Game(`Combat Elite: WWII Paratroopers`),
@@ -778,6 +787,7 @@ export const GameList: Game[] = [
     new Game(`Digimon Rumble Arena 2`, `digimonrumblearena2`, 1, Contributors.ItzCookieX),
     new Game(`Digimon World 4`, `digimonworld4`, 1, Contributors.ItzCookieX),
     new Game(`Digimon World Data Squad`, `digimondatasquad`, 1, Contributors.ItzCookieX),
+    new Application(`Digital Hitz Factory (Music 3000)`),
     new Game(`Digital Holmes`),
     new Game(`Dino Stalker`, `dinostalker`, 1, Contributors.Cajas),
     new Game(`Dinosaur Adventure`),
@@ -816,6 +826,7 @@ export const GameList: Game[] = [
     new Game(`Disney/Pixar Toy Story 3`, `toystory3`, 1, Contributors.FenixF),
     new Game(`DJ Hero`, `djhero`, 1, Contributors.Sebita),
     new Game(`DJbox`),
+    new Application(`DJ: Decks & FX (House Edition)`),
     new Game(`DodgeBall`),
     new Game(`DoDonPachi Dai-Ou-Jou`, `dodonpachidai-ou-jou`, 1, Contributors.Sebita),
     new Game(`The Dog Island`),
@@ -926,6 +937,9 @@ export const GameList: Game[] = [
     new Game(`Edit Racing`),
     new Game(`Edomono`),
     new Game(`Ef: A Fairy Tale of the Two`),
+    new Application(`EGBrowser`),
+    new Application(`EGBrowser BB`),
+    new Application(`EGBrowser Light For I-O Data Device Inc.`),
     new Game(`Egg Mania: Eggstreme Madness`),
     new Game(`Eien no Aselia: Kono Daichi no Hate de`),
     new Game(`Eikan wa Kimini 2002: Koushien no Kodou`),
@@ -936,6 +950,7 @@ export const GameList: Game[] = [
     new Game(`Eisei Meijin V`),
     new Game(`Eisei Meijin VI`),
     new Game(`Eisei Meijin VII`),
+    new Application(`eJay Clubworld`),
     new Game(`El Tigre: The Adventures of Manny Rivera`),
     new Game(`Elminage: Yami no Miko to Kamigami no Yubiwa`),
     new Game(`Elvandia Story`),
@@ -1004,6 +1019,7 @@ export const GameList: Game[] = [
     new Game(`Extreme Sprint 3010`),
     new Game(`Eyeshield 21: AmeFoot Yarouze! Ya! Ha!`),
     new Game(`EyeToy: AntiGrav`),
+    new Game(`EyeToy: Chat`),
     new Game(`EyeToy: Groove`),
     new Game(`EyeToy: Kinetic`),
     new Game(`EyeToy: Kinetic Combat`),
@@ -1257,6 +1273,7 @@ export const GameList: Game[] = [
     new Game(`Gekikuukan Pro Yakyuu: At the End of the Century 1999`),
     new Game(`Gekitou Pro Yakyuu`),
     new Game(`Gendai Daisenryaku: Isshoku Sokuhatsu - Gunji Balance Houkai`),
+    new Application(`Gendai Yougo no Kiso Chishiki 2001`),
     new Game(`Gene Troopers`),
     new Game(`Generation of Chaos`),
     new Game(`Generation of Chaos III: Toki no Fuuin`),
@@ -1862,6 +1879,7 @@ export const GameList: Game[] = [
     new Game(`Katakamuna: Ushinawareta Ingaritsu`),
     new Game(`Katamari Damacy`),
     new Game(`Katana Action`),
+    new Application(`Katei no Igaku`),
     new Game(`Katekyoo Hitman Reborn Nerae!? Ring x Bongole Returns`),
     new Game(`Katekyoo Hitman Reborn! Dream Hyper Battle!`, `katekyoohitmanreborndreamhyperbattle`, 1, Contributors.Cajas),
     new Game(`Katekyoo Hitman Reborn! Kindan no Yami no Delta`, `katekyoohitmanrebornkindannoyaminodelta`, 1, Contributors.Cajas),
@@ -2003,7 +2021,7 @@ export const GameList: Game[] = [
     new Game(`Kya: Dark Lineage`, `kyadarklineage`, 1, Contributors.Cajas),
     new Game(`Kyo Kara Maoh! Hajimari no Tabi`),
     new Game(`Kyo Kara Maoh! Shin Makoku no Kyuujitsu`),
-    new Game(`Kyo-no Wanko (Xenosaga Freaks)`, `kyonowanko`, 1, Contributors.Cajas),
+    new Application(`Kyo-no Wanko (Xenosaga Freaks)`, `kyonowanko`, 1, Contributors.Cajas),
     new Game(`Kyojin no Hoshi`),
     new Game(`Kyoufu Shinbun (Heisei-Han) Kaiki! Shinrei File`),
     new Game(`Kyoushuu Kidou Butai: Kougeki Helicopter Senki`),
@@ -2060,6 +2078,7 @@ export const GameList: Game[] = [
     new Game(`Like Life An Hour`),
     new Game(`Lilie no Atelier Plus: Salberg no Renkinjutsushi 3`),
     new Game(`Lilie no Atelier: Salberg no Renkinjutsushi 3`),
+    new Application(`Linux for PlayStation 2`),
     new Game(`Little Aid`),
     new Game(`Little Anchor`),
     new Game(`Little Britain: The Video Game`, `littlebritainthevideogame`, 1, Contributors.SqueezedDog),
@@ -2079,6 +2098,7 @@ export const GameList: Game[] = [
     new Game(`London Taxi: Rush Hour`),
     new Game(`Looney Tunes: Acme Arsenal`, `looneytunesacmearsenal`, 1, Contributors.Cajas),
     new Game(`Looney Tunes: Back in Action`, `looneytunesbackinaction`, 1, Contributors.Cajas),
+    new Application(`Loop Sequencer: Music Generator`),
     new Game(`The Lord of the Rings: Aragorn's Quest`, `thelordoftheringsaragornsquest`, 1, Contributors.Cajas),
     new Game(`The Lord of the Rings: The Fellowship of the Ring`, `thelordoftheringsfellowshipofthering`, 1, Contributors.Cajas),
     new Game(`The Lord of the Rings: The Return of the King`, `thelordoftheringsthereturnoftheking`, 1, Contributors.Cajas),
@@ -2169,6 +2189,8 @@ export const GameList: Game[] = [
     new Game(`Magical Pachinko Cotton: Pachinko Jūki Simulation`),
     new Game(`Magical Sports 2000 Koushien`),
     new Game(`Magical Tale: Chitchana Mahoutsukai`),
+    new Application(`Magix Music Maker`),
+    new Application(`Magix Music Maker: Rockstar`),
     new Game(`The Magician's Academy`),
     new Game(`Magna Carta: Tears of Blood`, `magnacarta`, 1, Contributors.ItzCookieX),
     new Game(`Mahjong`),
@@ -2370,6 +2392,7 @@ export const GameList: Game[] = [
     new Game(`Mobile Suit Gundam SEED: Never Ending Tomorrow`, `mobilesuitgundamseedneverendingtomorrow`, 2, Contributors.Cajas),
     new Game(`Mobile Suit Gundam Z: AEUG vs. Titans`),
     new Game(`Mobile Suit Gundam: Zeonic Front`, `mobilesuitgundamzeonicfront`, 1, Contributors.Atat111111),
+    new Application(`Moderngroove: Ministry of Sound Edition`),
     new Game(`Moe Moe 2-Ji Daisenryaku 2`),
     new Game(`Moe Moe 2-Ji Daisenryaku Deluxe`),
     new Game(`Moekan: Moekko Company`, `moekanmoekkocompany`, 1, Contributors.ItzCookieX),
@@ -2412,10 +2435,10 @@ export const GameList: Game[] = [
     new Game(`Mortal Kombat: Deadly Alliance`, `mortalkombatdeadlyalliance`, 1, Contributors.Oddworld2001),
     new Game(`Mortal Kombat: Deception`, `mortalkombatdeception`, 1, Contributors.Oddworld2001),
     new Game(`Mortal Kombat: Shaolin Monks`, `mortalkombatshaolinmonks`, 1, Contributors.FenixF),
-    new Game(`Motion Gravure Series: Kitagawa Tomomi`),
-    new Game(`Motion Gravure Series: Megumi`, `motiongravureseriesmegumi`, 1, Contributors.Cajas),
-    new Game(`Motion Gravure Series: Mori Hiroko`),
-    new Game(`Motion Gravure Series: Nemoto Harumi`, `motiongravureseriesnemotoharumi`, 1, Contributors.ItzCookieX),
+    new Application(`Motion Gravure Series: Kitagawa Tomomi`),
+    new Application(`Motion Gravure Series: Megumi`, `motiongravureseriesmegumi`, 1, Contributors.Cajas),
+    new Application(`Motion Gravure Series: Mori Hiroko`),
+    new Application(`Motion Gravure Series: Nemoto Harumi`, `motiongravureseriesnemotoharumi`, 1, Contributors.ItzCookieX),
     new Game(`Moto X Maniac`),
     new Game(`Motocross Mania 3`, g => [
         new Icon(g, `Career`, `motocrossmania3career`, 1, Contributors.Sebita),
@@ -2443,6 +2466,8 @@ export const GameList: Game[] = [
     new Game(`Mr. Golf`),
     new Game(`MS Saga: A New Dawn`, `mssagaanewdawn`, 1, Contributors.Cajas),
     new Game(`MTV's Celebrity Deathmatch`, `mtvscelebritydeathmatch`, 1, Contributors.SqueezedDog),
+    new Application(`MTV Music Generator 2`),
+    new Application(`MTV Music Generator 3: This Is The Remix`),
     new Game(`MTX Mototrax`),
     new Game(`The Mummy: The Animated Series`),
     new Game(`The Mummy Returns`),
@@ -2662,6 +2687,7 @@ export const GameList: Game[] = [
     new Game(`Nights into Dreams`, `nightsintodreams`, 1, Contributors.ItzCookieX),
     new Game(`Nightshade`, `nightshade`, 3, Contributors.ItzCookieX),
     new Game(`Nihon Sumo Kyokai Kounin: Nihon Oozumou Gekitou Honbashohen`),
+    new Application(`Nihongo Daijiten`),
     new Game(`Ninja Assault`),
     new Game(`Ninjabread Man`),
     new Game(`Ninkyouden: Toseinin Ichidaiki`, `ninkyoudentoseininichidaiki`, 1, Contributors.Cajas),
@@ -2937,6 +2963,8 @@ export const GameList: Game[] = [
     new Game(`Pride FC: Fighting Championships`),
     new Game(`PrideGP Grand Prix 2003`),
     new Game(`Primal`, `primal`, 1, Contributors.Issung),
+    new Application(`Primal Image for Printer`),
+    new Application(`Primal Image vol. 1`),
     new Game(`Primopuel`),
     new Game(`Prince of Persia: The Sands of Time`, `princeofpersiasandsoftime`, 1, Contributors.Issung),
     new Game(`Prince of Persia: The Two Thrones`, `princeofpersiathetwothrones`, 1, Contributors.Cajas),
@@ -2954,6 +2982,10 @@ export const GameList: Game[] = [
     new Game(`Prism Ark: Awake`, `prismarkawake`, 1, Contributors.Rikineko),
     new Game(`Prisoner of War`),
     new Game(`Private Nurse: Maria`),
+    new Application(`Pro Atlas for TV: Kinki`),
+    new Application(`Pro Atlas for TV: Shutoken`),
+    new Application(`Pro Atlas for TV: Toukai`),
+    new Application(`Pro Atlas for TV: Zengokuban`),
     new Game(`Pro Biker 2`),
     new Game(`Pro Bull Riders: Out of the Chute`),
     new Game(`Pro Evolution Soccer`),
@@ -3482,6 +3514,7 @@ export const GameList: Game[] = [
     new Game(`Silent Scope 3`),
     new Game(`Silpheed: The Lost Planet`, `silpheedthelostplanet`, 1, Contributors.Cajas),
     new Game(`Simoun: Shoubi Sensou – Fuuin no Remersion`),
+    new Application(`Simple 2000 Series Vol. 40: The Touyou Sandai Uranjustsu`),
     new Game(`The Simpsons Game`, `thesimpsonsgame`, 1, Contributors.FenixF),
     new Game(`The Simpsons: Hit & Run`, `simpsonshitnrun`, 1, Contributors.Issung),
     new Game(`The Simpsons: Road Rage`, `thesimpsonsroadrage`, 2, Contributors.Sebita),
@@ -3491,6 +3524,7 @@ export const GameList: Game[] = [
     new Game(`The Sims 2: Castaway`, `sims2castaway`, 3, Contributors.ItzCookieX),
     new Game(`The Sims 2: Pets`, `sims2pets`, 3, Contributors.ItzCookieX),
     new Game(`The Sims Bustin' Out`, `thesimsbustinout`, 1, Contributors.ItzCookieX),
+    new Application(`TVDJ`),
     new Game(`Sinbad Adventure wa Enomoto Kanako de Dou Desu ka`),
     new Game(`SingStar`, g => [
         new Icon(g, `Player Profiles`, `singstarplayerprofiles`, 1, Contributors.Zeroman95),
@@ -4298,6 +4332,10 @@ export const GameList: Game[] = [
     new Game(`Virtua Fighter 4: Evolution`, `virtuafighter4evolution`, 1, Contributors.Issung),
     new Game(`Virtua Pro Football`),
     new Game(`Virtua Quest`, `virtuaquest`, 1, Contributors.Cajas),
+    new Application(`Virtual View: Megumi Eyes Play`),
+    new Application(`Virtual View: Nemoto Harumi Eizou Play`),
+    new Application(`Virtual View: R.C.T. Eyes Play`),
+    new Application(`Visual Mix Ayumi Hamasaki Dome Tour 2001`),
     new Game(`Vitamin X`),
     new Game(`Vitamin Z`),
     new Game(`VM Japan`),
@@ -4585,7 +4623,7 @@ export const GameList: Game[] = [
     new Game(`Zwei: The Arges Adventure`),
 ];
 
-export const IconList: Icon[] = GameList
+export const IconList: Icon[] = Titles
     .filter(g => g.icons.length > 0)
     .flatMap(g => g.icons);
 
@@ -4594,7 +4632,7 @@ export const UniqueIconsCount: number = IconList
     .reduce((prevValue, value) => prevValue + value, 0);
 
 // Populate index for each game & icon after the collection is initialised.
-GameList.forEach((game, gameIndex) => {
+Titles.forEach((game, gameIndex) => {
     game.index = gameIndex.toString();
 
     game.icons.forEach((icon, iconIndex) => {
@@ -4604,6 +4642,9 @@ GameList.forEach((game, gameIndex) => {
 
 /*
 Useful script to find all games listed that start with non english chraracters.
+This did not extract the "Applications" or "Bundles" tables below. I added in the applications by hand.
+https://en.wikipedia.org/wiki/List_of_PlayStation_2_games_(A%E2%80%93K)
+https://en.wikipedia.org/wiki/List_of_PlayStation_2_games_(L%E2%80%93Z)
 
 const nonEnglishStartGames = GameList.filter((game) => {
     const firstChar = game.name.charAt(0);

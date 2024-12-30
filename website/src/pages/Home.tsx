@@ -4,7 +4,7 @@ import { ContributorCount } from '../model/Contributors';
 import { FilterSelectAlphabetical } from '../components/FilterSelectAlphabetical';
 import { ContributorList } from '../components/ContributorList';
 import { FilterTypeSelect, FilterType } from '../components/FilterTypeSelect';
-import { IconList, UniqueIconsCount } from '../model/GameList';
+import { IconList, UniqueIconsCount } from '../model/Titles';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import Counter from "../components/Counter";

@@ -1,5 +1,5 @@
 import './Icon.scss';
-import { GameList } from "../model/GameList";
+import { Titles } from "../model/Titles";
 import { Icon as IconModel } from "../model/Icon";
 import { IconSys } from "../model/IconSys";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -63,7 +63,7 @@ const Icon = () => {
     
     
     useEffect(() => {
-        let icon = GameList.flatMap(g => g.icons).find(i => i.code == iconcode);
+        let icon = Titles.flatMap(g => g.icons).find(i => i.code == iconcode);
         setIcon(icon);
 
         async function fetchIconSys() {

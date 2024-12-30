@@ -1,12 +1,12 @@
 import { Contributor } from "./Contributor";
-import { Game } from "./Game";
+import { Title } from "./Title";
 
 /**
  * An icon for a game. Most games have just 1 icon, but some 
  * like SF3 have a unique icon for each character, or have regional differences.
  */
 export class Icon {
-    public game: Game;
+    public game: Title;
     public name: string;
     public code?: string;
     public variantCount?: number;
@@ -27,7 +27,7 @@ export class Icon {
      * @param variantCount The number of unique save icons this game has.
      */
     constructor(
-        game: Game,
+        game: Title,
         name: string,
         code?: string,
         variantCount?: number,

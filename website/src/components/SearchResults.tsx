@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import GameTable from './GameTable';
-import { Game } from '../model/Game';
-import { GameList } from '../model/GameList';
+import { Title } from '../model/Title';
+import { Titles } from '../model/Titles';
 import SearchKeywordChunker from '../model/SearchKeywordChunker';
 import { FilterType, FilterTypeDefault } from './FilterTypeSelect';
 import { Category } from './FilterSelectCategory';
@@ -15,7 +15,7 @@ type SearchResultsProps = {
 
 const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: SearchResultsProps) =>
 {
-    const [games, setGames] = useState(Array<Game>);
+    const [games, setGames] = useState(Array<Title>);
 
     const filterByAlphabet = useCallback(() =>
     {
@@ -31,13 +31,13 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
         if (!filter || filter === 'misc')
         {
             // All things that come before the first game that starts with 'A'.
-            let miscGames = GameList.findIndex(g => g.name.startsWith('A'));
-            setGames(GameList.slice(0, miscGames));
+            let miscGames = Titles.findIndex(g => g.name.startsWith('A'));
+            setGames(Titles.slice(0, miscGames));
         }
         else
         {
             let characters = additionalCharacterIncludes[filter ?? ''] ?? [filter];
-            let results = GameList.filter(g => {
+            let results = Titles.filter(g => {
                 for (const char of characters) {
                     if (g.name.startsWith(char)) {
                         return true;
@@ -55,16 +55,16 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
 
         if (index === Category.all)
         {
-            setGames(GameList);
+            setGames(Titles);
         }
         else if (index === Category.missing)
         {
-            let gamesInCategory = GameList.filter(g => !g.icons.some(i => i.code));
+            let gamesInCategory = Titles.filter(g => !g.icons.some(i => i.code));
             setGames(gamesInCategory);
         }
         else if (index === Category.uploaded)
         {
-            let gamesInCategory = GameList.filter(g => g.icons.some(i => i.code));
+            let gamesInCategory = Titles.filter(g => g.icons.some(i => i.code));
             setGames(gamesInCategory);
         }
         else //if (index > Category.icons1 && index < Category.icons3)
@@ -72,7 +72,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
             let indexStr = index.toString();
             let lastChar = indexStr.charAt(index.length - 1);
             let number = parseInt(lastChar);
-            let gamesInCategory = GameList.filter(g => g.icons.some(i => i.variantCount === number));
+            let gamesInCategory = Titles.filter(g => g.icons.some(i => i.variantCount === number));
             setGames(gamesInCategory);
         }
     }, [filter]);
@@ -93,13 +93,13 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
             }
             else
             {
-                let results = GameList.filter(g => g.name.toLowerCase().indexOf(words[0]) >= 0);
+                let results = Titles.filter(g => g.name.toLowerCase().indexOf(words[0]) >= 0);
                 setGames(results);
             }
         }
         else // Match on keywords of game titles vs entered keywords.
         {
-            let results = GameList
+            let results = Titles
                 .map(game => {
                     var gameKeywords = game.name.toLowerCase().split(' ').filter(unique);   // Unique filter on end (don't match on same word twice).
                     var matches = gameKeywords.map((gkw, i) => words.some(skw => skw === gkw) ? i : null).filter(i => i != null);
@@ -125,7 +125,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
         let contributor = Contributors.GetContributorByName(filter);
 
         if (contributor) {
-            let games = GameList.filter(g => g.icons.some(i => i.contributor == contributor));
+            let games = Titles.filter(g => g.icons.some(i => i.contributor == contributor));
             setGames(games);
         }
         else {
