@@ -26,6 +26,7 @@ export class Contributors {
     public static Sharpyroos = new Contributor('Sharpyroos'); // Uploaded by Squeezed Dog
     public static Cajas = new Contributor('Cajas');
     public static VideoGameKing = new Contributor('Video_Game_King');
+    public static RyutoSetsujin = new Contributor('Ryuto Setsujin');
 }
 
 export const ContributorCount = Object.values(Contributors).length;

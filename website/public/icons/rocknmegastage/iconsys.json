@@ -1,0 +1,18 @@
+{
+    "title":" \u30ed\u30c3\u30af\u30f3\u30e1\u30ac\u30b9\u30c6-\u30b8",
+    "normal":"rockn.ico",
+    "copy":"rockn.ico",
+    "delete":"rockn.ico",
+    "bgOpacity":128,
+    "bgColTL":"#000080",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000080",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.5, 0.5, -0.5, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
