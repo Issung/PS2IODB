@@ -4341,7 +4341,7 @@ export const Titles: Title[] = [
     new Application(`Virtual View: Megumi Eyes Play`),
     new Application(`Virtual View: Nemoto Harumi Eizou Play`),
     new Application(`Virtual View: R.C.T. Eyes Play`),
-    new Application(`Visual Mix Ayumi Hamasaki Dome Tour 2001`, `visualmixayumihamasakidometour2001`, 1, Contributors.RyutoSetsujin),
+    new Application(`Visual Mix - Ayumi Hamasaki Dome Tour 2001 A`, `visualmixayumihamasakidometour2001a`, 1, Contributors.RyutoSetsujin),
     new Game(`Vitamin X`),
     new Game(`Vitamin Z`),
     new Game(`VM Japan`),
