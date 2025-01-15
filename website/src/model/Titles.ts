@@ -1902,7 +1902,7 @@ export const Titles: Title[] = [
     new Game(`Kessen`, `kessen`, 1, Contributors.Cajas),
     new Game(`Kessen II`, `kessen2`, 1, Contributors.Cajas),
     new Game(`Kessen III`),
-    new Game(`KeyboardMania`),
+    new Game(`KeyboardMania`, `keyboardmania`, 1, Contributors.RyutoSetsujin),
     new Game(`KeyboardMania II: 2nd Mix & 3rd Mix`),
     new Game(`Kiddies Party Pack`),
     new Game(`Kidou Senshi Gundam 00: Gundam Meisters`, `kidousenshigundam00gundammeisters`, 2, Contributors.Cajas),
@@ -2845,7 +2845,7 @@ export const Titles: Title[] = [
     new Game(`Panzer Elite Action: Fields of Glory`),
     new Game(`Panzer Front Ausf.B`),
     new Game(`Paparazzi`, `paparazzi`, 1, Contributors.Cajas),
-    new Game(`Para Para Paradise`),
+    new Game(`Para Para Paradise`, `paraparaparadise`, 1, Contributors.RyutoSetsujin),
     new Game(`PaRappa the Rapper 2`, g => [
         new Icon(g, `Circuit 1 (Orange Hat)`, `parappatherapper2circuit1`, 1, Contributors.SqueezedDog),
         new Icon(g, `Circuit 2 (Blue Hat)`, `parappatherapper2circuit2`, 1, Contributors.ItzCookieX),
