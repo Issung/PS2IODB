@@ -27,6 +27,7 @@ export class Contributors {
     public static Cajas = new Contributor('Cajas');
     public static VideoGameKing = new Contributor('Video_Game_King');
     public static RyutoSetsujin = new Contributor('Ryuto Setsujin', 'https://bsky.app/profile/ryuto.quizmagic.academy');
+    public static Pm41224 = new Contributor('pm41224');
 }
 
 export const ContributorCount = Object.values(Contributors).length;

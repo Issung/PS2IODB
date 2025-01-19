@@ -1,0 +1,18 @@
+{
+    "title":"\u540d\u63a2\u5075\u30a8\u30f4\u30a1\u30f3\u30b2\u30ea\u30aa\u30f31 25/01/19  \u7b2c\u58f1\u7ae0",
+    "normal":"icon.ico",
+    "copy":"icon.ico",
+    "delete":"icon.ico",
+    "bgOpacity":64,
+    "bgColTL":"#ff0000",
+    "bgColTR":"#7f0000",
+    "bgColBL":"#7f0000",
+    "bgColBR":"#000000",
+    "light1Dir":[1.0, 0.0, 0.0, 0.0],
+    "light2Dir":[1.0, 0.0, 0.0, 0.0],
+    "light3Dir":[1.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}
