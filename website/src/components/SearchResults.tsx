@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, JSX } from 'react';
 import GameTable from './GameTable';
 import { Title } from '../model/Title';
 import { Titles } from '../model/Titles';
