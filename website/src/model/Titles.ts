@@ -2938,7 +2938,7 @@ export const Titles: Title[] = [
     new Game(`Plarail: Yume ga Ippai!`),
     new Game(`Playboy: The Mansion`, `playboythemansion`, 1, Contributors.SqueezedDog),
     new Game(`Playwize Poker & Casino`),
-    new Game(`Plus Plum 2 Again`),
+    new Game(`Plus Plum 2 Again`, `plusplum2again`, 1, Contributors.RyutoSetsujin),
     new Game(`Pochinya`),
     new Game(`Poi! Hito Natsu no Keiken!?`),
     new Game(`Poinie's Poin`, `poiniespoin`, 1, Contributors.ItzCookieX),
@@ -3060,10 +3060,7 @@ export const Titles: Title[] = [
     new Game(`Pure Pure: Mimi to Shippo no Monogatari`),
     new Game(`Pure x Cure Recovery`),
     new Game(`Puyo Pop Fever`, `puyopuyofever`, 1, Contributors.Sebita),
-    new Game(`Puyo Puyo Fever 2`, g => [
-        new Icon(g, `Red`, `puyopuyofever2-red`, 1, Contributors.Sebita),   // What determines red/yellow is unknown. Maybe regional?
-        new Icon(g, `Yellow`, `puyopuyofever2-yellow`, 1, Contributors.RyutoSetsujin),
-    ]),
+    new Game(`Puyo Puyo Fever 2`, `puyopuyofever2-red`, 1, Contributors.Sebita),
     new Game(`Puyo Puyo! 15th Anniversary`, `puyopuyo15thanniversary`, 1, Contributors.Sebita),
     new Game(`Puzzle Challenge: Crosswords and More!`),
     new Game(`Puzzle Maniacs`),
