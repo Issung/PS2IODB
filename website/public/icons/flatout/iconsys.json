@@ -1,0 +1,18 @@
+{
+    "title":"FlatOut",
+    "normal":"flatout.ico",
+    "copy":"flatout.ico",
+    "delete":"flatout.ico",
+    "bgOpacity":96,
+    "bgColTL":"#a00000",
+    "bgColTR":"#a00000",
+    "bgColBL":"#ffff00",
+    "bgColBR":"#ffff00",
+    "light1Dir":[0.0, 0.0, -1.0, 0.0],
+    "light2Dir":[1.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 1.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[1.0, 1.0, 1.0, 0.0],
+    "ambiLightCol":[0.4000000059604645, 0.4000000059604645, 0.4000000059604645, 0.0]
+}
