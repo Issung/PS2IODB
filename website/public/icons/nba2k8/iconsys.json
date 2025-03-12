@@ -1,0 +1,18 @@
+{
+    "title":"NBA 2K8 Roster1",
+    "normal":"VIEW.ICO",
+    "copy":"VIEW.ICO",
+    "delete":"VIEW.ICO",
+    "bgOpacity":96,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[-1.0, 0.0, 0.0, 0.0],
+    "light2Dir":[-1.0, 0.0, 0.0, 0.0],
+    "light3Dir":[-1.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[1.0, 1.0, 1.0, 0.0],
+    "ambiLightCol":[0.25, 0.25, 0.25, 0.0]
+}

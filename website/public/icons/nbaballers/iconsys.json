@@ -1,0 +1,18 @@
+{
+    "title":"NBA Ballers Settings",
+    "normal":"view.ico",
+    "copy":"view.ico",
+    "delete":"view.ico",
+    "bgOpacity":64,
+    "bgColTL":"#5283a6",
+    "bgColTR":"#5283a6",
+    "bgColBL":"#5283a6",
+    "bgColBR":"#5283a6",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

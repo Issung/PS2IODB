@@ -1,0 +1,18 @@
+{
+    "title":" NBA HOOPZ",
+    "normal":"ball.ico",
+    "copy":"ball.ico",
+    "delete":"ball.ico",
+    "bgOpacity":100,
+    "bgColTL":"#6400c8",
+    "bgColTR":"#32001d",
+    "bgColBL":"#c800c8",
+    "bgColBR":"#000000",
+    "light1Dir":[1.0, 1.0, 1.0, 0.0],
+    "light2Dir":[1.0, 1.0, 1.0, 0.0],
+    "light3Dir":[1.0, 1.0, 1.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[1.0, 1.0, 1.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}
