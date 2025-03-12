@@ -439,7 +439,7 @@ export const Titles: Title[] = [
     new Game(`Buzz!: The Schools Quiz`),
     new Game(`Buzz!: The Sports Quiz`),
     new Game(`Buzz! Junior: Ace Racers`),
-    new Game(`Buzz! Junior: Dino Den`),
+    new Game(`Buzz! Junior: Dino Den`, `buzzjuniordinoden`, 1, Contributors.Zeroman95),
     new Game(`Buzz! Junior: Jungle Party`),
     new Game(`Buzz! Junior: Monster Rumble`),
     new Game(`Buzz! Junior: Robo Jam`, `buzzjuniorrobojam`, 1, Contributors.Zeroman95),
