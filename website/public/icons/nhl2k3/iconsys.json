@@ -1,0 +1,18 @@
+{
+    "title":"NHL2K3 2002",
+    "normal":"nhl2k3view.ico",
+    "copy":"nhl2k3view.ico",
+    "delete":"nhl2k3view.ico",
+    "bgOpacity":96,
+    "bgColTL":"#000020",
+    "bgColTR":"#000080",
+    "bgColBL":"#000020",
+    "bgColBR":"#000020",
+    "light1Dir":[0.5, 0.0, 0.5, 0.0],
+    "light2Dir":[0.5, 0.5, 0.5, 0.0],
+    "light3Dir":[0.0, 1.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.0, 0.0, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.699999988079071, 0.0]
+}

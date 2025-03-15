@@ -1,0 +1,18 @@
+{
+    "title":"NFL2K2 Sakuragi",
+    "normal":"MemCardIcon.ico",
+    "copy":"MemCardIcon.ico",
+    "delete":"MemCardIcon.ico",
+    "bgOpacity":96,
+    "bgColTL":"#ffffff",
+    "bgColTR":"#ff0000",
+    "bgColBL":"#00ff00",
+    "bgColBR":"#0000ff",
+    "light1Dir":[-1.0, 0.0, 0.0, 1.0],
+    "light2Dir":[0.0, -1.0, 0.0, 1.0],
+    "light3Dir":[0.0, 0.0, -1.0, 1.0],
+    "light1Col":[1.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 1.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 1.0, 0.0],
+    "ambiLightCol":[0.4000000059604645, 0.4000000059604645, 0.4000000059604645, 0.0]
+}
