@@ -114,7 +114,7 @@ export class ModelRendererImpl {
         this.onWindowResize();
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.autoRotate = true;
-        this.controls.autoRotateSpeed = -2;
+        this.controls.autoRotateSpeed = -3;
         this.controls.rotateSpeed = 0.2;
         this.controls.update();
 
@@ -325,10 +325,11 @@ export class ModelRendererImpl {
     }
 
     public animate() {
-        requestAnimationFrame(this.animate);
-        this.controls?.update();
+        const delta = this.clock.getDelta();
+        this.controls?.update(delta);
         this.stats?.update();
         this.render();
+        requestAnimationFrame(this.animate);
     }
 
     render() {
@@ -344,7 +345,7 @@ export class ModelRendererImpl {
         }
 
         // TODO: There's better ways to do this animationSpeed alteration, but that can come with the keyframing refactor eventually.
-        let elapsedTime = this.clock.getElapsedTime() * this.prop_animationSpeed;
+        const elapsedTime = this.clock.getElapsedTime() * this.prop_animationSpeed;
         if (this.animData && this.geometry) {
             let animationTotalFrames = this.animData.frames.length;
             let secondsForWholeAnimation = ModelRendererImpl.secondsPerAnimationFrame * animationTotalFrames;
