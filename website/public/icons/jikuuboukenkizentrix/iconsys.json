@@ -1,0 +1,18 @@
+{
+    "title":"\u30bc\u30f3\u30c8\u30ea\u30c3\u30af\u30b9 \u30bb-\u30d6\u30c7-\u30bf",
+    "normal":"zentrix0.ico",
+    "copy":"zentrix0.ico",
+    "delete":"zentrix0.ico",
+    "bgOpacity":96,
+    "bgColTL":"#002080",
+    "bgColTR":"#002080",
+    "bgColBL":"#000020",
+    "bgColBR":"#000020",
+    "light1Dir":[1.0, 0.0, 1.0, 0.0],
+    "light2Dir":[0.0, 1.0, 1.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 1.0],
+    "light2Col":[0.5, 0.5, 0.5, 1.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.20000000298023224, 0.20000000298023224, 0.20000000298023224, 1.0]
+}
