@@ -20,5 +20,37 @@ export class Utils {
         }
         
         return i + "th";
-    }    
+    }
+
+    static hexToRgb(hex: string): { r: number, g: number, b: number } {
+        hex = hex.replace(/^#/, '');
+        const bigint = parseInt(hex, 16);
+        return {
+            r: (bigint >> 16) & 255,
+            g: (bigint >> 8) & 255,
+            b: bigint & 255
+        };
+    }
+    
+    static rgbToHex({ r, g, b }: { r: number, g: number, b: number }): string {
+        return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1).toUpperCase()}`;
+    }
+    
+    static averageColor(hexColors: string[]): string {
+        let total = { r: 0, g: 0, b: 0 };
+        let count = hexColors.length;
+        
+        hexColors.forEach(hex => {
+            let rgb = Utils.hexToRgb(hex);
+            total.r += rgb.r;
+            total.g += rgb.g;
+            total.b += rgb.b;
+        });
+        
+        return Utils.rgbToHex({
+            r: Math.round(total.r / count),
+            g: Math.round(total.g / count),
+            b: Math.round(total.b / count)
+        });
+    }
 }

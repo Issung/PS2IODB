@@ -9,10 +9,10 @@ export class IconSys
     
     // Background color in each corner, abbreviations = topleft, bottomright, etc.
     // Hex color strings e.g. "#72b099".
-    public bgColTL: string = "";
-    public bgColTR: string = "";
-    public bgColBL: string = "";
-    public bgColBR: string = "";
+    public bgColTL: string | undefined = undefined;
+    public bgColTR: string | undefined = undefined;
+    public bgColBL: string | undefined = undefined;
+    public bgColBR: string | undefined = undefined;
 
     // Light details.
     // Directions are arrays of 4 floats ranging 0.0 - 1.0 representing ...(?).

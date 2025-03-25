@@ -1,11 +1,14 @@
+import { useEffect, useMemo } from "react";
+import { IconSys } from '../model/IconSys';
+import { IconInfoCallback, ModelRendererImpl } from "./ModelRendererImpl";
 import './ModelView.scss';
-import { useEffect } from "react";
-import { ModelRendererImpl, IconInfoCallback } from "./ModelRendererImpl";
-import { MeshType, TextureType } from "./ModelViewParams";
+import { BackgroundType, MeshType, TextureType } from "./ModelViewParams";
+import { Utils } from "../utils/Utils";
 
-interface ModelViewProps {
+export interface ModelViewProps {
     // Properties that require network requests.
     iconcode: string | undefined;
+    iconsys: IconSys | undefined;
     variant: string | undefined;
     textureType: TextureType;
 
@@ -15,6 +18,7 @@ interface ModelViewProps {
     frame: number;
     grid: boolean;
     meshType: MeshType;
+    backgroundType: BackgroundType;
     backgroundColor: string;
 
     /** Callback for the impl to give information back to the Icon UI. */
@@ -23,7 +27,7 @@ interface ModelViewProps {
 
 const renderer = new ModelRendererImpl();
 
-const ModelView: React.FC<ModelViewProps> = ({ iconcode, variant, textureType, animate, animationSpeed, frame, grid, meshType, backgroundColor, callback }) => {
+export const ModelView = ({ iconcode, iconsys, variant, textureType, animate, animationSpeed, frame, grid, meshType, backgroundType, backgroundColor, callback } : ModelViewProps) => {
     useEffect(() => {
         renderer.init();
         return renderer.dispose;
@@ -45,13 +49,37 @@ const ModelView: React.FC<ModelViewProps> = ({ iconcode, variant, textureType, a
             renderer.prop_frame = frame;
             renderer.prop_grid = grid;
             renderer.prop_meshType = meshType;
-            renderer.prop_backgroundColor = backgroundColor;
         }
     }, [animate, animationSpeed, frame, grid, meshType, backgroundColor])
 
+    const color = useMemo(() => {
+        if (backgroundType == BackgroundType.Icon && iconsys?.bgColTL) {
+            const tl = iconsys.bgColTL;
+            const tr = iconsys.bgColTR!;    // Exclamation marks on these, we know one is defined so we will assume all are defined.
+            const bl = iconsys.bgColBL!;
+            const br = iconsys.bgColBR!;
+            const middle = Utils.averageColor([tl, tr, bl, br]);
+            
+            // 4-way gradient original source from here: https://stackoverflow.com/a/53602030/8306962.
+            // Modifications made to calculate the middle color...
+            return `linear-gradient(to top left, ${br}, transparent, ${tl}), linear-gradient(to top right, ${bl}, transparent, ${tr}) ${middle}`;
+        }
+        else {
+            // If we just use a solid color the background doesn't actually redraw once the iconsys is reloaded, at least in chrome.. I think this is a browser bug
+            // Because if you disable the background style and re-enable it it draws as intended. If we keep using a linear-gradient then it has no issue!
+            // We don't continue to use the 4-point gradient because then when the user changes the color themselves the middle color lags behind, like it is the only one affected by the transition rule.
+            return `linear-gradient(to top left, ${backgroundColor}, ${backgroundColor})`
+        }
+    }, [backgroundType, backgroundColor]);
+
     return(
-        <canvas id="iconRenderCanvas" />
+        // TODO: The browser just isn't redrawing the background :(.
+        <canvas
+            id="iconRenderCanvas"
+            style={{
+                transition: 'background 2s',
+                background: color
+            }}
+        />
     )
 };
-
-export default ModelView;

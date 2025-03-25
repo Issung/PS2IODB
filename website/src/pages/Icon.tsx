@@ -1,13 +1,13 @@
-import './Icon.scss';
-import { Titles } from "../model/Titles";
+import JSZip from "jszip";
+import { useEffect, useMemo, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { BackgroundType, MeshType, TextureType } from "../components/ModelViewParams";
 import { Icon as IconModel } from "../model/Icon";
 import { IconSys } from "../model/IconSys";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { MeshType, TextureType } from "../components/ModelViewParams";
-import { useEffect, useMemo, useState } from "react";
-import JSZip from "jszip";
-import ModelView from '../components/ModelView';
+import { Titles } from "../model/Titles";
 import { SessionStorageKeys } from '../utils/Consts';
+import './Icon.scss';
+import { ModelView } from "../components/ModelView";
 
 /**
  * This component serves as a page, routed to by App.tsx.
@@ -49,9 +49,17 @@ const Icon = () => {
     const [grid, setGrid] = useState(true);
     const [textureType, setTextureType] = useState(TextureType.Icon);
     const [meshType, setMeshType] = useState(MeshType.Mesh);
+    const [backgroundType, setBackgroundType] = useState(BackgroundType.Icon);
     const [backgroundColor, setBackgroundColor] = useState('#080808');
 
     const [downloadStatus, setDownloadStatus] = useState<string>();
+
+    const [iconHasBackgroundColorData, setIconHasBackgroundColorData] = useState(false);
+    useEffect(() => {
+        let hasBackgroundColorData = iconsys != undefined && iconsys.bgColBL != undefined;
+        setIconHasBackgroundColorData(hasBackgroundColorData);
+        setBackgroundType(hasBackgroundColorData ? BackgroundType.Icon : BackgroundType.Color);
+    }, [iconsys]);
     
     useEffect(() => {
         // Add/remove event listener when component mounts/dismounts.
@@ -63,9 +71,6 @@ const Icon = () => {
     
     
     useEffect(() => {
-        let icon = Titles.flatMap(g => g.icons).find(i => i.code == iconcode);
-        setIcon(icon);
-
         async function fetchIconSys() {
             try {
 
@@ -92,6 +97,8 @@ const Icon = () => {
             }
         }
 
+        let icon = Titles.flatMap(g => g.icons).find(i => i.code == iconcode);
+        setIcon(icon);
         fetchIconSys();
     }, [iconcode]);
 
@@ -241,17 +248,19 @@ const Icon = () => {
             </h5>
 
             <ModelView 
-                iconcode={iconcode} 
-                variant={variant} 
+                iconcode={iconcode}
+                iconsys={iconsys}
+                variant={variant}
                 animate={doAnimation}
                 animationSpeed={animationSpeed}
-                frame={frame} 
-                grid={grid} 
-                textureType={textureType} 
-                meshType={meshType} 
-                backgroundColor={backgroundColor} 
+                frame={frame}
+                grid={grid}
+                textureType={textureType}
+                meshType={meshType}
+                backgroundType={backgroundType}
+                backgroundColor={backgroundColor}
                 callback={iconInfoCallback}
-                />
+            />
                 
             {iconError && (<code>{iconError}</code>)}
             {
@@ -290,10 +299,27 @@ const Icon = () => {
                                 </label>
                             </li>
                             <li>
-                                <label>Background Color
-                                    <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
+                                <label title={iconHasBackgroundColorData ? "Alter the background display." : "We do not have background color data for this icon yet."}>Background
+                                    <select
+                                        value={backgroundType}
+                                        onChange={e => setBackgroundType(e.target.value as BackgroundType)}
+                                        disabled={!iconHasBackgroundColorData}
+                                    >
+                                        {Object.values(BackgroundType).map((type) => (
+                                            <option key={type} value={type}>
+                                                {type}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </label>
                             </li>
+                            {backgroundType == BackgroundType.Color &&
+                                <li>
+                                    <label>Background Color
+                                        <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
+                                    </label>
+                                </li>
+                            }
                             <li>
                                 <label>Icon Variant
                                     <select value={variant} onChange={e => setVariant(e.target.value)}>

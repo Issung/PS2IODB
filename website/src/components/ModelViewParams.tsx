@@ -11,3 +11,11 @@ export enum MeshType {
     Wireframe = 'Wireframe',
     Normals = 'Normals',
 }
+
+/** The background display type. */
+export enum BackgroundType {
+    /** Display the background colors from the data stored with the icon, if available. */
+    Icon = 'Icon',
+    /** Display a solid color of the user's choice. */
+    Color = 'Color',
+}

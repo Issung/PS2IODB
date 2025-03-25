@@ -25,7 +25,7 @@ export class ModelRendererImpl {
     public prop_grid: boolean = true;
     public prop_textureType: TextureType = TextureType.Icon;
     public prop_meshType: MeshType = MeshType.Mesh;
-    public prop_backgroundColor: string = '#000000';
+    
     /**
      * A callback for the model renderer to use to inform about the icon's status.
      */
@@ -109,6 +109,7 @@ export class ModelRendererImpl {
             canvas: this.canvas,
             antialias: true,
             logarithmicDepthBuffer: true,   // Fixes z-fighting texture flickering on icons, especially when icon is zoomed out a lot.
+            alpha: true,    // Render the background transparent so we can display background colors (incl gradients) with CSS.
         });
         this.onWindowResize();
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -333,7 +334,6 @@ export class ModelRendererImpl {
     render() {
         this.axesHelper.visible = this.prop_grid;
         this.horizontalGridHelper.visible = this.prop_grid;
-        this.renderer?.setClearColor(new THREE.Color(this.prop_backgroundColor));
 
         if (this.mesh) {
             this.mesh.material.wireframe = this.prop_meshType === MeshType.Wireframe;
