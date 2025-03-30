@@ -45,6 +45,7 @@ const Home = () => {
 
     return (
         <>
+            <title>PS2IODB</title>
             <div id="Home">
                 <div className="container-fluid" style={{ height: "fit-content", maxHeight: 800 }}>
                     <div className="row justify-content-center">

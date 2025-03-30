@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 const Contribute: React.FC = () => {
     return (
         <>
+            <title>Contribute</title>
             <div id="Contribute">
                 <div className="container">
                     <div className="row justify-content-center">

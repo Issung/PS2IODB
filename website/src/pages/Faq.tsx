@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 const Faq: React.FC = () => {
     return (
         <>
+            <title>FAQ</title>
             <div id="Faq">
                 <div className="container">
                     <div className="row justify-content-center">
