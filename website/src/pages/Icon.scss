@@ -18,6 +18,8 @@ div#icon {
         left: 50%;
         transform: translateX(-50%);
         text-align: center;
+        background-color: $bgcolor;
+        padding: 0px 8px 0px 8px;
 
         * {
             color: white;
