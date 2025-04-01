@@ -1,0 +1,18 @@
+{
+    "title":"Ford Racing 3 Game Data",
+    "normal":"PSICON.ICO",
+    "copy":"PSICON.ICO",
+    "delete":"PSICON.ICO",
+    "bgOpacity":0,
+    "bgColTL":"#ffffff",
+    "bgColTR":"#ffffff",
+    "bgColBL":"#ffffff",
+    "bgColBR":"#ffffff",
+    "light1Dir":[-0.5773502588272095, -0.5773502588272095, -0.5773502588272095, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
