@@ -1022,7 +1022,10 @@ export const Titles: Title[] = [
     new Game(`Evangelion: Jo`, `evangelionjo`, 1, Contributors.ItzCookieX),
     new Game(`EVE Burst Error Plus`),
     new Game(`EVE: New Generation`),
-    new Game(`Ever17: The Out of Infinity`, `ever17`, 1, Contributors.Mkca),
+    new Game(`Ever17: The Out of Infinity`, g => [
+        new Icon(g, `Original Release`, `ever17-originalrelease`, 1, Contributors.Mkca),
+        new Icon(g, `Revision Release`, `ever17-revisionrelease`, 1, Contributors.Mkca),
+    ]),
     new Game(`Everblue`, `everblue`, 1, Contributors.ItzCookieX),
     new Game(`Everblue 2`),
     new Game(`Evergrace`, `evergrace`, 1, Contributors.ItzCookieX),
