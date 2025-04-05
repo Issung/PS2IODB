@@ -29,7 +29,7 @@ export class Contributors {
     public static RyutoSetsujin = new Contributor('Ryuto Setsujin', 'https://bsky.app/profile/ryuto.quizmagic.academy');
     public static Pm41224 = new Contributor('pm41224');
     public static Loafhouse = new Contributor('loafhouse');
-    public static Mkca = new Contributor('MKCA');
+    public static Mkca = new Contributor('MKCA', 'https://github.com/MKCAMK');
 }
 
 export const ContributorCount = Object.values(Contributors).length;
