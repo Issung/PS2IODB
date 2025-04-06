@@ -1,0 +1,18 @@
+{
+    "title":"\u30e2\u30b8\u30d6\u30ea\u30dc\u30f3\u30b7\u30b9\u30c6\u30e0 2025/02/23",
+    "normal":"system.ico",
+    "copy":"system.ico",
+    "delete":"system.ico",
+    "bgOpacity":64,
+    "bgColTL":"#cde5ac",
+    "bgColTR":"#cde5ac",
+    "bgColBL":"#e9d2b6",
+    "bgColBR":"#e9d2b6",
+    "light1Dir":[0.0, 0.0, -1.0, 0.0],
+    "light2Dir":[0.0, 0.0, -1.0, 0.0],
+    "light3Dir":[0.0, 0.0, -1.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0]
+}

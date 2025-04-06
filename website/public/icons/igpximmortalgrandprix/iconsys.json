@@ -1,0 +1,18 @@
+{
+    "title":"IGPX",
+    "normal":"IG_ICON.ico",
+    "copy":"IG_ICON.ico",
+    "delete":"IG_ICON.ico",
+    "bgOpacity":96,
+    "bgColTL":"#808080",
+    "bgColTR":"#808080",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.0, 0.0, 1.0, 0.0],
+    "light2Dir":[0.0, 0.0, 1.0, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

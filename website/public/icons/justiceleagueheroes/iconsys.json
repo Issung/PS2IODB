@@ -1,0 +1,18 @@
+{
+    "title":"Justice League  Heroes",
+    "normal":"ps2icon.ico",
+    "copy":"ps2icon.ico",
+    "delete":"ps2icon.ico",
+    "bgOpacity":0,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.15000000596046448, 0.5, -0.5, 1.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 0.9599999785423279, 0.9200000166893005, 1.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.6200000047683716, 0.6299999952316284, 0.7099999785423279, 1.0]
+}

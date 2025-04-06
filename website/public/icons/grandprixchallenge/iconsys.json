@@ -1,0 +1,18 @@
+{
+    "title":"Grand Prix Challenge",
+    "normal":"hello.ico",
+    "copy":"hello.ico",
+    "delete":"hello.ico",
+    "bgOpacity":64,
+    "bgColTL":"#595b8c",
+    "bgColTR":"#595b8c",
+    "bgColBL":"#595b8c",
+    "bgColBR":"#595b8c",
+    "light1Dir":[5.0, 15.0, 5.0, 0.0],
+    "light2Dir":[-5.0, 15.0, 5.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[32.0, 32.0, 32.0, 0.0]
+}
