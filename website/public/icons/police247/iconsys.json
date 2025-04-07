@@ -1,0 +1,18 @@
+{
+    "title":"\u30b6\u30fb\u8b66\u5bdf\u5b98 \u65b0\u5bbf24\u6642",
+    "normal":"mcicon_jp.ico",
+    "copy":"mcicon_jp.ico",
+    "delete":"mcicon_jp.ico",
+    "bgOpacity":63,
+    "bgColTL":"#fc0500",
+    "bgColTR":"#0005ff",
+    "bgColBL":"#0005ff",
+    "bgColBR":"#fc0500",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.6000000238418579, 0.6000000238418579, 0.6000000238418579, 0.0]
+}
