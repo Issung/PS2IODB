@@ -2337,7 +2337,11 @@ export const Titles: Title[] = [
     new Game(`The Menkou Shutoku Simulation ~Dourokoutsūhou Taiouban~`),
     new Game(`Mercenaries: Playground of Destruction`, `mercenariesplaygroundofdestruction`, 1, Contributors.SqueezedDog),
     new Game(`Mercenaries 2: World in Flames`, `mercenaries2worldinflames`, 1, Contributors.SqueezedDog),
-    new Game(`Mercury Meltdown Remix`),
+    new Game(`Mercury Meltdown Remix`, g => [
+        new Icon(g, `Profile`, `mercurymeltdownremix-profile`, 1, Contributors.Loafhouse),
+        new Icon(g, `Ghost`, `mercurymeltdownremix-ghost`, 1, Contributors.Loafhouse),
+        new Icon(g, `Replay`, `mercurymeltdownremix-replay`, 1, Contributors.Loafhouse),
+    ]),
     new Game(`Mermaid Prism`),
     new Game(`Meshimase Roman Sabou`),
     new Game(`Metal Arms: Glitch in the System`, `metalarmsglitchinthesystem`, 3, Contributors.Issung),

@@ -1,0 +1,18 @@
+{
+    "title":"Mercury Meltdown  Profile 1(ABC)",
+    "normal":"ps2mc0.ico",
+    "copy":"ps2mc0.ico",
+    "delete":"ps2mc0.ico",
+    "bgOpacity":96,
+    "bgColTL":"#800000",
+    "bgColTR":"#008000",
+    "bgColBL":"#000080",
+    "bgColBR":"#808080",
+    "light1Dir":[1.0, 1.0, 0.0, 0.0],
+    "light2Dir":[0.0, 1.0, 0.0, 0.0],
+    "light3Dir":[0.0, 1.0, 1.0, 0.0],
+    "light1Col":[0.20000000298023224, 0.20000000298023224, 0.20000000298023224, 0.5],
+    "light2Col":[0.5, 0.5, 0.5, 0.5],
+    "light3Col":[1.0, 1.0, 1.0, 0.5],
+    "ambiLightCol":[0.4000000059604645, 0.4000000059604645, 0.4000000059604645, 1.0]
+}
