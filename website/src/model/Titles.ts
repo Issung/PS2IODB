@@ -2664,7 +2664,10 @@ export const Titles: Title[] = [
     new Game(`Netsu Chu! Pro Yakyū 2003: Aki no Night Matsuri`),
     new Game(`Netsu Chu! Pro Yakyū 2004`),
     new Game(`Nettai Teikiatsu Shoujo`, `nettaiteikiatsushoujo`, 1, Contributors.SqueezedDog),
-    new Game(`Never7: The End of Infinity`, `never7theendofinfinity`, 1, Contributors.Cajas),
+    new Game(`Never7: The End of Infinity`, g => [
+        new Icon(g, `Original Release`, `never7-originalrelease`, 1, Contributors.Cajas),
+        new Icon(g, `Revision Release`, `never7-revisionrelease`, 1, Contributors.Mkca),
+    ]),
     new Game(`Neverland Kenkyūfu`),
     new Game(`New Jinsei Game`),
     new Game(`New Roommania: Porori Seishun`),
@@ -3150,7 +3153,10 @@ export const Titles: Title[] = [
     new Game(`Reign of Fire`),
     new Game(`Reijou Tantei: Office Love Jikenbo`),
     new Game(`Relaxuma: Ojama Shitemasu 2 Shūkan`),
-    new Game(`Remember 11: The Age of Infinity`, `remember11`, 1, Contributors.Cajas),
+    new Game(`Remember 11: The Age of Infinity`, g => [
+        new Icon(g, `Original Release`, `remember11-originalrelease`, 1, Contributors.Cajas),
+        new Icon(g, `Revision Release`, `remember11-revisionrelease`, 1, Contributors.Mkca),
+    ]),
     new Game(`Remote Control Dandy SF`, `remotecontroldandysf`, 1, Contributors.Cajas),
     new Game(`The Renai Adventure 2: Jo no Ko no Tameno`),
     new Game(`The Renai Adventure: Bittersweet Fools`),
