@@ -1,0 +1,18 @@
+{
+    "title":"TMNT  01",
+    "normal":"view.ico",
+    "copy":"view.ico",
+    "delete":"view.ico",
+    "bgOpacity":96,
+    "bgColTL":"#140202",
+    "bgColTR":"#060614",
+    "bgColBL":"#060614",
+    "bgColBR":"#140202",
+    "light1Dir":[1.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 1.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0]
+}

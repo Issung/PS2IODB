@@ -1,0 +1,18 @@
+{
+    "title":"\u795e\u66f2\u594f\u754c\u30dd\u30ea\u30d5\u30a9\u30cb\u30ab \u30a2\u30d5\u30bf-\u30b9 \u30af-\u30eb             ",
+    "normal":"POLY_AS.ico",
+    "copy":"POLY_AS.ico",
+    "delete":"POLY_AS.ico",
+    "bgOpacity":96,
+    "bgColTL":"#808080",
+    "bgColTR":"#808080",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.3999999761581421, -0.09999999403953552, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
