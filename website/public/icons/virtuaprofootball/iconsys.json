@@ -1,0 +1,18 @@
+{
+    "title":"\u30d5\u30c3\u30c8\u30dc-\u30eb\u30af\u30e9\u30a4\u30de\u30c3\u30af\u30b9 \u30b7\u30b9\u30c6\u30e0\u30c7-\u30bf",
+    "normal":"fbc_view.ico",
+    "copy":"fbc_view.ico",
+    "delete":"fbc_view.ico",
+    "bgOpacity":96,
+    "bgColTL":"#cccccc",
+    "bgColTR":"#cccccc",
+    "bgColBL":"#cccccc",
+    "bgColBR":"#cccccc",
+    "light1Dir":[0.10000000149011612, -1.0, 0.25, 0.0],
+    "light2Dir":[-1.0, -0.25, -0.20000000298023224, 0.0],
+    "light3Dir":[-1.0, -0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.699999988079071, 1.0, 0.0],
+    "light2Col":[0.3499999940395355, 0.3499999940395355, 0.3499999940395355, 0.0],
+    "light3Col":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.25, 0.0]
+}
