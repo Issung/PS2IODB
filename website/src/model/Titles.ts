@@ -620,7 +620,7 @@ export const Titles: Title[] = [
     new Game(`Counter Terrorist Special Forces: Fire for Effect`),
     new Game(`Countryside Bears`),
     new Game(`Covert Command`),
-    new Game(`Cowboy Bebop: Tsuioku no Serenade`),
+    new Game(`Cowboy Bebop: Tsuioku no Serenade`, `cowboybebop`, 1, Contributors.Issung),
     new Game(`CR Pachinko Dokaben: Pachitte Chonmage Tatsujin 7`),
     new Game(`CR Pachinko Yellow Cab: Pachitte Chonmage Tatsujin 6`),
     new Game(`Crabby Adventure`),
