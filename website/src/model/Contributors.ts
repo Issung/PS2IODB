@@ -30,7 +30,8 @@ export class Contributors {
     public static Pm41224 = new Contributor('pm41224');
     public static Loafhouse = new Contributor('loafhouse');
     public static Mkca = new Contributor('MKCA', 'https://github.com/MKCAMK');
-    public static ShawnS = new Contributor('ShawnS', 'https://x.com/ShawnS52')
+    public static ShawnS = new Contributor('ShawnS', 'https://x.com/ShawnS52');
+    public static ZupaPat785 = new Contributor('ZupaPat785');
 }
 
 export const ContributorCount = Object.values(Contributors).length;

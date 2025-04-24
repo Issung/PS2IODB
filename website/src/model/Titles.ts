@@ -1,8 +1,8 @@
-import { Title } from "./Title";
-import { Contributors } from "./Contributors";
-import { Icon } from "./Icon";
-import { Game } from "./Game";
 import { Application } from "./Application";
+import { Contributors } from "./Contributors";
+import { Game } from "./Game";
+import { Icon } from "./Icon";
+import { Title } from "./Title";
 
 export const Titles: Title[] = [
     new Game(`¡Qué pasa Neng! El videojuego`, `quepasanengelvideojuego`, 1, Contributors.Zwish343),
@@ -204,7 +204,7 @@ export const Titles: Title[] = [
     new Game(`Army Men: Soldiers of Misfortune`),
     new Game(`Art of Fighting Anthology`, `artoffightinganthology`, 1, Contributors.Cajas),
     new Game(`Arthur and the Invisibles: The Game`),
-    new Game(`Ashita no Joe: Masshiro ni Moe Tsukiro!`),
+    new Game(`Ashita no Joe: Masshiro ni Moe Tsukiro!`, `ashitanojoe`, 1, Contributors.ZupaPat785),
     new Game(`Ashita no Joe 2: The Anime Super Remix`),
     new Game(`Ashita no Joe Touchi: Typing Namida Hashi`),
     new Game(`Asobi ni Iku Yo!`, `asobiniikuyo`, 1, Contributors.ItzCookieX),
@@ -385,7 +385,7 @@ export const Titles: Title[] = [
     new Game(`Boku wa Chiisai`),
     new Game(`Bokura no Kazoku`),
     new Game(`Bolt`, `bolt`, 1, Contributors.SqueezedDog),
-    new Game(`Bombastic`),
+    new Game(`Bombastic`, `bombastic`, 1, Contributors.ZupaPat785),
     new Game(`Bomberman Hardball`, `bombermanhardball`, 1, Contributors.ItzCookieX),
     new Game(`Bomberman Jetters`, `bombermanjetters`, 1, Contributors.ItzCookieX),
     new Game(`Bomberman Kart`, `bombermankart`, 1, Contributors.ItzCookieX),
@@ -3002,7 +3002,7 @@ export const Titles: Title[] = [
     new Game(`Poinie's Poin`, `poiniespoin`, 1, Contributors.ItzCookieX),
     new Game(`Poker Masters`),
     new Game(`The Polar Express`),
-    new Game(`Polaroid Pete`),
+    new Game(`Polaroid Pete`, `polaroidpete`, 1, Contributors.ZupaPat785),
     new Game(`Police 24/7`, `police247`, 1, Contributors.SqueezedDog),
     new Game(`Police Chase Down`),
     new Game(`Pool Paradise`),
@@ -3870,7 +3870,7 @@ export const Titles: Title[] = [
     new Game(`Standard Daisenryaku: Dengekisen`, `standarddaisenryakudengekisen`, 1, Contributors.SqueezedDog),
     new Game(`Standard Daisenryaku: Shiwareta Shouri`, `standarddaisenryakuushinawaretashouri`, 1, Contributors.SqueezedDog),
     new Game(`Star Ocean: Till the End of Time`, `staroceantilltheendoftime`, 1, Contributors.ItzCookieX),
-    new Game(`Star Soldier`),
+    new Game(`Star Soldier`, `starsoldier`, 1, Contributors.ZupaPat785),
     new Game(`Star Trek: Conquest`),
     new Game(`Star Trek: Encounters`, `startrekencounters`, 1, Contributors.SqueezedDog),
     new Game(`Star Trek: Shattered Universe`, `startrekshattereduniverse`, 1, Contributors.SqueezedDog),

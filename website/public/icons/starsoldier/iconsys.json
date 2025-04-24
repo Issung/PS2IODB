@@ -1,0 +1,18 @@
+{
+    "title":"\u30b9\u30bf-\u30bd\u30eb\u30b8\u30e3- \u30bb-\u30d6\u30c7-\u30bf",
+    "normal":"SS_ICON0.ICO",
+    "copy":"SS_ICON0.ICO",
+    "delete":"SS_ICON0.ICO",
+    "bgOpacity":96,
+    "bgColTL":"#002080",
+    "bgColTR":"#002080",
+    "bgColBL":"#000020",
+    "bgColBR":"#000020",
+    "light1Dir":[1.0, 0.0, 1.0, 0.0],
+    "light2Dir":[0.0, 1.0, 1.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 1.0],
+    "light2Col":[1.0, 1.0, 1.0, 1.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.20000000298023224, 0.20000000298023224, 0.20000000298023224, 1.0]
+}
