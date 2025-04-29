@@ -1,0 +1,18 @@
+{
+    "title":"\u30a8\u30f3\u30b8\u30a7\u30eb\u30ba\u30d5\u30a7\u30b6- -\u9ed2\u306e\u6b8b\u5f71-",
+    "normal":"afzanei.ico",
+    "copy":"afzanei.ico",
+    "delete":"afzanei.ico",
+    "bgOpacity":96,
+    "bgColTL":"#40667f",
+    "bgColTR":"#40667f",
+    "bgColBL":"#606060",
+    "bgColBR":"#808080",
+    "light1Dir":[0.0, 1.0, 0.0, 0.0],
+    "light2Dir":[1.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[1.0, 1.0, 0.29999998211860657, 0.0],
+    "light2Col":[1.0, 1.0, 0.3999999761581421, 0.0],
+    "light3Col":[1.0, 1.0, 1.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.5]
+}
