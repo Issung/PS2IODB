@@ -1,0 +1,18 @@
+{
+    "title":"GHTP Max'd Max",
+    "normal":"icon.ico",
+    "copy":"icon.ico",
+    "delete":"icon.ico",
+    "bgOpacity":128,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000080",
+    "bgColBR":"#000000",
+    "light1Dir":[-14.5, 2.0, -14.0, 1.0],
+    "light2Dir":[0.0, 0.0, 75.0, 1.0],
+    "light3Dir":[72.5, 0.0, 0.0, 1.0],
+    "light1Col":[1.0, 0.9580000042915344, 0.9229999780654907, 1.0],
+    "light2Col":[0.4259999990463257, 0.5, 1.0, 1.0],
+    "light3Col":[0.0, 0.0, 0.0, 1.0],
+    "ambiLightCol":[0.25, 0.25, 0.25, 1.0]
+}

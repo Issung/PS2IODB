@@ -32,6 +32,7 @@ export class Contributors {
     public static Mkca = new Contributor('MKCA', 'https://github.com/MKCAMK');
     public static ShawnS = new Contributor('ShawnS', 'https://x.com/ShawnS52');
     public static ZupaPat785 = new Contributor('ZupaPat785');
+    public static Jtduckman = new Contributor('jtduckman', 'https://bsky.app/profile/jtduckman.bsky.social');
 }
 
 export const ContributorCount = Object.values(Contributors).length;

@@ -115,7 +115,7 @@ describe("Database Entries Tests", () =>
             let directory = `./public/icons/${folder}`;
             let files = fs.readdirSync(directory, { withFileTypes: true }).map(e => e.name);
             let objFiles = files.filter(file => file.endsWith('.obj'));
-            expect(objFiles.length, "Icon folder must have at least the amount of icons specifed in GameList.").toBeGreaterThanOrEqual(iconCount);
+            expect(objFiles.length, `Icon folder ${folder} must have at least the amount of icons specifed in GameList.`).toBeGreaterThanOrEqual(iconCount);
         });
     });
 });

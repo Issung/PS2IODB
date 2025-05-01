@@ -1,0 +1,18 @@
+{
+    "title":" Smuggler's Run",
+    "normal":"iconview.ico",
+    "copy":"iconcopy.ico",
+    "delete":"icondel.ico",
+    "bgOpacity":32,
+    "bgColTL":"#400080",
+    "bgColTR":"#408000",
+    "bgColBL":"#800040",
+    "bgColBR":"#004080",
+    "light1Dir":[0.0, 0.0, 1.0, 0.0],
+    "light2Dir":[0.0, 1.0, 0.0, 0.0],
+    "light3Dir":[1.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.800000011920929, 0.800000011920929, 0.800000011920929, 0.0],
+    "light3Col":[0.4000000059604645, 0.4000000059604645, 0.4000000059604645, 0.0],
+    "ambiLightCol":[0.25, 0.25, 0.25, 0.0]
+}
