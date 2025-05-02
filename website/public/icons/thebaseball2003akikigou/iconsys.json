@@ -1,0 +1,18 @@
+{
+    "title":"THE BASEBALL2003  \u30d1-\u30d7\u30ec \u79cb\u5b63\u53f7",
+    "normal":"icon_n.ico",
+    "copy":"icon_n.ico",
+    "delete":"icon_n.ico",
+    "bgOpacity":64,
+    "bgColTL":"#000080",
+    "bgColTR":"#000080",
+    "bgColBL":"#000020",
+    "bgColBR":"#000020",
+    "light1Dir":[0.0, 0.0, 0.10000000149011612, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.4000000059604645, 0.4000000059604645, 0.4000000059604645, 0.0]
+}

@@ -27,11 +27,11 @@ describe("Database Entries Tests", () =>
             IconList
             .filter(i => i.code)
             .forEach(icon => {
-                const filePath = `./public/icons/${icon.code}/iconsys.json`;
+                const path = `./public/icons/${icon.code}/iconsys.json`;
 
-                expect(fs.existsSync(filePath)).toBe(true);
+                expect(fs.existsSync(path), `iconsys.json should exist at path ${path}.`).toBe(true);
                 
-                const buffer = fs.readFileSync(filePath, 'utf-8');
+                const buffer = fs.readFileSync(path, 'utf-8');
                 expect(() => JSON.parse(buffer), `${icon.code}/iconsys.icon should be parsable`).not.toThrow();
             });
     });
