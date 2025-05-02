@@ -25,7 +25,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-24.04 wxPython
-          pip install PyOpenGL Pillow
+          pip install PyOpenGL Pillow pyinstaller
 
       - name: Run build script
         run: |
