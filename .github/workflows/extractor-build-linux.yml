@@ -29,7 +29,6 @@ jobs:
             libnotify-dev \
             freeglut3-dev \
             libsm-dev \
-            libwebkit2gtk-4.0-dev \
             libxtst-dev \
             build-essential \
             libgl1-mesa-dev \
