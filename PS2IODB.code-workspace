@@ -19,6 +19,10 @@
 			"website": true,
 			"extractor": true,
 		},
+		"search.exclude": {
+			"**/dist": true,
+			"**/node_modules": true,
+		},
 		"jest.rootPath": "./website/src",
 		"jest.disabledWorkspaceFolders": [
 			"Root",
