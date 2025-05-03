@@ -1,0 +1,18 @@
+{
+    "title":"7(\u30bb\u30d6\u30f3) ~\u30e2-\u30eb\u30e2-\u30b9\u306e\u9a0e\u5175\u968a~",
+    "normal":"seven.ico",
+    "copy":"seven.ico",
+    "delete":"seven.ico",
+    "bgOpacity":64,
+    "bgColTL":"#0000ff",
+    "bgColTR":"#ff5402",
+    "bgColBL":"#ff5402",
+    "bgColBR":"#ff0000",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.5, 0.5, 0.5, 0.0],
+    "light3Dir":[0.5, 0.5, 0.5, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[1.0, 1.0, 1.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
