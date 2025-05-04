@@ -174,11 +174,11 @@ class IconSys:
         self.icon_file_copy = utils.zero_terminate(d[51]).decode("ascii")
         self.icon_file_delete = utils.zero_terminate(d[52]).decode("ascii")
 
-    def get_title(self, encoding) -> str:
+    def get_title(self, encoding: str) -> tuple[str, str]:
         title2 = shift_jis_conv(self._title_sjis[self._title_line_offset:], encoding)
         title1 = shift_jis_conv(self._title_sjis[:self._title_line_offset], encoding)
         return title1, title2
     
-    def get_title_joined(self, encoding) -> str:
+    def get_title_joined(self, encoding: str) -> str:
         titles = self.get_title(encoding)
         return titles[0] + ('' if len(titles[1]) == 0 else (" " + titles[1]))

@@ -16,6 +16,7 @@
 #
 
 from enum import Enum, IntEnum
+from typing import Any
 import wx
 
 from .. import ps2mc, ps2iconsys
@@ -42,7 +43,7 @@ class DirListControl(wx.ListCtrl):
             PS2 = 0
             PS1 = 1
 
-        def __init__(self, type, dirent, icon_sys, size, title):
+        def __init__(self, type, dirent: list[Any], icon_sys, size, title):
             self.type = type
             self.dirent = dirent
             self.icon_sys = icon_sys
@@ -53,7 +54,7 @@ class DirListControl(wx.ListCtrl):
     def __init__(self, parent, evt_focus, evt_select, evt_rightclick, config):
         self.config = config
         self.selected = set()
-        self.dirtable = []
+        self.dirtable: list[DirListControl.TableEntry] = []
 
         self.evt_select = evt_select
         self.evt_rightclick = evt_rightclick
@@ -65,7 +66,7 @@ class DirListControl(wx.ListCtrl):
         self.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.evt_item_rightclick)
 
 
-    def _update_dirtable(self, mc, dir):
+    def _update_dirtable(self, mc: ps2mc.ps2mc, dir: ps2mc.ps2mc_directory):
         self.dirtable = table = []
         enc = "unicode"
         if self.config.get_ascii():
@@ -93,7 +94,7 @@ class DirListControl(wx.ListCtrl):
             table.append(self.TableEntry(type, ent, icon_sys, size, title))
 
 
-    def update_dirtable(self, mc):
+    def update_dirtable(self, mc: ps2mc.ps2mc | None):
         self.dirtable = []
         if mc is None:
             return
@@ -154,7 +155,7 @@ class DirListControl(wx.ListCtrl):
         self.evt_select(event)
         self.evt_rightclick(event)
 
-    def update(self, mc):
+    def update(self, mc: ps2mc.ps2mc | None):
         """Update the ListCtrl according to the contents of the
            memory card image."""
 

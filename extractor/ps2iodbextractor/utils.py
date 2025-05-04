@@ -15,7 +15,7 @@
 # along with mymc+.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-def zero_terminate(s):
+def zero_terminate(s: bytes) -> bytes:
     """Truncate a string at the first NUL ('\0') character, if any."""
 
     i = s.find(b'\0')
