@@ -585,9 +585,12 @@ class GuiFrame(wx.Frame):
         dialog.Destroy()
 
     def evt_cmd_export_icons(self, event):
-        dialog = wx.TextEntryDialog(self, "Enter name for new folder for icons to be extracted to:", "PS2IODB Extractor")
         selected_directory_index = next(iter(self.dirlist.selected))    # self.dirlist.selected is a set so we just iterate the first item to get the first selection.
         selected_directory_name = self.dirlist.dirtable[selected_directory_index].dirent[8].decode()   # copied from dirlist_control.cmp_dir_name().
+        iconsys = self.icon_win._icon_sys
+        title = iconsys.get_title_joined("unicode")
+
+        dialog = wx.TextEntryDialog(self, "Enter name for new folder for icons to be extracted to:", "PS2IODB Extractor", f"{selected_directory_name} {title}")
         if dialog.ShowModal() != wx.ID_OK:
             return
         entered_text = dialog.GetValue()
@@ -595,8 +598,6 @@ class GuiFrame(wx.Frame):
 
         if not os.path.exists(f"{iconexport.ICON_ASSETS_FOLDER}/{entered_text}"):
             os.makedirs(f"{iconexport.ICON_ASSETS_FOLDER}/{entered_text}")
-
-        iconsys = self.icon_win._icon_sys
 
         try: 
             # Place names of the icon files into a dictionary, removing duplicates.
