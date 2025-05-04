@@ -1,0 +1,18 @@
+{
+    "title":"\u30a8\u30a2\u30ed\u30c0\u30f3\u30b7\u30f3\u30b04 \u30b7\u30b9\u30c6\u30e002 PLAYER",
+    "normal":"static.ico",
+    "copy":"static.ico",
+    "delete":"static.ico",
+    "bgOpacity":75,
+    "bgColTL":"#0037ff",
+    "bgColTR":"#0037ff",
+    "bgColBL":"#69c8ff",
+    "bgColBR":"#69c8ff",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.4000000059604645, -1.0, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.484375, 0.484375, 0.4296875, 0.0],
+    "light2Col":[0.2578125, 0.328125, 0.5, 0.0],
+    "light3Col":[0.140625, 0.140625, 0.3828125, 0.0],
+    "ambiLightCol":[0.2421875, 0.2421875, 0.2421875, 0.0]
+}

@@ -1,0 +1,18 @@
+{
+    "title":"\u30a2\u30cc\u30d3\u30b9\u4f53\u9a13\u7248/\u30b9\u30da\u30b7\u30e3\u30eb\u30c7-\u30bf",
+    "normal":"anubis.ico",
+    "copy":"anubis.ico",
+    "delete":"anubis.ico",
+    "bgOpacity":64,
+    "bgColTL":"#583515",
+    "bgColTR":"#583515",
+    "bgColBL":"#c5a08f",
+    "bgColBR":"#c5a08f",
+    "light1Dir":[-0.7498117089271545, -0.5066295266151428, -0.4255688190460205, 0.0],
+    "light2Dir":[1.0, 0.0, 0.0, 0.0],
+    "light3Dir":[1.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5019607543945312, 0.5019607543945312, 0.5019607543945312, 0.0]
+}
