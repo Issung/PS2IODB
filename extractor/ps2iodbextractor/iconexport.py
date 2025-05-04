@@ -102,7 +102,7 @@ def export_variant(path: str, icon_filename: str, icon: Icon):
     print(f"Wrote {full_path_without_extension}.png")
 
     # Write ANIM (if required).
-    frames = int(len(icon.vertex_data) / icon.vertex_count / 3)
+    frame_count = len(icon.frames)
     if icon.anim_header.frame_count <= 1:
         print("Not writing animation file because only 1 frame")
     else:
@@ -112,7 +112,7 @@ def export_variant(path: str, icon_filename: str, icon: Icon):
             "playOffset": icon.anim_header.play_offset,
             "frames": [],
         }
-        for frame_index in range(frames):
+        for frame_index in range(frame_count):
             frame = { "keys" : [], "vertexData": SingleLineList([]) }
             v_from = frame_index * (icon.vertex_count * 3)
             v_to = (frame_index + 1) * (icon.vertex_count * 3)
@@ -133,7 +133,7 @@ def export_variant(path: str, icon_filename: str, icon: Icon):
             output = json.dumps(anim_data, indent = 4, separators = (',', ':'), cls = CustomJSONEncoder)
             output = output.replace('"##<', "").replace('>##"', "").replace("'", '"')
             file.write(output)
-        print(f"Wrote {full_path_without_extension}.anim ({frames} frames)")
+        print(f"Wrote {full_path_without_extension}.anim ({frame_count} frames)")
 
 def merge_duplicate_images(path: str):
     """Check all png files in path, merge them if they are identical, remove redundant mtl files, and update related obj files mtllib references."""
