@@ -18,18 +18,18 @@ MAX_CONST = 4096
 """4096 is used in the ps2iconsys c++ tool to convert f16 to f32 and back, normalising the values stored on the memory card.
    e.g. vertex positions and uv coordinates."""
 
-def export_iconsys(path: str, iconsys: IconSys, icon_dict):
+def export_iconsys(export_path: str, memcard_directory_name: str, iconsys: IconSys, icon_dict: dict[str, Icon | None]):
     """Export iconsys.json and all other assets."""
     for icon_filename in icon_dict:
-        export_variant(path, icon_filename, icon_dict[icon_filename])
+        export_variant(export_path, icon_filename, icon_dict[icon_filename])
 
-    with open(f"{path}/iconsys.json", 'w') as file:
-        dto = IconSysDto.from_iconsys(iconsys)
+    with open(f"{export_path}/iconsys.json", 'w') as file:
+        dto = IconSysDto.from_iconsys(memcard_directory_name, iconsys)
         output = dto.to_json()
         file.write(output)
-    print(f"Wrote {path}/iconsys.json")
+    print(f"Wrote {export_path}/iconsys.json")
 
-    merge_duplicate_images(path)
+    merge_duplicate_images(export_path)
     print("completed exporting iconsys and removing duplicates")
 
 def export_variant(path: str, icon_filename: str, icon: Icon):

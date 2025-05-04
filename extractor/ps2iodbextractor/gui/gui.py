@@ -586,6 +586,8 @@ class GuiFrame(wx.Frame):
 
     def evt_cmd_export_icons(self, event):
         dialog = wx.TextEntryDialog(self, "Enter name for new folder for icons to be extracted to:", "PS2IODB Extractor")
+        selected_directory_index = next(iter(self.dirlist.selected))    # self.dirlist.selected is a set so we just iterate the first item to get the first selection.
+        selected_directory_name = self.dirlist.dirtable[selected_directory_index].dirent[8].decode()   # copied from dirlist_control.cmp_dir_name().
         if dialog.ShowModal() != wx.ID_OK:
             return
         entered_text = dialog.GetValue()
@@ -603,13 +605,14 @@ class GuiFrame(wx.Frame):
                 iconsys.icon_file_copy: self.icon_win._icon_copy,
                 iconsys.icon_file_delete: self.icon_win._icon_delete,
             }
-            iconexport.export_iconsys(f"{iconexport.ICON_ASSETS_FOLDER}/{entered_text}/", iconsys, icon_dict)
+            iconexport.export_iconsys(f"{iconexport.ICON_ASSETS_FOLDER}/{entered_text}/", selected_directory_name, iconsys, icon_dict)
         except Exception as e:
             dialog = wx.MessageDialog(
-                self, 
-                f"An error occured trying to export icons.\n\n'{str(e)}'\n\n{traceback.format_exc()}Please consider opening an issue on GitHub with the memory card file attached.", 
-                "Icon Export Error", 
-                wx.OK | wx.ICON_ERROR)
+                self,
+                f"An error occured trying to export icons.\n\n'{str(e)}'\n\n{traceback.format_exc()}Please consider opening an issue on GitHub with the memory card file attached.",
+                "Icon Export Error",
+                wx.OK | wx.ICON_ERROR
+            )
             dialog.ShowModal()
             dialog.Destroy()
 

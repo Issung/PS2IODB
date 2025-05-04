@@ -28,6 +28,10 @@ class IconSysDto:
     light3Col: list[float]
     ambiLightCol: list[float]
 
+    # The name of the directory the icon was stored in on the memory card.
+    # This typically includes the serial number of the game/disc, so it can be useful for differentiating exports.
+    directory: str
+
     # Both titles of the save joined.
     title: str = ""
 
@@ -37,12 +41,15 @@ class IconSysDto:
     delete: str
 
     @staticmethod
-    def from_iconsys(iconsys: IconSys) -> 'IconSysDto':
+    def from_iconsys(memcard_directory_name: str, iconsys: IconSys) -> 'IconSysDto':
         """Load data from IconSys class format."""
         hx = lambda number: format(number, '02x') # Convert number to hex with no prefix + minimum 2 chars.
         arr_to_col = lambda arr: '#' + hx(arr[0]) + hx(arr[1]) + hx(arr[2]) # Convert array of 3 numbers to hex color.
 
         new = IconSysDto()
+
+        new.directory = memcard_directory_name
+
         new.title = iconsys.get_title_joined("ascii")
 
         new.normal = iconexport.clean_icon_filename(iconsys.icon_file_normal)
