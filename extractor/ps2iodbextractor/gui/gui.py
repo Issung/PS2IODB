@@ -122,9 +122,9 @@ class GuiFrame(wx.Frame):
         if strerror == None:
             strerror = "unknown error"
 
-        output = filename + ": " + strerror
-        printerr(output)
-        return self.error_box(output)
+        message = filename + ": " + strerror
+        printerr(message)
+        return self.error_box(message)
 
     def __init__(self, parent, title, mcname = None):
         self.f = None
@@ -594,32 +594,26 @@ class GuiFrame(wx.Frame):
 
     def evt_help_logs(self, event):
         dialog = LogsDialog(self)
-        dialog.ShowModal()
-        dialog.Destroy()
+        dialog.Show() # Use Show() instead of ShowModal() to allow user to keep interacting with main program window.
 
     def evt_cmd_export_icons(self, event):
-        selected_directory_index = next(iter(self.dirlist.selected))    # self.dirlist.selected is a set so we just iterate the first item to get the first selection (only 1 can be selected).
-        entry = self.dirlist.dirtable[selected_directory_index]
-        selected_directory_name = entry.dirent[8].decode()   # copied from dirlist_control.cmp_dir_name().
-        iconsys: IconSys = entry.icon_sys
+        try: 
+            selected_directory_index = next(iter(self.dirlist.selected))    # self.dirlist.selected is a set so we just iterate the first item to get the first selection (only 1 can be selected).
+            entry = self.dirlist.dirtable[selected_directory_index]
+            selected_directory_name = entry.dirent[8].decode()   # copied from dirlist_control.cmp_dir_name().
+            iconsys: IconSys = entry.icon_sys
 
-        if iconsys is None:
-            dialog = wx.MessageDialog(self, "Unable to export bugged icon. Please upload icon or memcard with a bug report.", "Icon Export Error", wx.OK | wx.ICON_ERROR)
-            dialog.ShowModal()
+            title = iconsys.get_title_joined("unicode").strip()
+
+            dialog = wx.TextEntryDialog(self, "Enter name for new folder for icons to be extracted to:", "PS2IODB Extractor", f"{selected_directory_name} {title}")
+            if dialog.ShowModal() != wx.ID_OK:
+                return
+            entered_text = dialog.GetValue()
             dialog.Destroy()
 
-        title = iconsys.get_title_joined("unicode").strip()
+            if not os.path.exists(f"{iconexport.ICON_ASSETS_FOLDER}/{entered_text}"):
+                os.makedirs(f"{iconexport.ICON_ASSETS_FOLDER}/{entered_text}")
 
-        dialog = wx.TextEntryDialog(self, "Enter name for new folder for icons to be extracted to:", "PS2IODB Extractor", f"{selected_directory_name} {title}")
-        if dialog.ShowModal() != wx.ID_OK:
-            return
-        entered_text = dialog.GetValue()
-        dialog.Destroy()
-
-        if not os.path.exists(f"{iconexport.ICON_ASSETS_FOLDER}/{entered_text}"):
-            os.makedirs(f"{iconexport.ICON_ASSETS_FOLDER}/{entered_text}")
-
-        try: 
             # Place names of the icon files into a dictionary, removing duplicates.
             icon_dict = {
                 iconsys.icon_file_normal: self.icon_win._icon_normal,
@@ -628,14 +622,9 @@ class GuiFrame(wx.Frame):
             }
             iconexport.export_iconsys(f"{iconexport.ICON_ASSETS_FOLDER}/{entered_text}/", selected_directory_name, iconsys, icon_dict)
         except Exception as e:
-            output = f"An error occured trying to export icons.\n\n'{str(e)}'\n\n{traceback.format_exc()}Please consider opening an issue on GitHub with the memory card file attached."
-            printerr(output)
-            dialog = wx.MessageDialog(
-                self,
-                output,
-                "Icon Export Error",
-                wx.OK | wx.ICON_ERROR
-            )
+            message = f"An error occured trying to export icons.\n\n'{str(e)}'\n\n{traceback.format_exc()}Please consider opening an issue on GitHub with the memory card file attached."
+            printerr(message)
+            dialog = wx.MessageDialog(self, message, "Icon Export Error", wx.OK | wx.ICON_ERROR)
             dialog.ShowModal()
             dialog.Destroy()
 
