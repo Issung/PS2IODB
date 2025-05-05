@@ -10,6 +10,7 @@ from ps2iodbextractor.jsonencoding import CustomJSONEncoder, SingleLineList, Sin
 from ps2iodbextractor.iconsys_dto import IconSysDto
 from ps2iodbextractor.ps2icon import Icon
 from ps2iodbextractor.ps2iconsys import IconSys
+from ps2iodbextractor.utils import printerr
 
 ICON_ASSETS_FOLDER="icon_exports"
 """Folder to save exported icon assets into."""
@@ -18,18 +19,18 @@ MAX_CONST = 4096
 """4096 is used in the ps2iconsys c++ tool to convert f16 to f32 and back, normalising the values stored on the memory card.
    e.g. vertex positions and uv coordinates."""
 
-def export_iconsys(path: str, iconsys: IconSys, icon_dict):
+def export_iconsys(export_path: str, memcard_directory_name: str, iconsys: IconSys, icon_dict: dict[str, Icon | None]):
     """Export iconsys.json and all other assets."""
     for icon_filename in icon_dict:
-        export_variant(path, icon_filename, icon_dict[icon_filename])
+        export_variant(export_path, icon_filename, icon_dict[icon_filename])
 
-    with open(f"{path}/iconsys.json", 'w') as file:
-        dto = IconSysDto.from_iconsys(iconsys)
+    with open(f"{export_path}/iconsys.json", 'w') as file:
+        dto = IconSysDto.from_iconsys(memcard_directory_name, iconsys)
         output = dto.to_json()
         file.write(output)
-    print(f"Wrote {path}/iconsys.json")
+    print(f"Wrote {export_path}/iconsys.json")
 
-    merge_duplicate_images(path)
+    merge_duplicate_images(export_path)
     print("completed exporting iconsys and removing duplicates")
 
 def export_variant(path: str, icon_filename: str, icon: Icon):
@@ -102,7 +103,7 @@ def export_variant(path: str, icon_filename: str, icon: Icon):
     print(f"Wrote {full_path_without_extension}.png")
 
     # Write ANIM (if required).
-    frames = int(len(icon.vertex_data) / icon.vertex_count / 3)
+    frame_count = len(icon.frames)
     if icon.anim_header.frame_count <= 1:
         print("Not writing animation file because only 1 frame")
     else:
@@ -112,7 +113,7 @@ def export_variant(path: str, icon_filename: str, icon: Icon):
             "playOffset": icon.anim_header.play_offset,
             "frames": [],
         }
-        for frame_index in range(frames):
+        for frame_index in range(frame_count):
             frame = { "keys" : [], "vertexData": SingleLineList([]) }
             v_from = frame_index * (icon.vertex_count * 3)
             v_to = (frame_index + 1) * (icon.vertex_count * 3)
@@ -133,7 +134,7 @@ def export_variant(path: str, icon_filename: str, icon: Icon):
             output = json.dumps(anim_data, indent = 4, separators = (',', ':'), cls = CustomJSONEncoder)
             output = output.replace('"##<', "").replace('>##"', "").replace("'", '"')
             file.write(output)
-        print(f"Wrote {full_path_without_extension}.anim ({frames} frames)")
+        print(f"Wrote {full_path_without_extension}.anim ({frame_count} frames)")
 
 def merge_duplicate_images(path: str):
     """Check all png files in path, merge them if they are identical, remove redundant mtl files, and update related obj files mtllib references."""
@@ -216,7 +217,7 @@ def replace_string_in_file(file_path: str, match_regex: str, new_string: str):
 
         print(f"File '{file_path}' replaced regex matches of '{match_regex}' -> '{new_string}'.")
     except Exception as e:
-        print(f"An error replacing text in file: {e}")
+        printerr(f"An error replacing text in file: {e}")
 
 def md5_file(path: str) -> str:
     """Get MD5 hash of file at given path."""

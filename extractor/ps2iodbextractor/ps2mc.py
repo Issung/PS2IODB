@@ -26,6 +26,8 @@ from errno import EACCES, ENOENT, EEXIST, ENOTDIR, EISDIR, EROFS, ENOTEMPTY,\
 import fnmatch
 import traceback
 
+from ps2iodbextractor.utils import printerr
+
 from .round import *
 from .ps2mc_ecc import *
 from .ps2mc_dir import *
@@ -1883,5 +1885,4 @@ class ps2mc(object):
         try:
             self.close()
         except:
-            sys.stderr.write("ps2mc.__del__: \n")
-            traceback.print_exc()
+            printerr(f"ps2mc.__del__:\n{traceback.format_exc()}")

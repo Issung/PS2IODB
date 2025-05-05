@@ -19,6 +19,9 @@ import time
 import wx
 from wx import glcanvas
 
+from ps2iodbextractor.ps2iconsys import IconSys
+from ps2iodbextractor.utils import printerr
+
 from .. import ps2icon
 from ..save import ps2save
 from .icon_renderer import IconRenderer
@@ -216,7 +219,7 @@ class IconWindow(wx.Window):
         menu.Check(self.background_id, True)
 
 
-    def load_icon(self, icon_sys, icon_data_normal, icon_data_copy, icon_data_delete):
+    def load_icon(self, icon_sys: IconSys, icon_data_normal, icon_data_copy, icon_data_delete):
         """Pass the raw icon datas to the support DLL for display."""
 
         if self.failed:
@@ -234,7 +237,7 @@ class IconWindow(wx.Window):
                 self._icon_copy = ps2icon.Icon(icon_data_copy) if icon_data_copy else None
                 self._icon_delete = ps2icon.Icon(icon_data_delete) if icon_data_delete else None
             except ps2icon.Error as e:
-                print("Failed to load icon.", e)
+                printerr("Failed to load icon.", e)
                 self._icon_normal = None
                 self._icon_sys = None
 

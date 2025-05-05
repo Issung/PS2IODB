@@ -18,6 +18,7 @@
 """Interface for working with PS2 icons."""
 
 import struct
+from typing import List
 
 
 class Error(Exception):
@@ -207,7 +208,7 @@ class Icon:
         if self.anim_header.id_tag != 0x01:
             raise Corrupt("Invalid ID tag in animation header: {:#x}".format(self.anim_header.id_tag))
 
-        self.frames = []
+        self.frames: List[Icon.Frame] = []
         for i in range(self.anim_header.frame_count):
             if length < offset + _frame_data_struct.size:
                 raise FileTooSmall("Data length is smaller than expected frame data size.")
