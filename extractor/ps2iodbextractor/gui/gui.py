@@ -670,7 +670,7 @@ def run(filename = None):
     """Display a GUI for working with memory card images."""
 
     wx_app = wx.App()
-    frame = GuiFrame(None, "PS2IODB Extractor", filename)
+    frame = GuiFrame(None, "PS2IODB Extractor v0.1.3", filename)
     return wx_app.MainLoop()
 
 if __name__ == "__main__":
