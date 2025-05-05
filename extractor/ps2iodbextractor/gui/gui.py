@@ -25,6 +25,7 @@ import traceback
 from ps2iodbextractor.gui.about_dialog import AboutDialog
 from ps2iodbextractor.gui.logs_dialog import LogsDialog
 from ps2iodbextractor.gui.version_history_dialog import VersionHistoryDialog
+from ps2iodbextractor.ps2iconsys import IconSys
 from ps2iodbextractor.utils import printerr
 from .. import iconexport
 
@@ -598,9 +599,16 @@ class GuiFrame(wx.Frame):
 
     def evt_cmd_export_icons(self, event):
         selected_directory_index = next(iter(self.dirlist.selected))    # self.dirlist.selected is a set so we just iterate the first item to get the first selection (only 1 can be selected).
-        selected_directory_name = self.dirlist.dirtable[selected_directory_index].dirent[8].decode()   # copied from dirlist_control.cmp_dir_name().
-        iconsys = self.icon_win._icon_sys
-        title = iconsys.get_title_joined("unicode")
+        entry = self.dirlist.dirtable[selected_directory_index]
+        selected_directory_name = entry.dirent[8].decode()   # copied from dirlist_control.cmp_dir_name().
+        iconsys: IconSys = entry.icon_sys
+
+        if iconsys is None:
+            dialog = wx.MessageDialog(self, "Unable to export bugged icon. Please upload icon or memcard with a bug report.", "Icon Export Error", wx.OK | wx.ICON_ERROR)
+            dialog.ShowModal()
+            dialog.Destroy()
+
+        title = iconsys.get_title_joined("unicode").strip()
 
         dialog = wx.TextEntryDialog(self, "Enter name for new folder for icons to be extracted to:", "PS2IODB Extractor", f"{selected_directory_name} {title}")
         if dialog.ShowModal() != wx.ID_OK:
