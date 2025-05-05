@@ -23,7 +23,7 @@ import optparse
 import textwrap
 from errno import EEXIST, EIO
 
-from ps2iodbextractor.utils import zero_terminate
+from ps2iodbextractor.utils import printerr, zero_terminate
 
 from . import ps2mc
 from .save import ps2save
@@ -506,7 +506,7 @@ def do_ecc_check(cmd, mc, opts, args, opterr):
         try:
             mc.read_page(i)
         except ps2mc.ecc_error:
-            print("bad: %05x" % i)
+            printerr("bad: %05x" % i)
 
 opt = optparse.make_option
 
@@ -677,9 +677,9 @@ del opt        # clean up name space
 
 def write_error(filename, msg):
     if filename == None:
-        sys.stderr.write(msg + "\n")
+        printerr(msg + "\n")
     else:
-        sys.stderr.write(filename + ": " + msg + "\n")
+        printerr(filename + ": " + msg + "\n")
 
 class suboption_parser(optparse.OptionParser):
     def exit(self, status = 0, msg = None):

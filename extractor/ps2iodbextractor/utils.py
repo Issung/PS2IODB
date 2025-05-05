@@ -15,6 +15,8 @@
 # along with mymc+.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import sys
+
 def zero_terminate(s: bytes) -> bytes:
     """Truncate a string at the first NUL ('\0') character, if any."""
 
@@ -22,3 +24,6 @@ def zero_terminate(s: bytes) -> bytes:
     if i == -1:
         return s
     return s[:i]
+
+def printerr(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)

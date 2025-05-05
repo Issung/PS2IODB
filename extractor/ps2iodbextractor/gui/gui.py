@@ -23,7 +23,9 @@ import subprocess
 import sys
 import traceback
 from ps2iodbextractor.gui.about_dialog import AboutDialog
+from ps2iodbextractor.gui.logs_dialog import LogsDialog
 from ps2iodbextractor.gui.version_history_dialog import VersionHistoryDialog
+from ps2iodbextractor.utils import printerr
 from .. import iconexport
 
 # Work around a problem with mixing wx and py2exe
@@ -96,6 +98,7 @@ class GuiFrame(wx.Frame):
 
     ID_HELP_ABOUT = 300
     ID_HELP_VERSION_HISTORY = 301
+    ID_HELP_LOGS = 302
 
     def message_box(self, message, caption = "mymcplus", style = wx.OK,
             x = -1, y = -1):
@@ -118,7 +121,9 @@ class GuiFrame(wx.Frame):
         if strerror == None:
             strerror = "unknown error"
 
-        return self.error_box(filename + ": " + strerror)
+        output = filename + ": " + strerror
+        printerr(output)
+        return self.error_box(output)
 
     def __init__(self, parent, title, mcname = None):
         self.f = None
@@ -150,6 +155,7 @@ class GuiFrame(wx.Frame):
 
         self.Bind(wx.EVT_MENU, self.evt_help_about, id=self.ID_HELP_ABOUT)
         self.Bind(wx.EVT_MENU, self.evt_help_version_history, id=self.ID_HELP_VERSION_HISTORY)
+        self.Bind(wx.EVT_MENU, self.evt_help_logs, id=self.ID_HELP_LOGS)
 
         filemenu = wx.Menu()
         filemenu.Append(self.ID_CMD_NEW, "&New...\tCTRL+N", "Create a new PS2 memory card image.")
@@ -170,6 +176,7 @@ class GuiFrame(wx.Frame):
         helpmenu = wx.Menu()
         helpmenu.Append(self.ID_HELP_ABOUT, "About", "View information about PS2IODB Extractor")
         helpmenu.Append(self.ID_HELP_VERSION_HISTORY, "Version History", "View change notes for the current & previous versions")
+        helpmenu.Append(self.ID_HELP_LOGS, "Logs", "View application logs to help with debugging")
 
         self.Bind(wx.EVT_MENU_OPEN, self.evt_menu_open)
 
@@ -584,8 +591,13 @@ class GuiFrame(wx.Frame):
         dialog.ShowModal()
         dialog.Destroy()
 
+    def evt_help_logs(self, event):
+        dialog = LogsDialog(self)
+        dialog.ShowModal()
+        dialog.Destroy()
+
     def evt_cmd_export_icons(self, event):
-        selected_directory_index = next(iter(self.dirlist.selected))    # self.dirlist.selected is a set so we just iterate the first item to get the first selection.
+        selected_directory_index = next(iter(self.dirlist.selected))    # self.dirlist.selected is a set so we just iterate the first item to get the first selection (only 1 can be selected).
         selected_directory_name = self.dirlist.dirtable[selected_directory_index].dirent[8].decode()   # copied from dirlist_control.cmp_dir_name().
         iconsys = self.icon_win._icon_sys
         title = iconsys.get_title_joined("unicode")
@@ -608,9 +620,11 @@ class GuiFrame(wx.Frame):
             }
             iconexport.export_iconsys(f"{iconexport.ICON_ASSETS_FOLDER}/{entered_text}/", selected_directory_name, iconsys, icon_dict)
         except Exception as e:
+            output = f"An error occured trying to export icons.\n\n'{str(e)}'\n\n{traceback.format_exc()}Please consider opening an issue on GitHub with the memory card file attached."
+            printerr(output)
             dialog = wx.MessageDialog(
                 self,
-                f"An error occured trying to export icons.\n\n'{str(e)}'\n\n{traceback.format_exc()}Please consider opening an issue on GitHub with the memory card file attached.",
+                output,
                 "Icon Export Error",
                 wx.OK | wx.ICON_ERROR
             )

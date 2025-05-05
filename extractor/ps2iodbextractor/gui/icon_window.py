@@ -20,6 +20,7 @@ import wx
 from wx import glcanvas
 
 from ps2iodbextractor.ps2iconsys import IconSys
+from ps2iodbextractor.utils import printerr
 
 from .. import ps2icon
 from ..save import ps2save
@@ -236,7 +237,7 @@ class IconWindow(wx.Window):
                 self._icon_copy = ps2icon.Icon(icon_data_copy) if icon_data_copy else None
                 self._icon_delete = ps2icon.Icon(icon_data_delete) if icon_data_delete else None
             except ps2icon.Error as e:
-                print("Failed to load icon.", e)
+                printerr("Failed to load icon.", e)
                 self._icon_normal = None
                 self._icon_sys = None
 

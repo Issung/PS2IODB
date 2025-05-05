@@ -16,8 +16,11 @@
 #
 
 import sys
-
+from ps2iodbextractor.stream_redirector import LogStreamRedirector
 from . import program
 
 if __name__ == "__main__":
+    sys.stdout = LogStreamRedirector("INFO")
+    sys.stderr = LogStreamRedirector("ERROR")
+
     sys.exit(program.main(sys.argv))

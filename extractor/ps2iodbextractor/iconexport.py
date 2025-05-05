@@ -10,6 +10,7 @@ from ps2iodbextractor.jsonencoding import CustomJSONEncoder, SingleLineList, Sin
 from ps2iodbextractor.iconsys_dto import IconSysDto
 from ps2iodbextractor.ps2icon import Icon
 from ps2iodbextractor.ps2iconsys import IconSys
+from ps2iodbextractor.utils import printerr
 
 ICON_ASSETS_FOLDER="icon_exports"
 """Folder to save exported icon assets into."""
@@ -216,7 +217,7 @@ def replace_string_in_file(file_path: str, match_regex: str, new_string: str):
 
         print(f"File '{file_path}' replaced regex matches of '{match_regex}' -> '{new_string}'.")
     except Exception as e:
-        print(f"An error replacing text in file: {e}")
+        printerr(f"An error replacing text in file: {e}")
 
 def md5_file(path: str) -> str:
     """Get MD5 hash of file at given path."""
