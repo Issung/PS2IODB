@@ -14,6 +14,7 @@ class LogCapture:
 
     def __init__(self):
         self.logs = []
+        self.listeners = []  # List of event listeners
 
     def write(self, message: str, level="INFO"):
         """Write a message to the log with a level and timestamp."""
@@ -22,12 +23,27 @@ class LogCapture:
             log_entry = f"[{timestamp}] [{level}] {message.strip()}"
             self.logs.append(log_entry)
 
-            # __stdout/err__ contain the original values from program start. They may not be populated (in the case of the GUI app).
-            # If they are set (e.g. when debugging) then print to them as well as storing the logs in this capturer.
+            # Notify all listeners about the new log
+            self.notify_listeners(log_entry)
+
+            # Print the log to the original console
             if sys.__stdout__ is not None and level == "INFO":
                 sys.__stdout__.write(log_entry + "\n")
             elif sys.__stderr__ is not None and level == "ERROR":
                 sys.__stderr__.write(log_entry + "\n")
+
+    def notify_listeners(self, log_entry):
+        """Notify all registered listeners about a new log."""
+        for listener in self.listeners:
+            listener(log_entry)
+
+    def add_listener(self, listener):
+        """Add a listener to be notified of new logs."""
+        self.listeners.append(listener)
+
+    def remove_listener(self, listener):
+        """Remove a listener."""
+        self.listeners.remove(listener)
 
     def flush(self):
         """Flush method for compatibility with sys.stdout and sys.stderr."""
