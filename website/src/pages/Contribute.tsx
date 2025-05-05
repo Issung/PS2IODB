@@ -33,7 +33,15 @@ const Contribute: React.FC = () => {
                                 <h4>Download PS2IODB Extractor</h4>
                             </a>
                             <p>You will need a copy of the <i>PS2IODB Extractor</i> program to extract save icon assets, download links below:</p>
-                            <b>Latest:</b> <Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.2/PS2IODB.Extractor.v0.1.2.exe">Version 0.1.2</Link>
+                            <b>Latest (Version 0.1.3)</b>
+                            <ul>
+                                <li>
+                                    <Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.3/PS2IODB.Extractor.v0.1.3.Windows.exe">Windows</Link>
+                                </li>
+                                <li>
+                                    <Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.3/PS2IODB.Extractor.v0.1.3.Linux.zip">Linux</Link>
+                                </li>
+                            </ul>
                             <details>
                                 <summary>Previous Versions</summary>
                                 <p>
@@ -41,8 +49,18 @@ const Contribute: React.FC = () => {
                                     Please report regressions via GitHub or in Discord.
                                 </p>
                                 <ul>
-                                    <li><Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.1/MYMC++.v0.1.1.exe">Version 0.1.1</Link></li>
-                                    <li><Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1/MYMC++.v0.1.exe">Version 0.1</Link></li>
+                                    <li>
+                                        Version 0.1.2: 
+                                        <Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.2/PS2IODB.Extractor.v0.1.2.exe">Windows</Link>
+                                         - 
+                                        <Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.2-linux-beta/PS2IODB-Extractor.zip">Linux</Link>
+                                    </li>
+                                    <li>
+                                        Version 0.1.1: <Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.1/MYMC++.v0.1.1.exe">Windows</Link>
+                                    </li>
+                                    <li>
+                                        Version 0.1: <Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1/MYMC++.v0.1.exe">Windows</Link>
+                                    </li>
                                 </ul>
                             </details>
 
