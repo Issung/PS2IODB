@@ -1,0 +1,18 @@
+{
+    "title":"GRAN TURISMO 4 \u30d9\u30b9\u30c8\u30e9\u30c3\u30d7\u30ea\u30d7\u30ec\u30a4[8]",
+    "normal":"icon0.ico",
+    "copy":"icon0.ico",
+    "delete":"icon0.ico",
+    "bgOpacity":128,
+    "bgColTL":"#4c4c4c",
+    "bgColTR":"#4c4c4c",
+    "bgColBL":"#4c4c4c",
+    "bgColBR":"#4c4c4c",
+    "light1Dir":[0.0, -0.7071067690849304, -0.7071067690849304, 1.0],
+    "light2Dir":[0.5, -0.5, -0.7071067690849304, 1.0],
+    "light3Dir":[-0.5, -0.5, -0.7071067690849304, 1.0],
+    "light1Col":[0.25, 0.25, 0.25, 1.0],
+    "light2Col":[0.25, 0.25, 0.25, 1.0],
+    "light3Col":[0.25, 0.25, 0.25, 1.0],
+    "ambiLightCol":[0.09803922474384308, 0.09803922474384308, 0.09803922474384308, 1.0]
+}
