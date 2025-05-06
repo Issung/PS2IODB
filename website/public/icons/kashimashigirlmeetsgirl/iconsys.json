@@ -1,0 +1,18 @@
+{
+    "title":"\u304b\u3057\u307e\u3057 \u30bb-\u30d6\u30c7-\u30bf",
+    "normal":"kashim.ico",
+    "copy":"kashim.ico",
+    "delete":"kashim.ico",
+    "bgOpacity":96,
+    "bgColTL":"#200080",
+    "bgColTR":"#200080",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[1.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 1.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

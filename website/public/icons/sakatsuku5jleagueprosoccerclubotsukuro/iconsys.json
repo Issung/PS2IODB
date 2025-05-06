@@ -1,0 +1,18 @@
+{
+    "title":"\u30b5\u30ab\u3064\u304f5\u30c7\u30f3\u30b2\u30ad\u30d4-\u30a8\u30b9 000\u30e1\u30a4\u30f301\u5e74\u76ee02\u6708\u7b2c4\u9031",
+    "normal":"static.ico",
+    "copy":"static.ico",
+    "delete":"static.ico",
+    "bgOpacity":96,
+    "bgColTL":"#800000",
+    "bgColTR":"#008000",
+    "bgColBL":"#000080",
+    "bgColBR":"#808080",
+    "light1Dir":[-0.5, 0.8999999761581421, 0.4000000059604645, 0.0],
+    "light2Dir":[0.0, -0.4000000059604645, -0.10000000149011612, 0.0],
+    "light3Dir":[0.5, 0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.25, 0.25, 0.25, 0.0]
+}
