@@ -3742,9 +3742,9 @@ export const Titles: Title[] = [
     new Game(`Shin Megami Tensei: Digital Devil Saga`, `shinmegamitenseidds1`, 1, Contributors.ItzCookieX),
     new Game(`Shin Megami Tensei: Digital Devil Saga 2`, `shinmegamitenseidds2`, 1, Contributors.ItzCookieX),
     new Game(`Shin Megami Tensei: Nocturne`, g => [
-        new Icon(g, `Unknown Variant 1 (Purple/Black Character)`, `shinmegamitenseinocturne-unknownvariant1`, 1, Contributors.ItzCookieX),
-        new Icon(g, `Unknown Variant 2 (White/Blue Character)`, `shinmegamitenseinocturne-unknownvariant2`, 1, Contributors.Cajas),
-        new Icon(g, `Unknown Variant 3 (Insect Character)`, `shinmegamitenseinocturne-unknownvariant3`, 1, Contributors.Cajas),
+        new Icon(g, `Original Release (Jack Frost)`, `shinmegamitenseinocturne-originalrelease`, 1, Contributors.Cajas),
+        new Icon(g, `Maniax Version (Black Frost)`, `shinmegamitenseinocturne-maniaxversion`, 1, Contributors.ItzCookieX),
+        new Icon(g, `Chronicle Version (Magatama)`, `shinmegamitenseinocturne-chronicleversion`, 1, Contributors.Cajas),
     ]),
     new Game(`Shine: Kotoba o Tsumuide`),
     new Game(`Shining Force EXA`, g => [
