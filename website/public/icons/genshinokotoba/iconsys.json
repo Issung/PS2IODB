@@ -1,0 +1,18 @@
+{
+    "title":"\u3052\u3093\u3057\u306e\u3053\u3068\u3070 (\u30bb-\u30d6\u30c7-\u30bf)",
+    "normal":"_GENSHI.ICO",
+    "copy":"_GENSHI.ICO",
+    "delete":"_GENSHI.ICO",
+    "bgOpacity":128,
+    "bgColTL":"#808080",
+    "bgColTR":"#808080",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[-0.019500000402331352, -0.9361000061035156, -0.35100001096725464, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
