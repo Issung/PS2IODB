@@ -1,4 +1,4 @@
-import './GameTable.scss'
+import './TitleTable.scss'
 import { Title } from '../model/Title';
 import GameRow from './GameRow';
 import IconRow from './IconRow';
@@ -10,6 +10,7 @@ type GameTableProps = {
 }
 
 const GameTable = ({ games }: GameTableProps) => {
+    console.log("GameTable", games);
     return (
         <div id="GameTable">
             <table>
