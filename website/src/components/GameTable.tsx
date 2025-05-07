@@ -9,7 +9,7 @@ type GameTableProps = {
     games: Title[];
 }
 
-const GameTable: React.FC<GameTableProps> = ({ games }: GameTableProps) => {
+const GameTable = ({ games }: GameTableProps) => {
     return (
         <div id="GameTable">
             <table>
@@ -27,11 +27,13 @@ const GameTable: React.FC<GameTableProps> = ({ games }: GameTableProps) => {
                                 <tr className="subicons">
                                     <td className="line">
                                     </td>
-                                    <table>
-                                        <tbody>
-                                            {game.icons.map(icon => <IconRow icon={icon} key={icon.index}/>)}
-                                        </tbody>
-                                    </table>
+                                    <td>
+                                        <table>
+                                            <tbody>
+                                                {game.icons.map(icon => <IconRow icon={icon} key={icon.index}/>)}
+                                            </tbody>
+                                        </table>
+                                    </td>
                                 </tr>
                             </React.Fragment>
                         }
