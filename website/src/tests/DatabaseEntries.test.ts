@@ -1,12 +1,12 @@
 import fs from 'fs';
-import { IconList } from "../model/Titles";
+import { Icons } from "../model/Titles";
 
 // Tests that test the 2 sources of truth, the GameList file and the icon folders, making sure they match up.
 describe("Database Entries Tests", () => 
 {
     // Assert that all entries in GameList either have just `name` populated, or if `code` is populated then `icons` is too.
     test('Icons should have correct number of params', () => {
-        IconList.forEach(icon => {
+        Icons.forEach(icon => {
             expect(icon.name).toBeDefined();
             
             if (icon.code === undefined)
@@ -24,7 +24,7 @@ describe("Database Entries Tests", () =>
         
         // Assert all iconsys.json files are valid json.
         test('All iconsys.json files are valid JSON', () => {
-            IconList
+            Icons
             .filter(i => i.code)
             .forEach(icon => {
                 const path = `./public/icons/${icon.code}/iconsys.json`;
@@ -61,7 +61,7 @@ describe("Database Entries Tests", () =>
             .filter((entry) => entry.isDirectory())
             .map((entry) => entry.name);
 
-        IconList.forEach(icon => {
+        Icons.forEach(icon => {
             if (icon.code != undefined)
             {
                 expect(iconDirectories, `Icon with code '${icon.code}' does not appear to have a matching directory.`).toContain(icon.code);
@@ -79,7 +79,7 @@ describe("Database Entries Tests", () =>
             .map((entry) => entry.name);
 
         iconDirectories.forEach(directory => {
-            let iconsWithMatchingCode = IconList.filter(icon => icon.code === directory).length;
+            let iconsWithMatchingCode = Icons.filter(icon => icon.code === directory).length;
             expect(iconsWithMatchingCode > 0, `Directory '${directory}' does not have an icon record.`).toBe(true);
             expect(iconsWithMatchingCode == 1, `Directory '${directory}' has more than 1 icon record.`).toBe(true);
         });
@@ -111,7 +111,7 @@ describe("Database Entries Tests", () =>
             .map((entry) => entry.name);
 
         iconFolders.forEach(folder => {
-            const iconCount = IconList.filter(i => i.code == folder)[0].variantCount!;
+            const iconCount = Icons.filter(i => i.code == folder)[0].variantCount!;
             let directory = `./public/icons/${folder}`;
             let files = fs.readdirSync(directory, { withFileTypes: true }).map(e => e.name);
             let objFiles = files.filter(file => file.endsWith('.obj'));

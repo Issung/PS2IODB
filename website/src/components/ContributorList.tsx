@@ -1,7 +1,7 @@
 import './ContributorList.scss'
 import { Contributor } from '../model/Contributor';
 import { Contributors } from '../model/Contributors';
-import { IconList } from '../model/Titles';
+import { Icons } from '../model/Titles';
 import { IconTrophyFilled } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { useMemo } from 'react';
@@ -19,7 +19,7 @@ class ContributorData {
 const contributorData = Object
     .values(Contributors)
     .map(contributor => {
-        let gameCount = IconList.filter(i => i.contributor == contributor).length;
+        let gameCount = Icons.filter(i => i.contributor == contributor).length;
         return new ContributorData(contributor, gameCount);
     })
     .sort((c1, c2) => c2.gameCount - c1.gameCount);

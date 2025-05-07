@@ -4,13 +4,13 @@ import { ContributorCount } from '../model/Contributors';
 import { FilterSelectAlphabetical } from '../components/FilterSelectAlphabetical';
 import { ContributorList } from '../components/ContributorList';
 import { FilterTypeSelect, FilterType } from '../components/FilterTypeSelect';
-import { IconList, UniqueIconsCount } from '../model/Titles';
+import { ContributedIcons, Icons, Titles, TotalUniqueVariants } from '../model/Titles';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import Counter from "../components/Counter";
 import DebouncedTextBox from '../components/DebouncedTextBox';
 import Footer from "../components/Footer";
-import SearchResults from "../components/SearchResults";
+import SearchResults from "../components/TitleSearch";
 import { IconCaretLeft } from '@tabler/icons-react';
 import { SessionStorageKeys } from '../utils/Consts';
 
@@ -26,7 +26,7 @@ const Home = () => {
     const navigate = useNavigate();
     const { filterType, filter } = useParams();
 
-    const contributed = useMemo(() => IconList.filter(i => i.code).length, []);
+    const titlesWithContributions = useMemo(() => Titles.filter(t => t.icons.some(i => i.code)).length, []);
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
@@ -40,7 +40,7 @@ const Home = () => {
     }, [filterType]);
 
     useEffect(() => {
-        setProgress(IconList.filter(i => i.code).length / IconList.length);
+        setProgress(Icons.filter(i => i.code).length / Icons.length);
     }, [progress]);
 
     return (
@@ -100,9 +100,9 @@ const Home = () => {
                     </div>
                     <div className="row justify-content-center">
                         <p id="progress-paragraph">
-                            <b>{contributed}</b> of <b>{IconList.length}</b> titles have had contributions so far.<br/>
-                            <b>{UniqueIconsCount}</b> unique icons have been contributed from <b>{ContributorCount}</b> different contributors!<br/>
-                            To get to 100% we need support from <i>you</i>! Learn how <Link to="/contribute">here</Link>. {/* TODO Fix link hover visuals */}
+                            <b>{titlesWithContributions}</b> of <b>{Titles.length}</b> titles have contributions (<b>{ContributedIcons.length}</b> out of <b>{Icons.length}</b> known icons).<br/>
+                            You are free to view all <b>{TotalUniqueVariants}</b> unique icon states, uploaded by <b>{ContributorCount}</b> different contributors!<br/>
+                            To get to 100% we need support from <i>you</i>! <Link to="/contribute">Learn how.</Link>
                         </p>
                     </div>
                 </div>

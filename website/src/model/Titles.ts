@@ -4998,11 +4998,14 @@ export const Titles: Title[] = [
     new Game(`Zwei: The Arges Adventure`),
 ];
 
-export const IconList: Icon[] = Titles
+export const Icons: Icon[] = Titles
     .filter(g => g.icons.length > 0)
     .flatMap(g => g.icons);
 
-export const UniqueIconsCount: number = IconList
+export const ContributedIcons = Icons.filter(i => i.code);
+
+/** The sum of all unique variants of all icons. */
+export const TotalUniqueVariants: number = Icons
     .map(i => i.variantCount ?? 0)
     .reduce((prevValue, value) => prevValue + value, 0);
 

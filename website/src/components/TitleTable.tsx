@@ -5,11 +5,11 @@ import IconRow from './IconRow';
 import React from 'react';
 import RowBase, { Trait } from './RowBase';
 
-type GameTableProps = {
+type TitleTableProps = {
     games: Title[];
 }
 
-const GameTable = ({ games }: GameTableProps) => {
+const TitleTable = ({ games }: TitleTableProps) => {
     console.log("GameTable", games);
     return (
         <div id="GameTable">
@@ -49,4 +49,4 @@ const GameTable = ({ games }: GameTableProps) => {
     );
 }
 
-export default GameTable;
+export default TitleTable;

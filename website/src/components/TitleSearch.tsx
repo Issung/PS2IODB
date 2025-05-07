@@ -6,7 +6,7 @@ import { Title } from '../model/Title';
 import { Titles } from '../model/Titles';
 import { Category } from './FilterSelectCategory';
 import { FilterType, FilterTypeDefault } from './FilterTypeSelect';
-import GameTable from './TitleTable';
+import TitleTable from './TitleTable';
 
 const additionalCharacterIncludes: Record<string, string[]> = {
     "A": ["A", "Æ"], // Include title "Æon Flux" under "A" listings.
