@@ -156,15 +156,22 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
         }
     }
 
-    return <>
-        <h4 style={{ textAlign: 'left' }}>
-            {filterType == FilterType.contributor
-                ? <>{`${titles.length} titles with icons contributed by `}{contributorNameOrLink()}</>
-                : (titles.length === 0 ? 'No Results.' : `${titles.length} Results`)
-            }
-        </h4>
-        <GameTable games={titles} />
-    </>
+    const icons = titles.flatMap(t => t.icons);
+    const uniqueVariantsCount = icons.reduce((sum, icon) => sum + (icon.variantCount ?? 0), 0);
+
+    return (
+    <>
+        <span >
+            <h3 style={{ textAlign: 'left' }}>
+                {filterType == FilterType.contributor
+                    ? <>{`${titles.length} titles with icons contributed by `}{contributorNameOrLink()}</>
+                    : (titles.length === 0 ? 'No Results.' : `${titles.length} Titles`)
+                }
+            </h3>
+            <h5 style={{fontWeight: 200}}>{titles.length === 0 ? '' : `(${icons.length} icons, ${uniqueVariantsCount} contributed variants)`}</h5>
+        </span>
+        <TitleTable games={titles} />
+    </>)
 }
 
 export default SearchResults;
