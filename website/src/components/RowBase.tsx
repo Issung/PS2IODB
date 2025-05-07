@@ -37,35 +37,18 @@ const RowBase = ({title, contributed, code, circle, tooltip}: RowBaseProps) => {
         [circle]);
     const rowClass = useMemo(() => contributed ? "contributed" : "unknown", [contributed]);
     
-    return (
-        <tr className={`GameRow ${rowClass}`}
-            title={tooltip}
-        >
-            {code ?
-                <>
-                    <td>
-                        <Link to={`/icon/${code}`}>
-                            <div className={`circle ${circleClass}`}>{circleText}</div>
-                        </Link>
-                    </td>
-                    <td>
-                        <Link to={`/icon/${code}`}>
-                            <h6>{title}</h6>
-                        </Link>
-                    </td>
-                </>
-            :
-                <>
-                    <td>
-                        <div className={`circle ${circleClass}`}>{circleText}</div>
-                    </td>
-                    <td>
-                        <h6>{title}</h6>
-                    </td>
-                </>
-            }
-        </tr>
-    )
+    const classes = `TitleList-Row ${rowClass}`;
+    
+    return code ?
+        <Link to={`/icon/${code}`} className={classes} title={tooltip}>
+            <div className={`circle ${circleClass}`}>{circleText}</div>
+            <h6>{title}</h6>
+        </Link>
+    :
+        <span className={classes} title={tooltip}>
+            <div className={`circle ${circleClass}`}>{circleText}</div>
+            <h6>{title}</h6>
+        </span>
 };
 
 export default RowBase;

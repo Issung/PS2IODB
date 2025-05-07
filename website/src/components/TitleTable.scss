@@ -5,15 +5,11 @@
 #GameTable {
     height: 100%;
 
-    .GameRow {
-        td {
-            padding-top: 5px;
-            padding-bottom: 5px;
-
-            &:nth-child(2) {
-                padding-left: 10px;
-            }
-        }
+    .TitleList-Row {
+        display: grid;
+        grid-template-columns: 34px 100%;
+        padding-top: 5px;
+        padding-bottom: 5px;
 
         h6 {
             color: grey;
@@ -55,6 +51,16 @@
         }
 
         &.contributed {
+
+            &:hover {
+                h6 {
+                    color: #5959f8;
+                }
+
+                .circle {
+                    background-color: #0e4393;
+                }
+            }
             h6 {
                 color: #6f6fff;
             }
@@ -68,30 +74,25 @@
         }
     }
 
-    table {
-        height: 100%;
+    .icons-grid {
+        display: grid;
+        grid-template-columns: 24px 100%; /* Sidebar + Content */
+        /*grid-template-rows: repeat(3, auto); /* 3 rows */
+        // gap: 1rem;
 
-        tbody {
+        .line {
             height: 100%;
 
-            tr.subicons {
-                height: 100%;
-        
-                td.line {
-                    height: 100%;
-        
-                    &::after {
-                        --border-color: rgb(92, 92, 92); /* Define the color once */
-                        content: "";
-                        display: block;
-                        width: 45%;
-                        height: calc(100%);
-                        margin-left: 46%;
-                        border-left: 2px solid var(--border-color);
-                        border-bottom: 2px solid var(--border-color);
-                        border-radius: 0px 0px 0px 8px;
-                    }
-                }
+            &::after {
+                --border-color: rgb(92, 92, 92); /* Define the color once */
+                content: "";
+                display: block;
+                width: 45%;
+                height: calc(100%);
+                margin-left: 46%;
+                border-left: 2px solid var(--border-color);
+                border-bottom: 2px solid var(--border-color);
+                border-radius: 0px 0px 0px 8px;
             }
         }
     }
