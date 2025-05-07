@@ -50,7 +50,7 @@ const Home = () => {
                 <div className="container-fluid" style={{ height: "fit-content", maxHeight: 800 }}>
                     <div className="row justify-content-center">
                         <div className="col-8 col-md-6 col-lg-5 col-xl-4">
-                            <img id="logo-full" src="/images/logo-full.svg" width="100%" alt="PS2IODB Full Logo"/>
+                            <img id="logo-full" src="/images/logo-full-min.svg" width="100%" alt="PS2IODB Full Logo"/>
                         </div>
                     </div>
                     <div className="row justify-content-center">

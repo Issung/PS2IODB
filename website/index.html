@@ -7,6 +7,9 @@
     <meta name="theme-color" content="#0b5cd4" />
     <meta name="description" content="PlayStation 2 Icon Open Database" />
 
+    <!-- Preload optimisation -->
+    <link rel="preload" as="image" href="/images/background.webp" type="image/webp" />
+
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
@@ -29,11 +32,11 @@
     <!-- Disable DarkReader browser extension https://github.com/darkreader/darkreader/blob/main/CONTRIBUTING.md#disabling-dark-reader-on-your-site -->
     <meta name="darkreader-lock">
 
-    <!-- Google Fonts import -->
+    <!-- Google Fonts import, only importing weights that are used -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+     
     <title>PS2IODB</title>
 </head>
 
