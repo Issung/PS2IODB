@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-21320Rogue 01",
+    "title":"Rogue Trooper",
+    "normal":"MCIcon_RT_icon.icn",
+    "copy":"MCIcon_RT_icon.icn",
+    "delete":"MCIcon_RT_icon.icn",
+    "bgOpacity":64,
+    "bgColTL":"#0000c0",
+    "bgColTR":"#0000c0",
+    "bgColBL":"#0000c0",
+    "bgColBR":"#0000c0",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.4000000059604645, -0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.25, 0.25, 0.25, 0.0],
+    "light2Col":[0.25, 0.25, 0.25, 0.0],
+    "light3Col":[0.25, 0.25, 0.25, 0.0],
+    "ambiLightCol":[0.5, 0.41200000047683716, 0.045499999076128006, 0.0]
+}
