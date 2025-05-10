@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20943HotP-PS2",
+    "title":"Heroes of the Pacific",
+    "normal":"hotp.ico",
+    "copy":"hotp.ico",
+    "delete":"hotp.ico",
+    "bgOpacity":0,
+    "bgColTL":"#ffffff",
+    "bgColTR":"#ff7fff",
+    "bgColBL":"#ffff00",
+    "bgColBR":"#ff00af",
+    "light1Dir":[0.0, 0.0, 1.0, 0.0],
+    "light2Dir":[1.0, 0.75, 0.25, 0.0],
+    "light3Dir":[-1.0, 0.75, -0.25, 0.0],
+    "light1Col":[1.0, 0.5, 0.25, 0.0],
+    "light2Col":[0.0, 1.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.75, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}
