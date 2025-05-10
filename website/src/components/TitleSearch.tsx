@@ -168,7 +168,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
                     : (titles.length === 0 ? 'No Results.' : `${titles.length} Titles`)
                 }
             </h3>
-            <h5 style={{fontWeight: 300}}>{titles.length === 0 ? '' : `(${icons.length} icons, ${uniqueVariantsCount} contributed variants)`}</h5>
+            <h6 style={{fontWeight: 300}}>{titles.length === 0 ? '' : `${icons.length} icons, ${uniqueVariantsCount} contributed variants`}</h6>
         </span>
         <TitleTable games={titles} />
     </>)
