@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-21363save00",
+    "title":"Zatch Bell!: Mamodo Fury",
+    "normal":"icon0.ico",
+    "copy":"icon1.ico",
+    "delete":"icon2.ico",
+    "bgOpacity":48,
+    "bgColTL":"#f09450",
+    "bgColTR":"#f09450",
+    "bgColBL":"#f09450",
+    "bgColBR":"#f09450",
+    "light1Dir":[0.5769999623298645, 0.5769999623298645, 0.5769999623298645, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.29999998211860657, 0.29999998211860657, 0.29999998211860657, 0.0]
+}
