@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-65843120YEN",
+    "title":"120\u5186\u306e\u6625",
+    "normal":"ICON.ICO",
+    "copy":"ICON.ICO",
+    "delete":"ICON.ICO",
+    "bgOpacity":96,
+    "bgColTL":"#e27438",
+    "bgColTR":"#cd5d6d",
+    "bgColBL":"#f8bf3b",
+    "bgColBR":"#e1714c",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0]
+}
