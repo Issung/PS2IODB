@@ -4679,7 +4679,7 @@ export const Titles: Title[] = [
     new Game(`Uno`),
     new Game(`The Unou Drill`),
     new Game(`Unreal Tournament`, `unrealtournament`, 1, Contributors.Sebita),
-    new Game(`Up`),
+    new Game(`Up`, `up`, 1, Contributors.Zeroman95),
     new Game(`Uragiri wa Boku no Namae o Shitteiru`),
     new Game(`Urawaza Ikasa Mahjong Machi`),
     new Game(`Urban Chaos: Riot Response`, `urbanchaosriotresponse`, 1, Contributors.FenixF),
