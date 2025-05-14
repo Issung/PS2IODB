@@ -745,14 +745,29 @@ export const Titles: Title[] = [
         new Icon(g, `Edit Library`, `ddrextremejapan-editlibrary`, 1, Contributors.Pm41224),
         new Icon(g, `System Data`, `ddrextremejapan-systemdata`, 1, Contributors.ItzCookieX),
     ]),
-    new Game(`Dance Dance Revolution Extreme 2`, `ddrextreme2`, 1, Contributors.ItzCookieX),
+    new Game(`Dance Dance Revolution Extreme 2`, g => [
+        new Icon(g, `Edit Library`, `ddrextreme2-editlibrary`, 1, Contributors.Pm41224),
+        new Icon(g, `System Data`, `ddrextreme2`, 1, Contributors.ItzCookieX),
+    ]),
     new Game(`Dance Dance Revolution Party Collection`, g => [
         new Icon(g , `Edit Library`, `ddrpartycollection-editlibrary`, 1, Contributors.Pm41224),
         new Icon(g , `System Data`, `ddrpartycollection-systemdata`, 1, Contributors.ItzCookieX),
+        new Icon(g , `Workout Data`, `ddrpartycollection-workoutdata`, 1, Contributors.Pm41224),
     ]),
-    new Game(`Dance Dance Revolution Strike`, `ddrstrike`, 1, Contributors.ItzCookieX),
-    new Game(`Dance Dance Revolution SuperNova`, `ddrsupernova`, 1, Contributors.ItzCookieX),
-    new Game(`Dance Dance Revolution SuperNova 2`, `ddrsupernova2`, 1, Contributors.ItzCookieX),
+    new Game(`Dance Dance Revolution Strike`, g => [
+        new Icon(g, `System Data`, `ddrstrike`, 1, Contributors.ItzCookieX),
+        new Icon(g , `Edit Library`, `ddrstrike-editlibrary`, 1, Contributors.Pm41224),
+    ]),
+    new Game(`Dance Dance Revolution SuperNova / Dancing Stage SuperNOVA 2 (EU)`, g => [
+        new Icon(g, `Edit Library`, `dancingstagesupernova-editlibrary`, 1, Contributors.Pm41224),
+        new Icon(g, `System Data (Dance Dance Revolution)`, `ddrsupernova`, 1, Contributors.ItzCookieX),
+        new Icon(g, `System Data (Dancing Stage)`, `dancingstagesupernova-systemdata`, 1, Contributors.Pm41224),
+    ]),
+    new Game(`Dance Dance Revolution SuperNova 2`, g => [
+        new Icon(g, `Edit Library`, `dancingstagesupernova2-editlibrary`, 1, Contributors.Pm41224),
+        new Icon(g, `System Data (Dance Dance Revolution)`, `ddrsupernova2`, 1, Contributors.ItzCookieX),
+        new Icon(g, `System Data (Dancing Stage)`, `dancingstagesupernova2-systemdata`, 1, Contributors.Pm41224),
+    ]),
     new Game(`Dance Dance Revolution Workout Data`, g => [
         new Icon(g, `DDRMAX`, `ddrworkoutdata-ddrmax`, 1, Contributors.ShawnS),
         new Icon(g, `DDRMAX2`, `ddrworkoutdata-ddrmax2`, 1, Contributors.ShawnS),
@@ -768,8 +783,14 @@ export const Titles: Title[] = [
     new Game(`Dance: UK`),
     new Game(`Dance: UK eXtra Trax`),
     new Game(`Dance: UK XL Party`),
-    new Game(`Dancing Stage Fever`, `dancingstagefever`, 1, Contributors.ItzCookieX),
-    new Game(`Dancing Stage Fusion`, `dancingstagefusion`, 1, Contributors.ItzCookieX),
+    new Game(`Dancing Stage Fever`, g => [
+        new Icon(g, `System Data`, `dancingstagefever`, 1, Contributors.ItzCookieX),
+        new Icon(g, `Workout Data`, `dancingstagefever-workoutdata`, 1, Contributors.Pm41224),
+    ]),
+    new Game(`Dancing Stage Fusion`, g => [
+        new Icon(g, `Edit Library`, `dancingstagefusion-editlibrary`, 1, Contributors.Pm41224),
+        new Icon(g, `System Data`, `dancingstagefusion`, 1, Contributors.ItzCookieX),
+    ]),
     new Game(`Dancing Stage Max`, g => [
         new Icon(g, `Edit Library`, `dancingstagemax-editlibrary`, 1, Contributors.Pm41224),
         new Icon(g, `System Data`, `dancingstagemax-systemdata`, 1, Contributors.Pm41224),
@@ -792,8 +813,9 @@ export const Titles: Title[] = [
     new Game(`DDR Festival Dance Dance Revolution`, g => [
         new Icon(g, `Edit Library`, `ddrfestival-editlibrary`, 1, Contributors.Pm41224),
         new Icon(g, `System Data`, `ddrfestival-systemdata`, 1, Contributors.ItzCookieX),
+        new Icon(g, `Workout Data`, `ddrfestivaldancedancerevolution-workoutdata`, 1, Contributors.Pm41224),
     ]),
-    new Game(`DDRMAX Dance Dance Revolution`, g => [
+    new Game(`DDRMAX Dance Dance Revolution / Dancing Stage MegaMix (EU)`, g => [
         new Icon(g, `Edit Library`, `ddrmax-editlibrary`, 1, Contributors.ShawnS),
         new Icon(g, `System Data`, `ddrmax-systemdata`, 1, Contributors.ItzCookieX),
     ]),
@@ -2063,12 +2085,15 @@ export const Titles: Title[] = [
     new Game(`Kanuchi: Shiroki Tsubasa no Shou`),
     new Game(`Kao the Kangaroo Round 2`),
     new Game(`Kappa no Kai-Kata`),
-    new Game(`Karaoke Revolution`, `karaokerevolution`, 1, Contributors.ShawnS),
+    new Game(`Karaoke Revolution `, g => [
+        new Icon(g, `Worldwide / Karaoke Stage (EU)`, `karaokerevolution`, 1, Contributors.ShawnS),
+        new Icon(g, `Japan`, `karaokerevolution-jp`, 1, Contributors.Pm41224),
+    ]),
     new Game(`Karaoke Revolution Party`, `karaokerevolutionparty`, 1, Contributors.Jtduckman),
-    new Game(`Karaoke Revolution Presents: American Idol`),
-    new Game(`Karaoke Revolution Presents: American Idol Encore`),
-    new Game(`Karaoke Revolution Volume 2`),
-    new Game(`Karaoke Revolution Volume 3`),
+    new Game(`Karaoke Revolution Presents: American Idol`, `karaokerevolutionpresents-americanidol`, 1, Contributors.Pm41224),
+    new Game(`Karaoke Revolution Presents: American Idol Encore`, `karaokerevolutionpresents-americanidolencore`, 1, Contributors.Pm41224),
+    new Game(`Karaoke Revolution Volume 2`, `karaokerevolutionvolume2`, 1, Contributors.Pm41224),
+    new Game(`Karaoke Revolution Volume 3`, `karaokerevolutionvolume3`, 1, Contributors.Pm41224),
     new Game(`Karaoke Revolution: Anime Song Collection`),
     new Game(`Karaoke Revolution: Dreams & Memories`),
     new Game(`Karaoke Revolution: Family Pack`),
@@ -2086,7 +2111,7 @@ export const Titles: Title[] = [
     new Game(`Karaoke Revolution: Love & Ballad`),
     new Game(`Karaoke Revolution: Night Selection 2003`),
     new Game(`Karaoke Revolution: Snow & Party`),
-    new Game(`Karaoke Stage 2`),
+    new Game(`Karaoke Stage 2`, `karaokestage2`, 1, Contributors.Pm41224),
     new Game(`Kart Racer`),
     new Game(`Kashimashi! Girl Meets Girl`, `kashimashigirlmeetsgirl`, 1, Contributors.Cajas),
     new Game(`Katakamuna: Ushinawareta Ingaritsu`),

@@ -1,0 +1,18 @@
+{
+    "title":"DS SuperNOVA  EDIT LIBRARY",
+    "normal":"output.ico",
+    "copy":"output.ico",
+    "delete":"output.ico",
+    "bgOpacity":64,
+    "bgColTL":"#03f2fc",
+    "bgColTR":"#f400e3",
+    "bgColBL":"#0d04fd",
+    "bgColBR":"#0736f8",
+    "light1Dir":[0.012180988676846027, -2.785518169403076, 0.7213553786277771, 0.0],
+    "light2Dir":[-2.924177646636963, -2.6213014125823975, -0.8707807660102844, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}
