@@ -1,0 +1,18 @@
+{
+    "title":"ZOMBIE PANIC",
+    "normal":"icon.ico",
+    "copy":"icon.ico",
+    "delete":"icon.ico",
+    "bgOpacity":64,
+    "bgColTL":"#0000ff",
+    "bgColTR":"#0000ff",
+    "bgColBL":"#0000ff",
+    "bgColBR":"#0000ff",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.5, 0.5, 0.5, 0.0],
+    "light3Dir":[0.5, 0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
