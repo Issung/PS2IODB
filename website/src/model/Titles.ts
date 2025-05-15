@@ -790,6 +790,7 @@ export const Titles: Title[] = [
     new Game(`Dancing Stage Fusion`, g => [
         new Icon(g, `Edit Library`, `dancingstagefusion-editlibrary`, 1, Contributors.Pm41224),
         new Icon(g, `System Data`, `dancingstagefusion`, 1, Contributors.ItzCookieX),
+        new Icon(g, `Workout Data`, `dancingstagefusion-workoutdata`, 1, Contributors.Pm41224),
     ]),
     new Game(`Dancing Stage Max`, g => [
         new Icon(g, `Edit Library`, `dancingstagemax-editlibrary`, 1, Contributors.Pm41224),
