@@ -1078,7 +1078,7 @@ export const Titles: Title[] = [
     new Game(`Elysion`),
     new Game(`Empire of Atlantis`),
     new Game(`Endgame`),
-    new Game(`Endonesia`),
+    new Game(`Endonesia`, `endonesia`, 1, Contributors.Everdred),
     new Game(`Energy Airforce`, `energyairforce`, 2, Contributors.Cajas),
     new Game(`Energy Airforce Aim Strike!`),
     new Game(`England International Football`),
