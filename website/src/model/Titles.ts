@@ -1245,7 +1245,7 @@ export const Titles: Title[] = [
     new Game(`Final Fight: Streetwise`, `finalfightstreetwise`, 3, Contributors.Cajas),
     new Game(`Finalist`, `finalist`, 1, Contributors.Cajas),
     new Game(`Finkles World`),
-    new Game(`Finny The Fish & The Seven Waters`),
+    new Game(`Finny The Fish & The Seven Waters`, `finnythefishandthesevenwaters`, 1, Contributors.ZupaPat785),
     new Game(`Fire Blade`),
     new Game(`Fire Heroes`),
     new Game(`Fire Pro Wrestling Returns`, g => [
