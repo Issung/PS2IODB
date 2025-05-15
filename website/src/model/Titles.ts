@@ -2095,23 +2095,23 @@ export const Titles: Title[] = [
     new Game(`Karaoke Revolution Presents: American Idol Encore`, `karaokerevolutionpresents-americanidolencore`, 1, Contributors.Pm41224),
     new Game(`Karaoke Revolution Volume 2`, `karaokerevolutionvolume2`, 1, Contributors.Pm41224),
     new Game(`Karaoke Revolution Volume 3`, `karaokerevolutionvolume3`, 1, Contributors.Pm41224),
-    new Game(`Karaoke Revolution: Anime Song Collection`),
-    new Game(`Karaoke Revolution: Dreams & Memories`),
-    new Game(`Karaoke Revolution: Family Pack`),
-    new Game(`Karaoke Revolution: J-Pop Best Vol. 1`),
-    new Game(`Karaoke Revolution: J-Pop Best Vol. 2`),
-    new Game(`Karaoke Revolution: J-Pop Best Vol. 3`),
-    new Game(`Karaoke Revolution: J-Pop Best Vol. 4`),
-    new Game(`Karaoke Revolution: J-Pop Best Vol. 5`),
-    new Game(`Karaoke Revolution: J-Pop Best Vol. 6`),
-    new Game(`Karaoke Revolution: J-Pop Best Vol. 7`),
-    new Game(`Karaoke Revolution: J-Pop Best Vol. 8`),
-    new Game(`Karaoke Revolution: J-Pop Best Vol. 9`),
-    new Game(`Karaoke Revolution: Kazoku Idol Sengen`),
-    new Game(`Karaoke Revolution: Kissing Selection`),
-    new Game(`Karaoke Revolution: Love & Ballad`),
-    new Game(`Karaoke Revolution: Night Selection 2003`),
-    new Game(`Karaoke Revolution: Snow & Party`),
+    new Game(`Karaoke Revolution: Anime Song Collection`),                      // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: Dreams & Memories`),                          // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: Family Pack`),                                // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: J-Pop Best Vol. 1`),                          // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: J-Pop Best Vol. 2`),                          // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: J-Pop Best Vol. 3`),                          // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: J-Pop Best Vol. 4`),                          // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: J-Pop Best Vol. 5`),                          // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: J-Pop Best Vol. 6`),                          // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: J-Pop Best Vol. 7`),                          // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: J-Pop Best Vol. 8`),                          // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: J-Pop Best Vol. 9`),                          // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: Kazoku Idol Sengen / Family Pack`),           // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: Kissing Selection / Kids Song Selection`),    // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: Love & Ballad`),                              // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: Night Selection 2003`),                       // According to pm41224 each of these games share a save file.
+    new Game(`Karaoke Revolution: Snow & Party`),                               // According to pm41224 each of these games share a save file.
     new Game(`Karaoke Stage 2`, `karaokestage2`, 1, Contributors.Pm41224),
     new Game(`Kart Racer`),
     new Game(`Kashimashi! Girl Meets Girl`, `kashimashigirlmeetsgirl`, 1, Contributors.Cajas),
