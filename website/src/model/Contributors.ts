@@ -35,6 +35,7 @@ export class Contributors {
     public static Jtduckman = new Contributor('jtduckman', 'https://bsky.app/profile/jtduckman.bsky.social');
     public static Everdred = new Contributor('Everdred');
     public static TotallyNotMichael = new Contributor('TotallyNotMichael');
+    public static Marc = new Contributor('Marc');
 }
 
 export const ContributorCount = Object.values(Contributors).length;

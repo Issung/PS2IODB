@@ -1,0 +1,19 @@
+{
+    "directory":"BESLES-51838-AOXXL",
+    "title":"Asterix       & Obelix XXL",
+    "normal":"STATIC.ico",
+    "copy":"COPY.ico",
+    "delete":"DELETE.ico",
+    "bgOpacity":96,
+    "bgColTL":"#e4884d",
+    "bgColTR":"#f3d6ac",
+    "bgColBL":"#faf8df",
+    "bgColBR":"#a23722",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.4000000059604645, -0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0]
+}
