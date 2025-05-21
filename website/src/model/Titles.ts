@@ -875,7 +875,7 @@ export const Titles: Title[] = [
     new Game(`Destroy All Humans!`, `destroyallhumans`, 1, Contributors.Oddworld2001),
     new Game(`Destroy All Humans! 2`, `destroyallhumans2`, 1, Contributors.Oddworld2001),
     new Game(`Destruction Derby Arenas`, `destructionderbyarenas`, 1, Contributors.SqueezedDog),
-    new Game(`Deus Ex: The Conspiracy`),
+    new Game(`Deus Ex: The Conspiracy`, `deusextheconspiracy`, 1, Contributors.Cajas),
     new Game(`Devil Kings`, `devilkings`, 3, Contributors.Cajas),
     new Game(`Devil May Cry`, `devilmaycry`, 3, Contributors.Issung),
     new Game(`Devil May Cry 2`, `devilmaycry2`, 3, Contributors.Issung),
@@ -937,7 +937,10 @@ export const Titles: Title[] = [
     new Game(`The Dog Island`),
     new Game(`Dog of Bay`, `dogofbay`, 3, Contributors.Cajas),
     new Game(`Dog's Life`, `dogslife`, 1, Contributors.SqueezedDog),
-    new Game(`DogStation`),
+    new Game(`DogStation`, g => [
+        new Icon(g, `Dog Data`),    // Currently broken when trying to export. -Cajas
+        new Icon(g, `System Data`, `dogstation-systemdata`, 1, Contributors.Cajas),
+    ]),
     new Game(`Dokapon DX: Wataru Sekai wa Oni Darake`),
     new Game(`Dokapon Kingdom`, `dokaponkingdom`, 1, Contributors.Zeroman95),
     new Game(`Dokapon the World`),
