@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-21642USER__2",
+    "title":"SONIC RIDERS ZG  Game Data3",
+    "normal":"game.ico",
+    "copy":"game.ico",
+    "delete":"game.ico",
+    "bgOpacity":89,
+    "bgColTL":"#000014",
+    "bgColTR":"#46465a",
+    "bgColBL":"#141428",
+    "bgColBR":"#8c8ca0",
+    "light1Dir":[1.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 1.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

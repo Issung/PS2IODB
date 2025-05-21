@@ -4048,7 +4048,11 @@ export const Titles: Title[] = [
         new Icon(g, `MD/GG Save Data`, `sonicmegacollectionplus-savestatedata`, 1, Contributors.SqueezedDog),
     ]),
     new Game(`Sonic Riders`),
-    new Game(`Sonic Riders: Zero Gravity`, `sonicriderszerogravity`, 1, Contributors.ItzCookieX),
+    new Game(`Sonic Riders: Zero Gravity`, g => [
+        new Icon(g, `Save Slot 1`, `sonicriderszerogravity-slot1`, 1, Contributors.ItzCookieX),
+        new Icon(g, `Save Slot 2`, `sonicriderszerogravity-slot2`, 1, Contributors.TotallyNotMichael),
+        new Icon(g, `Save Slot 3`, `sonicriderszerogravity-slot3`, 1, Contributors.TotallyNotMichael),
+    ]),
     new Game(`Sonic Unleashed`, `sonicunleashed`, 1, Contributors.ItzCookieX),
     new Game(`The Sopranos: Road to Respect`, `thesopranosroadtorespect`, 1, Contributors.SqueezedDog),
     new Game(`Sorairo no Fuukin Remix`, `soraironofuukinremix`, 1, Contributors.Cajas),
