@@ -1,0 +1,18 @@
+{
+    "title":"DDR X2 EDIT LIBRARY",
+    "normal":"output.ico",
+    "copy":"output.ico",
+    "delete":"output.ico",
+    "bgOpacity":64,
+    "bgColTL":"#a4a9ca",
+    "bgColTR":"#a4a9ca",
+    "bgColBL":"#001278",
+    "bgColBR":"#001278",
+    "light1Dir":[0.0, 0.0, -1.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.5799999833106995, 0.5799999833106995, 0.5799999833106995, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

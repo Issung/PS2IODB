@@ -744,7 +744,10 @@ export const Titles: Title[] = [
     new Game(`Daito Giken Premium Pachi-Slot Collection: Yoshimune`),
     new Game(`Dakar 2`),
     new Game(`Dalmatians 3`),
-    new Game(`Dance Dance Revolution: Disney Channel Edition`, `ddrdisney`, 1, Contributors.ItzCookieX),
+    new Game(`Dance Dance Revolution: Disney Channel Edition`, g => [
+        new Icon(g, `Edit Library`, `ddrdisney-editdata`, 1, Contributors.Pm41224),
+        new Icon(g, `System Data`, `ddrdisney-systemdata`, 1, Contributors.ItzCookieX),
+    ]),
     new Game(`Dance Dance Revolution Extreme`, g => [
         new Icon(g, `Edit Library`, `ddrextremejapan-editlibrary`, 1, Contributors.Pm41224),
         new Icon(g, `System Data`, `ddrextremejapan-systemdata`, 1, Contributors.ItzCookieX),
@@ -777,8 +780,14 @@ export const Titles: Title[] = [
         new Icon(g, `DDRMAX2`, `ddrworkoutdata-ddrmax2`, 1, Contributors.ShawnS),
         new Icon(g, `DDR EXTREME`, `ddrworkoutdata-ddrextreme`, 1, Contributors.ShawnS),
     ]),
-    new Game(`Dance Dance Revolution X`, `ddrx`, 1, Contributors.ItzCookieX),
-    new Game(`Dance Dance Revolution X2`, `dancedancerevolutionx2`, 1, Contributors.ItzCookieX),
+    new Game(`Dance Dance Revolution X`, g => [
+        new Icon(g, `Edit Library`, `ddrx-editlibrary`, 1, Contributors.Pm41224),
+        new Icon(g, `System Data`, `ddrx-systemdata`, 1, Contributors.ItzCookieX),
+    ]),
+    new Game(`Dance Dance Revolution X2`, g => [
+        new Icon(g, `Edit Library`, `dancedancerevolutionx2-editlibrary`, 1, Contributors.Pm41224),
+        new Icon(g, `System Data`, `dancedancerevolutionx2-systemdata`, 1, Contributors.ItzCookieX),
+    ]),
     new Game(`Dance Factory`, `dancefactory`, 1, Contributors.Jtduckman),
     new Game(`Dance Fest`),
     new Game(`Dance Party: Club Hits`),
