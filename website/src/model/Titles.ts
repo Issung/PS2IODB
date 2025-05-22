@@ -550,7 +550,11 @@ export const Titles: Title[] = [
     new Game(`Chandragupta: Warrior Prince`, `chandraguptawarriorprince`, 1, Contributors.Cajas),
     new Game(`Chanter♯: Kimi no Uta ga Todoitara`, `chanter#kiminoutagatodoitara`, 1, Contributors.Cajas),
     new Game(`Chaos Field: New Order`),
-    new Game(`Chaos Legion`, `chaoslegion`, 1, Contributors.Psiences),
+    new Game(`Chaos Legion`, g => [
+        new Icon(g, `Sieg Wahrheit (Normal Difficulty)`, `chaoslegion-siegwahrheitnormaldifficulty`, 1, Contributors.Psiences),
+        new Icon(g, `Arcia Rinslet (Hard Difficulty)`, `chaoslegion-arciarinsletharddifficulty`, 1, Contributors.Cajas),
+        new Icon(g, `Victor Delacroix  (Super Hard Difficulty)`, `chaoslegion-victordelacroixsuperharddifficulty`, 1, Contributors.Cajas),
+    ]),
     new Game(`Chaos Wars`, g => [
         new Icon(g, `English`, `chaoswars-en`, 1, Contributors.Sebita),
         new Icon(g, `Japanese`, `chaoswars-jp`, 1, Contributors.Cajas),
@@ -1235,7 +1239,12 @@ export const Titles: Title[] = [
     new Game(`Final Approach 2: 1st Priority`),
     new Game(`Final Armada`),
     new Game(`Final Fantasy X`, `finalfantasy10`, 1, Contributors.Issung),
-    new Game(`Final Fantasy X-2`, `finalfantasyfx2`, 1, Contributors.ItzCookieX),
+    new Game(`Final Fantasy X-2`, g => [
+        new Icon(g, 'PuPu (1st Playthrough)', `finalfantasyfx2-pupu1stplaythrough`, 1, Contributors.ItzCookieX),
+        new Icon(g, 'Cactuar (New Game+)', `finalfantasyfx2-cactuarnewgameplus`, 1, Contributors.Cajas),
+        new Icon(g, 'Moogle (3rd Playthrough)', `finalfantasyfx2-moogle3rdplaythrough`, 1, Contributors.Cajas),
+        new Icon(g, 'Green Moogle (Unknown Condition)', `finalfantasyfx2-greenmooglejapan`, 1, Contributors.Cajas),
+    ]),
     new Game(`Final Fantasy X-2: International + Last Mission`, `finalfantasyx2international`, 1, Contributors.ItzCookieX),
     new Game(`Final Fantasy XI`),                           // No icon, saves are done on external harddrive (says ItzCookieX).
     new Game(`Final Fantasy XI: Chains of Promathia`),      // No icon, saves are done on external harddrive (says ItzCookieX).
