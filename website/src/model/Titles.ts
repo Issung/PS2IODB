@@ -4145,7 +4145,7 @@ export const Titles: Title[] = [
     new Game(`Spy Hunter`, `spyhunter`, 1, Contributors.Jtduckman),
     new Game(`Spy Hunter 2`, `spyhunter2`, 1, Contributors.SqueezedDog),
     new Game(`Spy Hunter: Nowhere to Run`, `spyhunternowheretorun`, 1, Contributors.SqueezedDog),
-    new Game(`Spy vs. Spy`),
+    new Game(`Spy vs. Spy`, `spyvsspy`, 1, Contributors.Zeroman95),
     new Game(`Spyro: A Hero's Tail`, `spyroherostail`, 1, Contributors.Issung),
     new Game(`Spyro: Enter the Dragonfly`, `spyroenterthedragonfly`, 1, Contributors.ItzCookieX),
     new Game(`SSX`, `ssx`, 1, Contributors.Issung),
