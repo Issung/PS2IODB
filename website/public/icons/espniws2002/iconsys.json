@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20320",
+    "title":"ESPN IWS 2002",
+    "normal":"icon_n.ico",
+    "copy":"icon_n.ico",
+    "delete":"icon_d.ico",
+    "bgOpacity":64,
+    "bgColTL":"#000080",
+    "bgColTR":"#000080",
+    "bgColBL":"#000020",
+    "bgColBR":"#000020",
+    "light1Dir":[0.0, 0.0, 0.10000000149011612, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.4000000059604645, 0.4000000059604645, 0.4000000059604645, 0.0]
+}

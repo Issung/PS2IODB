@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-21319",
+    "title":"FLOW: Urban   Dance Uprising",
+    "normal":"static.ico",
+    "copy":"static.ico",
+    "delete":"static.ico",
+    "bgOpacity":128,
+    "bgColTL":"#e04e1b",
+    "bgColTR":"#3b1a00",
+    "bgColBL":"#ff9000",
+    "bgColBR":"#3b1a00",
+    "light1Dir":[-0.5, 0.5, -0.5, 0.5],
+    "light2Dir":[0.0, 0.5, 0.5, 0.5],
+    "light3Dir":[0.0, 0.5, -0.5, 0.5],
+    "light1Col":[0.5, 0.5, 0.5, 0.5],
+    "light2Col":[0.4000000059604645, 0.4000000059604645, 0.4000000059604645, 0.5],
+    "light3Col":[0.4000000059604645, 0.4000000059604645, 0.4000000059604645, 0.5],
+    "ambiLightCol":[0.49803900718688965, 0.49803900718688965, 0.49803900718688965, 1.0]
+}

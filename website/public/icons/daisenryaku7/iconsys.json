@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-21352",
+    "title":"DaiSenryaku 7",
+    "normal":"ds7.ico",
+    "copy":"ds7.ico",
+    "delete":"ds7.ico",
+    "bgOpacity":95,
+    "bgColTL":"#40607f",
+    "bgColTR":"#40607f",
+    "bgColBL":"#40607f",
+    "bgColBR":"#40607f",
+    "light1Dir":[1.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 1.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[1.0, 1.0, 1.0, 0.0],
+    "ambiLightCol":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0]
+}
