@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-20255",
+    "title":"\u30df\u30ea\u30aa\u30f3\u30b4\u30c3\u30c9",
+    "normal":"mgod.ico",
+    "copy":"mgod.ico",
+    "delete":"mgod.ico",
+    "bgOpacity":96,
+    "bgColTL":"#460000",
+    "bgColTR":"#460000",
+    "bgColBL":"#ff0200",
+    "bgColBR":"#ffff00",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, 0.0, -0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, 0.0, 0.5, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[0.75, 0.75, 0.75, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.20000000298023224, 0.20000000298023224, 0.20000000298023224, 0.0]
+}
