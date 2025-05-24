@@ -37,6 +37,7 @@ export class Contributors {
     public static TotallyNotMichael = new Contributor('TotallyNotMichael');
     public static Marc = new Contributor('Marc');
     public static LanceBoyle = new Contributor('LanceBoyle');
+    public static Grounder = new Contributor('Grounder');
 }
 
 export const ContributorCount = Object.values(Contributors).length;

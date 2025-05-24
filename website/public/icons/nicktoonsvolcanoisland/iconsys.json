@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-21469",
+    "title":"Nicktoons  Volcano Island",
+    "normal":"icon.ico",
+    "copy":"icon.ico",
+    "delete":"icon.ico",
+    "bgOpacity":96,
+    "bgColTL":"#404040",
+    "bgColTR":"#404040",
+    "bgColBL":"#404040",
+    "bgColBR":"#404040",
+    "light1Dir":[0.0, 1.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 1.0]
+}
