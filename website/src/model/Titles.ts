@@ -4254,7 +4254,7 @@ export const Titles: Title[] = [
         new Icon(g, 'Replay - Remy (Win)', `sf3-replay-remy-win`, 1, Contributors.Cajas),
         new Icon(g, 'Replay - Remy (Lose)'),
         new Icon(g, 'Replay - Ryu (Win)', `sf3-replay-ryu-win`, 1, Contributors.Cajas),
-        new Icon(g, 'Replay - Ryu (Lose)'),
+        new Icon(g, 'Replay - Ryu (Lose)', `sf3-replay-ryu-loss`, 1, Contributors.Cajas),
         new Icon(g, 'Replay - Sean (Win)', `sf3-replay-sean-win`, 1, Contributors.Cajas),
         new Icon(g, 'Replay - Sean (Lose)'),
         new Icon(g, 'Replay - Twelve (Win)', `sf3-replay-twelve-win`, 1, Contributors.Cajas),
