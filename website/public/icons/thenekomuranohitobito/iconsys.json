@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-20493NEKO",
+    "title":"THE \u30cd\u30b3\u6751\u306e\u4eba\u3005 ~\u30d1\u30b0\u4ee3\u5b98\u306e\u60aa\u884c\u4e09\u6627~",
+    "normal":"MC.ICO",
+    "copy":"MC.ICO",
+    "delete":"MC.ICO",
+    "bgOpacity":128,
+    "bgColTL":"#e086ad",
+    "bgColTR":"#e086ad",
+    "bgColBL":"#d2e4eb",
+    "bgColBR":"#d2e4eb",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[-0.5, 0.5, 0.5, 0.0],
+    "light3Dir":[0.0, 0.5, 0.5, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

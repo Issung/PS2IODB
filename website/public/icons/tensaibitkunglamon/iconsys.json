@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-65362Raku1",
+    "title":"\u5929\u624d\u30d3\u30c3\u30c8\u304f\u3093\u30b0\u30e9\u30e2\u30f3\u30d0\u30c8\u30eb \u30c7-\u30bf1:\u3042",
+    "normal":"hako2.ico",
+    "copy":"hako2.ico",
+    "delete":"hako2.ico",
+    "bgOpacity":128,
+    "bgColTL":"#000000",
+    "bgColTR":"#3f8000003f8000003f800000",
+    "bgColBL":"#3f8000003f8000003f800000",
+    "bgColBR":"#3f8000003f8000003f800000",
+    "light1Dir":[1.0, 1.0, 1.0, 0.0],
+    "light2Dir":[1.0, 1.0, 1.0, 0.0],
+    "light3Dir":[1.0, 1.0, 1.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

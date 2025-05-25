@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-65737ROMASABO",
+    "title":"\u53ec\u3057\u307e\u305b\u2606\u6d6a\u6f2b\u8336\u623f",
+    "normal":"mochi.ico",
+    "copy":"mochi.ico",
+    "delete":"mochi.ico",
+    "bgOpacity":127,
+    "bgColTL":"#57f98b",
+    "bgColTR":"#729bfc",
+    "bgColBL":"#fdac3e",
+    "bgColBR":"#f7f7f7",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.800000011920929, 0.800000011920929, 0.800000011920929, 0.0]
+}

@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-66929Save",
+    "title":"\u30a8\u30eb\u30df\u30ca-\u30b8\u30e5",
+    "normal":"elmi.ico",
+    "copy":"elmi.ico",
+    "delete":"elmi.ico",
+    "bgOpacity":48,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.5773502588272095, 0.5773502588272095, 0.5773502588272095, 1.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

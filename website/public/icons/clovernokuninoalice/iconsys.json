@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-55255ALC",
+    "title":"\u30af\u30ed-\u30d0-\u306e\u56fd\u306e\u30a2\u30ea\u30b9                      ",
+    "normal":"AL_CLOVER.ico",
+    "copy":"AL_CLOVER.ico",
+    "delete":"AL_CLOVER.ico",
+    "bgOpacity":96,
+    "bgColTL":"#808080",
+    "bgColTR":"#808080",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.3999999761581421, -0.09999999403953552, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

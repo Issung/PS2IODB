@@ -1,0 +1,19 @@
+{
+    "directory":"BESLES-53871PSCV2SNG",
+    "title":"Tengai",
+    "normal":"icon.ico",
+    "copy":"icon.ico",
+    "delete":"icon.ico",
+    "bgOpacity":128,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[-1.0, 1.0, 0.0, 1.0],
+    "light2Dir":[1.0, 0.0, 0.0, 1.0],
+    "light3Dir":[1.0, 0.0, 0.0, 1.0],
+    "light1Col":[0.3499999940395355, 0.3499999940395355, 0.3499999940395355, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.25, 0.25, 0.25, 0.0]
+}

@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-65378BSN2-0",
+    "title":"BUSIN0 \u30c7-\u30bf1",
+    "normal":"icon1.ico",
+    "copy":"icon1.ico",
+    "delete":"icon1.ico",
+    "bgOpacity":64,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.5, 0.5, 0.5, 0.5],
+    "light2Dir":[0.0, -0.4000000059604645, -0.10000000149011612, 0.5],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.5],
+    "light1Col":[0.5, 0.5, 0.5, 0.5],
+    "light2Col":[0.5, 0.5, 0.5, 0.5],
+    "light3Col":[0.5, 0.5, 0.5, 0.5],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
