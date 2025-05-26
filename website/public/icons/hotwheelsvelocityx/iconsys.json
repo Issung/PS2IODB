@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20412",
+    "title":"Hot Wheels     Velocity X",
+    "normal":"hw.ico",
+    "copy":"hw.ico",
+    "delete":"hw.ico",
+    "bgOpacity":96,
+    "bgColTL":"#a0a0a0",
+    "bgColTR":"#404040",
+    "bgColBL":"#605a58",
+    "bgColBR":"#202020",
+    "light1Dir":[0.0, 0.5, 0.0, 0.0],
+    "light2Dir":[0.0, -0.5, -0.20000000298023224, 0.0],
+    "light3Dir":[-0.10000000149011612, 0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.25, 0.5, 0.0],
+    "light3Col":[1.0, 1.0, 1.0, 0.0],
+    "ambiLightCol":[0.20000000298023224, 0.20000000298023224, 0.20000000298023224, 0.0]
+}

@@ -38,6 +38,7 @@ export class Contributors {
     public static Marc = new Contributor('Marc');
     public static LanceBoyle = new Contributor('LanceBoyle');
     public static Grounder = new Contributor('Grounder');
+    public static TheZulaPatrolFan2005 = new Contributor('TheZulaPatrolFan2005');
 }
 
 export const ContributorCount = Object.values(Contributors).length;
