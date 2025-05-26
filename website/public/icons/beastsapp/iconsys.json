@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-25304",
+    "title":"\u30d3-\u30b9\u30c8\u30b5\u30c3\u30d7",
+    "normal":"sapp.ico",
+    "copy":"sapp.ico",
+    "delete":"sapp.ico",
+    "bgOpacity":96,
+    "bgColTL":"#0050ff",
+    "bgColTR":"#ff64ff",
+    "bgColBL":"#ff64ff",
+    "bgColBR":"#ff000a",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, 0.0, -0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, 0.0, 0.5, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[0.75, 0.75, 0.75, 0.0],
+    "light3Col":[0.8999999761581421, 0.8999999761581421, 0.8999999761581421, 0.0],
+    "ambiLightCol":[0.20000000298023224, 0.20000000298023224, 0.20000000298023224, 0.0]
+}
