@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20051PLAYERS",
+    "title":"NFL Blitz 2002 Player Records",
+    "normal":"view.ico",
+    "copy":"view.ico",
+    "delete":"view.ico",
+    "bgOpacity":64,
+    "bgColTL":"#400000",
+    "bgColTR":"#400040",
+    "bgColBL":"#808080",
+    "bgColBR":"#000040",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

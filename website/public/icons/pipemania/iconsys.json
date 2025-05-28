@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-21766-PIPE",
+    "title":"Pipe Mania",
+    "normal":"save.ico",
+    "copy":"save.ico",
+    "delete":"save.ico",
+    "bgOpacity":80,
+    "bgColTL":"#02e4ff",
+    "bgColTR":"#ff7901",
+    "bgColBL":"#02e4ff",
+    "bgColBR":"#ff7901",
+    "light1Dir":[1.0, 1.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.6499999761581421, 0.6499999761581421, 0.6499999761581421, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0]
+}

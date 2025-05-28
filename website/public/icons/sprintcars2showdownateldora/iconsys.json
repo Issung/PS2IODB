@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-21601",
+    "title":"Sprint Cars:  Eldora",
+    "normal":"sc2008.ico",
+    "copy":"sc2008.ico",
+    "delete":"sc2008.ico",
+    "bgOpacity":96,
+    "bgColTL":"#a87626",
+    "bgColTR":"#e99b1f",
+    "bgColBL":"#ba904e",
+    "bgColBR":"#a87626",
+    "light1Dir":[1.0, 1.0, 1.0, 0.0],
+    "light2Dir":[-1.0, -1.0, -1.0, 0.0],
+    "light3Dir":[1.0, 1.0, 1.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.25, 0.25, 0.25, 0.25]
+}

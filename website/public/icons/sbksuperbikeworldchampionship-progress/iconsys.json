@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-21817Settings",
+    "title":"SBK Progress",
+    "normal":"Settings.ico",
+    "copy":"Settings.ico",
+    "delete":"Settings.ico",
+    "bgOpacity":128,
+    "bgColTL":"#ffc423",
+    "bgColTR":"#ffffff",
+    "bgColBL":"#002446",
+    "bgColBR":"#00498f",
+    "light1Dir":[0.0, -1.0, -0.5, 0.0],
+    "light2Dir":[0.0, -1.0, -0.5, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0]
+}

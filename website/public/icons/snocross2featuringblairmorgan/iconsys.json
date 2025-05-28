@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-21130",
+    "title":"SnoCross 2 Profiles",
+    "normal":"SC2ICON1.ICO",
+    "copy":"SC2ICON2.ICO",
+    "delete":"SC2ICON3.ICO",
+    "bgOpacity":128,
+    "bgColTL":"#ff0000",
+    "bgColTR":"#ffffff",
+    "bgColBL":"#ff0000",
+    "bgColBR":"#ffffff",
+    "light1Dir":[0.0, -1.0, 0.0, 1.0],
+    "light2Dir":[1.0, 0.0, 0.0, 1.0],
+    "light3Dir":[0.0, 0.0, 1.0, 1.0],
+    "light1Col":[0.5, 0.5, 0.5, 1.0],
+    "light2Col":[0.6000000238418579, 0.6000000238418579, 0.6000000238418579, 1.0],
+    "light3Col":[0.699999988079071, 0.699999988079071, 0.699999988079071, 1.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 1.0]
+}
