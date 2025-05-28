@@ -3349,10 +3349,9 @@ export const Titles: Title[] = [
     new Game(`Premier Manager 09`),
     new Game(`Premier Manager 2002/2003 Season`),
     new Game(`Premier Manager 2003–04`),
-    // TODO: Figure out what games these were, they were not scraped correctly.
-    // new Game(`–`),
-    // new Game(`–`),
-    // new Game(`–`),
+    new Game(`Premier Manager 2004–2005`),
+    new Game(`Premier Manager 2005–2006`),
+    new Game(`Premier Manager 2006–2007`),
     new Game(`Pri-Saga! Princess o Sagase!`),
     new Game(`Pride FC: Fighting Championships`, `pridefcfightingchampionships`, 1, Contributors.SqueezedDog),
     new Game(`PrideGP Grand Prix 2003`),
