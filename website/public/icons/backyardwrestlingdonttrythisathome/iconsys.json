@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20638",
+    "title":"Backyard Wrestling",
+    "normal":"game.icn",
+    "copy":"game.icn",
+    "delete":"game.icn",
+    "bgOpacity":114,
+    "bgColTL":"#0000ff",
+    "bgColTR":"#0000a0",
+    "bgColBL":"#ff8000",
+    "bgColBR":"#800000",
+    "light1Dir":[1.0, -1.0, -1.0, 0.0],
+    "light2Dir":[-1.0, -1.0, -1.0, 0.0],
+    "light3Dir":[-1.0, -1.0, 1.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 0.7921569347381592, 0.7960785031318665, 0.0],
+    "light3Col":[0.0, 0.0, 1.0, 0.0],
+    "ambiLightCol":[0.7411764860153198, 0.7176470756530762, 0.8352941870689392, 0.0]
+}

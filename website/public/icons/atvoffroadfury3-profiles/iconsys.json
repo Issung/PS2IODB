@@ -1,0 +1,19 @@
+{
+    "directory":"BASCUS-97405PROFILE",
+    "title":"ATV3  Profiles",
+    "normal":"ATVFury3Red.ICN",
+    "copy":"ATVFury3Red.ICN",
+    "delete":"ATVFury3Red.ICN",
+    "bgOpacity":102,
+    "bgColTL":"#800000",
+    "bgColTR":"#000080",
+    "bgColBL":"#000080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.4000000059604645, -0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.4765625, 0.4765625, 0.0234375, 0.0],
+    "light2Col":[0.5, 0.328125, 0.1953125, 0.0],
+    "light3Col":[0.1328125, 0.1328125, 0.375, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

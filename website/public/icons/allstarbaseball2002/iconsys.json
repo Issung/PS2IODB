@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20008-SET000",
+    "title":"ASB2002 Options",
+    "normal":"icon1.ico",
+    "copy":"icon1.ico",
+    "delete":"icon1.ico",
+    "bgOpacity":128,
+    "bgColTL":"#001040",
+    "bgColTR":"#007f7f",
+    "bgColBL":"#000020",
+    "bgColBR":"#001040",
+    "light1Dir":[1.0, 1.0, 1.0, 0.0],
+    "light2Dir":[0.0, 1.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[0.5039370059967041, 0.5039370059967041, 0.5039370059967041, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.25196850299835205, 0.25196850299835205, 0.25196850299835205, 0.0]
+}
