@@ -208,12 +208,16 @@ export const Titles: Title[] = [
     new Game(`Armen Noir`, `armennoir`, 1, Contributors.Cajas),
     new Game(`Armored Core: Formula Front`),
     new Game(`Armored Core: Last Raven`, g => [
+        new Icon(g, `Emblem Data`, `armoredcorelastraven-emblemdata`, 1, Contributors.Cajas),
         new Icon(g, `Game Data`, `armoredcorelastraven-gamedata`, 1, Contributors.ItzCookieX),
         new Icon(g, `Regulation`, `armoredcorelastraven-regulation`, 1, Contributors.Cajas),
         new Icon(g, `Replay`, `armoredcorelastraven-replay`, 1, Contributors.Cajas),
     ]),
     new Game(`Armored Core: Nexus`, `armoredcorenexus`, 1, Contributors.Rikineko),
-    new Game(`Armored Core: Nine Breaker`, `armoredcoreninebreaker`, 1, Contributors.ItzCookieX),
+    new Game(`Armored Core: Nine Breaker`, g => [
+        new Icon(g, `Emblem`, `armoredcoreninebreaker-emblem`, 1, Contributors.Cajas),
+        new Icon(g, `Save Data`, `armoredcoreninebreaker`, 1, Contributors.ItzCookieX),
+    ]),
     new Game(`Armored Core 2`, `armoredcore2`, 1, Contributors.ItzCookieX),
     new Game(`Armored Core 2: Another Age`, `armoredcore2anotherage`, 1, Contributors.ItzCookieX),
     new Game(`Armored Core 3`, `armoredcore3`, 1, Contributors.ItzCookieX),
@@ -4495,7 +4499,7 @@ export const Titles: Title[] = [
     ]),
     new Game(`Swords of Destiny`, `swordsofdestiny`, 1, Contributors.ItzCookieX),
     new Game(`SX Superstar`, `sxsuperstar`, 1, Contributors.TheZulaPatrolFan2005),
-    new Game(`Syberia`),
+    new Game(`Syberia`, `syberia`, 1, Contributors.Cajas),
     new Game(`Syberia II`),
     new Game(`Syphon Filter: Dark Mirror`, `syphonfilterdarkmirror`, 1, Contributors.Cajas),
     new Game(`Syphon Filter: Logan's Shadow`, `syphonfilterlogansshadow`, 1, Contributors.Cajas),
@@ -4769,8 +4773,8 @@ export const Titles: Title[] = [
     new Game(`Train Simulator: Keisei – Toei – Keikyu`),
     new Game(`Train Simulator: Kyuushuu Shinkansen`),
     new Game(`Train Simulator Midousuji-Sen`),
-    new Game(`Transformers`),   // JP - Dev by Winkysoft
-    new Game(`Transformers`, `transformers`, 1, Contributors.Cajas),   // EU - Dev by Melbourne House
+    new Game(`Transformers`, `transformers-2003`, 1, Contributors.Cajas),   // JP - Dev by Winkysoft
+    new Game(`Transformers`, `transformers-2004`, 1, Contributors.Cajas),   // EU - Dev by Melbourne House
     new Game(`Transformers: The Game`, `transformersthegame`, 1, Contributors.Cajas),
     new Game(`Transformers: Revenge of the Fallen`, `transformersrevengeofthefallen`, 1, Contributors.Psiences),
     new Game(`Transworld Skateboarder`),
