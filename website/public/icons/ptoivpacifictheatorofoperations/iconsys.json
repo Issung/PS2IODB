@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20567",
+    "title":"PTO4",
+    "normal":"tk4.ico",
+    "copy":"tk4.ico",
+    "delete":"tk4.ico",
+    "bgOpacity":80,
+    "bgColTL":"#000000",
+    "bgColTR":"#000040",
+    "bgColBL":"#000040",
+    "bgColBR":"#000080",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[1.5, 1.5, 1.5, 0.0],
+    "light3Dir":[1.5, 1.5, 1.5, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[1.0, 1.0, 1.0, 0.0],
+    "ambiLightCol":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0]
+}

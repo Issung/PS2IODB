@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-21793GHO0001",
+    "title":"DT CARNAGE GHOST 0001",
+    "normal":"static.ico",
+    "copy":"static.ico",
+    "delete":"static.ico",
+    "bgOpacity":60,
+    "bgColTL":"#b4e1eb",
+    "bgColTR":"#6768ac",
+    "bgColBL":"#6768ac",
+    "bgColBR":"#1d266f",
+    "light1Dir":[-0.6462200880050659, 0.758133053779602, 0.08737196773290634, 0.0],
+    "light2Dir":[0.9909092783927917, -0.012220379896461964, -0.1339755356311798, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.25, 0.25, 0.25, 0.0]
+}
