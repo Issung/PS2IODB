@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-20492",
+    "title":"SIMPLE2000\u30b7\u30ea-\u30ba   THE\u30eb-\u30e0\u30b7\u30a7\u30a2\u3068\u3044\u3046\u751f\u6d3b.",
+    "normal":"icon.ico",
+    "copy":"icon.ico",
+    "delete":"icon.ico",
+    "bgOpacity":96,
+    "bgColTL":"#808080",
+    "bgColTR":"#804000",
+    "bgColBL":"#808080",
+    "bgColBR":"#804000",
+    "light1Dir":[0.10000000149011612, 0.8999999761581421, 0.20000000298023224, 0.0],
+    "light2Dir":[-0.10000000149011612, -0.8999999761581421, -0.20000000298023224, 0.0],
+    "light3Dir":[1.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-25220ELYSION",
+    "title":"\u30a8\u30ea\u30e5\u30b7\u30aa\u30f3           ~\u6c38\u9060\u306e\u30b5\u30f3\u30af\u30c1\u30e5\u30a2\u30ea~",
+    "normal":"elysion.ico",
+    "copy":"elysion.ico",
+    "delete":"elysion.ico",
+    "bgOpacity":96,
+    "bgColTL":"#808080",
+    "bgColTR":"#808080",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.3999999761581421, -0.09999999403953552, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

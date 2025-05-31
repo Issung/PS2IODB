@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-66905DC",
+    "title":"D.C.~\u30c0\u30fb\u30ab-\u30dd~ the  Origin",
+    "normal":"dc.ico",
+    "copy":"dc.ico",
+    "delete":"dc.ico",
+    "bgOpacity":96,
+    "bgColTL":"#000080",
+    "bgColTR":"#000070",
+    "bgColBL":"#000080",
+    "bgColBR":"#000070",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

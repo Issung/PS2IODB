@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-66226DCFS",
+    "title":"D.C.F.S.~\u30c0\u30fb\u30ab-\u30dd~ \u30d5\u30a9-\u30b7-\u30ba\u30f3\u30ba",
+    "normal":"dcfs.ico",
+    "copy":"dcfs.ico",
+    "delete":"dcfs.ico",
+    "bgOpacity":96,
+    "bgColTL":"#000080",
+    "bgColTR":"#000070",
+    "bgColBL":"#000080",
+    "bgColBR":"#000070",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

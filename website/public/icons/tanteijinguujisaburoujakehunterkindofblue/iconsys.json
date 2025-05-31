@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-65576JIN9",
+    "title":"  \u63a2\u5075 \u795e\u5bae\u5bfa\u4e09\u90ce KIND OF BLUE",
+    "normal":"aaa.ico",
+    "copy":"aaa.ico",
+    "delete":"aaa.ico",
+    "bgOpacity":96,
+    "bgColTL":"#000080",
+    "bgColTR":"#000080",
+    "bgColBL":"#000080",
+    "bgColBR":"#000080",
+    "light1Dir":[0.0, 2.0, 0.0, 0.0],
+    "light2Dir":[0.0, 2.0, 0.0, 0.0],
+    "light3Dir":[0.0, 2.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.44999998807907104, 0.44999998807907104, 0.44999998807907104, 0.0]
+}

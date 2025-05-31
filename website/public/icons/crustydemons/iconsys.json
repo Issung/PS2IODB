@@ -1,0 +1,19 @@
+{
+    "directory":"BESLES-54146",
+    "title":"Crusty Demons",
+    "normal":"game.icn",
+    "copy":"game.icn",
+    "delete":"game.icn",
+    "bgOpacity":0,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.5773500204086304, 0.5773500204086304, 0.5773500204086304, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.25, 0.25, 0.25, 0.0]
+}

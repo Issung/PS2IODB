@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-25397",
+    "title":"\u30b7\u30f3\u30c9\u30d0\u30c3\u30c9\u30a2\u30c9\u30d9\u30f3\u30c1\u30e3-\u306f \u698e\u672c\u52a0\u5948\u5b50\u3067\u3069\u3046\u3067\u3059\u304b",
+    "normal":"sindbad.ico",
+    "copy":"sindbad.ico",
+    "delete":"sindbad.ico",
+    "bgOpacity":96,
+    "bgColTL":"#064bfc",
+    "bgColTR":"#ff0100",
+    "bgColBL":"#ffd700",
+    "bgColBR":"#ffd700",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, 0.0, -0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, 0.0, 0.5, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[0.75, 0.75, 0.75, 0.0],
+    "light3Col":[0.8999999761581421, 0.8999999761581421, 0.8999999761581421, 0.0],
+    "ambiLightCol":[0.20000000298023224, 0.20000000298023224, 0.20000000298023224, 0.0]
+}

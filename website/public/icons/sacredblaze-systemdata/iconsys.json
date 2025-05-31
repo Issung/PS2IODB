@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-25917-SB-00",
+    "title":"SACRED BLAZE \u30b7\u30b9\u30c6\u30e0\u30c7-\u30bf",
+    "normal":"fp2.ico",
+    "copy":"fp2.ico",
+    "delete":"fp2.ico",
+    "bgOpacity":96,
+    "bgColTL":"#a0a0a0",
+    "bgColTR":"#a0a0a0",
+    "bgColBL":"#a0a0a0",
+    "bgColBR":"#a0a0a0",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.4000000059604645, -0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, 0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
