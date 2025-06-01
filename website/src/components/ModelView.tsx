@@ -4,6 +4,7 @@ import { IconInfoCallback, ModelRendererImpl } from "./ModelRendererImpl";
 import './ModelView.scss';
 import { BackgroundType, MeshType, TextureType } from "./ModelViewParams";
 import { Utils } from "../utils/Utils";
+import { icons } from "@tabler/icons-react";
 
 export interface ModelViewProps {
     // Properties that require network requests.
@@ -27,17 +28,26 @@ export interface ModelViewProps {
 
 const renderer = new ModelRendererImpl();
 
-export const ModelView = ({ iconcode, iconsys, variant, textureType, animate, animationSpeed, frame, grid, meshType, backgroundType, backgroundColor, callback } : ModelViewProps) => {
+export const ModelView = ({
+    iconcode, iconsys, variant, textureType, animate, animationSpeed,
+    frame, grid, meshType, backgroundType, backgroundColor, callback
+} : ModelViewProps) => {
     useEffect(() => {
-        renderer.init();
+        renderer.initialise();
         return renderer.dispose;
     }, []);
+
+    useEffect(() => {
+        if (iconcode && iconsys) {
+            renderer.loadNewIcon(iconcode, iconsys);
+        }
+    }, [iconsys])
 
     // Effect for iconcode or variant changing, requires loading of new assets.
     useEffect(() => {
         renderer.prop_callback = callback;
         if (iconcode && variant) {
-            renderer.loadNewIcon(iconcode, variant, textureType);
+            renderer.loadVariant(variant, textureType);
         }
     }, [iconcode, variant, textureType, callback])
 

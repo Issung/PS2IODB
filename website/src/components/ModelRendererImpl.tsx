@@ -5,6 +5,7 @@ import { TexturedOBJLoader } from "./TexturedOBJLoader";
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
 import * as THREE from "three";
 import Stats from 'stats.js';
+import { IconSys } from "../model/IconSys";
 
 /**
  * Callback function for the model renderer report back regarding loaded icon data, e.g. number of frames.
@@ -12,6 +13,10 @@ import Stats from 'stats.js';
  * @param textureName The name of the loaded texture.
  */
 export type IconInfoCallback = (frameCount: number, textureName: string | undefined) => void
+
+const testMapTextureUrl = 'https://threejs.org/examples/textures/uv_grid_opengl.jpg';
+const whiteTextureUrl = 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg';
+const defaultIntensity = 5;
 
 /**
  * Implementation of the 3D model view and interactions in threejs.
@@ -31,6 +36,9 @@ export class ModelRendererImpl {
      */
     public prop_callback: IconInfoCallback = () => {};
 
+    private iconcode: string | undefined;
+    private iconsys : IconSys | undefined;
+
     // Store the last props set, to skip loading things already loaded.
     private last_iconcode: string | undefined;
     private last_variant: string | undefined;
@@ -43,12 +51,15 @@ export class ModelRendererImpl {
     
     private clock = new THREE.Clock(true);
 
+    // Scene items.
     private camera: THREE.PerspectiveCamera;
     private scene: THREE.Scene;
     private stats: Stats | undefined;
     private axesHelper: THREE.AxesHelper;
     private horizontalGridHelper: THREE.GridHelper;
     private vertexNormalHelper: VertexNormalsHelper | undefined = undefined;
+    private directionalLights: THREE.DirectionalLight[] = Array(3);
+    private ambientLight: THREE.AmbientLight;
 
     private initialised: boolean = false;
     private renderer: THREE.WebGLRenderer | undefined;
@@ -78,11 +89,14 @@ export class ModelRendererImpl {
         this.horizontalGridHelper = new THREE.GridHelper(1, 3);
         this.scene.add(this.horizontalGridHelper);
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 6);
-        this.scene.add(ambientLight);
+        for (let i = 0; i < 3; i++) {
+            const light = new THREE.DirectionalLight(undefined, defaultIntensity);
+            this.scene.add(light);
+            this.directionalLights[i] = light;
+        }
 
-        const pointLight = new THREE.PointLight(0xffffff, 0.8);
-        this.camera.add(pointLight);
+        this.ambientLight = new THREE.AmbientLight(undefined, defaultIntensity);
+        this.scene.add(this.ambientLight);
 
         if (process.env.NODE_ENV === 'development') {
             this.stats = this.createStats();
@@ -96,16 +110,22 @@ export class ModelRendererImpl {
         this.animate();
     }
 
-    public init() {
+    /**
+     * Initialisation that requires access to the DOM elements that cannot be done in constructor.
+     */
+    public initialise() {
         console.log(`ModelRendererImpl init. Init value: ${this.initialised}.`);
-        this.initialised = true;
+
+        if (this.initialised) {
+            return;
+        }
 
         this.canvas = document.querySelector('#iconRenderCanvas') as HTMLCanvasElement;
         if (this.stats) {
             this.canvas.before(this.stats.dom);
         }
 
-        this.renderer = new THREE.WebGLRenderer({ 
+        this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
             antialias: true,
             logarithmicDepthBuffer: true,   // Fixes z-fighting texture flickering on icons, especially when icon is zoomed out a lot.
@@ -130,39 +150,76 @@ export class ModelRendererImpl {
         this.last_iconcode = undefined;
         this.last_variant = undefined;
         this.last_textureType = TextureType.Icon;
+
+        this.initialised = true;
     }
 
-    public async loadNewIcon(
+    public loadNewIcon(
         iconcode: string,
+        iconsys: IconSys
+    ) {
+        console.log(`loadNewIcon: ${iconcode}.`);
+
+        this.iconcode = iconcode;
+        this.iconsys = iconsys;
+
+        if (iconsys.ambiLightCol) {
+            this.ambientLight.color = this.color(iconsys.ambiLightCol);
+            
+            this.directionalLights[0].color = this.color(iconsys.light1Col!);
+            this.directionalLights[1].color = this.color(iconsys.light2Col!);
+            this.directionalLights[2].color = this.color(iconsys.light3Col!);
+            
+            this.directionalLights[0].intensity = defaultIntensity;
+            this.directionalLights[1].intensity = defaultIntensity;
+            this.directionalLights[2].intensity = defaultIntensity;
+
+            this.directionalLights[0].position.copy(this.v3(iconsys.light1Dir!));
+            this.directionalLights[1].position.copy(this.v3(iconsys.light2Dir!));
+            this.directionalLights[2].position.copy(this.v3(iconsys.light3Dir!));
+        }
+        else {
+            this.ambientLight.color = new THREE.Color(1, 1, 1);
+            
+            this.directionalLights[0].intensity = 0;
+            this.directionalLights[1].intensity = 0;
+            this.directionalLights[2].intensity = 0;
+        }
+    }
+
+    public loadVariant(
         variant: string,
         textureType: TextureType
     ) {
-        console.log(`ModelRendererImpl loadNewIcon. code: ${iconcode}, variant: ${variant}, textureType: ${textureType}.`);
-        let loadNewModel = this.last_iconcode !== iconcode || this.last_variant !== variant;
+        if (!this.iconcode || !this.iconsys) {
+            throw new Error('Cannot load variant while iconcode/iconsys is undefined.');
+        }
+
+        console.log(`ModelRendererImpl loadVariant. variant: ${variant}, textureType: ${textureType}.`);
+        let loadNewModel = this.iconcode != this.last_iconcode || this.last_variant !== variant;
         let loadNewTexture = this.last_textureType !== textureType;
         let requireReposition = loadNewModel;
         const loadingManager = new THREE.LoadingManager(() => this.assetLoadComplete(requireReposition));
 
         // Load model & texture.
         let textureUrl =
-            textureType === TextureType.Icon ? undefined :
-            textureType === TextureType.Test ? 'https://threejs.org/examples/textures/uv_grid_opengl.jpg' :
-            textureType === TextureType.Plain ? 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg' :
+            textureType === TextureType.Icon ? undefined :  // Load texture defined in mtl referenced by obj.
+            textureType === TextureType.Test ? testMapTextureUrl :
+            textureType === TextureType.Plain ? whiteTextureUrl :
             (() => { throw new Error("Unknown TextureType"); })();
+            
         if (loadNewModel) {
             if (this.pivot) {   // Remove existing icon if there is one.
                 this.scene.remove(this.pivot);
             }
-            this.loadModel(loadingManager, iconcode, variant, textureUrl);
-            this.loadAnimation(iconcode, variant);  // Don't await, let it work in the background.
+            this.loadModel(loadingManager, this.iconcode, variant, textureUrl);
+            this.loadAnimation(this.iconcode, variant);  // Don't await, let it work in the background.
         }
-        else if (loadNewTexture) {
-            // TODO: Can we somehow save the initially loaded material for-reuse, and not even have to re-request the image?
-            // Can we do that for all materials? Dictionary?
+        else if (loadNewTexture) {  // Not changing model, only changing texture.
             this.loadTexture(loadingManager, textureUrl); // Don't await, let it work in the background.
         }
 
-        this.last_iconcode = iconcode;
+        this.last_iconcode = this.iconcode;
         this.last_variant = variant;
         this.last_textureType = textureType;
     }
@@ -410,5 +467,13 @@ export class ModelRendererImpl {
         const regex = /[^\/]+(?=\.[^.]*$)/;
         const match = input.match(regex);
         return match ? match[0] : input;
+    }
+
+    v3(numbers: number[]) {
+        return new THREE.Vector3(numbers[0], numbers[1], numbers[2]);
+    }
+
+    color(numbers: number[]) {
+        return new THREE.Color().setRGB(numbers[0], numbers[1], numbers[2]);
     }
 }
