@@ -3836,7 +3836,7 @@ export const Titles: Title[] = [
     new Game(`Sega Sports Tennis / Tennis 2K2 / Virtua Tennis 2 / Power Smash 2`, `segasportstennis`, 1, Contributors.Cajas),
     new Game(`Sega Superstars`, `segasuperstars`, 1, Contributors.ItzCookieX),
     new Game(`Sega Superstars Tennis`, `segasuperstarstennis`, 1, Contributors.Oddworld2001),
-    new Game(`Seigi no Mikata`),
+    new Game(`Seigi no Mikata`, `seiginomikata`, 1, Contributors.ZupaPat785),
     new Game(`Seikai no Senki`),
     new Game(`The Sekai Meisaku Gekijou Quiz`),
     new Game(`Sekai no Subete: Two of Us`),
