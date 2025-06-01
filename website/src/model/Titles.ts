@@ -35,7 +35,7 @@ export const Titles: Title[] = [
     new Game(`3LDK – Shiawase ni Narouyo`, `3ldk`, 1, Contributors.Cajas),
     new Game(`3rd Super Robot Wars Alpha: To the End of the Galaxy`),
     new Game(`4x4 EVO`, `4x4evo`, 1, Contributors.Loafhouse),
-    new Game(`4x4 EVO 2`),
+    new Game(`4x4 EVO 2`, `4x4evo2`, 1, Contributors.Typedesigns),
     new Game(`50 Cent: Bulletproof`, `50centbulletproof`, 1, Contributors.Cajas),
     new Game(`7 Blades`, `7blades`, 3, Contributors.ItzCookieX),
     new Game(`7 Sins`, `7sins`, 1, Contributors.Cajas),
