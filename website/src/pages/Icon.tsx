@@ -231,11 +231,10 @@ const Icon = () => {
             <a id="back" href="/" onClick={(e) => { e.preventDefault(); back(); }}>← Home</a>
 
             {/* Game title and contributor */}
-            <h5 id="title">
+            <div id="title">
                 {icon ?
                     <>
-                        {title}
-                        <br/>
+                        <h5>{title}</h5>
                         <h6>Contributed by {icon.contributor?.link ? 
                             <Link to={icon.contributor.link} target="_blank">{icon.contributor!.name}</Link>
                         :
@@ -245,7 +244,7 @@ const Icon = () => {
                 :
                     "Game not found."
                 }
-            </h5>
+            </div>
 
             <ModelView 
                 iconcode={iconcode}
