@@ -1,0 +1,18 @@
+{
+    "title":" \u6c38\u4e16\u540d\u4ebaIV",
+    "normal":"icon_1",
+    "copy":"icon_1",
+    "delete":"icon_1",
+    "bgOpacity":88,
+    "bgColTL":"#ffffff",
+    "bgColTR":"#ffffff",
+    "bgColBL":"#d0a810",
+    "bgColBR":"#d0a810",
+    "light1Dir":[1.0, 1.0, 0.0, 0.0],
+    "light2Dir":[-1.0, -1.0, -1.0, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 1.0],
+    "light2Col":[0.5, 0.5, 0.5, 1.0],
+    "light3Col":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 1.0],
+    "ambiLightCol":[0.7599999904632568, 0.7599999904632568, 0.7599999904632568, 0.0]
+}

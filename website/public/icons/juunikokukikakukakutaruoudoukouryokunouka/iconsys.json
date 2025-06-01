@@ -1,0 +1,18 @@
+{
+    "title":"\u5341\u4e8c\u56fd\u8a18<\u8d6b\u3005\u305f\u308b\u738b\u9053 \u7d05\u7dd1\u306e\u7fbd \u5316>#01 \u745b\u5dde\u30fb\u30ae\u30e7\u30a6\u30c6\u30f3",
+    "normal":"JNKICON2.ico",
+    "copy":"JNKICON2.ico",
+    "delete":"JNKICON2.ico",
+    "bgOpacity":96,
+    "bgColTL":"#800000",
+    "bgColTR":"#008000",
+    "bgColBL":"#000080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.4000000059604645, -0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
