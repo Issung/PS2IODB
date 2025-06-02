@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20749dale",
+    "title":"Rugby 2004 dale",
+    "normal":"echo1.ico",
+    "copy":"echo1.ico",
+    "delete":"echo1.ico",
+    "bgOpacity":96,
+    "bgColTL":"#ffdc00",
+    "bgColTR":"#80903c",
+    "bgColBL":"#80903c",
+    "bgColBR":"#004477",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.75, 0.75, 0.75, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.75, 0.75, 0.75, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

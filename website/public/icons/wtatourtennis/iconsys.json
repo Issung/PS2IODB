@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20357",
+    "title":"WTA Tour Tennis",
+    "normal":"static.ico",
+    "copy":"static.ico",
+    "delete":"static.ico",
+    "bgOpacity":96,
+    "bgColTL":"#6666ff",
+    "bgColTR":"#6666ff",
+    "bgColBL":"#6666ff",
+    "bgColBR":"#6666ff",
+    "light1Dir":[-0.5, -0.5, -0.5, 0.0],
+    "light2Dir":[-0.5, -0.5, -0.5, 0.0],
+    "light3Dir":[-0.5, -0.5, -0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

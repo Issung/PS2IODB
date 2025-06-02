@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-21339Puz Cha",
+    "title":"Puzzle  Challenge",
+    "normal":"test.ico",
+    "copy":"test.ico",
+    "delete":"test.ico",
+    "bgOpacity":96,
+    "bgColTL":"#ff8000",
+    "bgColTR":"#0000ff",
+    "bgColBL":"#ff8000",
+    "bgColBR":"#0000ff",
+    "light1Dir":[1.0, 0.0, 0.0, 1.0],
+    "light2Dir":[0.0, -1.0, 0.0, 1.0],
+    "light3Dir":[0.0, 0.0, 1.0, 1.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 1.0]
+}
