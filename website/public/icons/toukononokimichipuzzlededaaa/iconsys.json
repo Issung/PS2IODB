@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-25189AI-GAME",
+    "title":"\u95d8\u9b42\u732a\u6728\u9053",
+    "normal":"inoki_icon.ico",
+    "copy":"inoki_icon.ico",
+    "delete":"inoki_icon.ico",
+    "bgOpacity":96,
+    "bgColTL":"#505080",
+    "bgColTR":"#373780",
+    "bgColBL":"#1e1e80",
+    "bgColBR":"#373780",
+    "light1Dir":[0.0, 0.0, -1.0, 0.0],
+    "light2Dir":[0.0, 1.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, -1.0, 0.0],
+    "light1Col":[0.6000000238418579, 0.6000000238418579, 0.6000000238418579, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.6000000238418579, 0.6000000238418579, 0.6000000238418579, 0.0]
+}
