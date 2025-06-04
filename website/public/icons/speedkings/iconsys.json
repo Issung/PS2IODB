@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20584",
+    "title":"Speed Kings",
+    "normal":"view.ico",
+    "copy":"view.ico",
+    "delete":"view.ico",
+    "bgOpacity":104,
+    "bgColTL":"#010180",
+    "bgColTR":"#010180",
+    "bgColBL":"#010101",
+    "bgColBR":"#010101",
+    "light1Dir":[1.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 1.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.75, 0.75, 0.75, 0.0]
+}

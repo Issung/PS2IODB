@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-21819HSM3",
+    "title":"High School  Musical 3",
+    "normal":"hsmcube.ico",
+    "copy":"hsmcube.ico",
+    "delete":"hsmcube.ico",
+    "bgOpacity":127,
+    "bgColTL":"#2c87d4",
+    "bgColTR":"#2c87d4",
+    "bgColBL":"#121b52",
+    "bgColBR":"#121b52",
+    "light1Dir":[-1.0, 1.0, -1.0, 0.0],
+    "light2Dir":[1.0, -1.0, 2.0, 0.0],
+    "light3Dir":[1.0, 0.0, 1.0, 0.0],
+    "light1Col":[0.6666666865348816, 0.6666666865348816, 0.6666666865348816, 0.0],
+    "light2Col":[0.27450981736183167, 0.27450981736183167, 0.27450981736183167, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.49803921580314636, 0.49803921580314636, 0.49803921580314636, 0.0]
+}

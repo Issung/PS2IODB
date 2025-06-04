@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20849",
+    "title":"Carmen Sandiego: SOTSD",
+    "normal":"static.ico",
+    "copy":"static.ico",
+    "delete":"static.ico",
+    "bgOpacity":64,
+    "bgColTL":"#38005a",
+    "bgColTR":"#3f006e",
+    "bgColBL":"#be50e6",
+    "bgColBR":"#be6ae6",
+    "light1Dir":[-0.5, 0.5, -0.5, 0.5],
+    "light2Dir":[0.0, 0.5, 0.5, 0.5],
+    "light3Dir":[0.0, 0.5, -0.5, 0.5],
+    "light1Col":[0.5, 0.5, 0.5, 0.5],
+    "light2Col":[0.4000000059604645, 0.4000000059604645, 0.4000000059604645, 0.5],
+    "light3Col":[0.4000000059604645, 0.4000000059604645, 0.4000000059604645, 0.5],
+    "ambiLightCol":[0.49803900718688965, 0.49803900718688965, 0.49803900718688965, 1.0]
+}
