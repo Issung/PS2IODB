@@ -116,8 +116,8 @@ const Contribute: React.FC = () => {
                                 <li>Go to the PS2IODB Extractor directory and find the icon_exports folder, your exported assets will be within.</li>
                             </ol>
 
-                            <a id="iconuploading" href="#iconuploading">
-                                <h4>Icon Uploading</h4>
+                            <a id="uploading" href="#uploading">
+                                <h4>Uploading Contributions</h4>
                             </a>
                             <p>Now that you have extracted icon assets from a memory card using the previous guides, you can now send the icons to be uploaded to the site.</p>
                             <ul>
@@ -125,12 +125,16 @@ const Contribute: React.FC = () => {
                                 <li>If you don't want to join the Discord just send your icons zip to Issung via E-Mail at <a href="mailto:issun@sonofgoran.com">issun@sonofgoran.com</a>.</li>
                             </ul>
 
-                            <h6>Icon Contribution Guidelines</h6>
+                            <a id="guidelines" href="#guidelines">
+                                <h4>Contribution Guidelines</h4>
+                            </a>
                             <ul>
+                                <li><b>Please make sure</b> you are using the latest version of the extractor tool.</li>
                                 <li>Make sure when you are uploading icons that they haven't already been contributed!</li>
                                 <li>The PS2 library is massive and many games have regional differences please title each icon clearly, or add a text file with notes!</li>
                                 <li>For games that have multiple icons it is useful to know what conditions cause each case. If you don't know that's OK, just let us know, and hopefully someone later will inform us.</li>
                                 <li>Some icons are known to have issues exporting, these are useful to have for improving the extractor tool. Please send the PS2 memcard file either in the <code>#broken-icons</code> channel in the Discord or E-Mail to Issung.</li>
+                                <li>If it is your first time contributing let us know what name you want to be credited as, and if you want us to link your name to any social media / website!</li>
                             </ul>
 
                             {/*<a id="iconuploading" href="#iconuploading">
