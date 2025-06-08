@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-25482",
+    "title":"\u96ea\u8a9e\u308a \u30ea\u30cb\u30e5-\u30a2\u30eb\u7248 \u30bb-\u30d6\u30c7-\u30bf",
+    "normal":"yuki.ico",
+    "copy":"yuki.ico",
+    "delete":"yuki.ico",
+    "bgOpacity":96,
+    "bgColTL":"#ffccf5",
+    "bgColTR":"#ffccf5",
+    "bgColBL":"#ffffff",
+    "bgColBR":"#ffffff",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.4000000059604645, -0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.800000011920929, 0.800000011920929, 0.800000011920929, 0.0]
+}
