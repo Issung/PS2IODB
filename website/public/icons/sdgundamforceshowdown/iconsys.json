@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20698",
+    "title":"SD GUNDAMFORCE",
+    "normal":"force.ico",
+    "copy":"force.ico",
+    "delete":"force.ico",
+    "bgOpacity":95,
+    "bgColTL":"#8af3ff",
+    "bgColTR":"#3489ff",
+    "bgColBL":"#62c1ff",
+    "bgColBR":"#0048ff",
+    "light1Dir":[10.0, 5.0, 10.0, 0.0],
+    "light2Dir":[-10.0, -10.0, -10.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0],
+    "light2Col":[0.0, 0.0, 0.6000000238418579, 0.0],
+    "light3Col":[0.20000000298023224, 0.20000000298023224, 0.20000000298023224, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
