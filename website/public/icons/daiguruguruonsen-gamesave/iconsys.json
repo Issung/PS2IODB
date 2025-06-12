@@ -1,0 +1,19 @@
+{
+    "directory":"BIPSCD-00003GAME0000",
+    "title":"\u30aa-\u30d7\u30f3\u30c0\u30a4\u30b9\u6e29\u6cc9\u30b2-\u30e0\u30d5\u30a1\u30a4\u30eb \u30b2-\u30e01",
+    "normal":"icon_a1.ico",
+    "copy":"icon_a1.ico",
+    "delete":"icon_a2.ico",
+    "bgOpacity":128,
+    "bgColTL":"#13a7a2",
+    "bgColTR":"#13a7a2",
+    "bgColBL":"#ffffff",
+    "bgColBR":"#ffffff",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0],
+    "light2Col":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0],
+    "light3Col":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

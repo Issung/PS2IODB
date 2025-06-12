@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-62397IGM",
+    "title":"THE \u68cb\u529b\u691c\u5b9a",
+    "normal":"icon1.ico",
+    "copy":"icon2.ico",
+    "delete":"icon3.ico",
+    "bgOpacity":96,
+    "bgColTL":"#3d548e",
+    "bgColTR":"#93c7be",
+    "bgColBL":"#93c7be",
+    "bgColBR":"#3d548e",
+    "light1Dir":[1.0, 1.0, 1.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.09999999403953552, 0.03999999910593033, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 0.75, 0.0]
+}
