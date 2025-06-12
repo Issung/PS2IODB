@@ -1,0 +1,19 @@
+{
+    "directory":"FRUITY",
+    "title":"Fru\ufffd \u5944\u72fd\u51fe{Retroguru",
+    "normal":"fruity.icn",
+    "copy":"fruity.icn",
+    "delete":"fruity.icn",
+    "bgOpacity":0,
+    "bgColTL":"#7732200019f54c",
+    "bgColTR":"#010000",
+    "bgColBL":"#76f440da76ec4877ac40",
+    "bgColBR":"#c6011304e103c001",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, 0.4000000059604645, -1.0, 1.5254796060465954e-36],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 1.8216880036222622e-44],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}
