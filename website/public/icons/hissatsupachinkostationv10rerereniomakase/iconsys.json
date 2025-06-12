@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-20412",
+    "title":"\u5fc5\u6bba\u30d1\u30c1\u30f3\u30b3\u30b9\u30c6-\u30b7\u30e7\u30f3V10",
+    "normal":"micon.ico",
+    "copy":"micon.ico",
+    "delete":"micon.ico",
+    "bgOpacity":96,
+    "bgColTL":"#808080",
+    "bgColTR":"#804000",
+    "bgColBL":"#808080",
+    "bgColBR":"#804000",
+    "light1Dir":[0.10000000149011612, 0.8999999761581421, 0.20000000298023224, 0.0],
+    "light2Dir":[-0.10000000149011612, -0.8999999761581421, -0.20000000298023224, 0.0],
+    "light3Dir":[1.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}
