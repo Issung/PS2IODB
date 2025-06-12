@@ -1476,7 +1476,7 @@ export const Titles: Title[] = [
     new Game(`Gakuen Utopia: Manabi Straight! KiraKira Happy Festa!`),
     new Game(`Galactic Wrestling: Featuring Ultimate Muscle`, `galacticwrestlingfeaturingultimatemuscle`, 1, Contributors.Cajas),
     new Game(`Galaxy Angel`),
-    new Game(`Galaxy Angel II: Eigou Kaiki no Koku`),
+    new Game(`Galaxy Angel II: Eigou Kaiki no Koku`, `galaxyangel2eigoukaikinokoku`, 1, Contributors.Everdred),
     new Game(`Galaxy Angel II: Mugen Kairou no Kagi`),
     new Game(`Galaxy Angel II: Zettairyouiki no Tobira`),
     new Game(`Galaxy Angel: Eternal Lovers`),
