@@ -21,6 +21,7 @@ div#icon {
         text-align: center;
         background-color: $bgcolor;
         padding: 0px 8px 0px 8px;
+        z-index: 10 !important;
 
         * {
             color: white;
