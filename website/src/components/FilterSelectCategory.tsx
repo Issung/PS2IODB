@@ -1,6 +1,7 @@
-import { useNavigate } from 'react-router-dom';
-import { Select, SelectItem } from './Select';
 import { IconCircleNumber1, IconCircleNumber2, IconCircleNumber3, IconCircles, IconCirclesFilled, IconHelpOctagon } from '@tabler/icons-react';
+import { useBrowseNavigate } from '../hooks/useBrowseNavigate';
+import { FilterType } from './FilterTypeSelect';
+import { Select, SelectItem } from './Select';
 
 export enum Category {
     all = "all",
@@ -27,14 +28,14 @@ const categories = [
 ];
 
 export const FilterSelectCategory = ({category}: ICategorySelectProps) => {
-    const navigate = useNavigate();
+    const navigate = useBrowseNavigate();
 
     return <Select
         groupName='categoryfilter'
         selectedKey={category}
         items={categories}
         defaultKey={CategoryDefault}
-        onChange={newCategory => navigate(`/browse/category/${newCategory}`)}
+        onChange={newCategory => navigate(FilterType.Category, newCategory)}
     />
 };
 

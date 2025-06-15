@@ -1,6 +1,6 @@
 import JSZip from "jszip";
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { BackgroundType, MeshType, TextureType } from "../components/ModelViewParams";
 import { Icon as IconModel } from "../model/Icon";
 import { IconSys } from "../model/IconSys";
@@ -8,6 +8,9 @@ import { Titles } from "../model/Titles";
 import { SessionStorageKeys } from '../utils/Consts';
 import './Icon.scss';
 import { ModelView } from "../components/ModelView";
+import FilterableTitleList from "../components/FilterableTitleList";
+import { FilterType, FilterTypeDefault } from "../components/FilterTypeSelect";
+import { BrowseNavigateProvider, BrowseNavigateStrategy } from "../hooks/useBrowseNavigate";
 
 /**
  * This component serves as a page, routed to by App.tsx.
@@ -24,13 +27,14 @@ const Icon = () => {
 
     const { iconcode } = useParams();
     const [variant, setVariant] = useState<string>();
-    
+
     const [icon, setIcon] = useState<IconModel | undefined>();
     const title = useMemo(() => {
-        if (icon) {
+        if (icon)
+        {
             return icon.game!.name == icon.name ? icon.name : `${icon.game!.name} (${icon.name})`
         }
-        
+
         return '';
     }, [icon]);
 
@@ -60,7 +64,7 @@ const Icon = () => {
         setIconHasBackgroundColorData(hasBackgroundColorData);
         setBackgroundType(hasBackgroundColorData ? BackgroundType.Icon : BackgroundType.Color);
     }, [iconsys]);
-    
+
     useEffect(() => {
         // Add/remove event listener when component mounts/dismounts.
         document.addEventListener('keydown', handleKeyDown);
@@ -68,17 +72,18 @@ const Icon = () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
     }, [enlargeTextureView]);
-    
-    
+
+
     useEffect(() => {
         async function fetchIconSys() {
-            try {
+            try
+            {
 
                 // The 'icons' folder goes inside the 'website/public' folder.
                 var url = `/icons/${iconcode}/iconsys.json`;
                 var response = await fetch(url);
                 var text = await response.text();
-                
+
                 if (text.startsWith('{'))
                 {
                     let tmpiconsys = JSON.parse(text) as IconSys;
@@ -90,8 +95,10 @@ const Icon = () => {
                     throw new Error(`IconSys JSON response did not start with '{'. Body: ${text}.`)
                 }
             }
-            catch (e) {
-                if (e instanceof Error) {
+            catch (e)
+            {
+                if (e instanceof Error)
+                {
                     setIconError('Error loading icon data. ' + e.message);
                 }
             }
@@ -103,7 +110,8 @@ const Icon = () => {
     }, [iconcode]);
 
     useEffect(() => {
-        if (icon) {
+        if (icon)
+        {
             // Change the tab title to the displayed title.
             // When navigating back the title element on index.html will reset the tab title back.
             document.title = title;
@@ -126,7 +134,8 @@ const Icon = () => {
     }
 
     async function downloadImpl() {
-        if (!iconsys) {
+        if (!iconsys)
+        {
             return;
         }
 
@@ -147,25 +156,31 @@ const Icon = () => {
         // Create a list of promises to load each asset, and await them in parallel with allSettled.
         const promises = files.map(async (file) => {
             var response = await fetch(`/icons/${iconcode}/${file}`);
-            if (response.ok) {
+            if (response.ok)
+            {
                 // For PNGs we need a blob, not text. Check content-type header in case react returned index page on 404.
-                if (file.endsWith('.png') && response.headers.get('content-type') === 'image/png') {
+                if (file.endsWith('.png') && response.headers.get('content-type') === 'image/png')
+                {
                     var png = await response.blob();
                     return { file, content: png };
                 }
-                else {
+                else
+                {
                     var text = await response.text();
-                    
+
                     // Silly server will return index page on a 404.
-                    if (!text.startsWith('<!DOCTYPE html>')) {
+                    if (!text.startsWith('<!DOCTYPE html>'))
+                    {
                         return { file, content: text };
                     }
                 }
 
-                if (file.endsWith('.anim')) {
+                if (file.endsWith('.anim'))
+                {
                     console.warn(`Error loading ${file}, it is an anim file so there is a chance the icon just doesn't have an animation.`);
                 }
-                else {
+                else
+                {
                     console.error(`Error loading ${file}.`);
                 }
             }
@@ -177,7 +192,8 @@ const Icon = () => {
         // Create a zip file, load all successful files in and generate blob.
         const zip = new JSZip();
         results.forEach(result => {
-            if (result.status === 'fulfilled' && result.value) {
+            if (result.status === 'fulfilled' && result.value)
+            {
                 zip.file(result.value.file, result.value.content);
             }
         });
@@ -196,20 +212,25 @@ const Icon = () => {
     }
 
     function back() {
-        if (sessionStorage.getItem(SessionStorageKeys.HasViewedHomePage) === "true") {
+        if (sessionStorage.getItem(SessionStorageKeys.HasViewedHomePage) === "true")
+        {
             navigate(-1);
         }
-        else {
+        else
+        {
             navigate('/');
         }
     }
 
     function handleKeyDown(event: KeyboardEvent) {
-        if (event.key === 'Escape' || event.key == 'Backspace') {
-            if (enlargeTextureView) {
+        if (event.key === 'Escape' || event.key == 'Backspace')
+        {
+            if (enlargeTextureView)
+            {
                 setEnlargeTextureView(false);
             }
-            else {
+            else
+            {
                 back();
             }
         }
@@ -220,194 +241,209 @@ const Icon = () => {
         const targetNode = event.target as HTMLElement;
         const targetType = targetNode.nodeName;
         const allowedTypes = ['BUTTON', 'IMG'];
-        if (allowedTypes.indexOf(targetType) === -1) {
+        if (allowedTypes.indexOf(targetType) === -1)
+        {
             setEnlargeTextureView(false);
         }
     }
 
+    const [searchParams] = useSearchParams();
+
     return (
-        <div id="icon">
-            {/* Back link */}
-            <a id="back" href="/" onClick={(e) => { e.preventDefault(); back(); }}>← Home</a>
+        <div id="icon" className="container-fluid">
+            <div className="row">
+                <div className="d-none d-xxl-block col-3" style={{backgroundColor: '#171717', padding: 15, maxHeight: '100vh', overflowY: 'scroll'}}>
+                    <BrowseNavigateProvider strategy={BrowseNavigateStrategy.SearchParams}>
+                        <FilterableTitleList
+                            filterType={searchParams.get('filterType') as FilterType ?? FilterTypeDefault}
+                            filter={searchParams.get('filter') ?? undefined}
+                        />
+                    </BrowseNavigateProvider>
+                </div>
+                <div id="icon-view-col" className="col col-xxl-9 p-0 position-relative">
+                    {/* Back link */}
+                    <a id="back" href="/" onClick={(e) => { e.preventDefault(); back(); }}>← Home</a>
 
-            {/* Game title and contributor */}
-            <div id="title">
-                {icon ?
-                    <>
-                        <h5>{title}</h5>
-                        <h6>Contributed by {icon.contributor?.link ? 
-                            <Link to={icon.contributor.link} target="_blank">{icon.contributor!.name}</Link>
+                    {/* Game title and contributor */}
+                    <div id="title">
+                        {icon ?
+                            <>
+                                <h5>{title}</h5>
+                                <h6>Contributed by {icon.contributor?.link ? 
+                                    <Link to={icon.contributor.link} target="_blank">{icon.contributor!.name}</Link>
+                                :
+                                    `${icon.contributor?.name}`
+                                }</h6>
+                            </>
                         :
-                            `${icon.contributor?.name}`
-                        }</h6>
-                    </>
-                :
-                    "Game not found."
-                }
-            </div>
+                            "Game not found."
+                        }
+                    </div>
 
-            <ModelView 
-                iconcode={iconcode}
-                iconsys={iconsys}
-                variant={variant}
-                animate={doAnimation}
-                animationSpeed={animationSpeed}
-                frame={frame}
-                grid={grid}
-                textureType={textureType}
-                meshType={meshType}
-                backgroundType={backgroundType}
-                backgroundColor={backgroundColor}
-                callback={iconInfoCallback}
-            />
-                
-            {iconError && (<code>{iconError}</code>)}
-            {
-                iconsys != null && (
-                    <div id="iconoptions">
-                        <ul>
-                            {frameCount > 0 && 
-                                <li>
-                                    <label>Animate
-                                        <input type="checkbox" checked={doAnimation} onChange={e => setDoAnimation(e.target.checked)}/>
-                                    </label>
-                                </li>
-                            }
-                            {frameCount > 0 && doAnimation &&
-                                <li>
-                                    <label>
-                                        <span onClick={() => setAnimationSpeed(1)} title="Animation playback speed multiplier. Click label to reset to 1x.">
-                                            Speed
-                                        </span>
-                                        <output style={{marginLeft: '5px', minWidth: 50}}>({animationSpeed}x)</output>
-                                        <input type="range" min="0.01" max="5" step="0.01" value={animationSpeed} onChange={e => setAnimationSpeed(parseFloat(e.target.value))}/>
-                                    </label>
-                                </li>
-                            }
-                            {frameCount > 0 && !doAnimation &&
-                                <li>
-                                    <label>Frame
-                                        <output style={{marginLeft: '5px', minWidth: 25}}>{frame + 1}/{frameCount}</output>
-                                        <input type="range" min={0} max={frameCount - 1} value={frame} onChange={e => setFrame(parseInt(e.target.value))}/>
-                                    </label>
-                                </li>
-                            }
-                            <li>
-                                <label>Display Grid
-                                    <input type="checkbox" checked={grid} onChange={e => setGrid(e.target.checked)}/>
-                                </label>
-                            </li>
-                            <li>
-                                <label title={iconHasBackgroundColorData ? "Alter the background display." : "We do not have background color data for this icon yet."}>Background
-                                    <select
-                                        value={backgroundType}
-                                        onChange={e => setBackgroundType(e.target.value as BackgroundType)}
-                                        disabled={!iconHasBackgroundColorData}
-                                    >
-                                        {Object.values(BackgroundType).map((type) => (
-                                            <option key={type} value={type}>
-                                                {type}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
-                            </li>
-                            {backgroundType == BackgroundType.Color &&
-                                <li>
-                                    <label>Background Color
-                                        <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
-                                    </label>
-                                </li>
-                            }
-                            <li>
-                                <label>Icon Variant
-                                    <select value={variant} onChange={e => setVariant(e.target.value)}>
-                                        {/* Make a Set to remove duplicates, then turn back to Array to use .map(). */}
-                                        {Array.from(new Set([iconsys.normal, iconsys.copy, iconsys.delete])).map(val => (
-                                            <option value={val} key={val}>
-                                                {val}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
-                            </li>
-                            <li>
-                                <label>Material
-                                    <select value={textureType} onChange={e => setTextureType(e.target.value as TextureType)}>
-                                        {Object.values(TextureType).map((type) => (
-                                            <option key={type} value={type}>
-                                                {type}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
-                            </li>
-                            <li>
-                                <label>Mesh
-                                    <select value={meshType} onChange={e => setMeshType(e.target.value as MeshType)}>
-                                        {Object.values(MeshType).map((type) => (
-                                            <option key={type} value={type}>
-                                                {type}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
-                            </li>
-                            <li>
-                                <button onClick={download} disabled={downloadStatus ? true : false}>{downloadStatus ?? 'Download Icon Assets ⬇️'}</button>
-                            </li>
-                        </ul>
-                    </div>
-                )
-            }
-            {textureName && 
-                <div id="texture-details">
-                    <img 
-                        onClick={() => setEnlargeTextureView(true)}
-                        src={`/icons/${iconcode}/${textureName}.png`}
-                        title={`Icon texture image for '${variant}'.`}
-                        style={{transform: `rotate(${imageRotationDegrees}deg)`}}
+                    <ModelView
+                        iconcode={iconcode}
+                        iconsys={iconsys}
+                        variant={variant}
+                        animate={doAnimation}
+                        animationSpeed={animationSpeed}
+                        frame={frame}
+                        grid={grid}
+                        textureType={textureType}
+                        meshType={meshType}
+                        backgroundType={backgroundType}
+                        backgroundColor={backgroundColor}
+                        callback={iconInfoCallback}
                     />
+
+                    {iconError && (<code>{iconError}</code>)}
+                    {
+                        iconsys != null && (
+                            <div id="iconoptions">
+                                <ul>
+                                    {frameCount > 0 &&
+                                        <li>
+                                            <label>Animate
+                                                <input type="checkbox" checked={doAnimation} onChange={e => setDoAnimation(e.target.checked)} />
+                                            </label>
+                                        </li>
+                                    }
+                                    {frameCount > 0 && doAnimation &&
+                                        <li>
+                                            <label>
+                                                <span onClick={() => setAnimationSpeed(1)} title="Animation playback speed multiplier. Click label to reset to 1x.">
+                                                    Speed
+                                                </span>
+                                                <output style={{ marginLeft: '5px', minWidth: 50 }}>({animationSpeed}x)</output>
+                                                <input type="range" min="0.01" max="5" step="0.01" value={animationSpeed} onChange={e => setAnimationSpeed(parseFloat(e.target.value))} />
+                                            </label>
+                                        </li>
+                                    }
+                                    {frameCount > 0 && !doAnimation &&
+                                        <li>
+                                            <label>Frame
+                                                <output style={{ marginLeft: '5px', minWidth: 25 }}>{frame + 1}/{frameCount}</output>
+                                                <input type="range" min={0} max={frameCount - 1} value={frame} onChange={e => setFrame(parseInt(e.target.value))} />
+                                            </label>
+                                        </li>
+                                    }
+                                    <li>
+                                        <label>Display Grid
+                                            <input type="checkbox" checked={grid} onChange={e => setGrid(e.target.checked)} />
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label title={iconHasBackgroundColorData ? "Alter the background display." : "We do not have background color data for this icon yet."}>Background
+                                            <select
+                                                value={backgroundType}
+                                                onChange={e => setBackgroundType(e.target.value as BackgroundType)}
+                                                disabled={!iconHasBackgroundColorData}
+                                            >
+                                                {Object.values(BackgroundType).map((type) => (
+                                                    <option key={type} value={type}>
+                                                        {type}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </label>
+                                    </li>
+                                    {backgroundType == BackgroundType.Color &&
+                                        <li>
+                                            <label>Background Color
+                                                <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
+                                            </label>
+                                        </li>
+                                    }
+                                    <li>
+                                        <label>Icon Variant
+                                            <select value={variant} onChange={e => setVariant(e.target.value)}>
+                                                {/* Make a Set to remove duplicates, then turn back to Array to use .map(). */}
+                                                {Array.from(new Set([iconsys.normal, iconsys.copy, iconsys.delete])).map(val => (
+                                                    <option value={val} key={val}>
+                                                        {val}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>Material
+                                            <select value={textureType} onChange={e => setTextureType(e.target.value as TextureType)}>
+                                                {Object.values(TextureType).map((type) => (
+                                                    <option key={type} value={type}>
+                                                        {type}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>Mesh
+                                            <select value={meshType} onChange={e => setMeshType(e.target.value as MeshType)}>
+                                                {Object.values(MeshType).map((type) => (
+                                                    <option key={type} value={type}>
+                                                        {type}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <button onClick={download} disabled={downloadStatus ? true : false}>{downloadStatus ?? 'Download Icon Assets ⬇️'}</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        )
+                    }
+                    {textureName &&
+                        <div id="texture-details">
+                            <img
+                                onClick={() => setEnlargeTextureView(true)}
+                                src={`/icons/${iconcode}/${textureName}.png`}
+                                title={`Icon texture image for '${variant}'.`}
+                                style={{ transform: `rotate(${imageRotationDegrees}deg)` }}
+                            />
+                        </div>
+                    }
+                    {enlargeTextureView &&
+                        <div id="enlarged-texture-view" className="container-fluid">
+                            <div className="row">
+                                <div className="d-flex flex-column justify-content-center align-items-center" onClick={e => maybeCloseTextureView(e)}>
+                                    <a title={`Icon texture image for '${variant}'.`}>
+                                        <img
+                                            src={`/icons/${iconcode}/${textureName}.png`}
+                                            style={{ transform: `scale(${imageFlip ? -1 : 1}, 1) rotate(${imageRotationDegrees}deg)` }}
+                                        />
+                                    </a>
+                                </div>
+                            </div>
+                            <div className="row justify-content-center align-items-center" onClick={e => maybeCloseTextureView(e)}>
+                                <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
+                                    <button
+                                        className="mx-auto d-block"
+                                        title="Rotate image 90 degrees anti-clockwise"
+                                        onClick={e => setImageRotationDegrees(imageRotationDegrees - 90)}
+                                    >
+                                        {imageFlip ? '↻' : '↺'}
+                                    </button>
+                                </div>
+                                <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
+                                    <button
+                                        className="mx-auto d-block" title="Mirror image vertically" onClick={e => setImageFlip(!imageFlip)}>Mirror</button>
+                                </div>
+                                <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
+                                    <button
+                                        className="mx-auto d-block"
+                                        title="Rotate image 90 degrees clockwise"
+                                        onClick={e => setImageRotationDegrees(imageRotationDegrees + 90)}
+                                    >
+                                        {imageFlip ? '↺' : '↻'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
-            }
-            {enlargeTextureView && 
-                <div id="enlarged-texture-view" className="container-fluid">
-                    <div className="row">
-                        <div className="d-flex flex-column justify-content-center align-items-center" onClick={e => maybeCloseTextureView(e)}>
-                            <a title={`Icon texture image for '${variant}'.`}>
-                                <img
-                                    src={`/icons/${iconcode}/${textureName}.png`}
-                                    style={{transform: `scale(${imageFlip ? -1 : 1}, 1) rotate(${imageRotationDegrees}deg)`}}
-                                />
-                            </a>
-                        </div>
-                    </div>
-                    <div className="row justify-content-center align-items-center" onClick={e => maybeCloseTextureView(e)}>
-                        <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
-                            <button 
-                                className="mx-auto d-block"
-                                title="Rotate image 90 degrees anti-clockwise"
-                                onClick={e => setImageRotationDegrees(imageRotationDegrees - 90)}
-                            >
-                                {imageFlip ? '↻' : '↺'}
-                            </button>
-                        </div>
-                        <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
-                            <button
-                                className="mx-auto d-block" title="Mirror image vertically" onClick={e => setImageFlip(!imageFlip)}>Mirror</button>
-                        </div>
-                        <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
-                            <button
-                                className="mx-auto d-block" 
-                                title="Rotate image 90 degrees clockwise" 
-                                onClick={e => setImageRotationDegrees(imageRotationDegrees + 90)}
-                            >
-                                {imageFlip ? '↺' : '↻'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            }
+            </div>
         </div>
     );
 };

@@ -6,6 +6,8 @@ import { IconTrophyFilled } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { useMemo } from 'react';
 import { Utils } from '../utils/Utils';
+import BrowseLink from './BrowseLink';
+import { FilterType } from './FilterTypeSelect';
 
 export const AlphabeticalFilterDefault = 'misc';
 
@@ -28,8 +30,8 @@ const ContributorListItem = ({position, data} : {position: number, data: Contrib
     const posStyle = useMemo(() => position <= 3 ? `pos${position}` : undefined, [position]);   // pos${x} if top 3.
 
     return (
-        <Link
-            to={`/browse/contributor/${data.contributor.name}`}
+        <BrowseLink
+            filterType={FilterType.Contributor} filter={data.contributor.name}
             title={`View ${data.gameCount} titles with icons contributed by ${data.contributor.name}`}
         >
             <div className={`row contributor ${posStyle && 'top3'} ${posStyle}`}>
@@ -43,7 +45,7 @@ const ContributorListItem = ({position, data} : {position: number, data: Contrib
                     {data.gameCount}
                 </div>
             </div>
-        </Link>
+        </BrowseLink>
     );
 }
 

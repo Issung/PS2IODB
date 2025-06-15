@@ -1,26 +1,15 @@
-import './Home.scss';
-import { Category, FilterSelectCategory } from '../components/FilterSelectCategory';
-import { ContributorCount } from '../model/Contributors';
-import { FilterSelectAlphabetical } from '../components/FilterSelectAlphabetical';
-import { ContributorList } from '../components/ContributorList';
-import { FilterTypeSelect, FilterType } from '../components/FilterTypeSelect';
-import { ContributedIcons, Icons, Titles, TotalUniqueVariants } from '../model/Titles';
-import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Counter from "../components/Counter";
-import DebouncedTextBox from '../components/DebouncedTextBox';
+import FilterableTitleList from '../components/FilterableTitleList';
+import { FilterType } from '../components/FilterTypeSelect';
 import Footer from "../components/Footer";
-import SearchResults from "../components/TitleSearch";
-import { IconCaretLeft } from '@tabler/icons-react';
+import { ContributorCount } from '../model/Contributors';
+import { ContributedIcons, Icons, Titles, TotalUniqueVariants } from '../model/Titles';
 import { SessionStorageKeys } from '../utils/Consts';
-
-const exampleSearches = [
-    "Final Fantasy",
-    "Grand Theft Auto",
-    "Ratchet & Clank",
-    "Silent Hill",
-    "SingStar"
-];
+import './Home.scss';
+import { BrowseNavigateProvider, BrowseNavigateStrategy } from '../hooks/useBrowseNavigate';
+import { CountQueuingStrategy } from 'node:stream/web';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -34,7 +23,7 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        if (filterType == FilterType.search) {
+        if (filterType == FilterType.Search) {
             document.querySelector<HTMLInputElement>('input[type="text"]')?.focus();
         }
     }, [filterType]);
@@ -113,25 +102,9 @@ const Home = () => {
                             <h1>Browse</h1>
                         </div>
                     </div>
-                    <FilterTypeSelect filterType={filterType as FilterType}/>
-                    <hr />
-                    {filterType === "alphabetical" && <FilterSelectAlphabetical filter={filter}/> }
-                    {(filterType ?? "category") === "category" && <FilterSelectCategory category={filter as Category}/> }
-                    {filterType == FilterType.contributor && !filter && <ContributorList />}
-                    {filterType === 'search' && (
-                        <div className="row">
-                            <div className="col col-md-6 col-lg-4">
-                                <DebouncedTextBox
-                                    placeholder={`Search (e.g. "${exampleSearches[Math.floor(Math.random() * exampleSearches.length)]}")`}
-                                    style={{marginBottom: 15}}
-                                    value={filter}
-                                    debouncedOnChange={newValue => navigate(`/browse/search/${encodeURIComponent(newValue)}`)}
-                                />
-                            </div>
-                        </div>
-                    )}
-                    {filterType == FilterType.contributor && filter && <Link id="back-to-contributors" to="/browse/contributor"><IconCaretLeft/><p>Contributors</p></Link>}
-                    {(filterType != FilterType.contributor || filter) && <SearchResults filterType={filterType as FilterType} filter={filter} />}
+                    <BrowseNavigateProvider strategy={BrowseNavigateStrategy.Path}>
+                        <FilterableTitleList filterType={filterType as FilterType} filter={filter} />
+                    </BrowseNavigateProvider>
                 </div>
             </div>
             <Footer />

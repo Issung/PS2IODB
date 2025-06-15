@@ -113,16 +113,16 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
     const getTitlesWithFilter = () => {
         let type = filterType ?? FilterTypeDefault;
 
-        if (type === FilterType.alphabetical) {
+        if (type === FilterType.Alphabetical) {
             return filterByAlphabet();
         }
-        else if (type === FilterType.category) {
+        else if (type === FilterType.Category) {
             return filterByCategory();
         }
-        else if (type === FilterType.search) {
+        else if (type === FilterType.Search) {
             return filterByTextEntryKeywords();
         }
-        else if (type === FilterType.contributor) {
+        else if (type === FilterType.Contributor) {
             return filterByContributor();
         }
         else {
@@ -163,7 +163,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
     <>
         <span >
             <h3 style={{ textAlign: 'left' }}>
-                {filterType == FilterType.contributor
+                {filterType == FilterType.Contributor
                     ? <>{`${titles.length} titles with icons contributed by `}{contributorNameOrLink()}</>
                     : (titles.length === 0 ? 'No Results.' : `${titles.length} Titles`)
                 }

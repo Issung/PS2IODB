@@ -8,8 +8,9 @@ div#icon {
 
     a#back {
         color: white;
-        padding: 10px 9px 8px 9px;
+        padding: 3px 9px 8px 9px;
         background-color: $bgcolor;
+        position: absolute;
     }
 
     #title {
@@ -42,7 +43,6 @@ div#icon {
     div#enlarged-texture-view {
         // This div is a bootstrap container-fluid, we want to make it overlap the whole screen.
         top: 0px;
-        width: 100vw;
         height: 100vh;
         z-index: 500;
         position: absolute;
@@ -73,6 +73,14 @@ div#icon {
                 width: 100px;
                 height: 40px;
             }
+        }
+    }
+
+    div#icon-view-col > * {
+        z-index: 1;
+
+        canvas {
+            z-index: 2;
         }
     }
 

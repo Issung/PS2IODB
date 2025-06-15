@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Select, SelectItem } from './Select';
+import { useBrowseNavigate } from '../hooks/useBrowseNavigate';
+import { FilterType } from './FilterTypeSelect';
 
 export const AlphabeticalFilterDefault = 'misc';
 
@@ -16,14 +18,14 @@ const items = '#ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     ));
 
 export const FilterSelectAlphabetical = ({filter}: IAlphabeticalFilterSelectProps) => {
-    const navigate = useNavigate();
+    const navigate = useBrowseNavigate();
 
     return <Select
         groupName='alphabeticalfilter'
         items={items}
         defaultKey={AlphabeticalFilterDefault}
         selectedKey={filter}
-        onChange={newFilter => navigate(`/browse/alphabetical/${newFilter}`)}
+        onChange={newFilter => navigate(FilterType.Alphabetical, newFilter)}
         col="col-md-12 col-lg-8 col-xxl-9"
     />
 };

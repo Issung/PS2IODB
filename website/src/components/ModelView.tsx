@@ -62,7 +62,7 @@ export const ModelView = ({
         }
     }, [animate, animationSpeed, frame, grid, meshType, backgroundColor])
 
-    const color = useMemo(() => {
+    const calculateBackground = () => {
         if (backgroundType == BackgroundType.Icon && iconsys?.bgColTL) {
             const tl = iconsys.bgColTL;
             const tr = iconsys.bgColTR!;    // Exclamation marks on these, we know one is defined so we will assume all are defined.
@@ -80,7 +80,9 @@ export const ModelView = ({
             // We don't continue to use the 4-point gradient because then when the user changes the color themselves the middle color lags behind, like it is the only one affected by the transition rule.
             return `linear-gradient(to top left, ${backgroundColor}, ${backgroundColor})`
         }
-    }, [backgroundType, backgroundColor]);
+    };
+
+    const color = calculateBackground();
 
     return(
         // TODO: The browser just isn't redrawing the background :(.
