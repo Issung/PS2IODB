@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-65393HOTARU",
+    "title":"SIMPLE2000\u30b7\u30ea-\u30ba   THE\u53cb\u60c5\u30a2\u30c9\u30d9\u30f3\u30c1\u30e3-",
+    "normal":"static.ico",
+    "copy":"static.ico",
+    "delete":"static.ico",
+    "bgOpacity":96,
+    "bgColTL":"#ffffff",
+    "bgColTR":"#ffffff",
+    "bgColBL":"#fca7a7",
+    "bgColBR":"#fca7a7",
+    "light1Dir":[1.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 1.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.6000000238418579, 0.6000000238418579, 0.6000000238418579, 0.0]
+}
