@@ -583,7 +583,7 @@ export const Titles: Title[] = [
     new Game(`Championship Manager 2007`),
     new Game(`Championship Manager 5`),
     new Game(`Chandragupta: Warrior Prince`, `chandraguptawarriorprince`, 1, Contributors.Cajas),
-    new Game(`Chanter♯: Kimi no Uta ga Todoitara`, `chanter#kiminoutagatodoitara`, 1, Contributors.Cajas),
+    new Game(`Chanter♯: Kimi no Uta ga Todoitara`, `chanterkiminoutagatodoitara`, 1, Contributors.Cajas),
     new Game(`Chaos Field: New Order`),
     new Game(`Chaos Legion`, g => [
         new Icon(g, `Sieg Wahrheit (Normal Difficulty)`, `chaoslegion-siegwahrheitnormaldifficulty`, 1, Contributors.Psiences),
