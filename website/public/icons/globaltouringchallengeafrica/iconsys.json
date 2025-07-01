@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20395GTCAF",
+    "title":"GTC: Africa",
+    "normal":"gtcafrica.icn",
+    "copy":"gtcafrica.icn",
+    "delete":"gtcafrica.icn",
+    "bgOpacity":64,
+    "bgColTL":"#ffff00",
+    "bgColTR":"#ff3700",
+    "bgColBL":"#0037ff",
+    "bgColBR":"#9b00ff",
+    "light1Dir":[-0.8660253882408142, 0.0, -0.5, 0.0],
+    "light2Dir":[0.0, 0.0, 1.0, 0.0],
+    "light3Dir":[0.8660253882408142, 0.0, -0.5, 0.0],
+    "light1Col":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0],
+    "light2Col":[0.6000000238418579, 0.6000000238418579, 0.6000000238418579, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0]
+}
