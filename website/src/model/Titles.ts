@@ -1408,7 +1408,7 @@ export const Titles: Title[] = [
     new Game(`Freekstyle`, `freekstyle`, 1, Contributors.ItzCookieX),
     new Game(`Freestyle MetalX`, `freestylemetalx`, 1, Contributors.SqueezedDog),
     new Game(`Frequency`, `frequency`, 1, Contributors.Issung),
-    new Game(`Friends: The One with All the Trivia`),
+    new Game(`Friends: The One with All the Trivia`, `friendstheonewithallthetrivia`, 1, Contributors.ShawnS),
     new Game(`Friends: Seishun no Kagayaki`),
     new Game(`Frogger: Ancient Shadow`, `froggerancientshadow`, 1, Contributors.ItzCookieX),
     new Game(`Frogger Beyond`, `froggerbeyond`, 1, Contributors.ZupaPat785),
