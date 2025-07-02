@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-25838SAVE01",
+    "title":"\u592a\u5e73\u6d0b\u306e\u5d50 ~\u6226\u8266\u5927\u548c,\u6681\u306b\u51fa\u6483\u3059!~(1)",
+    "normal":"ta5.ico",
+    "copy":"ta5.ico",
+    "delete":"ta5.ico",
+    "bgOpacity":128,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}
