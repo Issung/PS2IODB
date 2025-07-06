@@ -41,7 +41,7 @@ export const Titles: Title[] = [
     new Game(`7 Sins`, `7sins`, 1, Contributors.Cajas),
     new Game(`7 Wonders of the Ancient World`, `7wondersoftheancientworld`, 1, Contributors.Cajas),
     new Game(`A-Ressha de Ikou 2001`, `aresshadeikkou2001`, 1, Contributors.Cajas),
-    new Game(`A-Ressha de Ikou 2001 Perfect Set`),
+    //new Game(`A-Ressha de Ikou 2001 Perfect Set`),    // Is just a release of the above game + a peripheral. Has the same icon. -ZupaPat785.
     new Game(`A.C.E.: Another Century's Episode`, `anothercenturysepisode1`, 1, Contributors.Cajas),
     new Game(`A.C.E.: Another Century's Episode 2`, `anothercenturysepisode2`, 1, Contributors.Cajas),
     new Game(`A.C.E.: Another Century's Episode 2 (Special Vocal Version)`),
