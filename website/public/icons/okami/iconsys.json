@@ -1,5 +1,19 @@
 {
+    "directory":"BESLES-54439OKAMI000",
+    "title":"OKAMI 01  0:00:00 \u2605",
     "normal":"okami.ico",
     "copy":"okami.ico",
-    "delete":"okamidel.ico"
+    "delete":"okamidel.ico",
+    "bgOpacity":0,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[1.0, 0.0, 0.0, 1.0],
+    "light2Dir":[0.0, 1.0, 0.0, 1.0],
+    "light3Dir":[0.0, 0.0, 1.0, 1.0],
+    "light1Col":[1.0, 1.0, 1.0, 1.0],
+    "light2Col":[1.0, 1.0, 1.0, 1.0],
+    "light3Col":[1.0, 1.0, 1.0, 1.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 1.0]
 }
