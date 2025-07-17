@@ -106,7 +106,7 @@ export const Titles: Title[] = [
     new Game(`AirBlade`, `airblade`, 1, Contributors.Issung),
     new Game(`Airborne Troops: Countdown to D-Day`),
     new Game(`Airforce Delta Strike`, `airforcedeltastrike`, 1, Contributors.Issung),
-    new Game(`The Aka-Champion`),
+    new Game(`Simple 2000 Series Vol. 94: The Aka-Champion - Come On Baby / The Aka-Champion`, `simple2000seriesvol94theakachampioncomeonbaby`, 1, Contributors.ZupaPat785),
     new Game(`Akagi: Yami ni Furitatta Tensai`, g => [
         new Icon(g, `Akagi: Yami ni Furitatta Tensai`, `akagi`, 1, Contributors.Cajas),
         new Icon(g, `Simple 2000 Ultimate Series Vol. 19: Akagi`, `akagisimple2000series`, 1, Contributors.Cajas),
@@ -251,7 +251,7 @@ export const Titles: Title[] = [
     new Game(`Atelier Marie + Elie`, `ateliermarieeliesalburgnorenkinjutsushi12`, 1, Contributors.ZupaPat785),
     new Game(`Athens 2004`, `athens2004`, 1, Contributors.Ps2RomsFree),
     new Game(`Atlantis III: The New World`),
-    new Game(`A-Train 6`),
+    new Game(`A-Train 6`, `a6aresshadeikou6`, 1, Contributors.ZupaPat785),
     new Game(`ATV Offroad Fury`, `atvoffroadfury`, 1, Contributors.Jtduckman),
     new Game(`ATV Offroad Fury 2`, g => [
         new Icon(g, `Laps`, `atvoffroadfury2-laps`, 1, Contributors.TheZulaPatrolFan2005),
