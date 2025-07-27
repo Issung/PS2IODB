@@ -178,8 +178,12 @@ export const Titles: Title[] = [
     new Game(`Aoishiro`, `aoishiro`, 1, Contributors.Cajas),
     new Game(`Ape Escape 2`, `apeescape2`, 2, Contributors.ItzCookieX),
     new Game(`Ape Escape 3`, g => [
+        new Icon(g, `Cinema Data`),
         new Icon(g, `Game Data`, `apeescape3`, 1, Contributors.VibiLeFleu),
         new Icon(g, `Mesal Gear Solid Game Mode`, `apeescape3mesalgearsolid`, 1, Contributors.VibiLeFleu),
+        new Icon(g, `Cinema Data (Japan)`),
+        new Icon(g, `Game Data (Japan)`),
+        new Icon(g, `Mesal Gear Solid Game Mode (Japan)`),
     ]),
     new Game(`Ape Escape: Pumped & Primed`, `apeescapepumpedandprimed`, 1, Contributors.ItzCookieX),
     new Game(`Apocripha/0`, `apocrypha`, 1, Contributors.Cajas),
@@ -1336,7 +1340,10 @@ export const Titles: Title[] = [
         new Icon(g, 'Moogle (3rd Playthrough)', `finalfantasyfx2-moogle3rdplaythrough`, 1, Contributors.Cajas),
         new Icon(g, 'Green Moogle (Unknown Condition)', `finalfantasyfx2-greenmooglejapan`, 1, Contributors.Cajas),
     ]),
-    new Game(`Final Fantasy X-2: International + Last Mission`, `finalfantasyx2international`, 1, Contributors.ItzCookieX),
+    new Game(`Final Fantasy X-2: International + Last Mission`, g => [
+        new Icon(g, `Green Moogle`, `finalfantasyx2international`, 1, Contributors.ItzCookieX),
+        new Icon(g, `Iutycyr Tower`),
+    ]),
     new Game(`Final Fantasy XI`),                           // No icon, saves are done on external harddrive (says ItzCookieX).
     new Game(`Final Fantasy XI: Chains of Promathia`),      // No icon, saves are done on external harddrive (says ItzCookieX).
     new Game(`Final Fantasy XI: Rise of the Zilart`),       // No icon, saves are done on external harddrive (says ItzCookieX).
@@ -1456,7 +1463,11 @@ export const Titles: Title[] = [
     new Game(`G-Taste Mahjong`, `g-tastemahjong`, 1, Contributors.Cajas),
     new Game(`G.I. Joe: The Rise of Cobra`, `gijoetheriseofcobra`, 1, Contributors.Cajas),
     new Game(`G1 Jockey / G1 Jockey 2 2001`, `g1jockey`, 1, Contributors.Cajas),
-    new Game(`G1 Jockey 2`, `g1jockey2`, 1, Contributors.Cajas),
+    new Game(`G1 Jockey 2`, g => [
+        new Icon(g, `Game Data`, `g1jockey2`, 1, Contributors.Cajas),
+        new Icon(g, `Replay Data`),
+        new Icon(g, `Trial Data`),
+    ]),
     new Game(`G1 Jockey 3`, `g1jockey3`, 1, Contributors.Cajas),
     new Game(`G1 Jockey 3 2003`),
     new Game(`G1 Jockey 3 2005 Nendoban`),
@@ -2732,11 +2743,14 @@ export const Titles: Title[] = [
     new Game(`Metal Gear Solid 2: Sons of Liberty`, g => [
         new Icon(g, `Aft Deck`, `metalgearsolid2sonsofliberty-aftdeck`, 1, Contributors.Psiences),
         new Icon(g, `Plant Chapter Cleared`, `metalgearsolid2sonsofliberty-plantchaptercleared`, 1, Contributors.Cajas),
+        new Icon(g, `Photo Mode`),
+        new Icon(g, `Snake Tales`),
     ]),
     new Game(`Metal Gear Solid 2: Substance`, `metalgearsolid2substance`, 1, Contributors.Psiences),
     new Game(`Metal Gear Solid 3: Snake Eater`, g => [
-        new Icon(g, `Save Data`, `metalgearsolid3snakeeater`, 1, Contributors.Psiences),
         new Icon(g, `Camo Data`, `metalgearsolid3snakeeater-camodata`, 1, Contributors.Cajas),
+        new Icon(g, `Save Data`, `metalgearsolid3snakeeater`, 1, Contributors.Psiences),
+        new Icon(g, `Snake vs Monkey Data`),
     ]),
     new Game(`Metal Gear Solid 3: Subsistence`, `metalgearsolid3subsistence`, 1, Contributors.Psiences),
     new Game(`Metal Saga`, `metalsaga`, 1, Contributors.Cajas),
@@ -3618,7 +3632,10 @@ export const Titles: Title[] = [
     new Game(`The Renai Horror Adventure`, `therenaihorroradventure`, 1, Contributors.Cajas),
     new Game(`The Renai Simulation: Renai Kissa Watashi ni Oma Cafe`),
     new Game(`Reservoir Dogs`, `reservoirdogs`, 1, Contributors.SqueezedDog),
-    new Game(`Resident Evil 4`, `residentevil4`, 1, Contributors.Sebita),
+    new Game(`Resident Evil 4`, g => [
+        new Icon(g, `Game Data`),
+        new Icon(g, `System Data`, `residentevil4`, 1, Contributors.Sebita),
+    ]),
     new Game(`Resident Evil Code: Veronica X`, `residentevilcodeveronica`, 1, Contributors.ItzCookieX),
     new Game(`Resident Evil: Dead Aim`, `residentevildeadaim`, 1, Contributors.ItzCookieX),
     new Game(`Resident Evil Outbreak`, `residenteviloutbreak`, 2, Contributors.ItzCookieX),
@@ -4343,7 +4360,13 @@ export const Titles: Title[] = [
     ]),
     new Game(`Standard Daisenryaku: Dengekisen`, `standarddaisenryakudengekisen`, 1, Contributors.SqueezedDog),
     new Game(`Standard Daisenryaku: Shiwareta Shouri`, `standarddaisenryakuushinawaretashouri`, 1, Contributors.SqueezedDog),
-    new Game(`Star Ocean: Till the End of Time`, `staroceantilltheendoftime`, 1, Contributors.ItzCookieX),
+    new Game(`Star Ocean: Till the End of Time`, g => [
+        new Icon(g, `Main Save`, `staroceantilltheendoftime`, 1, Contributors.ItzCookieX),
+        new Icon(g, `Trophy Save`),
+        new Icon(g, `Card Save`),
+        new Icon(g, `Director's Cut Trophy Save`),
+        new Icon(g, `Director's Cut Card Save`),
+    ]),
     new Game(`Star Soldier`, `starsoldier`, 1, Contributors.ZupaPat785),
     new Game(`Star Trek: Conquest`),
     new Game(`Star Trek: Encounters`, `startrekencounters`, 1, Contributors.SqueezedDog),
