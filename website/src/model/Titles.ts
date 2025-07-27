@@ -5235,7 +5235,10 @@ export const Titles: Title[] = [
     new Game(`Xyanide: Resurrection`, `xyanide`, 1, Contributors.Cajas),
     new Game(`Yakiniku Bugyou Bonfire!`),
     new Game(`Yakuza`, `yakuza`, 1, Contributors.Sebita),
-    new Game(`Yakuza 2`, `yakuza2`, 1, Contributors.VibiLeFleu),
+    new Game(`Yakuza 2`, g => [
+        new Icon(g, `Japan Release`, `yakuza2-japan`, 1, Contributors.Cajas),
+        new Icon(g, `International Release`, `yakuza2-international`, 1, Contributors.VibiLeFleu),
+    ]),
     new Game(`Yakuza Fury`, `yakuzafury`, 1, Contributors.Cajas),
     new Game(`Yamaha Supercross`),
     new Game(`The Yamanote Sen: Train Simulator Real`),
