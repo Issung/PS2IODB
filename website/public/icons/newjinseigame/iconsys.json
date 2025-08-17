@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-65799NEWLIFE",
+    "title":"NEW\u4eba\u751f\u30b2-\u30e0",
+    "normal":"icon00.ico",
+    "copy":"icon00.ico",
+    "delete":"icon00.ico",
+    "bgOpacity":108,
+    "bgColTL":"#6ab517",
+    "bgColTR":"#6ab517",
+    "bgColBL":"#ffff80",
+    "bgColBR":"#ffff80",
+    "light1Dir":[0.5934290289878845, -0.675590991973877, 0.4375140070915222, 1.0],
+    "light2Dir":[-0.5847939848899841, -0.7524160146713257, -0.3031289875507355, 1.0],
+    "light3Dir":[0.0, 0.0, 0.0, 1.0],
+    "light1Col":[0.0, 0.0, 0.0, 1.0],
+    "light2Col":[0.0, 0.0, 0.0, 1.0],
+    "light3Col":[0.0, 0.0, 0.0, 1.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 1.0]
+}

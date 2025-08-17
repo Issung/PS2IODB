@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-25872SAVE",
+    "title":"\u5927\u6226\u7565 \u5927\u6771\u4e9c\u8208\u4ea1\u53f2",
+    "normal":"ICON.ICO",
+    "copy":"ICON.ICO",
+    "delete":"ICON.ICO",
+    "bgOpacity":128,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

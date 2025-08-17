@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-20446_SYSTEM",
+    "title":"THE \u30d1-\u30c6\u30a3-\u30b2-\u30e02",
+    "normal":"ICON.ICO",
+    "copy":"ICON.ICO",
+    "delete":"ICON.ICO",
+    "bgOpacity":96,
+    "bgColTL":"#c8d2ff",
+    "bgColTR":"#c8d2ff",
+    "bgColBL":"#66b4dd",
+    "bgColBR":"#66b4dd",
+    "light1Dir":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0],
+    "light2Dir":[-0.699999988079071, 0.699999988079071, 0.30000001192092896, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.9900000095367432, 0.9900000095367432, 0.9900000095367432, 0.0]
+}

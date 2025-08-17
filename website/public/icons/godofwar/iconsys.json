@@ -1,5 +1,19 @@
 {
+    "directory":"BASCUS-97399GodOfWar",
+    "title":"God Of War",
     "normal":"static.ico",
     "copy":"static.ico",
-    "delete":"static.ico"
+    "delete":"static.ico",
+    "bgOpacity":120,
+    "bgColTL":"#800000",
+    "bgColTR":"#640000",
+    "bgColBL":"#640000",
+    "bgColBR":"#800000",
+    "light1Dir":[1.0, 1.0, 0.0, 0.0],
+    "light2Dir":[1.0, 0.0, 0.0, 0.0],
+    "light3Dir":[1.0, 0.0, 1.0, 0.0],
+    "light1Col":[0.800000011920929, 0.5, 0.5, 0.0],
+    "light2Col":[0.20000000298023224, 0.20000000298023224, 0.0, 0.0],
+    "light3Col":[0.0, 0.20000000298023224, 0.20000000298023224, 0.0],
+    "ambiLightCol":[0.20000000298023224, 0.10000000149011612, 0.10000000149011612, 0.0]
 }

@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-62218TTG2",
+    "title":"THE \u30c6-\u30d6\u30eb\u30b2-\u30e0\u4e16\u754c\u7de8",
+    "normal":"icon1.ico",
+    "copy":"icon2.ico",
+    "delete":"icon3.ico",
+    "bgOpacity":96,
+    "bgColTL":"#3d548e",
+    "bgColTR":"#93c7be",
+    "bgColBL":"#93c7be",
+    "bgColBR":"#3d548e",
+    "light1Dir":[1.0, 1.0, 1.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.09999999403953552, 0.03999999910593033, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 0.75, 0.0]
+}

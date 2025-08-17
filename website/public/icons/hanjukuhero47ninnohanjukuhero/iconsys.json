@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-65839HERO4_01",
+    "title":"\u534a\u719f\u82f1\u96c44 \u30bb-\u30d6\u30c7-\u30bf(1)",
+    "normal":"nrticon.bin",
+    "copy":"nrticon.bin",
+    "delete":"nrticon.bin",
+    "bgOpacity":96,
+    "bgColTL":"#808080",
+    "bgColTR":"#603030",
+    "bgColBL":"#603030",
+    "bgColBR":"#402020",
+    "light1Dir":[-1.0, -1.0, -1.0, 0.0],
+    "light2Dir":[-0.5773500204086304, -0.5773500204086304, -0.5773500204086304, 0.0],
+    "light3Dir":[-0.5773500204086304, -0.5773500204086304, -0.5773500204086304, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

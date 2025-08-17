@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-65315EGGMAN01",
+    "title":"\u534a\u719f\u82f1\u96c4 \u5bfe 3D \u30bb-\u30d6\u30c7-\u30bf(1)",
+    "normal":"eggicon.bin",
+    "copy":"eggicon.bin",
+    "delete":"eggicon.bin",
+    "bgOpacity":96,
+    "bgColTL":"#804040",
+    "bgColTR":"#603030",
+    "bgColBL":"#603030",
+    "bgColBR":"#402020",
+    "light1Dir":[-1.0, -1.0, -1.0, 0.0],
+    "light2Dir":[-0.5773500204086304, -0.5773500204086304, -0.5773500204086304, 0.0],
+    "light3Dir":[-0.5773500204086304, -0.5773500204086304, -0.5773500204086304, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

@@ -1,0 +1,19 @@
+{
+    "directory":"BKSCPS-56016GHO0001",
+    "title":"AXG-DALE OVA-0034668",
+    "normal":"static.ico",
+    "copy":"static.ico",
+    "delete":"static.ico",
+    "bgOpacity":60,
+    "bgColTL":"#b4e1eb",
+    "bgColTR":"#6768ac",
+    "bgColBL":"#6768ac",
+    "bgColBR":"#1d266f",
+    "light1Dir":[-0.6462193727493286, 0.7581337094306946, 0.08737154304981232, 0.0],
+    "light2Dir":[0.9909092783927917, -0.012221809476613998, -0.1339750438928604, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.25, 0.25, 0.25, 0.0]
+}

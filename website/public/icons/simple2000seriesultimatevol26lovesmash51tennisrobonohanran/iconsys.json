@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-62635_SYSTEM",
+    "title":"\u30e9\u30d6\u2605\u30b9\u30de\u30c3\u30b7\u30e5!5.1 \u30c6\u30cb\u30b9\u30ed\u30dc\u306e\u53cd\u4e71",
+    "normal":"ICON.ICO",
+    "copy":"ICON.ICO",
+    "delete":"ICON.ICO",
+    "bgOpacity":96,
+    "bgColTL":"#ff0000",
+    "bgColTR":"#ff0000",
+    "bgColBL":"#ffb400",
+    "bgColBR":"#ffb400",
+    "light1Dir":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0],
+    "light2Dir":[-0.699999988079071, 0.699999988079071, 0.29999998211860657, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
