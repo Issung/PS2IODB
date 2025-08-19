@@ -10,9 +10,9 @@ type TitleTableProps = {
 }
 
 const TitleTable = ({ games }: TitleTableProps) => {
-    console.log("GameTable", games);
+    console.log("TitleTable", games);
     return (
-        <div id="GameTable">
+        <div id="TitleTable">
             <ol style={{paddingLeft: 0}}>
                 {games.map(title => {
                     if (title.icons.length > 1)

@@ -1,10 +1,10 @@
-import './App.scss';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '../model/Titles';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './Home';
-import Icon from './Icon';
-import Faq from './Faq';
+import './App.scss';
 import Contribute from './Contribute';
+import Faq from './Faq';
+import Home from './Home';
+import IconPage from './IconPage';
 
 function App() {
     return (
@@ -12,7 +12,7 @@ function App() {
             <Routes>
                 <Route path="/faq" element={<Faq/>}/>
                 <Route path="/contribute" element={<Contribute/>}/>
-                <Route path="/icon/:iconcode" element={<Icon/>}/>
+                <Route path="/icon/:iconcode" element={<IconPage/>}/>
                 <Route path="/browse/:filterType/:filter" element={<Home/>}/>
                 <Route path="/browse/:filterType" element={<Home/>}/>
                 <Route path="*" element={<Home/>}/> {/* Fallback, all non matches above go to home page. */}

@@ -84,6 +84,7 @@ export const ModelView = ({
 
     const color = calculateBackground();
 
+    console.log('ModelView', {iconcode, variant})
     return(
         // TODO: The browser just isn't redrawing the background :(.
         <canvas

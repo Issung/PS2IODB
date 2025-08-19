@@ -31,7 +31,6 @@ const DebouncedTextBox = (props: DebouncedTextBoxProps) => {
 
     return <input
         type="text"
-        {...props}
         value={inputValue}
         onChange={handleInputChange}
     />;

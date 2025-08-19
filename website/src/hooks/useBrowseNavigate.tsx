@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useCallback } from "react";
 import { FilterType } from "../components/FilterTypeSelect";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -18,26 +18,24 @@ export const BrowseNavigateProvider: React.FC<{
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const func: BrowseNavigateFunction = (filterType, filter) => {
+    const func: BrowseNavigateFunction = useCallback((filterType, filter) => {
         if (strategy == BrowseNavigateStrategy.Path) {
             navigate(`/browse/${filterType}/${filter ?? ''}`);
         }
         else if (strategy == BrowseNavigateStrategy.SearchParams) {
+            const params = new URLSearchParams(searchParams.toString());
             if (!filter) {
-                searchParams.delete('filter');
+                params.delete('filter');
+            } else {
+                params.set('filter', filter);
             }
-            else {
-                searchParams.set('filter', filter);
-            }
-
-            searchParams.set('filterType', filterType);
-
-            setSearchParams(searchParams);
+            params.set('filterType', filterType);
+            setSearchParams(params);
         }
         else {
-            throw new Error('Unkown BrowseNavigationStrategy.');
+            throw new Error('Unknown BrowseNavigationStrategy.');
         }
-    };
+    }, [navigate, setSearchParams, searchParams, strategy]);
 
     return (
         <BrowseNavigateContext.Provider value={func}>

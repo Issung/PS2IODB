@@ -16,7 +16,7 @@ const exampleSearches = [
 ];
 
 const FilterableTitleList = ({filterType, filter}: { filterType: FilterType, filter: string | undefined }) => {
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     return <>
         <FilterTypeSelect filterType={filterType}/>
@@ -31,7 +31,8 @@ const FilterableTitleList = ({filterType, filter}: { filterType: FilterType, fil
                         placeholder={`Search (e.g. "${exampleSearches[Math.floor(Math.random() * exampleSearches.length)]}")`}
                         style={{marginBottom: 15}}
                         value={filter}
-                        debouncedOnChange={newValue => navigate(`/browse/search/${encodeURIComponent(newValue)}`)}
+                        // TODO: Reimplement text searching.
+                        debouncedOnChange={newValue => /*navigate(`/browse/search/${encodeURIComponent(newValue)}`)*/ {}}
                     />
                 </div>
             </div>

@@ -21,7 +21,7 @@ type SearchResultsProps = {
     filter: string | undefined;
 }
 
-const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: SearchResultsProps) => {
+function SearchResults({ filterType, filter }: SearchResultsProps) {
     const filterByAlphabet = () => {
         if (!filter || filter === 'misc') {
             // All things that come before the first title starting with 'A'.
@@ -159,6 +159,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
     const icons = titles.flatMap(t => t.icons);
     const uniqueVariantsCount = icons.reduce((sum, icon) => sum + (icon.variantCount ?? 0), 0);
 
+    console.log('SearchResults', {filterType, filter});
     return (
     <>
         <span >
