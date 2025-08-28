@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20380",
+    "title":"JP: Operation  Genesis Options",
+    "normal":"icon0.ico",
+    "copy":"icon0.ico",
+    "delete":"icon0.ico",
+    "bgOpacity":128,
+    "bgColTL":"#206000",
+    "bgColTR":"#206000",
+    "bgColBL":"#202000",
+    "bgColBR":"#202000",
+    "light1Dir":[0.5773502588272095, 0.5773502588272095, 0.5773502588272095, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 1.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 1.0]
+}

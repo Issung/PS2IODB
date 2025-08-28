@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20181",
+    "title":"Escape from Monkey Island",
+    "normal":"ICON.ICO",
+    "copy":"COPY.ICO",
+    "delete":"DELETE.ICO",
+    "bgOpacity":110,
+    "bgColTL":"#7d6437",
+    "bgColTR":"#344f4d",
+    "bgColBL":"#2d4f4d",
+    "bgColBR":"#0d231e",
+    "light1Dir":[1.0, 0.0, 0.0, 1.0],
+    "light2Dir":[-1.0, 0.0, 0.0, 1.0],
+    "light3Dir":[0.0, 0.0, 1.0, 1.0],
+    "light1Col":[0.800000011920929, 0.699999988079071, 0.6000000238418579, 0.0],
+    "light2Col":[0.4000000059604645, 0.3499999940395355, 0.30000001192092896, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0]
+}
