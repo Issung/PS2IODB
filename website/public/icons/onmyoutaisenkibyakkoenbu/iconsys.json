@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-20416OET",
+    "title":"\u9670\u967d\u5927\u6226\u8a18 \u767d\u864e\u6f14\u821e",
+    "normal":"mc_oet01.ico",
+    "copy":"mc_oet01.ico",
+    "delete":"mc_oet01.ico",
+    "bgOpacity":64,
+    "bgColTL":"#808080",
+    "bgColTR":"#808080",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[1.0, 1.0, 1.0, 0.0],
+    "light2Dir":[1.0, 1.0, 1.0, 0.0],
+    "light3Dir":[1.0, 1.0, 1.0, 0.0],
+    "light1Col":[0.25, 0.25, 0.25, 0.0],
+    "light2Col":[0.25, 0.25, 0.25, 0.0],
+    "light3Col":[0.25, 0.25, 0.25, 0.0],
+    "ambiLightCol":[0.25, 0.25, 0.25, 0.0]
+}

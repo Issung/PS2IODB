@@ -1,0 +1,19 @@
+{
+    "directory":"BESLES-50509SYSTEM",
+    "title":"Half-Life System Data",
+    "normal":"lambda.ico",
+    "copy":"lambda.ico",
+    "delete":"lambda.ico",
+    "bgOpacity":112,
+    "bgColTL":"#70789b",
+    "bgColTR":"#bc541b",
+    "bgColBL":"#00061e",
+    "bgColBR":"#84380e",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.75, 0.75, 0.75, 1.0]
+}
