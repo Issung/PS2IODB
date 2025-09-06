@@ -10,30 +10,30 @@ describe("Database Entries Tests", () =>
             expect(icon.name).toBeDefined();
             
             if (icon.code === undefined)
-                {
-                    expect(icon.variantCount, "If code is unset, variantCount should be too.").toBeUndefined();
-                    expect(icon.contributor, "If code is unset, contributor should be too.").toBeUndefined();
-                }
-                else
-                {
-                    expect(icon.variantCount, "If code is set, variantCount should be too.").toBeDefined();
-                    expect(icon.contributor, "If code is set, contributor should be too.").toBeDefined();
-                }
-            })
-        });
+            {
+                expect(icon.variantCount, `${icon.name} code is unset, variantCount should be too.`).toBeUndefined();
+                expect(icon.contributor, `${icon.name} code is unset, contributor should be too.`).toBeUndefined();
+            }
+            else
+            {
+                expect(icon.variantCount, `${icon.name} code is set, variantCount should be too.`).toBeDefined();
+                expect(icon.contributor, `${icon.name} code is set, contributor should be too.`).toBeDefined();
+            }
+        })
+    });
         
-        // Assert all iconsys.json files are valid json.
-        test('All iconsys.json files are valid JSON', () => {
-            Icons
-            .filter(i => i.code)
-            .forEach(icon => {
-                const path = `./public/icons/${icon.code}/iconsys.json`;
+    // Assert all iconsys.json files are valid json.
+    test('All iconsys.json files are valid JSON', () => {
+        Icons
+        .filter(i => i.code)
+        .forEach(icon => {
+            const path = `./public/icons/${icon.code}/iconsys.json`;
 
-                expect(fs.existsSync(path), `iconsys.json should exist at path ${path}.`).toBe(true);
-                
-                const buffer = fs.readFileSync(path, 'utf-8');
-                expect(() => JSON.parse(buffer), `${icon.code}/iconsys.icon should be parsable`).not.toThrow();
-            });
+            expect(fs.existsSync(path), `iconsys.json should exist at path ${path}.`).toBe(true);
+            
+            const buffer = fs.readFileSync(path, 'utf-8');
+            expect(() => JSON.parse(buffer), `${icon.code}/iconsys.icon should be parsable`).not.toThrow();
+        });
     });
 
     // Assert that /public/icons only has directories, no files, links, sockets, etc.
