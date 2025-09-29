@@ -41,6 +41,7 @@ export class Contributors {
     public static TheZulaPatrolFan2005 = new Contributor('TheZulaPatrolFan2005');
     public static Gio00 = new Contributor('Gio00');
     public static BattleCrusher135 = new Contributor('BattleCrusher135');
+    public static PressAnyKeyToContinue = new Contributor('Press any key to continue...', 'https://www.youtube.com/@PAKTC');
 }
 
 export const ContributorCount = Object.values(Contributors).length;

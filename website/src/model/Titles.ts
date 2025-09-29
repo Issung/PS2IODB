@@ -1370,7 +1370,7 @@ export const Titles: Title[] = [
     new Game(`Fish Eyes 3 / Reel Fishing III`, `fisheyes3`, 1, Contributors.Cajas),
     new Game(`Fisherman's Bass Club`, `fishermansbassclub`, 1, Contributors.TheZulaPatrolFan2005),
     new Game(`Fisherman's Challenge`, `fishermanschallenge`, 1, Contributors.TheZulaPatrolFan2005),
-    new Game(`Fishing Fantasy: BuzzRod`),
+    new Game(`Fishing Fantasy: BuzzRod`, `fishingfantasybuzzrod`, 1, Contributors.PressAnyKeyToContinue),
     new Game(`Fitness Fun`),
     new Game(`Flame of Recca: Final Burning`, `flameofreccafinalburning`, 3, Contributors.SqueezedDog),
     new Game(`FlatOut`, g => [
