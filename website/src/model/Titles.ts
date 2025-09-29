@@ -3001,15 +3001,27 @@ export const Titles: Title[] = [
     new Game(`Naraku no Shiro`),
     new Game(`Narc`, `narc`, 1, Contributors.Cajas),
     new Game(`Naruto Shippuden: Ultimate Ninja 4`, `narutoultimateninja4`, 1, Contributors.ItzCookieX),
-    new Game(`Naruto Shippuden: Ultimate Ninja 5`, `narutoultimateninja5`, 1, Contributors.ItzCookieX),
-    new Game(`Naruto: Ultimate Ninja`, `narutoultimateninja`, 1, Contributors.ItzCookieX),
-    new Game(`Naruto: Ultimate Ninja 2`, `narutoultimateninja2`, 1, Contributors.ItzCookieX),
+    new Game(`Naruto Shippuden: Ultimate Ninja 5`, g => [
+        new Icon(g, `Worldwide`, `narutoultimateninja5-pal`, 1, Contributors.ItzCookieX),
+        new Icon(g, `Japan`, `narutoultimateninja5-jp`, 1, Contributors.Cajas),
+    ]),
+    new Game(`Naruto: Ultimate Ninja`, g => [
+        new Icon(g, `Worldwide`, `narutoultimateninja-pal`, 1, Contributors.ItzCookieX),
+        new Icon(g, `Japan`, `narutoultimateninja-jp`, 1, Contributors.Cajas),
+    ]),
+    new Game(`Naruto: Ultimate Ninja 2`, g => [
+        new Icon(g, `Worldwide`, `narutoultimateninja2-pal`, 1, Contributors.ItzCookieX),
+        new Icon(g, `Japan`, `narutoultimateninja2-jp`, 1, Contributors.Cajas),
+    ]),
     new Game(`Naruto: Ultimate Ninja 3`, g => [
         new Icon(g, `Worldwide`, `narutoultimateninja3`, 1, Contributors.ItzCookieX),
         new Icon(g, `Japan`, `narutoultimateninja3-jp`, 1, Contributors.Sebita),
     ]),
     new Game(`Naruto: Uzumaki Chronicles`, `narutouzumakichronicles`, 1, Contributors.ItzCookieX),
-    new Game(`Naruto: Uzumaki Chronicles 2`, `narutouzumakichronicles2`, 1, Contributors.ItzCookieX),
+    new Game(`Naruto: Uzumaki Chronicles 2`, g => [
+        new Icon(g, `PAL`, `narutouzumakichronicles2-pal`, 1, Contributors.ItzCookieX),
+        new Icon(g, `Asia`, `narutouzumakichronicles2-asia`, 1, Contributors.Cajas),
+    ]),
     new Game(`NASCAR 06: Total Team Control`, `nascar06`, 1, Contributors.Jtduckman),
     new Game(`NASCAR 07`, `nascar07`, 1, Contributors.Jtduckman),
     new Game(`NASCAR 08`, `nascar08`, 1, Contributors.Cajas),
