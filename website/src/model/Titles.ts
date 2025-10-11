@@ -495,7 +495,7 @@ export const Titles: Title[] = [
     new Game(`Burnout Revenge`, `burnoutrevenge`, 1, Contributors.Zeroman95),
     new Game(`Busin 0: Wizardry Alternative Neo`, `busin0wizardryalternativeneo`, 1, Contributors.Cajas),
     new Game(`Busou Renkin: Yokosu Papillon Park e`, `busourenkinyoksupapillonparke`, 1, Contributors.Cajas),
-    new Game(`Bust-A-Bloc`, `bustabloc`, 1, Contributors.Zeroman95),
+    new Game(`Bust-A-Bloc / Simple 2000 Series Vol.5 - The Block Kuzushi Hyper`, `bustabloc`, 1, Contributors.Zeroman95),
     new Game(`Butt-Ugly Martians: Zoom or Doom!`, `buttuglymartians`, 1, Contributors.SqueezedDog),
     new Game(`Buzz!: The BIG Quiz`),
     new Game(`Buzz!: Brain of the World`),
