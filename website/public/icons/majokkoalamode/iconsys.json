@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-25432MAJOKKO",
+    "title":"\u9b54\u5973\u3063\u5a18\u30a2\u30fb\u30e9\u30fb\u30e2-\u30c9 \u5531\u3048\u3066,\u604b\u306e\u9b54\u6cd5!",
+    "normal":"ICON.ICO",
+    "copy":"ICON.ICO",
+    "delete":"ICON.ICO",
+    "bgOpacity":96,
+    "bgColTL":"#db9ab7",
+    "bgColTR":"#db9ab7",
+    "bgColBL":"#db9ab7",
+    "bgColBR":"#db9ab7",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0]
+}

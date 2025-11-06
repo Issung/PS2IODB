@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-25539",
+    "title":"\u30b9\u30af-\u30eb\u30e9\u30f3\u30d6\u30eb \u306d\u308b\u5a18\u306f\u80b2\u3064.",
+    "normal":"cube.ico",
+    "copy":"cube.ico",
+    "delete":"cube.ico",
+    "bgOpacity":89,
+    "bgColTL":"#00004d",
+    "bgColTR":"#00004d",
+    "bgColBL":"#00004d",
+    "bgColBR":"#00004d",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[-0.5, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
