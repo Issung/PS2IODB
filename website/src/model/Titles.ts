@@ -1119,6 +1119,7 @@ export const Titles: Title[] = [
     new Game(`Dynasty Warriors 6`, `dynastywarriors6`, 1, Contributors.ItzCookieX),
     new Game(`Dynasty Warriors: Gundam 2`, `dynastywarriorsgundam2`, 1, Contributors.Cajas),
     new Game(`E'tude Prologue: Yureugoku Kokoro no Katachi`),
+    new Application(`EA Login`, `ealogin`, 1, Contributors.Sebita), // "A save file for online play of some EA games e.g. Burnout 3 / Revenge" -Sebita
     new Application(`EA Sports Bio`, `easportsbio`, 1, Contributors.Jtduckman),
     new Game(`EA Sports Rugby`, `easportsrugby`, 1, Contributors.Jtduckman),
     new Game(`EA Sports Rugby 06`, `easportsrugby06`, 1, Contributors.Jtduckman),
