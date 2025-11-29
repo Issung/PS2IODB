@@ -3580,6 +3580,7 @@ export const Titles: Title[] = [
     new Game(`Puzzle Party: 10 Games`),
     new Game(`Puzzle Quest: Challenge of the Warlords`),
     new Game(`Pyū to Fuku! Jaguar Ashita no Jump`),
+    new Application('QA Tool Network Config', `qatoolnetworkconfig`, 1, Contributors.BlackFlagSolutions),   // QA Tool of unknown origin.
     new Game(`Q-Ball Billiards Master / Dokyu Billiard Master 2`, `qballbilliardsmaster`, 1, Contributors.Cajas),
     new Game(`Quake III Revolution`, `quakeiiirevolution`, 1, Contributors.Sebita),
     new Game(`Quartet! The Stage of Love`, `quartetthestageoflove`, 1, Contributors.Cajas),
