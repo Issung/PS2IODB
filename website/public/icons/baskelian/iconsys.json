@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-20266BASKELI0",
+    "title":"\u30d0\u30b9\u30b1\u30ea\u30a2\u30f3No.1       \u30dc-\u30ba\u30ef-\u30eb\u30c9",
+    "normal":"view.ico",
+    "copy":"view.ico",
+    "delete":"view.ico",
+    "bgOpacity":0,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.43301284313201904, -0.8660252690315247, -0.24999986588954926, 0.0],
+    "light2Dir":[0.0, 0.0, 1.0, 0.0],
+    "light3Dir":[0.5, -0.7071066498756409, 0.5000001192092896, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 1.0],
+    "light2Col":[0.0, 0.0, 0.0, 1.0],
+    "light3Col":[0.5, 0.5, 0.5, 1.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 1.0]
+}

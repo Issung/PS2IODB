@@ -1,0 +1,19 @@
+{
+    "directory":"BESLES-52587-AMSW004",
+    "title":"Army Men:  Sarge's War",
+    "normal":"a.ico",
+    "copy":"a.ico",
+    "delete":"a.ico",
+    "bgOpacity":64,
+    "bgColTL":"#ff0000",
+    "bgColTR":"#00ff00",
+    "bgColBL":"#0000ff",
+    "bgColBR":"#ffffff",
+    "light1Dir":[0.0, 0.0, 1.0, 0.0],
+    "light2Dir":[0.0, -1.0, 0.0, 0.0],
+    "light3Dir":[0.0, 1.0, 0.0, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

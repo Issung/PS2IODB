@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-66293",
+    "title":"\u5b66\u5712\u30a2\u30ea\u30b9 ~\u304d\u3089\u304d\u3089\u2605\u30e1\u30e2\u30ea-\u30ad\u30c3\u30b9~",
+    "normal":"game.ico",
+    "copy":"game.ico",
+    "delete":"game.ico",
+    "bgOpacity":102,
+    "bgColTL":"#ff4cff",
+    "bgColTR":"#ffffff",
+    "bgColBL":"#ff4cff",
+    "bgColBR":"#ffffff",
+    "light1Dir":[0.0, 0.0, 1.0, 0.0],
+    "light2Dir":[-0.5, -0.7071070075035095, 0.5, 0.0],
+    "light3Dir":[0.5, -0.7071070075035095, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

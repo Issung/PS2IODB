@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-20405-SLUPC5",
+    "title":"\u30b9\u30ed\u30c3\u30bf-UP\u30b3\u30a25  \u30eb\u30d1\u30f3\u5927\u597d\u304d!\u4e3b\u5f79\u306f\u92ad\u5f62",
+    "normal":"static.ico",
+    "copy":"copy.ico",
+    "delete":"delete.ico",
+    "bgOpacity":96,
+    "bgColTL":"#808080",
+    "bgColTR":"#808080",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[9.0, 9.0, -9.0, 0.0],
+    "light2Dir":[0.0, -4.0, -5.0, 0.0],
+    "light3Dir":[-9.0, -9.0, 9.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[1.0, 1.0, 1.0, 0.0],
+    "ambiLightCol":[0.009999999776482582, 0.009999999776482582, 0.009999999776482582, 0.0]
+}

@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-62693-SLUPM7",
+    "title":"\u30b9\u30ed\u30c3\u30bf-UP\u30de\u30cb\u30a27  \u6700\u65b0\u6700\u5f37!\u30d1\u30a4\u30aa\u30cb\u30a2MAX",
+    "normal":"static.ico",
+    "copy":"copy.ico",
+    "delete":"delete.ico",
+    "bgOpacity":96,
+    "bgColTL":"#808080",
+    "bgColTR":"#808080",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[9.0, 9.0, -9.0, 0.0],
+    "light2Dir":[0.0, -4.0, -5.0, 0.0],
+    "light3Dir":[-9.0, -9.0, 9.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[1.0, 1.0, 1.0, 0.0],
+    "ambiLightCol":[0.009999999776482582, 0.009999999776482582, 0.009999999776482582, 0.0]
+}

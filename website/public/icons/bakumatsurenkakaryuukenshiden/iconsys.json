@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-25818-R2",
+    "title":"\u5e55\u672b\u604b\u83ef\u30fb\u82b1\u67f3\u5263\u58eb\u4f1d \u30bb-\u30d6\u30c7-\u30bf",
+    "normal":"renka2.ico",
+    "copy":"renka2.ico",
+    "delete":"renka2.ico",
+    "bgOpacity":96,
+    "bgColTL":"#200080",
+    "bgColTR":"#200080",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[1.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 1.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 1.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

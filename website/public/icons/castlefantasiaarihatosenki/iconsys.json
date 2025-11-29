@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-66605",
+    "title":"\u30ad\u30e3\u30c3\u30b9\u30eb\u30d5\u30a1\u30f3\u30bf\u30b8\u30a2  \u30a2\u30ea\u30cf\u30c8\u6226\u8a18",
+    "normal":"seima.ico",
+    "copy":"seima.ico",
+    "delete":"seima.ico",
+    "bgOpacity":0,
+    "bgColTL":"#202020",
+    "bgColTR":"#202020",
+    "bgColBL":"#202020",
+    "bgColBR":"#202020",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.4000000059604645, 0.4000000059604645, 0.3799999952316284, 0.0]
+}

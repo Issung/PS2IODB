@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-20275",
+    "title":"\u30d1\u30c1\u3063\u3066\u3061\u3087\u3093\u307e\u3052\u9054\u4eba3 CRP-MAN&CR\u67d4\u30ad\u30c3\u30ba\u6975\u7de8",
+    "normal":"static.ico",
+    "copy":"static.ico",
+    "delete":"static.ico",
+    "bgOpacity":128,
+    "bgColTL":"#386321",
+    "bgColTR":"#386321",
+    "bgColBL":"#799d21",
+    "bgColBR":"#799d21",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.5, -0.5, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

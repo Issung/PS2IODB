@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-20220",
+    "title":"\u30d1\u30c1\u30b9\u30ed\u30a2\u30eb\u30bc\u738b\u56fd7 PS2",
+    "normal":"aruze7.ico",
+    "copy":"aruze7.ico",
+    "delete":"aruze7.ico",
+    "bgOpacity":96,
+    "bgColTL":"#ffe400",
+    "bgColTR":"#0028ff",
+    "bgColBL":"#0028ff",
+    "bgColBR":"#0028ff",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, 0.0, -0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, 0.0, 0.5, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[0.75, 0.75, 0.75, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.20000000298023224, 0.20000000298023224, 0.20000000298023224, 0.0]
+}

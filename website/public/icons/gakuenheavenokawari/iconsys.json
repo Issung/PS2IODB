@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-62597HEAVEN2",
+    "title":"\u5b66\u5712\u30d8\u30f4\u30f3 \u304a\u304b\u308f\u308a\u3063!                     ",
+    "normal":"heaven2.ico",
+    "copy":"heaven2.ico",
+    "delete":"heaven2.ico",
+    "bgOpacity":96,
+    "bgColTL":"#808080",
+    "bgColTR":"#808080",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.3999999761581421, -0.09999999403953552, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
