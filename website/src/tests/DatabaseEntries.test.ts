@@ -118,4 +118,47 @@ describe("Database Entries Tests", () =>
             expect(objFiles.length, `Icon folder ${folder} must have at least the amount of icons specifed in GameList.`).toBeGreaterThanOrEqual(iconCount);
         });
     });
+
+    test('Icon directories do not contain directories', () => {
+        const directoryItems = fs.readdirSync('./public/icons', { withFileTypes: true });
+
+        const iconDirectories = directoryItems
+            .filter((entry) => entry.isDirectory())
+            .map((entry) => entry.name);
+
+        const nestedDirs: string[] = [];
+
+        iconDirectories.forEach(iconDirectory => {
+            const directory = `./public/icons/${iconDirectory}`;
+            const items = fs.readdirSync(directory, { withFileTypes: true });
+            const nested = items.filter(e => e.isDirectory()).map(e => e.name);
+            nested.forEach(n => nestedDirs.push(`${iconDirectory}/${n}`));
+        });
+
+        console.log('Nested directories found in icon folders:');
+        console.log(nestedDirs);
+
+        expect(nestedDirs.length, 'No icon directory should contain any directories.').toBe(0);
+    });
+
+    test('Icon directories are not empty', () => {
+        const directoryItems = fs.readdirSync('./public/icons', { withFileTypes: true });
+
+        const iconDirectories = directoryItems
+            .filter((entry) => entry.isDirectory())
+            .map((entry) => entry.name);
+
+        const emptyDirs: string[] = [];
+
+        iconDirectories.forEach(iconDirectory => {
+            const directory = `./public/icons/${iconDirectory}`;
+            const items = fs.readdirSync(directory, { withFileTypes: true });
+            if (items.length === 0) emptyDirs.push(iconDirectory);
+        });
+
+        console.log('Empty icon directories found:');
+        console.log(emptyDirs);
+
+        expect(emptyDirs.length, 'No empty directories should be present in the icons directory.').toBe(0);
+    });
 });
