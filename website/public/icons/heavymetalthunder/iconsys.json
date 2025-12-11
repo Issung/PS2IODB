@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-66030HMT_DATA",
+    "title":"\u30d8\u30d3-\u30e1\u30bf\u30eb\u30b5\u30f3\u30c0-",
+    "normal":"static.ico",
+    "copy":"copy.ico",
+    "delete":"delete.ico",
+    "bgOpacity":0,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 1.0]
+}

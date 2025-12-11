@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-25357chun",
+    "title":"3\u5e74B\u7d44\u91d1\u516b\u5148\u751f \u4f1d\u8aac\u306e\u6559\u58c7\u306b\u7acb\u3066!",
+    "normal":"g1.icn",
+    "copy":"g2.icn",
+    "delete":"g3.icn",
+    "bgOpacity":128,
+    "bgColTL":"#008000",
+    "bgColTR":"#008000",
+    "bgColBL":"#004000",
+    "bgColBR":"#004000",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[1.0, 1.0, 1.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
