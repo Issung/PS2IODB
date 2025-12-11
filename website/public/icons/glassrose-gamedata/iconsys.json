@@ -1,0 +1,19 @@
+{
+    "directory":"BESLES-52358GAME_00",
+    "title":"Glass Rose Game Data(1)",
+    "normal":"grose.ico",
+    "copy":"grose.ico",
+    "delete":"grose.ico",
+    "bgOpacity":64,
+    "bgColTL":"#00181c",
+    "bgColTR":"#00181c",
+    "bgColBL":"#00181c",
+    "bgColBR":"#00181c",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[-0.5, 0.5, 0.5, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0],
+    "light2Col":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.20000000298023224, 0.20000000298023224, 0.4000000059604645, 0.0]
+}

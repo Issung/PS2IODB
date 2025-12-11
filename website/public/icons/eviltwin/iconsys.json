@@ -1,0 +1,19 @@
+{
+    "directory":"BESLES-50201ET",
+    "title":"EvilTwin",
+    "normal":"CYP.ICO",
+    "copy":"CYP.ICO",
+    "delete":"CYP.ICO",
+    "bgOpacity":128,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.4000000059604645, -0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.8109999895095825, 0.6309999823570251, 0.4000000059604645, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[1.0, 1.0, 1.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}

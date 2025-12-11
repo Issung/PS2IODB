@@ -1,0 +1,19 @@
+{
+    "directory":"BESLES-52358SYS",
+    "title":"Glass Rose System Data",
+    "normal":"grose_sys.ico",
+    "copy":"grose_sys.ico",
+    "delete":"grose_sys.ico",
+    "bgOpacity":64,
+    "bgColTL":"#1e0000",
+    "bgColTR":"#1e0000",
+    "bgColBL":"#1e0000",
+    "bgColBR":"#1e0000",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[-0.5, 0.5, 0.5, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0],
+    "light2Col":[0.699999988079071, 0.699999988079071, 0.699999988079071, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
