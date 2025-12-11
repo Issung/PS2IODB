@@ -5209,7 +5209,7 @@ export const Titles: Title[] = [
         new Icon(g, `Story Data`, `winningpost7maximum2008-story`, 1, Contributors.Cajas),
         new Icon(g, `VTR Data`, `winningpost7maximum2008-vtrreplay`, 1, Contributors.Cajas),
     ]),
-    new Game(`Winning Post Kouryaku Box`),
+    // new Game(`Winning Post Kouryaku Box`), // A bundle of games, not a game -Cajas.
     new Game(`Winning Post World`, g => [
         new Icon(g, `Edit Data`, `winningpostworld-edit`, 1, Contributors.Cajas),
         new Icon(g, `Horse Derby Data`, `winningpostworld-horsederby`, 1, Contributors.Cajas),
