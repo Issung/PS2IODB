@@ -43,7 +43,7 @@ export class Contributors {
     public static BattleCrusher135 = new Contributor('BattleCrusher135');
     public static PressAnyKeyToContinue = new Contributor('Press any key to continue...', 'https://www.youtube.com/@PAKTC');
     public static BlackFlagSolutions = new Contributor('BlackFlagSolutions', 'https://x.com/BlackFlagSolut');
-    public static Valzentia = new Contributor('Valzentia');
+    public static Valzentia = new Contributor('Valzentia', 'https://youtube.com/@Valzentia');
 }
 
 export const ContributorCount = Object.values(Contributors).length;
