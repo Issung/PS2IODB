@@ -236,7 +236,7 @@ const Icon = () => {
                     <>
                         <h5>{title}</h5>
                         <h6>Contributed by {icon.contributor?.link ? 
-                            <Link to={icon.contributor.link} target="_blank">{icon.contributor!.name}</Link>
+                            <Link to={`/browse/contributor/${icon.contributor.name}#browse`} title={`View all contributions from ${icon.contributor.name}`}>{icon.contributor!.name}</Link>
                         :
                             `${icon.contributor?.name}`
                         }</h6>

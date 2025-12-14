@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Counter from "../components/Counter";
 import DebouncedTextBox from '../components/DebouncedTextBox';
 import Footer from "../components/Footer";
-import SearchResults from "../components/TitleSearch";
+import SearchResults from "../components/SearchResults";
 import { IconCaretLeft } from '@tabler/icons-react';
 import { SessionStorageKeys } from '../utils/Consts';
 
@@ -110,7 +110,7 @@ const Home = () => {
                 <div className="container" style={{ minHeight: 700 }}>
                     <div className="row justify-content-center">
                         <div className="col">
-                            <h1>Browse</h1>
+                            <h1 id="browse">Browse</h1>
                         </div>
                     </div>
                     <FilterTypeSelect filterType={filterType as FilterType}/>

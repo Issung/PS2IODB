@@ -5,6 +5,7 @@ import Home from './Home';
 import Icon from './Icon';
 import Faq from './Faq';
 import Contribute from './Contribute';
+import { HashScroller } from '../components/HashScroller';
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                 <Route path="/browse/:filterType" element={<Home/>}/>
                 <Route path="*" element={<Home/>}/> {/* Fallback, all non matches above go to home page. */}
             </Routes>
+            <HashScroller/>
         </BrowserRouter>
     );
 }
