@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-65455DATA",
+    "title":"\u4fe1\u9577\u306e\u91ce\u671b\u30fb\u84bc\u5929\u9332wPK \u30d7\u30ec\u30a4\u30c7-\u30bf",
+    "normal":"saveicon.icn",
+    "copy":"saveicon.icn",
+    "delete":"saveicon.icn",
+    "bgOpacity":112,
+    "bgColTL":"#3a0e0a",
+    "bgColTR":"#972c1e",
+    "bgColBL":"#100101",
+    "bgColBR":"#3a0e0a",
+    "light1Dir":[-0.18257400393486023, 0.36514800786972046, 0.9128710031509399, 0.0],
+    "light2Dir":[-0.18257400393486023, 0.36514800786972046, -0.9128710031509399, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0]
+}

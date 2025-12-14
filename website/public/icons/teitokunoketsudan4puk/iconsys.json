@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-62470",
+    "title":"\u63d0\u7763\u306e\u6c7a\u65ad4 with\u30d1\u30ef-\u30a2\u30c3\u30d7\u30ad\u30c3\u30c8",
+    "normal":"tk4pk.ico",
+    "copy":"tk4pk.ico",
+    "delete":"tk4pk.ico",
+    "bgOpacity":80,
+    "bgColTL":"#000000",
+    "bgColTR":"#000040",
+    "bgColBL":"#000040",
+    "bgColBR":"#000080",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[1.5, 1.5, 1.5, 0.0],
+    "light3Dir":[1.5, 1.5, 1.5, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[1.0, 1.0, 1.0, 0.0],
+    "light3Col":[1.0, 1.0, 1.0, 0.0],
+    "ambiLightCol":[0.30000001192092896, 0.30000001192092896, 0.30000001192092896, 0.0]
+}

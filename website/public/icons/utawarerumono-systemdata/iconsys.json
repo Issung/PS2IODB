@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPS-25678",
+    "title":"\u3046\u305f\u308f\u308c\u308b\u3082\u306e \u30b7\u30b9\u30c6\u30e0\u30c7-\u30bf",
+    "normal":"utsys.icon",
+    "copy":"utsys.icon",
+    "delete":"utsys.icon",
+    "bgOpacity":0,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.0, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.0, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}
