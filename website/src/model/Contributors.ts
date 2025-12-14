@@ -16,7 +16,7 @@ export class Contributors {
     public static Psiences = new Contributor('psiences', 'https://x.com/psiences');
     public static FenixF = new Contributor('Fenix F', 'https://x.com/_Fenix_F_');
     public static Zwish343 = new Contributor('Zwish343', 'https://x.com/zwish343');
-    public static Zeroman95 = new Contributor('Zeroman95', 'https://www.backloggery.com/Zeroman95BL');
+    public static Zeroman95 = new Contributor('Zeroman95', 'https://backloggery.com/Zeroman95BL');
     public static Atat111111 = new Contributor('atat111111'); // Brother of Zeroman95. Uploaded by Zeroman95.
     public static Oddworld2001= new Contributor('Oddworld-2001');
     public static SqueezedDog = new Contributor('Squeezed Dog');
@@ -41,7 +41,7 @@ export class Contributors {
     public static TheZulaPatrolFan2005 = new Contributor('TheZulaPatrolFan2005');
     public static Gio00 = new Contributor('Gio00');
     public static BattleCrusher135 = new Contributor('BattleCrusher135');
-    public static PressAnyKeyToContinue = new Contributor('Press any key to continue...', 'https://www.youtube.com/@PAKTC');
+    public static PressAnyKeyToContinue = new Contributor('Press any key to continue...', 'https://youtube.com/@PAKTC');
     public static BlackFlagSolutions = new Contributor('BlackFlagSolutions', 'https://x.com/BlackFlagSolut');
     public static Valzentia = new Contributor('Valzentia', 'https://youtube.com/@Valzentia');
 }

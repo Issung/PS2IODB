@@ -136,35 +136,22 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
         return array.indexOf(value) === index;
     }
 
-    function contributorNameOrLink(): string | JSX.Element {
-        let contributor = Contributors.GetContributorByName(filter);
-
-        if (contributor)
-        {
-            if (contributor.link)
-            {
-                return <Link to={contributor.link} target="_blank">{contributor.name}</Link>
-            }
-            else
-            {
-                return contributor.name;
-            }
-        }
-        else
-        {
-            return 'Unknown';
-        }
-    }
+    const contributor = Contributors.GetContributorByName(filter);
+    const contributorNamePosessive = contributor?.name.endsWith('s') ? `${filter}'` : `${filter}'s`;
+    const contributorLinkDomain = contributor?.link ? new URL(contributor.link).host : '';
 
     const icons = titles.flatMap(t => t.icons);
     const uniqueVariantsCount = icons.reduce((sum, icon) => sum + (icon.variantCount ?? 0), 0);
 
     return (
     <>
-        <span >
+        <span>
             <h3 style={{ textAlign: 'left' }}>
-                {filterType == FilterType.contributor
-                    ? <>{`${titles.length} titles with icons contributed by `}{contributorNameOrLink()}</>
+                {filterType == FilterType.contributor && contributor
+                    ? <>
+                        {`${titles.length} titles with icons contributed by ${contributor.name}`}
+                        {contributor.link ? <h5>View {contributorNamePosessive} profile on <Link to={contributor.link} target="_blank">{contributorLinkDomain}</Link></h5> : <></>}
+                    </>
                     : (titles.length === 0 ? 'No Results.' : `${titles.length} Titles`)
                 }
             </h3>
