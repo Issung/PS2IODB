@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20158_BThorin",
+    "title":"Heroes of M&M  Thoring",
+    "normal":"heroes.ico",
+    "copy":"heroes.ico",
+    "delete":"heroes.ico",
+    "bgOpacity":96,
+    "bgColTL":"#000080",
+    "bgColTR":"#000080",
+    "bgColBL":"#000000",
+    "bgColBR":"#000000",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.5, 0.5, 0.5, 0.0],
+    "light3Dir":[0.5, 0.5, 0.5, 0.0],
+    "light1Col":[0.5, 0.5, 0.5, 0.0],
+    "light2Col":[0.5, 0.5, 0.5, 0.0],
+    "light3Col":[0.5, 0.5, 0.5, 0.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 0.0]
+}
