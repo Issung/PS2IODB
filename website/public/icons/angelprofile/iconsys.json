@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-66709",
+    "title":"\u30a8\u30f3\u30b8\u30a7\u30eb\u30fb\u30d7\u30ed\u30d5\u30a1\u30a4\u30eb",
+    "normal":"icon.ico",
+    "copy":"icon.ico",
+    "delete":"icon.ico",
+    "bgOpacity":64,
+    "bgColTL":"#ffffff",
+    "bgColTR":"#56b025",
+    "bgColBL":"#e7f3dd",
+    "bgColBR":"#108431",
+    "light1Dir":[0.0, 0.0, 1.0, 1.0],
+    "light2Dir":[0.0, 0.0, 0.0, 1.0],
+    "light3Dir":[0.0, 0.0, 0.0, 1.0],
+    "light1Col":[1.0, 1.0, 1.0, 1.0],
+    "light2Col":[0.0, 0.0, 0.0, 1.0],
+    "light3Col":[0.0, 0.0, 0.0, 1.0],
+    "ambiLightCol":[0.5, 0.5, 0.5, 1.0]
+}
