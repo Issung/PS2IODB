@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-65343SCORE1",
+    "title":"\u6a5f\u7532\u5175\u56e3J-\u30d5\u30a7\u30cb\u30c3\u30af\u30b92 \u30b5\u30d0\u30a4\u30d0\u30eb\u30e1\u30c6\u30aa\u30b9\u30b3\u30a2\u30c7-\u30bf",
+    "normal":"SCORE1.ICO",
+    "copy":"SCORE1.ICO",
+    "delete":"SCORE1.ICO",
+    "bgOpacity":96,
+    "bgColTL":"#800000",
+    "bgColTR":"#008000",
+    "bgColBL":"#000080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.3999999761581421, -0.09999999403953552, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

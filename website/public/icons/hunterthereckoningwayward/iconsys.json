@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-20511Wayward",
+    "title":"Hunter Wayward",
+    "normal":"head.icn",
+    "copy":"head.icn",
+    "delete":"head.icn",
+    "bgOpacity":48,
+    "bgColTL":"#ffff00",
+    "bgColTR":"#ff7f3f",
+    "bgColBL":"#ff0000",
+    "bgColBR":"#7f0000",
+    "light1Dir":[0.0, 0.0, 0.0, 0.0],
+    "light2Dir":[-0.6246950626373291, 0.0, -0.7808688282966614, 0.0],
+    "light3Dir":[0.6172134280204773, 0.7715167999267578, -0.15430335700511932, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.0, 0.699999988079071, 0.0, 0.0],
+    "light3Col":[1.0, 0.0, 0.15000000596046448, 0.0],
+    "ambiLightCol":[0.15000000596046448, 0.15000000596046448, 0.0, 0.0]
+}
