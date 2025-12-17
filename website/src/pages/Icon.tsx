@@ -28,7 +28,7 @@ const Icon = () => {
     const [icon, setIcon] = useState<IconModel | undefined>();
     const title = useMemo(() => {
         if (icon) {
-            return icon.game!.name == icon.name ? icon.name : `${icon.game!.name} (${icon.name})`
+            return icon.title!.name == icon.name ? icon.name : `${icon.title!.name} (${icon.name})`
         }
         
         return '';

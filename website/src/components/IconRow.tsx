@@ -11,7 +11,7 @@ const IconRow = ({icon}: IconRowProps) => {
     const contributed = useMemo(() => icon?.code !== undefined, [icon]);
     const tooltip = useMemo(
         () => contributed 
-            ? `This icon has ${icon!.variantCount} unique state${icon!.variantCount! > 1 ? 's' : ''}.`
+            ? `This icon has ${icon!.uniqueStates} unique state${icon!.uniqueStates! > 1 ? 's' : ''}.`
             : "This icon has not yet been contributed.",
         [icon]
     );
@@ -20,7 +20,7 @@ const IconRow = ({icon}: IconRowProps) => {
         <RowBase
             title={icon.name}
             contributed={contributed}
-            circle={icon.variantCount}
+            circle={icon.uniqueStates}
             code={icon?.code}
             tooltip={tooltip}
         />

@@ -7,6 +7,7 @@ import { Titles } from '../model/Titles';
 import { Category } from './FilterSelectCategory';
 import { FilterType, FilterTypeDefault } from './FilterTypeSelect';
 import TitleTable from './TitleTable';
+import { Icon } from '../model/Icon';
 
 const additionalCharacterIncludes: Record<string, string[]> = {
     "A": ["A", "Æ"], // Include title "Æon Flux" under "A" listings.
@@ -50,11 +51,11 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
             let gamesInCategory = Titles.filter(g => g.icons.some(i => i.code));
             return gamesInCategory;
         }
-        else { //if (index > Category.icons1 && index < Category.icons3)
+        else { //if (index > Category.states1 && index < Category.states3)
             let indexStr = index.toString();
             let lastChar = indexStr.charAt(index.length - 1);
             let number = parseInt(lastChar);
-            let gamesInCategory = Titles.filter(g => g.icons.some(i => i.variantCount === number));
+            let gamesInCategory = Titles.filter(g => g.icons.some(i => i.uniqueStates === number));
             return gamesInCategory;
         }
     };
@@ -130,7 +131,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
         }
     }
 
-    let titles: Title[] = getTitlesWithFilter();
+    const titles: Title[] = getTitlesWithFilter();
 
     function unique<T>(value: T, index: number, array: Array<T>) {
         return array.indexOf(value) === index;
@@ -140,8 +141,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
     const contributorNamePosessive = contributor?.name.endsWith('s') ? `${filter}'` : `${filter}'s`;
     const contributorLinkDomain = contributor?.link ? new URL(contributor.link).host : '';
 
-    const icons = titles.flatMap(t => t.icons);
-    const uniqueVariantsCount = icons.reduce((sum, icon) => sum + (icon.variantCount ?? 0), 0);
+    const iconsFilter = filterType == FilterType.category && filter?.startsWith('states') ? ((icon: Icon) => icon.uniqueStates == parseInt(filter[filter.length - 1])) : undefined;
+    const icons = titles.flatMap(t => iconsFilter ? t.icons.filter(iconsFilter) : t.icons);
+    const uniqueStatesTotal = icons.reduce((sum, icon) => sum + (icon.uniqueStates ?? 0), 0);
 
     return (
     <>
@@ -155,9 +157,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
                     : (titles.length === 0 ? 'No Results.' : `${titles.length} Titles`)
                 }
             </h3>
-            <h6 style={{fontWeight: 300}}>{titles.length === 0 ? '' : `${icons.length} icons, ${uniqueVariantsCount} contributed variants`}</h6>
+            <h6 style={{fontWeight: 300}}>{titles.length === 0 ? '' : `${icons.length} icons, ${uniqueStatesTotal} unique states`}</h6>
         </span>
-        <TitleTable games={titles} />
+        <TitleTable titles={titles} iconsFilter={iconsFilter} />
     </>)
 }
 

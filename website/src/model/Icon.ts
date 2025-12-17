@@ -6,16 +6,16 @@ import { Title } from "./Title";
  * like SF3 have a unique icon for each character, or have regional differences.
  */
 export class Icon {
-    public game: Title;
+    public title: Title;
     public name: string;
     public code?: string;
-    public variantCount?: number;
+    public uniqueStates?: number;
     public contributor?: Contributor;
 
     /**
-     * The index of this game in the overall GameList.
+     * For use as a key in React rendering, a combination of the title's index in the TitleList, and this icon's index within the title. 
+     * In the format: `${titleIndex}-${iconIndex}`
      * Set from GameList.tsx, after the collection's initialisation.
-     * Used as key in the DOM.
      */
     public index: string = '';
     
@@ -24,20 +24,20 @@ export class Icon {
      * Either populate just `name` to indicate the game is not yet uploaded, or populate all fields to indicate it is.
      * @param name The name/title of the game.
      * @param code The 'code' of the game. A shortened URL-friendly identifier for the game.
-     * @param variantCount The number of unique save icons this game has.
+     * @param states The number of unique states this save icon has (for idle/copy/delete states in the UI). If multiple states are visually identical, count them as one.
      */
     constructor(
         game: Title,
         name: string,
         code?: string,
-        variantCount?: number,
+        states?: number,
         contributor?: Contributor,
     ) 
     {
-        this.game = game;
+        this.title = game;
         this.name = name;
         this.code = code;
-        this.variantCount = variantCount;
+        this.uniqueStates = states;
         this.contributor = contributor;
     }
 }

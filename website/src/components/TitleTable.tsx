@@ -1,22 +1,26 @@
-import './TitleTable.scss'
-import { Title } from '../model/Title';
-import TitleRow from './TitleRow';
-import IconRow from './IconRow';
 import React from 'react';
+import { Icon } from '../model/Icon';
+import { Title } from '../model/Title';
+import IconRow from './IconRow';
 import RowBase, { Trait } from './RowBase';
+import TitleRow from './TitleRow';
+import './TitleTable.scss';
 
 type TitleTableProps = {
-    games: Title[];
+    titles: Title[];
+    iconsFilter?: (icon: Icon) => boolean;
 }
 
-const TitleTable = ({ games }: TitleTableProps) => {
-    console.log("GameTable", games);
+const TitleTable = ({ titles, iconsFilter }: TitleTableProps) => {
+    console.log("TitleTable", titles);
     return (
-        <div id="GameTable">
+        <div id="TitleTable">
             <ol style={{paddingLeft: 0}}>
-                {games.map(title => {
+                {titles.map(title => {
                     if (title.icons.length > 1)
                     {
+                        const icons = iconsFilter ? title.icons.filter(iconsFilter) : title.icons;
+
                         return <React.Fragment key={title.index}>
                             <RowBase 
                                 title={title.name}
@@ -24,10 +28,10 @@ const TitleTable = ({ games }: TitleTableProps) => {
                                 circle={Trait.MultiIcon}
                                 tooltip="This title has multiple icons"
                             />
-                            <div className="icons-grid" style={{gridTemplateRows: `repeat(${title.icons.length}, auto)`}}>
-                                <div className="line" style={{gridRow: `1 / span ${title.icons.length}`}}>
+                            <div className="icons-grid" style={{gridTemplateRows: `repeat(${icons.length}, auto)`}}>
+                                <div className="line" style={{gridRow: `1 / span ${icons.length}`}}>
                                 </div>
-                                {title.icons.map(icon => <IconRow icon={icon} key={icon.index}/>)}
+                                {icons.map(icon => <IconRow icon={icon} key={icon.index}/>)}
                             </div>
                         </React.Fragment>
                     }

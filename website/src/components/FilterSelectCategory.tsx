@@ -5,9 +5,9 @@ import { IconCircleNumber1, IconCircleNumber2, IconCircleNumber3, IconCircles, I
 export enum Category {
     all = "all",
     uploaded = "uploaded",
-    icons1 = "icons1",
-    icons2 = "icons2",
-    icons3 = "icons3",
+    states1 = "states1",
+    states2 = "states2",
+    states3 = "states3",
     missing = "missing",
 };
 
@@ -20,9 +20,9 @@ interface ICategorySelectProps {
 const categories = [
     new SelectItem(Category.all, 'All', 'List all titles', <IconCircles/>),
     new SelectItem(Category.uploaded, 'Uploaded', 'Titles with icons uploaded', <IconCirclesFilled/>),
-    new SelectItem(Category.icons1, '1 Icon', 'Titles with 1 icon', <IconCircleNumber1/>),
-    new SelectItem(Category.icons2, '2 Icons', 'Titles with 2 icons', <IconCircleNumber2/>),
-    new SelectItem(Category.icons3, '3 Icons', 'Titles with 3 icons', <IconCircleNumber3/>),
+    new SelectItem(Category.states1, '1 State', 'Icons with 1 unique state', <IconCircleNumber1/>),
+    new SelectItem(Category.states2, '2 States', 'Icons with 2 unique states', <IconCircleNumber2/>),
+    new SelectItem(Category.states3, '3 States', 'Icons with 3 unique states', <IconCircleNumber3/>),
     new SelectItem(Category.missing, 'Missing', 'Titles that haven\'t yet been uploaded', <IconHelpOctagon/>),
 ];
 

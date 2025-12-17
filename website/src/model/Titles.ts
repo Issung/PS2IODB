@@ -5554,7 +5554,7 @@ export const ContributedIcons = Icons.filter(i => i.code);
 
 /** The sum of all unique variants of all icons. */
 export const TotalUniqueVariants: number = Icons
-    .map(i => i.variantCount ?? 0)
+    .map(i => i.uniqueStates ?? 0)
     .reduce((prevValue, value) => prevValue + value, 0);
 
 // Populate index for each game & icon after the collection is initialised.

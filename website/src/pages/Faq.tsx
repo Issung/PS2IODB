@@ -43,7 +43,7 @@ const Faq: React.FC = () => {
                                     <h6>Category</h6>
                                     <p>
                                         With this technique you can sort the library by its contribution status (whether it has been contributed yet or is still missing), or
-                                        by how many unique icons the title has, some titles only have 1 icon, while others may have 2 or 3 for the copy/delete UI states.
+                                        by how many unique states the icons have, some icons only have 1 state, while others may have 2 or 3 for the copy/delete UIstates.
                                     </p>
                                 </li>
                                 <li>
@@ -56,6 +56,16 @@ const Faq: React.FC = () => {
                             <p>
                                 Once you have found the title you wish to view, if it has been uploaded you may click it to go to the interactive 3D model viewer.<br/>
                                 If the title you wish to view has not been uploaded you can contribute it yourself!
+                            </p>
+
+                            <h4>Structure</h4>
+                            <p>
+                                The structure of the icons and contributions can be a little tricky to understand, here is the basics:
+                                <ul>
+                                    <li>There are many <i>Titles</i>, either <i>Applications</i> or <i>Games</i>.</li>
+                                    <li>Each <i>Title</i> can have 1 or more <i>Icons</i>. Different <i>Icons</i> can come from different regions, or differences in the game state, like chosen characters or difficulty.</li>
+                                    <li>Each <i>Icon</i> has 1 to 3 unique <i>States</i>. <i>States</i> are the differences in the PS2 BIOS when the icon is idle, or in the copy / delete states. Each Icon's <i>Unique State Count</i> is shown next to it in a blue circle.</li>
+                                </ul>
                             </p>
 
                             <h4>How can I help/contribute?</h4>

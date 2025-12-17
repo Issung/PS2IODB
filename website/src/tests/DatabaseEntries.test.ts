@@ -11,12 +11,12 @@ describe("Database Entries Tests", () =>
             
             if (icon.code === undefined)
             {
-                expect(icon.variantCount, `${icon.name} code is unset, variantCount should be too.`).toBeUndefined();
+                expect(icon.uniqueStates, `${icon.name} code is unset, variantCount should be too.`).toBeUndefined();
                 expect(icon.contributor, `${icon.name} code is unset, contributor should be too.`).toBeUndefined();
             }
             else
             {
-                expect(icon.variantCount, `${icon.name} code is set, variantCount should be too.`).toBeDefined();
+                expect(icon.uniqueStates, `${icon.name} code is set, variantCount should be too.`).toBeDefined();
                 expect(icon.contributor, `${icon.name} code is set, contributor should be too.`).toBeDefined();
             }
         })
@@ -111,7 +111,7 @@ describe("Database Entries Tests", () =>
             .map((entry) => entry.name);
 
         iconFolders.forEach(folder => {
-            const iconCount = Icons.filter(i => i.code == folder)[0].variantCount!;
+            const iconCount = Icons.filter(i => i.code == folder)[0].uniqueStates!;
             let directory = `./public/icons/${folder}`;
             let files = fs.readdirSync(directory, { withFileTypes: true }).map(e => e.name);
             let objFiles = files.filter(file => file.endsWith('.obj'));

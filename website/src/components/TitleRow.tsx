@@ -12,7 +12,7 @@ const TitleRow = ({game: title}: TitleRowProps) => {
     const icon = useMemo(() => title.icons.length > 0 ? title.icons[0] : undefined, [title]);
     const tooltip = useMemo(
         () => contributed 
-            ? `This title has 1 icon with ${icon!.variantCount} unique state${icon!.variantCount! > 1 ? 's' : ''}.`
+            ? `This title has 1 icon with ${icon!.uniqueStates} unique state${icon!.uniqueStates! > 1 ? 's' : ''}.`
             : "This title has not yet been contributed.",
         [contributed, title.icons]
     );
@@ -21,7 +21,7 @@ const TitleRow = ({game: title}: TitleRowProps) => {
         <RowBase
             title={title.name}
             contributed={contributed}
-            circle={icon?.variantCount}
+            circle={icon?.uniqueStates}
             code={icon?.code}
             tooltip={tooltip}
         />
