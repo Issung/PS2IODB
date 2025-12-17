@@ -6,6 +6,7 @@ import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHel
 import * as THREE from "three";
 import Stats from 'stats.js';
 import { IconSys } from "../model/IconSys";
+import { Timeline } from "../utils/Animation";
 
 /**
  * Callback function for the model renderer report back regarding loaded icon data, e.g. number of frames.
@@ -26,6 +27,7 @@ export class ModelRendererImpl {
     // Display properties here, defaults will be overriden by Icon.tsx.
     public prop_animate: boolean = true;
     public prop_animationSpeed: number = 1;
+    public prop_animationLength: number = 0;
     public prop_frame: number = 0; // Which frame to display, if there is animation data and prop_animate is false.
     public prop_grid: boolean = true;
     public prop_textureType: TextureType = TextureType.Icon;
@@ -72,6 +74,8 @@ export class ModelRendererImpl {
     private texture: THREE.Texture | undefined;
     private animData: AnimationData | undefined;
     private mesh: THREE.Mesh<any, any> | undefined;
+
+    private timelines: Timeline[] = [];
 
     static readonly secondsPerAnimationFrame = 0.15;
 
@@ -250,6 +254,17 @@ export class ModelRendererImpl {
             if (animText.startsWith('{')) {
                 let animJson = JSON.parse(animText) as AnimationData;
                 this.animData = animJson;
+
+                this.prop_animationLength = animJson.frameLength / 60;
+                this.timelines = this.animData.frames.map((frame, idx) => {
+                    let keys = frame.keys;
+                    if (idx == 0) {
+                        if (keys[0].time > 0) {
+                            keys.unshift({ time: 0, value: 1 });
+                        }
+                    }
+                    return new Timeline(keys)
+                });
             }
             else {
                 let preview = animText.substring(0, 50).replaceAll('\n', '');
@@ -404,25 +419,33 @@ export class ModelRendererImpl {
         // TODO: There's better ways to do this animationSpeed alteration, but that can come with the keyframing refactor eventually.
         const elapsedTime = this.clock.getElapsedTime() * this.prop_animationSpeed;
         if (this.animData && this.geometry) {
-            let animationTotalFrames = this.animData.frames.length;
-            let secondsForWholeAnimation = ModelRendererImpl.secondsPerAnimationFrame * animationTotalFrames;
-            let animationFrame = !this.prop_animate ? this.clamp(this.prop_frame, 0, animationTotalFrames) : Math.floor((elapsedTime % secondsForWholeAnimation) / ModelRendererImpl.secondsPerAnimationFrame);
-            //console.log(`animationFrame: ${animationFrame}`);
+            const timeInCycle = elapsedTime % this.prop_animationLength;
+            const frame = Math.floor(timeInCycle * 60);
 
-            // Modify the positions of each vertex.
+
             const positionAttribute = this.geometry.attributes.position;
             const updatedPositions = new Float32Array(positionAttribute.count * 3);
-            for (let i = 0; i < positionAttribute.count; i++) {
-                let [x1, y1, z1] = this.wrappedIndex(this.animData.frames, animationFrame).vertexData.slice(i * 3, (i * 3) + 3);
-                x1 = -x1; y1 = -y1;
 
-                let [x2, y2, z2] = this.wrappedIndex(this.animData.frames, animationFrame + 1).vertexData.slice(i * 3, (i * 3) + 3);
-                x2 = -x2; y2 = -y2;
+            let sum = 0;
+            let weights = [];
 
-                let interp = !this.prop_animate ? 0 : (elapsedTime % ModelRendererImpl.secondsPerAnimationFrame) / ModelRendererImpl.secondsPerAnimationFrame;
-                updatedPositions[i * 3 + 0] = this.lerp(x1, x2, interp);
-                updatedPositions[i * 3 + 1] = this.lerp(y1, y2, interp);
-                updatedPositions[i * 3 + 2] = this.lerp(z1, z2, interp);
+            for (const timeline of this.timelines) {
+                let y = timeline.evaluate(frame);
+                sum += y;
+                weights.push(y);
+            }
+
+            for (let j = 0; j < this.animData.frames.length; j++) {
+                const frame = this.animData.frames[j];
+                const normalizedWeight = weights[j] / sum;
+
+                for (let i = 0; i < frame.vertexData.length; i++) {
+                    const [x, y, z] = frame.vertexData.slice(i * 3, (i * 3) + 3);
+
+                    updatedPositions[i * 3 + 0] += -x * normalizedWeight;
+                    updatedPositions[i * 3 + 1] += -y * normalizedWeight;
+                    updatedPositions[i * 3 + 2] += z * normalizedWeight;
+                }
             }
 
             this.geometry.setAttribute('position', new THREE.BufferAttribute(updatedPositions, 3));

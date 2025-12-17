@@ -5,6 +5,7 @@
     "frames":[
         {
             "keys":[
+                {"time": 0.0, "value": 1.0},
                 {"time": 20.0, "value": 0.0},
                 {"time": 100.0, "value": 0.0},
                 {"time": 124.0, "value": 1.0}
@@ -13,6 +14,7 @@
         },
         {
             "keys":[
+                {"time": 0.0, "value": 0.0},
                 {"time": 20.0, "value": 1.0},
                 {"time": 40.0, "value": 0.0}
             ],
@@ -20,6 +22,7 @@
         },
         {
             "keys":[
+                {"time": 20.0, "value": 0.0},
                 {"time": 40.0, "value": 1.0},
                 {"time": 60.0, "value": 0.0}
             ],
@@ -27,6 +30,7 @@
         },
         {
             "keys":[
+                {"time": 40.0, "value": 0.0},
                 {"time": 60.0, "value": 1.0},
                 {"time": 80.0, "value": 0.0}
             ],
@@ -34,6 +38,7 @@
         },
         {
             "keys":[
+                {"time": 60.0, "value": 0.0},
                 {"time": 80.0, "value": 1.0},
                 {"time": 100.0, "value": 0.0}
             ],
@@ -41,6 +46,7 @@
         },
         {
             "keys":[
+                {"time": 80.0, "value": 0.0},
                 {"time": 100.0, "value": 1.0},
                 {"time": 113.0, "value": 0.0}
             ],

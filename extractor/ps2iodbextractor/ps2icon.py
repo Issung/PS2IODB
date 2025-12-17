@@ -58,7 +58,7 @@ _uv_struct = struct.Struct("<hh")
 _color_struct = struct.Struct("<BBBB")
 
 _anim_header_struct = struct.Struct("<IIfII")
-_frame_data_struct = struct.Struct("<IIII")
+_frame_data_struct = struct.Struct("<II")
 _frame_key_struct = struct.Struct("<ff")
 
 _texture_compressed_size_struct = struct.Struct("<I")
@@ -215,10 +215,7 @@ class Icon:
 
             frame = self.Frame()
             (frame.shape_id,
-             frame.key_count,
-             frame.unknown_1,
-             frame.unknown_2) = _frame_data_struct.unpack_from(data, offset)
-            frame.key_count -= 1;   # Is always 1 too large for some reason.
+             frame.key_count) = _frame_data_struct.unpack_from(data, offset)
 
             #print(f"Frame {i}: {frame}.")
 
