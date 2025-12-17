@@ -44,18 +44,22 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
             return Titles;
         }
         else if (index === Category.missing) {
-            let gamesInCategory = Titles.filter(g => !g.icons.some(i => i.code));
+            const gamesInCategory = Titles.filter(g => !g.icons.some(i => i.code));
             return gamesInCategory;
         }
         else if (index === Category.uploaded) {
-            let gamesInCategory = Titles.filter(g => g.icons.some(i => i.code));
+            const gamesInCategory = Titles.filter(g => g.icons.some(i => i.code));
             return gamesInCategory;
         }
+        else if (index === Category.multipleIcons) {
+            const titles = Titles.filter(t => t.icons.length > 1);
+            return titles;
+        }
         else { //if (index > Category.states1 && index < Category.states3)
-            let indexStr = index.toString();
-            let lastChar = indexStr.charAt(index.length - 1);
-            let number = parseInt(lastChar);
-            let gamesInCategory = Titles.filter(g => g.icons.some(i => i.uniqueStates === number));
+            const indexStr = index.toString();
+            const lastChar = indexStr.charAt(index.length - 1);
+            const number = parseInt(lastChar);
+            const gamesInCategory = Titles.filter(g => g.icons.some(i => i.uniqueStates === number));
             return gamesInCategory;
         }
     };
