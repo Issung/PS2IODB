@@ -5,6 +5,7 @@ import Home from './Home';
 import Icon from './Icon';
 import Faq from './Faq';
 import Contribute from './Contribute';
+import Extractor from './Extractor';
 import { HashScroller } from '../components/HashScroller';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
             <Routes>
                 <Route path="/faq" element={<Faq/>}/>
                 <Route path="/contribute" element={<Contribute/>}/>
+                <Route path="/extractor" element={<Extractor/>}/>
                 <Route path="/icon/:iconcode" element={<Icon/>}/>
                 <Route path="/browse/:filterType/:filter" element={<Home/>}/>
                 <Route path="/browse/:filterType" element={<Home/>}/>
