@@ -151,10 +151,11 @@ export const ModelView = ({ source, onTextureInfo, hideControls, onDownload, dow
     }, [source, iconsys, iconInfoCallback]);
 
     // Effect for file-based loading: load into renderer when resolvedAssets is ready
+    // Note: textureType is intentionally not in deps - texture changes are handled by separate effect
     useEffect(() => {
         if (source.type === 'files' && resolvedAssets) {
             renderer.prop_callback = iconInfoCallback;
-            renderer.loadFromAssets(resolvedAssets);
+            renderer.loadFromAssets(resolvedAssets, textureType);
         }
     }, [source, resolvedAssets, iconInfoCallback]);
 
@@ -199,6 +200,15 @@ export const ModelView = ({ source, onTextureInfo, hideControls, onDownload, dow
             cancelRef.cancelled = true;
         };
     }, [source, variant]);
+
+    // Effect for texture type changes (works for both URL and file-based sources)
+    useEffect(() => {
+        // For URL sources, loadVariant handles texture changes via variant/textureType dependencies
+        // For file sources, we need to call changeTextureType directly
+        if (source.type === 'files' && resolvedAssets) {
+            renderer.changeTextureType(textureType, resolvedAssets.textureBlobUrl);
+        }
+    }, [source, textureType, resolvedAssets]);
 
     // Effect for view options (doesn't require loading new assets)
     useEffect(() => {
@@ -302,17 +312,15 @@ export const ModelView = ({ source, onTextureInfo, hideControls, onDownload, dow
                                 </label>
                             </li>
                         )}
-                        {source.type === 'url' && (
-                            <li>
-                                <label>Material
-                                    <select value={textureType} onChange={e => setTextureType(e.target.value as TextureType)}>
-                                        {Object.values(TextureType).map((type) => (
-                                            <option key={type} value={type}>{type}</option>
-                                        ))}
-                                    </select>
-                                </label>
-                            </li>
-                        )}
+                        <li>
+                            <label>Material
+                                <select value={textureType} onChange={e => setTextureType(e.target.value as TextureType)}>
+                                    {Object.values(TextureType).map((type) => (
+                                        <option key={type} value={type}>{type}</option>
+                                    ))}
+                                </select>
+                            </label>
+                        </li>
                         <li>
                             <label>Mesh
                                 <select value={meshType} onChange={e => setMeshType(e.target.value as MeshType)}>

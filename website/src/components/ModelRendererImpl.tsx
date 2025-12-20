@@ -294,7 +294,7 @@ export class ModelRendererImpl {
 
     private async loadTexture(loadingManager: THREE.LoadingManager, textureUrl: string | undefined) {
         const textureLoader = new THREE.TextureLoader(loadingManager);
-        let url = textureUrl ?? this.relativeMtlTextureUrl?.replace('.mtl', '.png') ?? 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg';
+        let url = textureUrl ?? this.relativeMtlTextureUrl?.replace('.mtl', '.png') ?? whiteTextureUrl;
         let texture = await textureLoader.loadAsync(url);
         if (this.mesh) {
             let material = new THREE.MeshPhongMaterial();
@@ -302,6 +302,33 @@ export class ModelRendererImpl {
             material.map.colorSpace = THREE.SRGBColorSpace; // Must set this or else the texture looks washed out.
             this.mesh.material = material;
         }
+    }
+
+    /**
+     * Change the texture type for the currently loaded model.
+     * Works for both URL-based and file-based sources.
+     * @param textureType The texture type to apply
+     * @param iconTextureBlobUrl Optional blob URL for the icon texture (for file-based sources)
+     */
+    public changeTextureType(textureType: TextureType, iconTextureBlobUrl?: string) {
+        if (!this.mesh) {
+            console.warn('changeTextureType: No mesh loaded');
+            return;
+        }
+
+        let textureUrl: string;
+        if (textureType === TextureType.Icon) {
+            // Use the icon's texture - either blob URL or derive from MTL
+            textureUrl = iconTextureBlobUrl ?? this.pendingTextureBlobUrl ?? this.relativeMtlTextureUrl?.replace('.mtl', '.png') ?? whiteTextureUrl;
+        } else if (textureType === TextureType.Test) {
+            textureUrl = testMapTextureUrl;
+        } else {
+            textureUrl = whiteTextureUrl;
+        }
+
+        const loadingManager = new THREE.LoadingManager();
+        this.loadTexture(loadingManager, textureUrl);
+        this.last_textureType = textureType;
     }
 
     loadProgress(_e: ProgressEvent) {
@@ -316,9 +343,11 @@ export class ModelRendererImpl {
     /**
      * Load a model from resolved assets (file-based loading).
      * This is an alternative to loadNewIcon + loadVariant for user-uploaded files.
+     * @param assets The resolved model assets
+     * @param textureType The texture type to apply (default: Icon)
      */
-    public loadFromAssets(assets: ResolvedModelAssets) {
-        console.log(`loadFromAssets: ${assets.currentVariant}`);
+    public loadFromAssets(assets: ResolvedModelAssets, textureType: TextureType = TextureType.Icon) {
+        console.log(`loadFromAssets: ${assets.currentVariant}, textureType: ${textureType}`);
 
         // Apply lighting from iconSys if available
         this.applyIconSysLighting(assets.iconSys);
@@ -327,9 +356,20 @@ export class ModelRendererImpl {
         this.clearScene();
         this.timelines = [];
 
+        // Determine texture URL based on texture type
+        let textureUrl: string | undefined;
+        if (textureType === TextureType.Icon) {
+            textureUrl = assets.textureBlobUrl;
+        } else if (textureType === TextureType.Test) {
+            textureUrl = testMapTextureUrl;
+        } else {
+            textureUrl = whiteTextureUrl;
+        }
+
         // Store the texture blob URL to apply after model loads
         // We can't put blob URLs in the MTL file because MTLLoader's path resolution breaks them
-        this.pendingTextureBlobUrl = assets.textureBlobUrl;
+        this.pendingTextureBlobUrl = textureUrl;
+        this.last_textureType = textureType;
 
         // Load model from content
         const loadingManager = new THREE.LoadingManager(() => this.assetLoadComplete(true));
