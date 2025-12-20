@@ -674,32 +674,39 @@ export class ModelRendererImpl {
         // TODO: There's better ways to do this animationSpeed alteration, but that can come with the keyframing refactor eventually.
         const elapsedTime = this.clock.getElapsedTime() * this.prop_animationSpeed;
         if (this.animData && this.geometry) {
-            const timeInCycle = elapsedTime % this.prop_animationLength;
-            const frame = Math.floor(timeInCycle * 60);
-
-
             const positionAttribute = this.geometry.attributes.position;
             const updatedPositions = new Float32Array(positionAttribute.count * 3);
 
-            let sum = 0;
             let weights = [];
 
-            for (const timeline of this.timelines) {
-                let y = timeline.evaluate(frame);
-                sum += y;
-                weights.push(y);
+            if (this.prop_animate) {
+                // Animated: evaluate timelines to get blended weights
+                const frame = Math.floor((elapsedTime % this.prop_animationLength) * 60);
+                let sum = 0;
+                for (const timeline of this.timelines) {
+                    let y = timeline.evaluate(frame);
+                    sum += y;
+                    weights.push(y);
+                }
+                // Normalize weights
+                weights = weights.map(w => w / sum);
+            } else {
+                // Static: prop_frame is a shape index, show only that shape at full weight
+                for (let j = 0; j < this.animData.frames.length; j++) {
+                    weights.push(j === this.prop_frame ? 1 : 0);
+                }
             }
 
             for (let j = 0; j < this.animData.frames.length; j++) {
                 const frame = this.animData.frames[j];
-                const normalizedWeight = weights[j] / sum;
+                const weight = weights[j];
 
                 for (let i = 0; i < frame.vertexData.length; i++) {
                     const [x, y, z] = frame.vertexData.slice(i * 3, (i * 3) + 3);
 
-                    updatedPositions[i * 3 + 0] += -x * normalizedWeight;
-                    updatedPositions[i * 3 + 1] += -y * normalizedWeight;
-                    updatedPositions[i * 3 + 2] += z * normalizedWeight;
+                    updatedPositions[i * 3 + 0] += -x * weight;
+                    updatedPositions[i * 3 + 1] += -y * weight;
+                    updatedPositions[i * 3 + 2] += z * weight;
                 }
             }
 
