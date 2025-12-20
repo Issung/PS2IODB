@@ -426,7 +426,8 @@ export class ModelRendererImpl {
 
             if (this.prop_animate) {
                 // Animated: evaluate timelines to get blended weights
-                const frame = Math.floor((elapsedTime % this.prop_animationLength) * 60);
+                const timeInCycle = elapsedTime % this.prop_animationLength;
+                const frame = Math.floor(timeInCycle * 60);
                 let sum = 0;
                 for (const timeline of this.timelines) {
                     let y = timeline.evaluate(frame);
