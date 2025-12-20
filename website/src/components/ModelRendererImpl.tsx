@@ -7,6 +7,7 @@ import * as THREE from "three";
 import Stats from 'stats.js';
 import { IconSys } from "../model/IconSys";
 import { Timeline } from "../utils/Animation";
+import { ResolvedModelAssets } from "./ModelSource";
 
 /**
  * Callback function for the model renderer report back regarding loaded icon data, e.g. number of frames.
@@ -47,10 +48,13 @@ export class ModelRendererImpl {
     private last_textureType: TextureType = TextureType.Plain;
 
     /**
-    When an obj file is loaded, this is the relative url of the texture found inside the mtllib. 
+    When an obj file is loaded, this is the relative url of the texture found inside the mtllib.
     This is saved here so that when we wish to change only the texture, we have this without having to load the obj again. */
     private relativeMtlTextureUrl: string | undefined;
-    
+
+    /** Pending texture blob URL to apply after model loads (for file-based loading). */
+    private pendingTextureBlobUrl: string | undefined;
+
     private clock = new THREE.Clock(true);
 
     // Scene items.
@@ -67,6 +71,11 @@ export class ModelRendererImpl {
     private renderer: THREE.WebGLRenderer | undefined;
     private canvas: HTMLCanvasElement | undefined;
     private controls: OrbitControls | undefined;
+
+    // Bound event handlers (stored so they can be removed)
+    private boundOnWindowResize: () => void;
+    private boundOnCanvasClick: ((e: MouseEvent) => void) | undefined;
+    private boundOnCanvasTouchStart: ((e: TouchEvent) => void) | undefined;
 
     private icon: THREE.Group | undefined;
     private pivot: THREE.Group | undefined;
@@ -106,11 +115,13 @@ export class ModelRendererImpl {
             this.stats = this.createStats();
         }
 
-        window.addEventListener('resize', (e) => this.onWindowResize());
-
+        // Bind event handlers so they can be added and removed
+        this.boundOnWindowResize = this.onWindowResize.bind(this);
         this.assetLoadComplete = this.assetLoadComplete.bind(this);
         this.dispose = this.dispose.bind(this);
         this.animate = this.animate.bind(this);
+
+        window.addEventListener('resize', this.boundOnWindowResize);
         this.animate();
     }
 
@@ -142,14 +153,17 @@ export class ModelRendererImpl {
         this.controls.rotateSpeed = 0.2;
         this.controls.update();
 
-        this.canvas.addEventListener('click', (e) => { 
+        // Create and store bound event handlers so they can be removed on dispose
+        this.boundOnCanvasClick = () => {
             this.controls!.autoRotate = false;
             this.controls!.rotateSpeed = 0.2;  // Speed for mice.
-        });
-        this.canvas.addEventListener('touchstart', (e) => { 
+        };
+        this.boundOnCanvasTouchStart = () => {
             this.controls!.autoRotate = false;
             this.controls!.rotateSpeed = 0.4;   // Speed for touch screens.
-        });
+        };
+        this.canvas.addEventListener('click', this.boundOnCanvasClick);
+        this.canvas.addEventListener('touchstart', this.boundOnCanvasTouchStart);
 
         this.last_iconcode = undefined;
         this.last_variant = undefined;
@@ -211,11 +225,10 @@ export class ModelRendererImpl {
             textureType === TextureType.Test ? testMapTextureUrl :
             textureType === TextureType.Plain ? whiteTextureUrl :
             (() => { throw new Error("Unknown TextureType"); })();
-            
+
         if (loadNewModel) {
-            if (this.pivot) {   // Remove existing icon if there is one.
-                this.scene.remove(this.pivot);
-            }
+            // Clear existing model and helpers
+            this.clearScene();
             this.loadModel(loadingManager, this.iconcode, variant, textureUrl);
             this.loadAnimation(this.iconcode, variant);  // Don't await, let it work in the background.
         }
@@ -291,13 +304,146 @@ export class ModelRendererImpl {
         }
     }
 
-    loadProgress(e: ProgressEvent) {
+    loadProgress(_e: ProgressEvent) {
         // TODO: Maybe display download progress for model + texture.
     }
 
     loadError(e: any) {
         // Properties on `e` are `message` and `stack`.
         console.error(`Load error. Message: '${e.message}'`);
+    }
+
+    /**
+     * Load a model from resolved assets (file-based loading).
+     * This is an alternative to loadNewIcon + loadVariant for user-uploaded files.
+     */
+    public loadFromAssets(assets: ResolvedModelAssets) {
+        console.log(`loadFromAssets: ${assets.currentVariant}`);
+
+        // Apply lighting from iconSys if available
+        this.applyIconSysLighting(assets.iconSys);
+
+        // Clear previous model and helpers
+        this.clearScene();
+        this.timelines = [];
+
+        // Store the texture blob URL to apply after model loads
+        // We can't put blob URLs in the MTL file because MTLLoader's path resolution breaks them
+        this.pendingTextureBlobUrl = assets.textureBlobUrl;
+
+        // Load model from content
+        const loadingManager = new THREE.LoadingManager(() => this.assetLoadComplete(true));
+        this.loadModelFromContent(loadingManager, assets.objContent, assets.mtlBlobUrl);
+
+        // Load animation if available
+        if (assets.animContent) {
+            this.parseAnimationContent(assets.animContent);
+        }
+
+        // Store texture info for callback
+        this.relativeMtlTextureUrl = assets.textureFilename;
+        this.fireCallback();
+    }
+
+    /**
+     * Clear the current model and all associated helpers from the scene.
+     * This is called internally when loading new models and externally for cleanup.
+     */
+    public clearScene() {
+        // Remove the pivot (which contains the icon)
+        if (this.pivot) {
+            this.scene.remove(this.pivot);
+            this.pivot = undefined;
+        }
+
+        // Remove vertex normal helper
+        if (this.vertexNormalHelper) {
+            this.scene.remove(this.vertexNormalHelper);
+            this.vertexNormalHelper.dispose();
+            this.vertexNormalHelper = undefined;
+        }
+
+        // Clear references
+        this.icon = undefined;
+        this.mesh = undefined;
+        this.geometry = undefined;
+
+        // Clear animation data
+        this.animData = undefined;
+        this.timelines = [];
+    }
+
+    /**
+     * Apply lighting settings from IconSys.
+     */
+    private applyIconSysLighting(iconSys: IconSys | undefined) {
+        if (iconSys?.ambiLightCol) {
+            this.ambientLight.color = this.color(iconSys.ambiLightCol);
+
+            this.directionalLights[0].color = this.color(iconSys.light1Col!);
+            this.directionalLights[1].color = this.color(iconSys.light2Col!);
+            this.directionalLights[2].color = this.color(iconSys.light3Col!);
+
+            this.directionalLights[0].intensity = defaultIntensity;
+            this.directionalLights[1].intensity = defaultIntensity;
+            this.directionalLights[2].intensity = defaultIntensity;
+
+            this.directionalLights[0].position.copy(this.v3(iconSys.light1Dir!));
+            this.directionalLights[1].position.copy(this.v3(iconSys.light2Dir!));
+            this.directionalLights[2].position.copy(this.v3(iconSys.light3Dir!));
+        }
+        else {
+            this.ambientLight.color = new THREE.Color(1, 1, 1);
+
+            this.directionalLights[0].intensity = 0;
+            this.directionalLights[1].intensity = 0;
+            this.directionalLights[2].intensity = 0;
+        }
+    }
+
+    /**
+     * Load model from OBJ content and MTL blob URL.
+     */
+    private loadModelFromContent(
+        loadingManager: THREE.LoadingManager,
+        objContent: string,
+        mtlBlobUrl: string
+    ) {
+        const objLoader = new TexturedOBJLoader(loadingManager);
+        objLoader.loadFromContent(
+            objContent,
+            mtlBlobUrl,
+            (obj) => { this.icon = obj; },
+            this.loadError
+        );
+    }
+
+    /**
+     * Parse animation content directly (for file-based loading).
+     */
+    private parseAnimationContent(animContent: string) {
+        if (!animContent.startsWith('{')) {
+            console.warn('Animation content does not appear to be JSON');
+            return;
+        }
+
+        try {
+            const animJson = JSON.parse(animContent) as AnimationData;
+            this.animData = animJson;
+            this.prop_animationLength = animJson.frameLength / 60;
+
+            this.timelines = this.animData.frames.map((frame, idx) => {
+                let keys = frame.keys;
+                if (idx == 0) {
+                    if (keys[0].time > 0) {
+                        keys.unshift({ time: 0, value: 1 });
+                    }
+                }
+                return new Timeline(keys);
+            });
+        } catch (e) {
+            console.error('Failed to parse animation content:', e);
+        }
     }
 
     /**
@@ -343,6 +489,12 @@ export class ModelRendererImpl {
                 }
             });
 
+            // Apply pending texture if we have one (from file-based loading)
+            if (this.pendingTextureBlobUrl && this.mesh) {
+                this.applyTextureFromBlobUrl(this.pendingTextureBlobUrl);
+                this.pendingTextureBlobUrl = undefined;
+            }
+
             // Calculate bounding box and "center" of icon.
             let boundingBox = new THREE.Box3().setFromObject(this.icon)
             let center = new THREE.Vector3();
@@ -357,6 +509,30 @@ export class ModelRendererImpl {
             if (reposition) {
                 this.reposition(boundingBox);
             }
+        }
+    }
+
+    /**
+     * Apply a texture from a blob URL to the current mesh.
+     */
+    private async applyTextureFromBlobUrl(blobUrl: string) {
+        if (!this.mesh) return;
+
+        const textureLoader = new THREE.TextureLoader();
+        try {
+            const texture = await textureLoader.loadAsync(blobUrl);
+            const material = new THREE.MeshPhongMaterial();
+            material.map = texture;
+            material.map.colorSpace = THREE.SRGBColorSpace;
+
+            // Preserve vertex colors if the geometry has them
+            if (this.geometry?.attributes.color) {
+                material.vertexColors = true;
+            }
+
+            this.mesh.material = material;
+        } catch (e) {
+            console.error('Failed to load texture from blob URL:', e);
         }
     }
 
@@ -379,12 +555,51 @@ export class ModelRendererImpl {
     }
 
     public dispose() {
-        this.animData = undefined;
-        this.geometry?.dispose();
-        this.texture?.dispose();
-        this.renderer?.dispose();
-        this.initialised = false;
         console.log('ModelRendererImpl dispose.');
+
+        // Clear the current model and helpers from the scene
+        this.clearScene();
+
+        // Dispose texture
+        this.texture?.dispose();
+        this.texture = undefined;
+
+        // Reset tracking variables so next load starts fresh
+        this.iconcode = undefined;
+        this.iconsys = undefined;
+        this.last_iconcode = undefined;
+        this.last_variant = undefined;
+        this.last_textureType = TextureType.Plain;
+        this.relativeMtlTextureUrl = undefined;
+        this.pendingTextureBlobUrl = undefined;
+
+        // Remove canvas event listeners before disposing
+        if (this.canvas) {
+            if (this.boundOnCanvasClick) {
+                this.canvas.removeEventListener('click', this.boundOnCanvasClick);
+                this.boundOnCanvasClick = undefined;
+            }
+            if (this.boundOnCanvasTouchStart) {
+                this.canvas.removeEventListener('touchstart', this.boundOnCanvasTouchStart);
+                this.boundOnCanvasTouchStart = undefined;
+            }
+        }
+
+        // Dispose controls
+        this.controls?.dispose();
+        this.controls = undefined;
+
+        // Remove stats from DOM if present
+        if (this.stats) {
+            this.stats.dom.remove();
+        }
+
+        // Dispose WebGL renderer (this releases GPU resources)
+        this.renderer?.dispose();
+        this.renderer = undefined;
+        this.canvas = undefined;
+
+        this.initialised = false;
     }
 
     onWindowResize() {
