@@ -1,5 +1,5 @@
 import JSZip from "jszip";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Icon as IconModel } from "../model/Icon";
 import { IconSys } from "../model/IconSys";
@@ -15,7 +15,6 @@ import { ModelView, UrlModelLoader } from "../components/ModelView";
  * - Navigation (back button, keyboard shortcuts)
  * - Title and contributor display
  * - Download functionality
- * - Texture preview modal
  */
 const Icon = () => {
     const navigate = useNavigate();
@@ -28,12 +27,6 @@ const Icon = () => {
         }
         return '';
     }, [icon]);
-
-    // Texture preview state
-    const [textureName, setTextureName] = useState<string>();
-    const [enlargeTextureView, setEnlargeTextureView] = useState(false);
-    const [imageRotationDegrees, setImageRotationDegrees] = useState(0);
-    const [imageFlip, setImageFlip] = useState(false);
 
     // Download state
     const [downloadStatus, setDownloadStatus] = useState<string>();
@@ -57,7 +50,7 @@ const Icon = () => {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [enlargeTextureView]);
+    }, []);
 
     function back() {
         if (sessionStorage.getItem(SessionStorageKeys.HasViewedHomePage) === "true") {
@@ -69,18 +62,9 @@ const Icon = () => {
 
     function handleKeyDown(event: KeyboardEvent) {
         if (event.key === 'Escape' || event.key == 'Backspace') {
-            if (enlargeTextureView) {
-                setEnlargeTextureView(false);
-            } else {
-                back();
-            }
+            back();
         }
     }
-
-    // Callback from ModelView when texture is loaded
-    const handleTextureInfo = useCallback((newTextureName: string | undefined) => {
-        setTextureName(newTextureName);
-    }, []);
 
     // Download functionality
     async function download() {
@@ -158,15 +142,6 @@ const Icon = () => {
         URL.revokeObjectURL(url);
     }
 
-    /** Close texture view if clicking outside the image/buttons */
-    function maybeCloseTextureView(event: React.MouseEvent<HTMLElement, MouseEvent>) {
-        const targetNode = event.target as HTMLElement;
-        const allowedTypes = ['BUTTON', 'IMG'];
-        if (allowedTypes.indexOf(targetNode.nodeName) === -1) {
-            setEnlargeTextureView(false);
-        }
-    }
-
     // Create loader for ModelView
     const loader = useMemo(() => {
         if (!iconcode) return undefined;
@@ -197,67 +172,9 @@ const Icon = () => {
             {loader && (
                 <ModelView
                     loader={loader}
-                    onTextureInfo={handleTextureInfo}
                     onDownload={download}
                     downloadStatus={downloadStatus}
                 />
-            )}
-
-            {/* Texture preview thumbnail */}
-            {textureName && (
-                <div id="texture-details">
-                    <img
-                        onClick={() => setEnlargeTextureView(true)}
-                        src={`/icons/${iconcode}/${textureName}.png`}
-                        title={`Icon texture image.`}
-                        style={{transform: `rotate(${imageRotationDegrees}deg)`}}
-                    />
-                </div>
-            )}
-
-            {/* Enlarged texture modal */}
-            {enlargeTextureView && (
-                <div id="enlarged-texture-view" className="container-fluid">
-                    <div className="row">
-                        <div className="d-flex flex-column justify-content-center align-items-center" onClick={e => maybeCloseTextureView(e)}>
-                            <a title={`Icon texture image.`}>
-                                <img
-                                    src={`/icons/${iconcode}/${textureName}.png`}
-                                    style={{transform: `scale(${imageFlip ? -1 : 1}, 1) rotate(${imageRotationDegrees}deg)`}}
-                                />
-                            </a>
-                        </div>
-                    </div>
-                    <div className="row justify-content-center align-items-center" onClick={e => maybeCloseTextureView(e)}>
-                        <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
-                            <button
-                                className="mx-auto d-block"
-                                title="Rotate image 90 degrees anti-clockwise"
-                                onClick={() => setImageRotationDegrees(imageRotationDegrees - 90)}
-                            >
-                                {imageFlip ? '↻' : '↺'}
-                            </button>
-                        </div>
-                        <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
-                            <button
-                                className="mx-auto d-block"
-                                title="Mirror image vertically"
-                                onClick={() => setImageFlip(!imageFlip)}
-                            >
-                                Mirror
-                            </button>
-                        </div>
-                        <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
-                            <button
-                                className="mx-auto d-block"
-                                title="Rotate image 90 degrees clockwise"
-                                onClick={() => setImageRotationDegrees(imageRotationDegrees + 90)}
-                            >
-                                {imageFlip ? '↺' : '↻'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
             )}
         </div>
     );

@@ -13,9 +13,6 @@ export interface ModelViewProps {
     /** The loader to use for fetching model data. */
     loader: ModelLoader;
 
-    /** Optional callback for when texture info is loaded (for external display). */
-    onTextureInfo?: (textureName: string | undefined) => void;
-
     /** Optional: allow external control to hide controls (e.g., for embedding). */
     hideControls?: boolean;
 
@@ -28,7 +25,7 @@ export interface ModelViewProps {
 
 const renderer = new ModelRendererImpl();
 
-export const ModelView = ({ loader, onTextureInfo, hideControls, onDownload, downloadStatus }: ModelViewProps) => {
+export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: ModelViewProps) => {
     // State for loaded data
     const [iconsys, setIconSys] = useState<IconSys | undefined>(undefined);
     const [loadError, setLoadError] = useState<string | undefined>(undefined);
@@ -38,6 +35,11 @@ export const ModelView = ({ loader, onTextureInfo, hideControls, onDownload, dow
     // State for model info (from renderer callback)
     const [frameCount, setFrameCount] = useState(0);
     const [textureName, setTextureName] = useState<string | undefined>(undefined);
+
+    // Texture preview state
+    const [enlargeTextureView, setEnlargeTextureView] = useState(false);
+    const [imageRotationDegrees, setImageRotationDegrees] = useState(0);
+    const [imageFlip, setImageFlip] = useState(false);
 
     // Control state
     const [variant, setVariant] = useState<string | undefined>(undefined);
@@ -59,8 +61,23 @@ export const ModelView = ({ loader, onTextureInfo, hideControls, onDownload, dow
     const iconInfoCallback = useCallback((newFrameCount: number, newTextureName: string | undefined) => {
         setFrameCount(newFrameCount);
         setTextureName(newTextureName);
-        onTextureInfo?.(newTextureName);
-    }, [onTextureInfo]);
+    }, []);
+
+    // Reset texture preview state when loader changes
+    useEffect(() => {
+        setEnlargeTextureView(false);
+        setImageRotationDegrees(0);
+        setImageFlip(false);
+    }, [loader]);
+
+    /** Close texture view if clicking outside the image/buttons */
+    function maybeCloseTextureView(event: React.MouseEvent<HTMLElement, MouseEvent>) {
+        const targetNode = event.target as HTMLElement;
+        const allowedTypes = ['BUTTON', 'IMG'];
+        if (allowedTypes.indexOf(targetNode.nodeName) === -1) {
+            setEnlargeTextureView(false);
+        }
+    }
 
     // Initialize renderer
     useEffect(() => {
@@ -277,6 +294,63 @@ export const ModelView = ({ loader, onTextureInfo, hideControls, onDownload, dow
                             </li>
                         )}
                     </ul>
+                </div>
+            )}
+
+            {/* Texture preview thumbnail */}
+            {!hideControls && textureName && resolvedAssets?.textureBlobUrl && (
+                <div className="texture-details">
+                    <img
+                        onClick={() => setEnlargeTextureView(true)}
+                        src={resolvedAssets.textureBlobUrl}
+                        title={`Icon texture image.`}
+                        style={{transform: `rotate(${imageRotationDegrees}deg)`}}
+                    />
+                </div>
+            )}
+
+            {/* Enlarged texture modal */}
+            {enlargeTextureView && resolvedAssets?.textureBlobUrl && (
+                <div className="enlarged-texture-view container-fluid">
+                    <div className="row">
+                        <div className="d-flex flex-column justify-content-center align-items-center" onClick={e => maybeCloseTextureView(e)}>
+                            <a title={`Icon texture image.`}>
+                                <img
+                                    src={resolvedAssets.textureBlobUrl}
+                                    style={{transform: `scale(${imageFlip ? -1 : 1}, 1) rotate(${imageRotationDegrees}deg)`}}
+                                />
+                            </a>
+                        </div>
+                    </div>
+                    <div className="row justify-content-center align-items-center" onClick={e => maybeCloseTextureView(e)}>
+                        <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
+                            <button
+                                className="mx-auto d-block"
+                                title="Rotate image 90 degrees anti-clockwise"
+                                onClick={() => setImageRotationDegrees(imageRotationDegrees - 90)}
+                            >
+                                {imageFlip ? '↻' : '↺'}
+                            </button>
+                        </div>
+                        <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
+                            <button
+                                className="mx-auto d-block"
+                                title="Mirror image vertically"
+                                onClick={() => setImageFlip(!imageFlip)}
+                            >
+                                Mirror
+                            </button>
+                        </div>
+                        <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
+                            <button
+                                className="mx-auto d-block"
+                                title="Rotate image 90 degrees clockwise"
+                                onClick={() => setImageRotationDegrees(imageRotationDegrees + 90)}
+                            >
+                                {imageFlip ? '↺' : '↻'}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
