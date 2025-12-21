@@ -1,3 +1,4 @@
+import JSZip from "jszip";
 import { IconSys } from "../model/IconSys";
 
 // ============================================================================
@@ -243,6 +244,59 @@ export class FileModelLoader implements ModelLoader {
         this.modelFiles = modelFiles;
     }
 
+    /**
+     * Create a FileModelLoader from a zip file.
+     * The zip must contain iconsys.json and the referenced .obj, .mtl, .png files.
+     * Animation files (.anim) are optional.
+     * @param file The zip file to load
+     * @returns A FileModelLoader instance ready to use
+     */
+    static async fromZipFile(file: File): Promise<FileModelLoader> {
+        const zip = await JSZip.loadAsync(file);
+        const filesMap = new Map<string, Blob>();
+        let iconSys: IconSys | undefined;
+
+        // Extract all files from the zip
+        const filePromises: Promise<void>[] = [];
+
+        zip.forEach((relativePath, zipEntry) => {
+            if (zipEntry.dir) return;
+
+            // Get just the filename (handle nested folders)
+            const filename = relativePath.split('/').pop() || relativePath;
+
+            const promise = (async () => {
+                if (filename === 'iconsys.json') {
+                    const text = await zipEntry.async('text');
+                    if (!text.startsWith('{')) {
+                        throw new Error('iconsys.json is not valid JSON');
+                    }
+                    iconSys = JSON.parse(text) as IconSys;
+                } else if (filename.endsWith('.png')) {
+                    const blob = await zipEntry.async('blob');
+                    filesMap.set(filename, new Blob([blob], { type: 'image/png' }));
+                } else {
+                    const blob = await zipEntry.async('blob');
+                    filesMap.set(filename, blob);
+                }
+            })();
+
+            filePromises.push(promise);
+        });
+
+        await Promise.all(filePromises);
+
+        // Require iconsys.json
+        if (!iconSys) {
+            throw new Error('iconsys.json not found in the zip archive. This file is required.');
+        }
+
+        return new FileModelLoader({
+            files: filesMap,
+            iconSys
+        });
+    }
+
     async initialize(): Promise<void> {
         // Load the default variant
         this.currentAssets = await this.resolveVariant(this.modelFiles.iconSys.normal);
@@ -283,7 +337,7 @@ export class FileModelLoader implements ModelLoader {
      * Reads file references from OBJ/MTL content to find the correct files.
      */
     private async resolveVariant(variant: string): Promise<ResolvedModelAssets> {
-        const { files, iconSys } = this.modelFiles;
+        const { iconSys } = this.modelFiles;
         const objFilename = `${variant}.obj`;
         const animFilename = `${variant}.anim`;
 
