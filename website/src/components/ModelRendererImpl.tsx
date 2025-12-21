@@ -580,7 +580,7 @@ export class ModelRendererImpl {
     private fireCallback() {
         this.prop_callback(
             this.animData?.frames?.length ?? 0,
-            this.removePathAndExtension(this.relativeMtlTextureUrl)
+            this.removePath(this.relativeMtlTextureUrl)
         );
     }
 
@@ -742,16 +742,13 @@ export class ModelRendererImpl {
         return array[index % array.length];
     }
 
-    /** Turn string 'test/bababooey/tet.ico.mtl' into 'tet.ico'. */
-    removePathAndExtension(input: string | undefined): string | undefined {
+    /** Turn string 'test/bababooey/tet.ico.mtl' into 'tet.ico.mtl'. */
+    removePath(input: string | undefined): string | undefined {
         if (!input) {
             return input;
         }
 
-        // Match everything after the last slash and before the last dot
-        const regex = /[^\/]+(?=\.[^.]*$)/;
-        const match = input.match(regex);
-        return match ? match[0] : input;
+        return input.split('/').pop();
     }
 
     v3(numbers: number[]) {
