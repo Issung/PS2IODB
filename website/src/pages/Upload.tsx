@@ -1,7 +1,7 @@
 import JSZip from "jszip";
 import { useCallback, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ModelView, ModelFiles } from "../components/ModelView";
+import { ModelView, FileModelLoader, type ModelFiles } from "../components/ModelView";
 import { IconSys } from "../model/IconSys";
 import './Upload.scss';
 
@@ -28,58 +28,44 @@ const Upload = () => {
             const zip = await JSZip.loadAsync(file);
             const filesMap = new Map<string, Blob>();
             let iconSys: IconSys | undefined;
-            let objFilename: string | undefined;
 
             // Extract all files from the zip
             const filePromises: Promise<void>[] = [];
-            
+
             zip.forEach((relativePath, zipEntry) => {
                 if (zipEntry.dir) return;
-                
+
                 // Get just the filename (handle nested folders)
                 const filename = relativePath.split('/').pop() || relativePath;
-                
+
                 const promise = (async () => {
                     if (filename === 'iconsys.json') {
                         const text = await zipEntry.async('text');
-                        if (text.startsWith('{')) {
-                            iconSys = JSON.parse(text) as IconSys;
+                        if (!text.startsWith('{')) {
+                            throw new Error('iconsys.json is not valid JSON');
                         }
+                        iconSys = JSON.parse(text) as IconSys;
                     } else if (filename.endsWith('.png')) {
                         const blob = await zipEntry.async('blob');
                         filesMap.set(filename, new Blob([blob], { type: 'image/png' }));
                     } else {
                         const blob = await zipEntry.async('blob');
                         filesMap.set(filename, blob);
-                        
-                        // Track the first OBJ file we find
-                        if (filename.endsWith('.obj') && !objFilename) {
-                            objFilename = filename;
-                        }
                     }
                 })();
-                
+
                 filePromises.push(promise);
             });
 
             await Promise.all(filePromises);
 
-            // If we have iconsys, use its normal variant as the obj filename
-            if (iconSys?.normal) {
-                objFilename = `${iconSys.normal}.obj`;
-            }
-
-            if (!objFilename) {
-                throw new Error('No .obj file found in the zip archive.');
-            }
-
-            if (!filesMap.has(objFilename)) {
-                throw new Error(`OBJ file "${objFilename}" not found in the zip archive.`);
+            // Require iconsys.json
+            if (!iconSys) {
+                throw new Error('iconsys.json not found in the zip archive. This file is required.');
             }
 
             const result: ModelFiles = {
                 files: filesMap,
-                objFilename,
                 iconSys
             };
 
@@ -98,13 +84,11 @@ const Upload = () => {
         setFileName(undefined);
     }, []);
 
-    // Memoize the source to prevent unnecessary re-renders of ModelView
-    const modelSource = useMemo(() => {
+    // Create loader for ModelView
+    const loader = useMemo(() => {
         if (!modelFiles) return undefined;
-        return { type: 'files' as const, files: modelFiles };
+        return new FileModelLoader(modelFiles);
     }, [modelFiles]);
-
-    console.log('Upload', { modelFiles, isLoading });
 
     return (
         <div id="upload">
@@ -115,13 +99,13 @@ const Upload = () => {
                     <h2>Upload Icon Assets</h2>
                     <p>Upload a zip file containing PS2 icon assets to preview them.</p>
                     <p className="hint">
-                        The zip should contain: <code>.obj</code>, <code>.mtl</code>, <code>.png</code> files,
-                        and optionally <code>.anim</code> and <code>iconsys.json</code> files.
+                        The zip must contain <code>iconsys.json</code> and the referenced <code>.obj</code>, <code>.mtl</code>, <code>.png</code> files.
+                        Animation files (<code>.anim</code>) are optional.
                     </p>
-                    
+
                     <label className="file-input-label">
-                        <input 
-                            type="file" 
+                        <input
+                            type="file"
                             accept=".zip"
                             onChange={handleFileUpload}
                             disabled={isLoading}
@@ -134,7 +118,7 @@ const Upload = () => {
                     {fileName && <p className="file-name">Selected: {fileName}</p>}
                     {error && <p className="error">{error}</p>}
                 </div>
-            ) : modelSource && (
+            ) : loader && (
                 <>
                     <div id="title">
                         <h5>Uploaded Icon</h5>
@@ -144,7 +128,7 @@ const Upload = () => {
                         </button>
                     </div>
 
-                    <ModelView source={modelSource} />
+                    <ModelView loader={loader} />
                 </>
             )}
         </div>

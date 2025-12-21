@@ -4,14 +4,14 @@ import { ModelRendererImpl } from "./ModelRendererImpl";
 import './ModelView.scss';
 import { BackgroundType, MeshType, TextureType } from "./ModelViewParams";
 import { Utils } from "../utils/Utils";
-import { ModelFiles, ModelSource, ResolvedModelAssets, resolveModelFiles, revokeModelAssets } from "./ModelSource";
+import { ModelLoader, ResolvedModelAssets } from "./ModelLoader";
 
 // Re-export for convenience
-export type { ModelSource, ModelFiles };
+export { UrlModelLoader, FileModelLoader, type ModelFiles } from "./ModelLoader";
 
 export interface ModelViewProps {
-    /** The source of the model data - either URL-based or file-based. */
-    source: ModelSource;
+    /** The loader to use for fetching model data. */
+    loader: ModelLoader;
 
     /** Optional callback for when texture info is loaded (for external display). */
     onTextureInfo?: (textureName: string | undefined) => void;
@@ -28,11 +28,12 @@ export interface ModelViewProps {
 
 const renderer = new ModelRendererImpl();
 
-export const ModelView = ({ source, onTextureInfo, hideControls, onDownload, downloadStatus }: ModelViewProps) => {
+export const ModelView = ({ loader, onTextureInfo, hideControls, onDownload, downloadStatus }: ModelViewProps) => {
     // State for loaded data
     const [iconsys, setIconSys] = useState<IconSys | undefined>(undefined);
     const [loadError, setLoadError] = useState<string | undefined>(undefined);
     const [resolvedAssets, setResolvedAssets] = useState<ResolvedModelAssets | undefined>(undefined);
+    const [variants, setVariants] = useState<string[]>([]);
 
     // State for model info (from renderer callback)
     const [frameCount, setFrameCount] = useState(0);
@@ -54,16 +55,6 @@ export const ModelView = ({ source, onTextureInfo, hideControls, onDownload, dow
         return iconsys !== undefined && iconsys.bgColBL !== undefined;
     }, [iconsys]);
 
-    const variants = useMemo(() => {
-        if (iconsys) {
-            return Array.from(new Set([iconsys.normal, iconsys.copy, iconsys.delete]));
-        }
-        if (resolvedAssets) {
-            return resolvedAssets.variants;
-        }
-        return [];
-    }, [iconsys, resolvedAssets]);
-
     // Callback for renderer to report info back
     const iconInfoCallback = useCallback((newFrameCount: number, newTextureName: string | undefined) => {
         setFrameCount(newFrameCount);
@@ -77,119 +68,72 @@ export const ModelView = ({ source, onTextureInfo, hideControls, onDownload, dow
         return renderer.dispose;
     }, []);
 
-    // Load icon data based on source type
+    // Effect: Initialize loader and load default variant
     useEffect(() => {
         const cancelRef = { cancelled: false };
         setLoadError(undefined);
 
-        if (source.type === 'url') {
-            // URL-based loading: fetch iconsys.json
-            fetchIconSys(source.iconcode, cancelRef);
-        } else {
-            // File-based loading: resolve files to assets
-            loadFromFiles(source.files, cancelRef);
-        }
+        (async () => {
+            try {
+                // Initialize the loader
+                await loader.initialize();
+                if (cancelRef.cancelled) return;
 
-        // Cleanup function - clear model and revoke blob URLs
-        // This is important for React StrictMode which unmounts/remounts
+                // Get metadata from the loader
+                const iconSysData = loader.getIconSys();
+                const variantList = loader.getVariants();
+                const defaultVariant = loader.getDefaultVariant();
+
+                setIconSys(iconSysData);
+                setVariants(variantList);
+                setVariant(defaultVariant);
+                setBackgroundType(iconSysData?.bgColBL ? BackgroundType.Icon : BackgroundType.Color);
+
+                // Load the default variant
+                const assets = await loader.loadVariant(defaultVariant);
+                if (cancelRef.cancelled) return;
+
+                setResolvedAssets(assets);
+            } catch (e) {
+                if (cancelRef.cancelled) return;
+                if (e instanceof Error) {
+                    setLoadError('Error loading model. ' + e.message);
+                }
+            }
+        })();
+
+        // Cleanup function
         return () => {
             cancelRef.cancelled = true;
             renderer.clearScene();
-            if (resolvedAssets) {
-                revokeModelAssets(resolvedAssets);
-            }
+            loader.dispose();
         };
-    }, [source]);
+    }, [loader]);
 
-    async function fetchIconSys(iconcode: string, cancelRef: { cancelled: boolean }) {
-        try {
-            const url = `/icons/${iconcode}/iconsys.json`;
-            const response = await fetch(url);
-            if (cancelRef.cancelled) return; // Don't update state if effect was cleaned up
-
-            const text = await response.text();
-
-            if (text.startsWith('{')) {
-                const tmpiconsys = JSON.parse(text) as IconSys;
-                setIconSys(tmpiconsys);
-                setVariant(tmpiconsys.normal);
-                setBackgroundType(tmpiconsys.bgColBL ? BackgroundType.Icon : BackgroundType.Color);
-            } else {
-                throw new Error(`IconSys JSON response did not start with '{'.`);
-            }
-        } catch (e) {
-            if (cancelRef.cancelled) return;
-            if (e instanceof Error) {
-                setLoadError('Error loading icon data. ' + e.message);
-            }
-        }
-    }
-
-    async function loadFromFiles(files: ModelFiles, cancelRef: { cancelled: boolean }) {
-        try {
-            const assets = await resolveModelFiles(files);
-            if (cancelRef.cancelled) return; // Don't update state if effect was cleaned up
-
-            setResolvedAssets(assets);
-            setIconSys(assets.iconSys);
-            setVariant(assets.currentVariant);
-            setBackgroundType(assets.iconSys?.bgColBL ? BackgroundType.Icon : BackgroundType.Color);
-        } catch (e) {
-            if (cancelRef.cancelled) return;
-            if (e instanceof Error) {
-                setLoadError('Error loading files. ' + e.message);
-            }
-        }
-    }
-
-    // Effect for URL-based loading: load icon into renderer when iconsys is ready
+    // Effect: Load assets into renderer when resolvedAssets changes
     useEffect(() => {
-        if (source.type === 'url' && iconsys) {
-            renderer.prop_callback = iconInfoCallback;
-            renderer.loadNewIcon(source.iconcode, iconsys);
-        }
-    }, [source, iconsys, iconInfoCallback]);
+        if (!resolvedAssets) return;
 
-    // Effect for file-based loading: load into renderer when resolvedAssets is ready
-    // Note: textureType is intentionally not in deps - texture changes are handled by separate effect
-    useEffect(() => {
-        if (source.type === 'files' && resolvedAssets) {
-            renderer.prop_callback = iconInfoCallback;
-            renderer.loadFromAssets(resolvedAssets, textureType);
-        }
-    }, [source, resolvedAssets, iconInfoCallback]);
-
-    // Effect for URL-based variant/texture changes
-    useEffect(() => {
         renderer.prop_callback = iconInfoCallback;
-        if (source.type === 'url' && variant) {
-            renderer.loadVariant(variant, textureType);
-        }
-    }, [source, variant, textureType, iconInfoCallback]);
+        renderer.loadFromAssets(resolvedAssets, textureType);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [resolvedAssets, iconInfoCallback]); // textureType excluded - handled by texture effect
 
-    // Effect for file-based variant changes: re-resolve files with new variant
+    // Effect: Handle variant changes (after initial load)
     useEffect(() => {
-        if (source.type !== 'files' || !variant || !resolvedAssets) return;
+        if (!variant || !resolvedAssets) return;
 
-        // Skip if this is the initial variant (already loaded by loadFromFiles)
+        // Skip if this is the current variant (already loaded)
         if (variant === resolvedAssets.currentVariant) return;
 
         const cancelRef = { cancelled: false };
 
         (async () => {
             try {
-                // Revoke old blob URLs before creating new ones
-                revokeModelAssets(resolvedAssets);
+                const assets = await loader.loadVariant(variant);
+                if (cancelRef.cancelled) return;
 
-                // Re-resolve with new variant
-                const newAssets = await resolveModelFiles(source.files, variant);
-                if (cancelRef.cancelled) {
-                    revokeModelAssets(newAssets);
-                    return;
-                }
-
-                setResolvedAssets(newAssets);
-                // Note: The file-based loading effect above will handle loading into renderer
+                setResolvedAssets(assets);
             } catch (e) {
                 if (cancelRef.cancelled) return;
                 console.error('Error switching variant:', e);
@@ -199,16 +143,13 @@ export const ModelView = ({ source, onTextureInfo, hideControls, onDownload, dow
         return () => {
             cancelRef.cancelled = true;
         };
-    }, [source, variant]);
+    }, [loader, variant, resolvedAssets]);
 
-    // Effect for texture type changes (works for both URL and file-based sources)
+    // Effect: Handle texture type changes
     useEffect(() => {
-        // For URL sources, loadVariant handles texture changes via variant/textureType dependencies
-        // For file sources, we need to call changeTextureType directly
-        if (source.type === 'files' && resolvedAssets) {
-            renderer.changeTextureType(textureType, resolvedAssets.textureBlobUrl);
-        }
-    }, [source, textureType, resolvedAssets]);
+        if (!resolvedAssets) return;
+        renderer.changeTextureType(textureType, resolvedAssets.textureBlobUrl);
+    }, [textureType, resolvedAssets]);
 
     // Effect for view options (doesn't require loading new assets)
     useEffect(() => {
@@ -231,8 +172,6 @@ export const ModelView = ({ source, onTextureInfo, hideControls, onDownload, dow
         }
         return `linear-gradient(to top left, ${backgroundColor}, ${backgroundColor})`;
     }, [backgroundType, backgroundColor, iconsys]);
-
-    console.log('ModelView', { source });
 
     return (
         <div id="model-view">

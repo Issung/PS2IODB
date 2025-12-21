@@ -7,7 +7,7 @@ import * as THREE from "three";
 import Stats from 'stats.js';
 import { IconSys } from "../model/IconSys";
 import { Timeline } from "../utils/Animation";
-import { ResolvedModelAssets } from "./ModelSource";
+import { ResolvedModelAssets } from "./ModelLoader";
 
 /**
  * Callback function for the model renderer report back regarding loaded icon data, e.g. number of frames.
@@ -39,12 +39,7 @@ export class ModelRendererImpl {
      */
     public prop_callback: IconInfoCallback = () => {};
 
-    private iconcode: string | undefined;
-    private iconsys : IconSys | undefined;
-
-    // Store the last props set, to skip loading things already loaded.
-    private last_iconcode: string | undefined;
-    private last_variant: string | undefined;
+    // Store the last texture type loaded
     private last_textureType: TextureType = TextureType.Plain;
 
     /**
@@ -165,141 +160,22 @@ export class ModelRendererImpl {
         this.canvas.addEventListener('click', this.boundOnCanvasClick);
         this.canvas.addEventListener('touchstart', this.boundOnCanvasTouchStart);
 
-        this.last_iconcode = undefined;
-        this.last_variant = undefined;
         this.last_textureType = TextureType.Icon;
 
         this.initialised = true;
     }
 
-    public loadNewIcon(
-        iconcode: string,
-        iconsys: IconSys
-    ) {
-        console.log(`loadNewIcon: ${iconcode}.`);
-
-        this.iconcode = iconcode;
-        this.iconsys = iconsys;
-
-        if (iconsys.ambiLightCol) {
-            this.ambientLight.color = this.color(iconsys.ambiLightCol);
-            
-            this.directionalLights[0].color = this.color(iconsys.light1Col!);
-            this.directionalLights[1].color = this.color(iconsys.light2Col!);
-            this.directionalLights[2].color = this.color(iconsys.light3Col!);
-            
-            this.directionalLights[0].intensity = defaultIntensity;
-            this.directionalLights[1].intensity = defaultIntensity;
-            this.directionalLights[2].intensity = defaultIntensity;
-
-            this.directionalLights[0].position.copy(this.v3(iconsys.light1Dir!));
-            this.directionalLights[1].position.copy(this.v3(iconsys.light2Dir!));
-            this.directionalLights[2].position.copy(this.v3(iconsys.light3Dir!));
-        }
-        else {
-            this.ambientLight.color = new THREE.Color(1, 1, 1);
-            
-            this.directionalLights[0].intensity = 0;
-            this.directionalLights[1].intensity = 0;
-            this.directionalLights[2].intensity = 0;
-        }
-    }
-
-    public loadVariant(
-        variant: string,
-        textureType: TextureType
-    ) {
-        if (!this.iconcode || !this.iconsys) {
-            throw new Error('Cannot load variant while iconcode/iconsys is undefined.');
-        }
-
-        console.log(`ModelRendererImpl loadVariant. variant: ${variant}, textureType: ${textureType}.`);
-        let loadNewModel = this.iconcode != this.last_iconcode || this.last_variant !== variant;
-        let loadNewTexture = this.last_textureType !== textureType;
-        let requireReposition = loadNewModel;
-        const loadingManager = new THREE.LoadingManager(() => this.assetLoadComplete(requireReposition));
-
-        // Load model & texture.
-        let textureUrl =
-            textureType === TextureType.Icon ? undefined :  // Load texture defined in mtl referenced by obj.
-            textureType === TextureType.Test ? testMapTextureUrl :
-            textureType === TextureType.Plain ? whiteTextureUrl :
-            (() => { throw new Error("Unknown TextureType"); })();
-
-        if (loadNewModel) {
-            // Clear existing model and helpers
-            this.clearScene();
-            this.loadModel(loadingManager, this.iconcode, variant, textureUrl);
-            this.loadAnimation(this.iconcode, variant);  // Don't await, let it work in the background.
-        }
-        else if (loadNewTexture) {  // Not changing model, only changing texture.
-            this.loadTexture(loadingManager, textureUrl); // Don't await, let it work in the background.
-        }
-
-        this.last_iconcode = this.iconcode;
-        this.last_variant = variant;
-        this.last_textureType = textureType;
-    }
-
-    private loadModel(loadingManager: THREE.LoadingManager, iconcode: string, variant: string, textureUrl: string | undefined) {
-        const objLoader = new TexturedOBJLoader(loadingManager);
-        objLoader.loadV2(
-            `/icons/${iconcode}/${variant}.obj`,
-            textureUrl,
-            this.loadProgress,
-            (str) => { 
-                this.relativeMtlTextureUrl = str;
-                this.fireCallback();
-            },
-            this.loadError,
-            (obj) => { this.icon = obj; }
-        );
-    }
-
-    private async loadAnimation(iconcode: string, variant: string) {
-        // Unload existing animData so it is not erroneously applied to a different model.
-        this.animData = undefined;
-        // Fetch animation data (if request doesn't succeed assume there is no animation).
-        let animResponse = await fetch(`/icons/${iconcode}/${variant}.anim`);
-        if (animResponse.ok) {
-            let animText = await animResponse.text();
-
-            if (animText.startsWith('{')) {
-                let animJson = JSON.parse(animText) as AnimationData;
-                this.animData = animJson;
-
-                this.prop_animationLength = animJson.frameLength / 60;
-                this.timelines = this.animData.frames.map((frame, idx) => {
-                    let keys = frame.keys;
-                    if (idx == 0) {
-                        if (keys[0].time > 0) {
-                            keys.unshift({ time: 0, value: 1 });
-                        }
-                    }
-                    return new Timeline(keys)
-                });
-            }
-            else {
-                let preview = animText.substring(0, 50).replaceAll('\n', '');
-                let dots = animText.length > 50 ? '...' : '';
-                console.warn(`Animation data request response did appear to be JSON. Preview: ${preview}${dots}`);
-            }
-        }
-        else {
-            console.warn(`Request for animation data failed with status ${animResponse.status}`);
-        }
-
-        this.fireCallback();
-    }
-
-    private async loadTexture(loadingManager: THREE.LoadingManager, textureUrl: string | undefined) {
-        const textureLoader = new THREE.TextureLoader(loadingManager);
-        let url = textureUrl ?? this.relativeMtlTextureUrl?.replace('.mtl', '.png') ?? whiteTextureUrl;
-        let texture = await textureLoader.loadAsync(url);
+    private async loadTexture(textureUrl: string) {
+        const textureLoader = new THREE.TextureLoader();
+        let texture = await textureLoader.loadAsync(textureUrl);
         if (this.mesh) {
             let material = new THREE.MeshPhongMaterial();
             material.map = texture;
             material.map.colorSpace = THREE.SRGBColorSpace; // Must set this or else the texture looks washed out.
+            // Preserve vertex colors if the geometry has them
+            if (this.geometry?.attributes.color) {
+                material.vertexColors = true;
+            }
             this.mesh.material = material;
         }
     }
@@ -326,13 +202,8 @@ export class ModelRendererImpl {
             textureUrl = whiteTextureUrl;
         }
 
-        const loadingManager = new THREE.LoadingManager();
-        this.loadTexture(loadingManager, textureUrl);
+        this.loadTexture(textureUrl);
         this.last_textureType = textureType;
-    }
-
-    loadProgress(_e: ProgressEvent) {
-        // TODO: Maybe display download progress for model + texture.
     }
 
     loadError(e: any) {
@@ -605,10 +476,6 @@ export class ModelRendererImpl {
         this.texture = undefined;
 
         // Reset tracking variables so next load starts fresh
-        this.iconcode = undefined;
-        this.iconsys = undefined;
-        this.last_iconcode = undefined;
-        this.last_variant = undefined;
         this.last_textureType = TextureType.Plain;
         this.relativeMtlTextureUrl = undefined;
         this.pendingTextureBlobUrl = undefined;
@@ -719,16 +586,6 @@ export class ModelRendererImpl {
 
         this.renderer?.render(this.scene, this.camera);
     }
-
-    /*function getNextStep(current: number, max: number, step: number) {
-        const steps = Array.from({ length: (max / step) }, (_, i) => (i + 1) * step);
-        let next = steps.find((s) => s > current);
-        if (!next)
-        {
-            next = step;
-        }
-        return next;
-    }*/
 
     clamp(value: number, min: number, max: number): number {
         return Math.max(min, Math.min(value, max));

@@ -6,7 +6,7 @@ import { IconSys } from "../model/IconSys";
 import { Titles } from "../model/Titles";
 import { SessionStorageKeys } from '../utils/Consts';
 import './Icon.scss';
-import { ModelView } from "../components/ModelView";
+import { ModelView, UrlModelLoader } from "../components/ModelView";
 
 /**
  * This component serves as a page, routed to by App.tsx.
@@ -167,10 +167,10 @@ const Icon = () => {
         }
     }
 
-    // Create source prop for ModelView
-    const modelSource = useMemo(() => {
+    // Create loader for ModelView
+    const loader = useMemo(() => {
         if (!iconcode) return undefined;
-        return { type: 'url' as const, iconcode };
+        return new UrlModelLoader(iconcode);
     }, [iconcode]);
 
     return (
@@ -194,9 +194,9 @@ const Icon = () => {
                 )}
             </div>
 
-            {modelSource && (
+            {loader && (
                 <ModelView
-                    source={modelSource}
+                    loader={loader}
                     onTextureInfo={handleTextureInfo}
                     onDownload={download}
                     downloadStatus={downloadStatus}
