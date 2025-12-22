@@ -298,7 +298,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
             )}
 
             {/* Texture preview thumbnail */}
-            {!hideControls && textureName && resolvedAssets?.textureBlobUrl && (
+            {!hideControls && textureName && resolvedAssets && (
                 <div className="texture-details">
                     <img
                         onClick={() => setEnlargeTextureView(true)}
@@ -310,7 +310,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
             )}
 
             {/* Enlarged texture modal */}
-            {enlargeTextureView && resolvedAssets?.textureBlobUrl && (
+            {enlargeTextureView && resolvedAssets && (
                 <div className="enlarged-texture-view container-fluid">
                     <div className="row">
                         <div className="d-flex flex-column justify-content-center align-items-center" onClick={e => maybeCloseTextureView(e)}>

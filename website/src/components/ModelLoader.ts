@@ -25,9 +25,9 @@ export class ResolvedModelAssets {
         /** Blob URL for the MTL file (with texture reference rewritten) */
         readonly mtlBlobUrl: string,
         /** Blob URL for the texture image */
-        readonly textureBlobUrl: string | undefined,
+        readonly textureBlobUrl: string,
         /** The filename of the texture (for display purposes) */
-        readonly textureFilename: string | undefined,
+        readonly textureFilename: string,
         /** Animation data if available */
         readonly animContent: string | undefined,
         /** IconSys data */
@@ -42,12 +42,8 @@ export class ResolvedModelAssets {
      * Revokes all blob URLs to prevent memory leaks.
      */
     dispose(): void {
-        if (this.mtlBlobUrl) {
-            URL.revokeObjectURL(this.mtlBlobUrl);
-        }
-        if (this.textureBlobUrl) {
-            URL.revokeObjectURL(this.textureBlobUrl);
-        }
+        URL.revokeObjectURL(this.mtlBlobUrl);
+        URL.revokeObjectURL(this.textureBlobUrl);
     }
 }
 
@@ -144,37 +140,42 @@ export class UrlModelLoader implements ModelLoader {
         const mtllibLine = objContent.split('\n').find(l => l.startsWith('mtllib '));
         const mtlFilename = mtllibLine?.substring('mtllib '.length).trim();
 
-        let mtlBlobUrl = '';
-        let textureBlobUrl: string | undefined;
-        let textureFilename: string | undefined;
-
-        if (mtlFilename) {
-            // Fetch MTL content
-            const mtlResponse = await fetch(`${baseUrl}/${mtlFilename}`);
-            if (mtlResponse.ok) {
-                let mtlContent = await mtlResponse.text();
-
-                // Find texture reference
-                const mapKdLine = mtlContent.split('\n').find(l => l.trim().startsWith('map_Kd '));
-                if (mapKdLine) {
-                    textureFilename = mapKdLine.trim().substring('map_Kd '.length).trim();
-                    if (textureFilename) {
-                        // Fetch texture and create blob URL
-                        const textureResponse = await fetch(`${baseUrl}/${textureFilename}`);
-                        if (textureResponse.ok) {
-                            const textureBlob = await textureResponse.blob();
-                            textureBlobUrl = URL.createObjectURL(textureBlob);
-                        }
-                        // Remove texture reference from MTL (we apply it manually)
-                        mtlContent = mtlContent.replace(mapKdLine, '# map_Kd removed for blob loading');
-                    }
-                }
-
-                // Create blob URL for MTL
-                const mtlBlob = new Blob([mtlContent], { type: 'text/plain' });
-                mtlBlobUrl = URL.createObjectURL(mtlBlob);
-            }
+        if (!mtlFilename) {
+            throw new Error(`OBJ file does not specify an MTL file (missing mtllib directive)`);
         }
+
+        // Fetch MTL content
+        const mtlResponse = await fetch(`${baseUrl}/${mtlFilename}`);
+        if (!mtlResponse.ok) {
+            throw new Error(`Failed to fetch MTL file: ${mtlResponse.status}`);
+        }
+        let mtlContent = await mtlResponse.text();
+
+        // Find texture reference
+        const mapKdLine = mtlContent.split('\n').find(l => l.trim().startsWith('map_Kd '));
+        if (!mapKdLine) {
+            throw new Error(`MTL file does not specify a texture (missing map_Kd directive)`);
+        }
+
+        const textureFilename = mapKdLine.trim().substring('map_Kd '.length).trim();
+        if (!textureFilename) {
+            throw new Error(`MTL file has empty map_Kd directive`);
+        }
+
+        // Fetch texture and create blob URL
+        const textureResponse = await fetch(`${baseUrl}/${textureFilename}`);
+        if (!textureResponse.ok) {
+            throw new Error(`Failed to fetch texture file: ${textureResponse.status}`);
+        }
+        const textureBlob = await textureResponse.blob();
+        const textureBlobUrl = URL.createObjectURL(textureBlob);
+
+        // Remove texture reference from MTL (we apply it manually)
+        mtlContent = mtlContent.replace(mapKdLine, '# map_Kd removed for blob loading');
+
+        // Create blob URL for MTL
+        const mtlBlob = new Blob([mtlContent], { type: 'text/plain' });
+        const mtlBlobUrl = URL.createObjectURL(mtlBlob);
 
         // Fetch animation data
         let animContent: string | undefined;
@@ -194,7 +195,7 @@ export class UrlModelLoader implements ModelLoader {
             objContent,
             mtlBlobUrl,
             textureBlobUrl,
-            textureFilename?.replace(/\.[^.]+$/, ''),
+            textureFilename.replace(/\.[^.]+$/, ''),
             animContent,
             this.iconSys,
             this.getVariants(),
@@ -328,15 +329,19 @@ export class FileModelLoader implements ModelLoader {
 
         // 3. Find texture filename from MTL content (map_Kd directive)
         const mapKdLine = mtlContent.split('\n').find(l => l.trim().startsWith('map_Kd '));
-        const textureFilename = mapKdLine?.trim().substring('map_Kd '.length).trim();
-
-        let textureBlobUrl: string | undefined;
-        if (textureFilename) {
-            const textureBlob = this.requireFile(textureFilename, 'Texture file');
-            textureBlobUrl = URL.createObjectURL(textureBlob);
-            // Remove texture reference from MTL - we apply it manually to avoid MTLLoader path issues
-            mtlContent = mtlContent.replace(mapKdLine!, '# map_Kd removed for blob loading');
+        if (!mapKdLine) {
+            throw new Error(`MTL file ${mtlFilename} does not specify a texture (missing map_Kd directive)`);
         }
+
+        const textureFilename = mapKdLine.trim().substring('map_Kd '.length).trim();
+        if (!textureFilename) {
+            throw new Error(`MTL file ${mtlFilename} has empty map_Kd directive`);
+        }
+
+        const textureBlob = this.requireFile(textureFilename, 'Texture file');
+        const textureBlobUrl = URL.createObjectURL(textureBlob);
+        // Remove texture reference from MTL - we apply it manually to avoid MTLLoader path issues
+        mtlContent = mtlContent.replace(mapKdLine, '# map_Kd removed for blob loading');
 
         const mtlBlobContent = new Blob([mtlContent], { type: 'text/plain' });
         const mtlBlobUrl = URL.createObjectURL(mtlBlobContent);
@@ -349,7 +354,7 @@ export class FileModelLoader implements ModelLoader {
             objContent,
             mtlBlobUrl,
             textureBlobUrl,
-            textureFilename?.replace(/\.[^.]+$/, ''),
+            textureFilename.replace(/\.[^.]+$/, ''),
             animContent,
             iconSys,
             this.getVariants(),
