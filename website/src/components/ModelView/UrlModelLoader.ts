@@ -24,15 +24,8 @@ export class UrlModelLoader implements ModelLoader {
      */
     static async create(iconcode: string): Promise<UrlModelLoader> {
         const url = `/icons/${iconcode}/iconsys.json`;
-        const response = await fetch(url);
-        const text = await response.text();
-
-        if (text.startsWith('{')) {
-            const iconSys = JSON.parse(text) as IconSys;
-            return new UrlModelLoader(iconcode, iconSys);
-        } else {
-            throw new Error(`IconSys JSON response did not start with '{'.`);
-        }
+        const iconSys = await UrlModelLoader.fetchJson<IconSys>(url);
+        return new UrlModelLoader(iconcode, iconSys);
     }
 
     getIconSys(): IconSys {
@@ -100,26 +93,12 @@ export class UrlModelLoader implements ModelLoader {
         const mtlBlob = new Blob([mtlContent], { type: 'text/plain' });
         const mtlBlobUrl = URL.createObjectURL(mtlBlob);
 
-        // Fetch and parse animation data
+        // Fetch and parse animation data (optional)
         let animContent: AnimationData | undefined;
         try {
-            const animResponse = await fetch(`${baseUrl}/${variant}.anim`);
-            if (animResponse.ok) {
-                const contentType = animResponse.headers.get('content-type');
-                if (contentType?.startsWith('application/json')) {
-                    // Explicit JSON content-type
-                    animContent = await animResponse.json() as AnimationData;
-                } else if (contentType === null || contentType.length === 0) {
-                    // No content-type header (e.g., cached response), fall back to text check
-                    const animText = await animResponse.text();
-                    if (animText.startsWith('{')) {
-                        animContent = JSON.parse(animText) as AnimationData;
-                    }
-                }
-                // If content-type is present but not JSON (e.g., text/html from SPA fallback), skip
-            }
+            animContent = await UrlModelLoader.fetchJson<AnimationData>(`${baseUrl}/${variant}.anim`);
         } catch {
-            // Animation not available or failed to parse
+            // Animation not available
         }
 
         this.currentAssets = new ResolvedModelAssets(
@@ -139,5 +118,31 @@ export class UrlModelLoader implements ModelLoader {
     dispose(): void {
         this.currentAssets?.dispose();
         this.currentAssets = undefined;
+    }
+
+    /**
+     * Fetches JSON from a URL, with checks to avoid parsing non-JSON responses (e.g., SPA fallback HTML).
+     * @param url The URL to fetch
+     * @returns The parsed JSON
+     * @throws Error if the response is not valid JSON
+     */
+    private static async fetchJson<T>(url: string): Promise<T> {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch ${url}: ${response.status}`);
+        }
+        const contentType = response.headers.get('content-type');
+        if (contentType?.startsWith('application/json')) {
+            // Explicit JSON content-type
+            return await response.json() as T;
+        } else if (contentType === null || contentType.length === 0) {
+            // No content-type header (e.g., cached response), fall back to text check
+            const text = await response.text();
+            if (text.startsWith('{')) {
+                return JSON.parse(text) as T;
+            }
+        }
+        // Content-type is present but not JSON (e.g., text/html from SPA fallback)
+        throw new Error(`Response from ${url} is not JSON`);
     }
 }
