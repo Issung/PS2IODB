@@ -248,7 +248,7 @@ export class ModelRendererImpl {
 
         // Load animation if available
         if (assets.animContent) {
-            this.parseAnimationContent(assets.animContent);
+            this.setAnimationData(assets.animContent);
         }
 
         // Store texture info for callback
@@ -330,22 +330,12 @@ export class ModelRendererImpl {
     }
 
     /**
-     * Parse animation content directly (for file-based loading).
+     * Set animation data directly (pre-parsed from loader).
      */
-    private parseAnimationContent(animContent: string) {
-        if (!animContent.startsWith('{')) {
-            console.warn('Animation content does not appear to be JSON');
-            return;
-        }
-
-        try {
-            const animJson = JSON.parse(animContent) as AnimationData;
-            this.animData = animJson;
-            this.prop_animationLength = animJson.frameLength / 60;
-            this.timelines = this.animData.frames.map((frame) => new Timeline(frame.keys));
-        } catch (e) {
-            console.error('Failed to parse animation content:', e);
-        }
+    private setAnimationData(animData: AnimationData) {
+        this.animData = animData;
+        this.prop_animationLength = animData.frameLength / 60;
+        this.timelines = this.animData.frames.map((frame) => new Timeline(frame.keys));
     }
 
     /**

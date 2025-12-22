@@ -1,4 +1,5 @@
 import JSZip from "jszip";
+import { AnimationData } from "../model/AnimationData";
 import { IconSys } from "../model/IconSys";
 
 /**
@@ -29,7 +30,7 @@ export class ResolvedModelAssets {
         /** The filename of the texture (for display purposes) */
         readonly textureFilename: string,
         /** Animation data if available */
-        readonly animContent: string | undefined,
+        readonly animContent: AnimationData | undefined,
         /** IconSys data */
         readonly iconSys: IconSys | undefined,
         /** Available variants */
@@ -177,18 +178,17 @@ export class UrlModelLoader implements ModelLoader {
         const mtlBlob = new Blob([mtlContent], { type: 'text/plain' });
         const mtlBlobUrl = URL.createObjectURL(mtlBlob);
 
-        // Fetch animation data
-        let animContent: string | undefined;
+        // Fetch and parse animation data
+        let animContent: AnimationData | undefined;
         try {
             const animResponse = await fetch(`${baseUrl}/${variant}.anim`);
-            if (animResponse.ok) {
-                animContent = await animResponse.text();
-                if (!animContent.startsWith('{')) {
-                    animContent = undefined;
-                }
+            const contentType = animResponse.headers.get('content-type');
+            // Check for 304 (cached, no content-type header) or 200 with JSON content-type
+            if (animResponse.status === 304 || (animResponse.ok && contentType?.includes('application/json'))) {
+                animContent = await animResponse.json() as AnimationData;
             }
         } catch {
-            // Animation not available
+            // Animation not available or failed to parse
         }
 
         this.currentAssets = new ResolvedModelAssets(
@@ -346,9 +346,15 @@ export class FileModelLoader implements ModelLoader {
         const mtlBlobContent = new Blob([mtlContent], { type: 'text/plain' });
         const mtlBlobUrl = URL.createObjectURL(mtlBlobContent);
 
-        // 4. Animation is optional
+        // 4. Animation is optional - parse JSON to AnimationData
         const animBlob = this.findFile(animFilename);
-        const animContent = animBlob ? await this.readBlobAsText(animBlob) : undefined;
+        let animContent: AnimationData | undefined;
+        if (animBlob) {
+            const animText = await this.readBlobAsText(animBlob);
+            if (animText.startsWith('{')) {
+                animContent = JSON.parse(animText) as AnimationData;
+            }
+        }
 
         return new ResolvedModelAssets(
             objContent,
