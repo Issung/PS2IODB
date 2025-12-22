@@ -1,71 +1,55 @@
 import JSZip from "jszip";
 import { IconSys } from "../model/IconSys";
 
-// ============================================================================
-// Types
-// ============================================================================
-
 /**
  * Represents a set of uploaded model files.
  * Requires an iconsys.json file which defines the variants and their filenames.
  */
-export interface ModelFiles {
-    /** Map of filename to File/Blob, e.g. { "icon00.ico.obj": File, "icon00.ico.mtl": File, ... } */
-    files: Map<string, Blob>;
-
-    /** IconSys data from iconsys.json - required for file-based loading */
-    iconSys: IconSys;
+export class ModelFiles {
+    constructor(
+        /** Map of filename to File/Blob, e.g. { "icon00.ico.obj": File, "icon00.ico.mtl": File, ... } */
+        readonly files: Map<string, Blob>,
+        /** IconSys data from iconsys.json - required for file-based loading */
+        readonly iconSys: IconSys,
+    ) {}
 }
 
 /**
  * Parsed model assets ready for Three.js loading.
  * All file references have been resolved to blob URLs.
  */
-export interface ResolvedModelAssets {
-    /** OBJ file content as text */
-    objContent: string;
+export class ResolvedModelAssets {
+    constructor(
+        /** OBJ file content as text */
+        readonly objContent: string,
+        /** Blob URL for the MTL file (with texture reference rewritten) */
+        readonly mtlBlobUrl: string,
+        /** Blob URL for the texture image */
+        readonly textureBlobUrl: string | undefined,
+        /** The filename of the texture (for display purposes) */
+        readonly textureFilename: string | undefined,
+        /** Animation data if available */
+        readonly animContent: string | undefined,
+        /** IconSys data */
+        readonly iconSys: IconSys | undefined,
+        /** Available variants */
+        readonly variants: string[],
+        /** Currently selected variant filename (without extension) */
+        readonly currentVariant: string,
+    ) {}
 
-    /** Blob URL for the MTL file (with texture reference rewritten) */
-    mtlBlobUrl: string;
-
-    /** Blob URL for the texture image */
-    textureBlobUrl: string | undefined;
-
-    /** The filename of the texture (for display purposes) */
-    textureFilename: string | undefined;
-
-    /** Animation data if available */
-    animContent: string | undefined;
-
-    /** IconSys data */
-    iconSys: IconSys | undefined;
-
-    /** Available variants */
-    variants: string[];
-
-    /** Currently selected variant filename (without extension) */
-    currentVariant: string;
-}
-
-// ============================================================================
-// Helper functions
-// ============================================================================
-
-/**
- * Revokes all blob URLs in a ResolvedModelAssets to prevent memory leaks.
- */
-function revokeModelAssets(assets: ResolvedModelAssets): void {
-    if (assets.mtlBlobUrl) {
-        URL.revokeObjectURL(assets.mtlBlobUrl);
-    }
-    if (assets.textureBlobUrl) {
-        URL.revokeObjectURL(assets.textureBlobUrl);
+    /**
+     * Revokes all blob URLs to prevent memory leaks.
+     */
+    dispose(): void {
+        if (this.mtlBlobUrl) {
+            URL.revokeObjectURL(this.mtlBlobUrl);
+        }
+        if (this.textureBlobUrl) {
+            URL.revokeObjectURL(this.textureBlobUrl);
+        }
     }
 }
-
-// ============================================================================
-// ModelLoader Interface
-// ============================================================================
 
 /**
  * Interface for loading model data from various sources.
@@ -145,10 +129,7 @@ export class UrlModelLoader implements ModelLoader {
     }
 
     async loadVariant(variant: string): Promise<ResolvedModelAssets> {
-        // Revoke previous assets if any
-        if (this.currentAssets) {
-            revokeModelAssets(this.currentAssets);
-        }
+        this.currentAssets?.dispose();
 
         const baseUrl = `/icons/${this.iconcode}`;
         
@@ -209,25 +190,23 @@ export class UrlModelLoader implements ModelLoader {
             // Animation not available
         }
 
-        this.currentAssets = {
+        this.currentAssets = new ResolvedModelAssets(
             objContent,
             mtlBlobUrl,
             textureBlobUrl,
-            textureFilename: textureFilename?.replace(/\.[^.]+$/, ''),
+            textureFilename?.replace(/\.[^.]+$/, ''),
             animContent,
-            iconSys: this.iconSys,
-            variants: this.getVariants(),
-            currentVariant: variant
-        };
+            this.iconSys,
+            this.getVariants(),
+            variant,
+        );
 
         return this.currentAssets;
     }
 
     dispose(): void {
-        if (this.currentAssets) {
-            revokeModelAssets(this.currentAssets);
-            this.currentAssets = undefined;
-        }
+        this.currentAssets?.dispose();
+        this.currentAssets = undefined;
     }
 }
 
@@ -291,10 +270,7 @@ export class FileModelLoader implements ModelLoader {
             throw new Error('iconsys.json not found in the zip archive. This file is required.');
         }
 
-        return new FileModelLoader({
-            files: filesMap,
-            iconSys
-        });
+        return new FileModelLoader(new ModelFiles(filesMap, iconSys));
     }
 
     async initialize(): Promise<void> {
@@ -316,20 +292,15 @@ export class FileModelLoader implements ModelLoader {
     }
 
     async loadVariant(variant: string): Promise<ResolvedModelAssets> {
-        // Revoke previous assets if any
-        if (this.currentAssets) {
-            revokeModelAssets(this.currentAssets);
-        }
+        this.currentAssets?.dispose();
 
         this.currentAssets = await this.resolveVariant(variant);
         return this.currentAssets;
     }
 
     dispose(): void {
-        if (this.currentAssets) {
-            revokeModelAssets(this.currentAssets);
-            this.currentAssets = undefined;
-        }
+        this.currentAssets?.dispose();
+        this.currentAssets = undefined;
     }
 
     /**
@@ -374,16 +345,16 @@ export class FileModelLoader implements ModelLoader {
         const animBlob = this.findFile(animFilename);
         const animContent = animBlob ? await this.readBlobAsText(animBlob) : undefined;
 
-        return {
+        return new ResolvedModelAssets(
             objContent,
             mtlBlobUrl,
             textureBlobUrl,
-            textureFilename: textureFilename?.replace(/\.[^.]+$/, ''),
+            textureFilename?.replace(/\.[^.]+$/, ''),
             animContent,
             iconSys,
-            variants: this.getVariants(),
-            currentVariant: variant
-        };
+            this.getVariants(),
+            variant,
+        );
     }
 
     /**
