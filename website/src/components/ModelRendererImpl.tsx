@@ -256,15 +256,7 @@ export class ModelRendererImpl {
                 this.animData = animJson;
 
                 this.prop_animationLength = animJson.frameLength / 60;
-                this.timelines = this.animData.frames.map((frame, idx) => {
-                    let keys = frame.keys;
-                    if (idx == 0) {
-                        if (keys[0].time > 0) {
-                            keys.unshift({ time: 0, value: 1 });
-                        }
-                    }
-                    return new Timeline(keys)
-                });
+                this.timelines = this.animData.frames.map((frame) => new Timeline(frame.keys));
             }
             else {
                 let preview = animText.substring(0, 50).replaceAll('\n', '');
