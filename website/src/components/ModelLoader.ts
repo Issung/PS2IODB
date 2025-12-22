@@ -182,10 +182,19 @@ export class UrlModelLoader implements ModelLoader {
         let animContent: AnimationData | undefined;
         try {
             const animResponse = await fetch(`${baseUrl}/${variant}.anim`);
-            const contentType = animResponse.headers.get('content-type');
-            // Check for 304 (cached, no content-type header) or 200 with JSON content-type
-            if (animResponse.status === 304 || (animResponse.ok && contentType?.includes('application/json'))) {
-                animContent = await animResponse.json() as AnimationData;
+            if (animResponse.ok) {
+                const contentType = animResponse.headers.get('content-type');
+                if (contentType?.startsWith('application/json')) {
+                    // Explicit JSON content-type
+                    animContent = await animResponse.json() as AnimationData;
+                } else if (contentType === null || contentType.length === 0) {
+                    // No content-type header (e.g., cached response), fall back to text check
+                    const animText = await animResponse.text();
+                    if (animText.startsWith('{')) {
+                        animContent = JSON.parse(animText) as AnimationData;
+                    }
+                }
+                // If content-type is present but not JSON (e.g., text/html from SPA fallback), skip
             }
         } catch {
             // Animation not available or failed to parse
