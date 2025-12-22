@@ -164,9 +164,11 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
 
     // Effect: Handle texture type changes
     useEffect(() => {
-        if (!resolvedAssets) return;
+        if (!resolvedAssets) {
+            return;
+        }
         renderer.changeTextureType(textureType, resolvedAssets.textureBlobUrl);
-    }, [textureType, resolvedAssets]);
+    }, [textureType]);
 
     // Effect for view options (doesn't require loading new assets)
     useEffect(() => {
