@@ -210,9 +210,10 @@ export class ModelViewRenderer {
      * This is an alternative to loadNewIcon + loadVariant for user-uploaded files.
      * @param assets The resolved model assets
      * @param textureType The texture type to apply (default: Icon)
+     * @param resetCamera Whether to reset camera position (default: true). Set to false when switching variants.
      */
-    public loadFromAssets(assets: ResolvedModelAssets, textureType: TextureType = TextureType.Icon) {
-        console.log(`loadFromAssets: ${assets.currentVariant}, textureType: ${textureType}`);
+    public loadFromAssets(assets: ResolvedModelAssets, textureType: TextureType = TextureType.Icon, resetCamera: boolean = true) {
+        console.log(`loadFromAssets: ${assets.currentVariant}, textureType: ${textureType}, resetCamera: ${resetCamera}`);
 
         // Apply lighting from iconSys if available
         this.applyIconSysLighting(assets.iconSys);
@@ -236,7 +237,7 @@ export class ModelViewRenderer {
         this.pendingTextureBlobUrl = textureUrl;
 
         // Load model from content
-        const loadingManager = new THREE.LoadingManager(() => this.assetLoadComplete(true));
+        const loadingManager = new THREE.LoadingManager(() => this.assetLoadComplete(resetCamera));
         this.loadModelFromContent(loadingManager, assets.objContent, assets.mtlBlobUrl);
 
         // Load animation if available

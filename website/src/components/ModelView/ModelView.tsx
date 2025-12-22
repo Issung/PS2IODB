@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { IconSys } from '../../model/IconSys';
 import { Utils } from "../../utils/Utils";
 import { ModelLoader, ResolvedModelAssets } from "./ModelLoader";
@@ -37,6 +37,9 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
     const [enlargeTextureView, setEnlargeTextureView] = useState(false);
     const [imageRotationDegrees, setImageRotationDegrees] = useState(0);
     const [imageFlip, setImageFlip] = useState(false);
+
+    // Track whether next asset load should reset camera (false when switching variants)
+    const shouldResetCameraRef = useRef(true);
 
     // Control state
     const [variant, setVariant] = useState<string | undefined>(undefined);
@@ -101,7 +104,8 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
                 setVariant(defaultVariant);
                 setBackgroundType(iconSysData.bgColBL ? BackgroundType.Icon : BackgroundType.Color);
 
-                // Load the default variant
+                // Load the default variant - reset camera on initial load
+                shouldResetCameraRef.current = true;
                 const assets = await loader.loadVariant(defaultVariant);
                 if (cancelRef.cancelled) return;
 
@@ -127,7 +131,9 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
         if (!resolvedAssets) return;
 
         renderer.prop_callback = iconInfoCallback;
-        renderer.loadFromAssets(resolvedAssets, textureType);
+        const resetCamera = shouldResetCameraRef.current;
+        shouldResetCameraRef.current = true; // Reset for next load
+        renderer.loadFromAssets(resolvedAssets, textureType, resetCamera);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [resolvedAssets, iconInfoCallback]); // textureType excluded - handled by texture effect
 
@@ -145,6 +151,8 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
                 const assets = await loader.loadVariant(variant);
                 if (cancelRef.cancelled) return;
 
+                // Don't reset camera when switching variants
+                shouldResetCameraRef.current = false;
                 setResolvedAssets(assets);
             } catch (e) {
                 if (cancelRef.cancelled) return;
