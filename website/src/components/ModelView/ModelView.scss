@@ -10,6 +10,36 @@ div#model-view {
         z-index: -100;
     }
 
+    // Embedded mode - fills container instead of fullscreen
+    &.embedded {
+        position: relative;
+        width: 100%;
+        height: 100%;
+
+        #iconRenderCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .model-view-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        div.texture-details {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+    }
+
     code.model-view-error {
         margin: 15px;
         font-size: 1.2em !important;

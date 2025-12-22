@@ -1,9 +1,8 @@
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useMemo } from "react";
 import './Extractor.scss';
-import { loadFile, ExtractedSave, bgColorToHex, PS2Icon } from '../extractor';
-import { ExtractorViewer } from '../extractor/ExtractorViewer';
-
-type IconType = 'normal' | 'copy' | 'delete';
+import { loadFile, ExtractedSave, extractedSaveToModelFiles } from '../extractor';
+import { ModelView } from '../components/ModelView/ModelView';
+import { FileModelLoader } from '../components/ModelView/FileModelLoader';
 
 /**
  * The Extractor page allows users to open PS2 memory card files
@@ -15,7 +14,6 @@ function Extractor() {
     const [loading, setLoading] = useState(false);
     const [saves, setSaves] = useState<ExtractedSave[]>([]);
     const [selectedSave, setSelectedSave] = useState<ExtractedSave | null>(null);
-    const [iconType, setIconType] = useState<IconType>('normal');
 
     // Handle file drop
     const handleDrop = useCallback((e: React.DragEvent) => {
@@ -62,47 +60,16 @@ function Extractor() {
 
     const handleSaveSelect = useCallback((save: ExtractedSave) => {
         setSelectedSave(save);
-        setIconType('normal');
     }, []);
 
-    // Keyboard shortcuts for icon type switching (Ctrl+1/2/3)
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.ctrlKey || e.metaKey) {
-                if (e.key === '1') {
-                    e.preventDefault();
-                    setIconType('normal');
-                } else if (e.key === '2') {
-                    e.preventDefault();
-                    setIconType('copy');
-                } else if (e.key === '3') {
-                    e.preventDefault();
-                    setIconType('delete');
-                }
-            }
-        };
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, []);
-
-    // Get the currently displayed icon based on type
-    const currentIcon = useMemo((): PS2Icon | null => {
-        if (!selectedSave?.iconSys) return null;
-
-        let iconName: string;
-        switch (iconType) {
-            case 'copy':
-                iconName = selectedSave.iconSys.iconFileCopy;
-                break;
-            case 'delete':
-                iconName = selectedSave.iconSys.iconFileDelete;
-                break;
-            default:
-                iconName = selectedSave.iconSys.iconFileNormal;
+    // Create a ModelLoader for the selected save
+    const modelLoader = useMemo(() => {
+        if (!selectedSave?.iconSys || selectedSave.icons.size === 0) {
+            return null;
         }
-
-        return selectedSave.icons.get(iconName) ?? null;
-    }, [selectedSave, iconType]);
+        const modelFiles = extractedSaveToModelFiles(selectedSave);
+        return new FileModelLoader(modelFiles);
+    }, [selectedSave]);
 
     return (
         <div className="extractor-page" onDrop={handleDrop} onDragOver={handleDragOver}>
@@ -184,51 +151,14 @@ function Extractor() {
                                 <h2>{selectedSave.title}</h2>
                             </div>
 
-                            {/* Icon type selector */}
-                            {selectedSave.iconSys && (
-                                <div className="icon-type-selector">
-                                    <button
-                                        className={iconType === 'normal' ? 'active' : ''}
-                                        onClick={() => setIconType('normal')}
-                                        title="Normal Icon (Ctrl+1)"
-                                    >
-                                        Normal
-                                    </button>
-                                    <button
-                                        className={iconType === 'copy' ? 'active' : ''}
-                                        onClick={() => setIconType('copy')}
-                                        title="Copy Icon (Ctrl+2)"
-                                    >
-                                        Copy
-                                    </button>
-                                    <button
-                                        className={iconType === 'delete' ? 'active' : ''}
-                                        onClick={() => setIconType('delete')}
-                                        title="Delete Icon (Ctrl+3)"
-                                    >
-                                        Delete
-                                    </button>
-                                </div>
-                            )}
-
                             {/* 3D Icon viewer */}
-                            {currentIcon && selectedSave.iconSys && (
-                                <ExtractorViewer
-                                    icon={currentIcon}
-                                    iconSys={selectedSave.iconSys}
-                                    iconName={
-                                        iconType === 'copy'
-                                            ? selectedSave.iconSys.iconFileCopy
-                                            : iconType === 'delete'
-                                                ? selectedSave.iconSys.iconFileDelete
-                                                : selectedSave.iconSys.iconFileNormal
-                                    }
-                                />
+                            {modelLoader && (
+                                <ModelView loader={modelLoader} embedded={true} hideControls={false} />
                             )}
 
-                            {!currentIcon && (
+                            {!modelLoader && (
                                 <div className="no-icon-message">
-                                    No {iconType} icon available for this save
+                                    No icons available for this save
                                 </div>
                             )}
                         </>
