@@ -83,10 +83,19 @@ export class TexturedOBJLoader extends OBJLoader
         mtlFileUrl: string,
         onLoadComplete: () => void,
         onProgress?: (event: ProgressEvent) => void,
-        onError?: (event: unknown) => void
-    ): void 
+        onError?: (event: unknown) => void,
+        resourcePath?: string
+    ): void
     {
         const mtlLoader = new MTLLoader(this.manager);
+
+        // If a resource path is provided, use it. This is important for blob URLs
+        // where the texture URLs inside the MTL are already absolute blob URLs.
+        // Setting resourcePath to '' prevents MTLLoader from prepending its base path.
+        if (resourcePath !== undefined) {
+            mtlLoader.setResourcePath(resourcePath);
+        }
+
         mtlLoader.load(
             mtlFileUrl,
             materials => {
@@ -150,5 +159,45 @@ export class TexturedOBJLoader extends OBJLoader
      */
     urlEncode(str: string) {
         return str.replace(/ /g, '%20');
-    }    
+    }
+
+    /**
+     * Load a model from OBJ content string and MTL blob URL.
+     * Used for file-based loading where the MTL has already been rewritten
+     * to use blob URLs for textures.
+     * @param objContent The OBJ file content as a string.
+     * @param mtlBlobUrl Blob URL for the MTL file (with texture references already rewritten).
+     * @param onLoadComplete Callback when model is loaded.
+     * @param onError Error callback.
+     */
+    loadFromContent(
+        objContent: string,
+        mtlBlobUrl: string,
+        onLoadComplete: (group: Group) => void,
+        onError?: (event: unknown) => void
+    ): void {
+        const scope = this;
+
+        // Pass empty string as resourcePath because the texture URLs in the MTL
+        // are already absolute blob URLs. This prevents MTLLoader from prepending
+        // its base path to them (which would cause "blob:blob:" double-prefix errors).
+        this.loadMtl(
+            mtlBlobUrl,
+            () => {
+                try {
+                    const group = scope.parse(objContent);
+                    onLoadComplete(group);
+                } catch (e) {
+                    if (onError) {
+                        onError(e);
+                    } else {
+                        console.error(e);
+                    }
+                }
+            },
+            undefined,
+            onError,
+            '' // Empty resource path for blob URLs with absolute texture paths
+        );
+    }
 }

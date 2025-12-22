@@ -1,0 +1,119 @@
+div#upload {
+    $bgcolor: rgba(0, 0, 0, 0.6);
+
+    a#back {
+        color: white;
+        padding: 10px 9px 8px 9px;
+        background-color: $bgcolor;
+    }
+
+    #title {
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        background-color: $bgcolor;
+        padding: 0px 8px 8px 8px;
+
+        * {
+            color: white;
+        }
+
+        h5 {
+            margin-bottom: 3px;
+        }
+
+        h6 {
+            margin-bottom: 8px;
+        }
+
+        .reset-button {
+            background-color: #444;
+            color: white;
+            border: 1px solid #666;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.9em;
+
+            &:hover {
+                background-color: #555;
+            }
+        }
+    }
+
+    .upload-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        background-color: $bgcolor;
+        padding: 30px 40px;
+        border-radius: 8px;
+        max-width: 500px;
+        width: 90%;
+
+        h2 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #ccc;
+            margin-bottom: 10px;
+
+            &.hint {
+                font-size: 0.9em;
+                color: #999;
+                margin-bottom: 20px;
+
+                code {
+                    background-color: rgba(255, 255, 255, 0.1);
+                    padding: 2px 5px;
+                    border-radius: 3px;
+                }
+            }
+
+            &.file-name {
+                color: #aaa;
+                font-size: 0.9em;
+                margin-top: 15px;
+            }
+
+            &.error {
+                color: #ff6b6b;
+                margin-top: 15px;
+            }
+        }
+
+        .file-input-label {
+            display: inline-block;
+            cursor: pointer;
+
+            input[type="file"] {
+                display: none;
+            }
+
+            .file-input-button {
+                display: inline-block;
+                background-color: #4a9eff;
+                color: white;
+                padding: 12px 24px;
+                border-radius: 5px;
+                font-size: 1.1em;
+                transition: background-color 0.2s;
+
+                &:hover {
+                    background-color: #3a8eef;
+                }
+            }
+
+            &:has(input:disabled) .file-input-button {
+                background-color: #666;
+                cursor: not-allowed;
+            }
+        }
+    }
+}
+

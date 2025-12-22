@@ -1,5 +1,10 @@
 export class AnimationData
 {
+    /**
+     * Version 2 has the missing frame key fix from techwritescode https://github.com/Issung/PS2IODB/pull/75/files.
+     * We need to differentiate so that v1 anim files (with this field absent) can use the old animation playback code.
+     */
+    version: undefined | 2;
     frameLength: number = -1;
     animationSpeed: number = -1.0;
     playOffset: number = -1;
