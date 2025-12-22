@@ -2,6 +2,7 @@ import JSZip from "jszip";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ModelView } from "../components/ModelView/ModelView";
+import { ModelLoader } from "../components/ModelView/ModelLoader";
 import { UrlModelLoader } from "../components/ModelView/UrlModelLoader";
 import { Icon as IconModel } from "../model/Icon";
 import { IconSys } from "../model/IconSys";
@@ -31,6 +32,9 @@ const Icon = () => {
 
     // Download state
     const [downloadStatus, setDownloadStatus] = useState<string>();
+
+    // Loader state
+    const [loader, setLoader] = useState<ModelLoader | undefined>();
 
     // Load icon metadata from Titles
     useEffect(() => {
@@ -144,9 +148,31 @@ const Icon = () => {
     }
 
     // Create loader for ModelView
-    const loader = useMemo(() => {
-        if (!iconcode) return undefined;
-        return new UrlModelLoader(iconcode);
+    useEffect(() => {
+        if (!iconcode) {
+            setLoader(undefined);
+            return;
+        }
+
+        let cancelled = false;
+
+        (async () => {
+            try {
+                const newLoader = await UrlModelLoader.create(iconcode);
+                if (!cancelled) {
+                    setLoader(newLoader);
+                }
+            } catch (error) {
+                if (!cancelled) {
+                    console.error('Failed to create loader:', error);
+                    setLoader(undefined);
+                }
+            }
+        })();
+
+        return () => {
+            cancelled = true;
+        };
     }, [iconcode]);
 
     return (

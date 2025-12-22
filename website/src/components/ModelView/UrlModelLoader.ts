@@ -9,36 +9,42 @@ import { ResolvedModelAssets } from "./ResolvedModelAssets";
  */
 export class UrlModelLoader implements ModelLoader {
     private iconcode: string;
-    private iconSys: IconSys | undefined;
+    private iconSys: IconSys;
     private currentAssets: ResolvedModelAssets | undefined;
 
-    constructor(iconcode: string) {
+    private constructor(iconcode: string, iconSys: IconSys) {
         this.iconcode = iconcode;
+        this.iconSys = iconSys;
     }
 
-    async initialize(): Promise<void> {
-        const url = `/icons/${this.iconcode}/iconsys.json`;
+    /**
+     * Create a UrlModelLoader instance by fetching the iconSys data.
+     * @param iconcode The iconcode to load
+     * @returns A fully initialized UrlModelLoader instance
+     */
+    static async create(iconcode: string): Promise<UrlModelLoader> {
+        const url = `/icons/${iconcode}/iconsys.json`;
         const response = await fetch(url);
         const text = await response.text();
 
         if (text.startsWith('{')) {
-            this.iconSys = JSON.parse(text) as IconSys;
+            const iconSys = JSON.parse(text) as IconSys;
+            return new UrlModelLoader(iconcode, iconSys);
         } else {
             throw new Error(`IconSys JSON response did not start with '{'.`);
         }
     }
 
-    getIconSys(): IconSys | undefined {
+    getIconSys(): IconSys {
         return this.iconSys;
     }
 
     getVariants(): string[] {
-        if (!this.iconSys) return [];
         return Array.from(new Set([this.iconSys.normal, this.iconSys.copy, this.iconSys.delete]));
     }
 
     getDefaultVariant(): string {
-        return this.iconSys?.normal ?? '';
+        return this.iconSys.normal;
     }
 
     async loadVariant(variant: string): Promise<ResolvedModelAssets> {

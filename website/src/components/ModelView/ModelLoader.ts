@@ -8,15 +8,9 @@ import { ResolvedModelAssets } from "./ResolvedModelAssets";
  */
 export interface ModelLoader {
     /**
-     * Load the initial data and return the available variants.
-     * This should be called first before loadVariant().
-     */
-    initialize(): Promise<void>;
-
-    /**
      * Get the IconSys data for this model (lighting, background colors, etc.).
      */
-    getIconSys(): IconSys | undefined;
+    getIconSys(): IconSys;
 
     /**
      * Get the list of available variants for this model.

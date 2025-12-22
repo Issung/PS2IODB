@@ -68,11 +68,6 @@ export class FileModelLoader implements ModelLoader {
         return new FileModelLoader(new ModelFiles(filesMap, iconSys));
     }
 
-    async initialize(): Promise<void> {
-        // Load the default variant
-        this.currentAssets = await this.resolveVariant(this.modelFiles.iconSys.normal);
-    }
-
     getIconSys(): IconSys {
         return this.modelFiles.iconSys;
     }

@@ -18,7 +18,7 @@ export class ResolvedModelAssets {
         /** Animation data if available */
         readonly animContent: AnimationData | undefined,
         /** IconSys data */
-        readonly iconSys: IconSys | undefined,
+        readonly iconSys: IconSys,
         /** Available variants */
         readonly variants: string[],
         /** Currently selected variant filename (without extension) */

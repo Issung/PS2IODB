@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { IconSys } from '../../model/IconSys';
-import { ModelViewRenderer } from "./ModelViewRenderer";
-import './ModelView.scss';
-import { BackgroundType, MeshType, TextureType } from "./ModelViewParams";
 import { Utils } from "../../utils/Utils";
 import { ModelLoader, ResolvedModelAssets } from "./ModelLoader";
+import './ModelView.scss';
+import { BackgroundType, MeshType, TextureType } from "./ModelViewParams";
+import { ModelViewRenderer } from "./ModelViewRenderer";
 
 export interface ModelViewProps {
     /** The loader to use for fetching model data. */
@@ -89,8 +89,6 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
 
         (async () => {
             try {
-                // Initialize the loader
-                await loader.initialize();
                 if (cancelRef.cancelled) return;
 
                 // Get metadata from the loader
@@ -101,7 +99,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
                 setIconSys(iconSysData);
                 setVariants(variantList);
                 setVariant(defaultVariant);
-                setBackgroundType(iconSysData?.bgColBL ? BackgroundType.Icon : BackgroundType.Color);
+                setBackgroundType(iconSysData.bgColBL ? BackgroundType.Icon : BackgroundType.Color);
 
                 // Load the default variant
                 const assets = await loader.loadVariant(defaultVariant);

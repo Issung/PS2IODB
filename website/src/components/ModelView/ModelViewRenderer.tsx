@@ -280,8 +280,8 @@ export class ModelViewRenderer {
     /**
      * Apply lighting settings from IconSys.
      */
-    private applyIconSysLighting(iconSys: IconSys | undefined) {
-        if (iconSys?.ambiLightCol) {
+    private applyIconSysLighting(iconSys: IconSys) {
+        if (iconSys.ambiLightCol) {
             this.ambientLight.color = this.color(iconSys.ambiLightCol);
 
             this.directionalLights[0].color = this.color(iconSys.light1Col!);
