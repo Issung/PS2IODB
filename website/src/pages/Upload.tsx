@@ -1,7 +1,8 @@
 import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
-import { ModelView, FileModelLoader } from "../components/ModelView";
-import { ModelLoader } from "../components/ModelLoader";
+import { FileModelLoader } from "../components/ModelView/FileModelLoader";
+import { ModelLoader } from "../components/ModelView/ModelLoader";
+import { ModelView } from "../components/ModelView/ModelView";
 import './Upload.scss';
 
 /**

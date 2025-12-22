@@ -1,12 +1,12 @@
-import { AnimationData } from "../model/AnimationData";
+import { AnimationData } from "../../model/AnimationData";
 import { MeshType, TextureType } from "./ModelViewParams";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { TexturedOBJLoader } from "./TexturedOBJLoader";
+import { TexturedOBJLoader } from "../TexturedOBJLoader";
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
 import * as THREE from "three";
 import Stats from 'stats.js';
-import { IconSys } from "../model/IconSys";
-import { Timeline } from "../utils/Animation";
+import { IconSys } from "../../model/IconSys";
+import { Timeline } from "../../utils/Animation";
 import { ResolvedModelAssets } from "./ModelLoader";
 
 /**
@@ -24,7 +24,7 @@ const defaultIntensity = 5;
  * Implementation of the 3D model view and interactions in threejs.
  * Used by ModelView.tsx component.
  */
-export class ModelRendererImpl {
+export class ModelViewRenderer {
     // Display properties here, defaults will be overriden by Icon.tsx.
     public prop_animate: boolean = true;
     public prop_animationSpeed: number = 1;
@@ -38,9 +38,6 @@ export class ModelRendererImpl {
      * A callback for the model renderer to use to inform about the icon's status.
      */
     public prop_callback: IconInfoCallback = () => {};
-
-    // Store the last texture type loaded
-    private last_textureType: TextureType = TextureType.Plain;
 
     /**
     When an obj file is loaded, this is the relative url of the texture found inside the mtllib.
@@ -160,8 +157,6 @@ export class ModelRendererImpl {
         this.canvas.addEventListener('click', this.boundOnCanvasClick);
         this.canvas.addEventListener('touchstart', this.boundOnCanvasTouchStart);
 
-        this.last_textureType = TextureType.Icon;
-
         this.initialised = true;
     }
 
@@ -203,7 +198,6 @@ export class ModelRendererImpl {
         }
 
         this.loadTexture(textureUrl);
-        this.last_textureType = textureType;
     }
 
     loadError(e: any) {
@@ -240,7 +234,6 @@ export class ModelRendererImpl {
         // Store the texture blob URL to apply after model loads
         // We can't put blob URLs in the MTL file because MTLLoader's path resolution breaks them
         this.pendingTextureBlobUrl = textureUrl;
-        this.last_textureType = textureType;
 
         // Load model from content
         const loadingManager = new THREE.LoadingManager(() => this.assetLoadComplete(true));
@@ -457,7 +450,6 @@ export class ModelRendererImpl {
         this.texture = undefined;
 
         // Reset tracking variables so next load starts fresh
-        this.last_textureType = TextureType.Plain;
         this.relativeMtlTextureUrl = undefined;
         this.pendingTextureBlobUrl = undefined;
 
@@ -542,8 +534,8 @@ export class ModelRendererImpl {
 
     private animateV1(elapsedTime: number) {
         let animationTotalFrames = this.animData!.frames.length;
-        let secondsForWholeAnimation = ModelRendererImpl.secondsPerAnimationFrame * animationTotalFrames;
-        let animationFrame = !this.prop_animate ? this.clamp(this.prop_frame, 0, animationTotalFrames) : Math.floor((elapsedTime % secondsForWholeAnimation) / ModelRendererImpl.secondsPerAnimationFrame);
+        let secondsForWholeAnimation = ModelViewRenderer.secondsPerAnimationFrame * animationTotalFrames;
+        let animationFrame = !this.prop_animate ? this.clamp(this.prop_frame, 0, animationTotalFrames) : Math.floor((elapsedTime % secondsForWholeAnimation) / ModelViewRenderer.secondsPerAnimationFrame);
         //console.log(`animationFrame: ${animationFrame}`);
         // Modify the positions of each vertex.
         const positionAttribute = this.geometry!.attributes.position;
@@ -556,7 +548,7 @@ export class ModelRendererImpl {
             let [x2, y2, z2] = this.wrappedIndex(this.animData!.frames, animationFrame + 1).vertexData.slice(i * 3, (i * 3) + 3);
             x2 = -x2; y2 = -y2;
 
-            let interp = !this.prop_animate ? 0 : (elapsedTime % ModelRendererImpl.secondsPerAnimationFrame) / ModelRendererImpl.secondsPerAnimationFrame;
+            let interp = !this.prop_animate ? 0 : (elapsedTime % ModelViewRenderer.secondsPerAnimationFrame) / ModelViewRenderer.secondsPerAnimationFrame;
             updatedPositions[i * 3 + 0] = this.lerp(x1, x2, interp);
             updatedPositions[i * 3 + 1] = this.lerp(y1, y2, interp);
             updatedPositions[i * 3 + 2] = this.lerp(z1, z2, interp);

@@ -1,13 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { IconSys } from '../model/IconSys';
-import { ModelRendererImpl } from "./ModelRendererImpl";
+import { IconSys } from '../../model/IconSys';
+import { ModelViewRenderer } from "./ModelViewRenderer";
 import './ModelView.scss';
 import { BackgroundType, MeshType, TextureType } from "./ModelViewParams";
-import { Utils } from "../utils/Utils";
+import { Utils } from "../../utils/Utils";
 import { ModelLoader, ResolvedModelAssets } from "./ModelLoader";
-
-// Re-export for convenience
-export { UrlModelLoader, FileModelLoader, type ModelFiles } from "./ModelLoader";
 
 export interface ModelViewProps {
     /** The loader to use for fetching model data. */
@@ -23,7 +20,7 @@ export interface ModelViewProps {
     downloadStatus?: string;
 }
 
-const renderer = new ModelRendererImpl();
+const renderer = new ModelViewRenderer();
 
 export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: ModelViewProps) => {
     // State for loaded data

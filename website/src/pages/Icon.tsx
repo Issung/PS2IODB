@@ -1,12 +1,13 @@
 import JSZip from "jszip";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { ModelView } from "../components/ModelView/ModelView";
+import { UrlModelLoader } from "../components/ModelView/UrlModelLoader";
 import { Icon as IconModel } from "../model/Icon";
 import { IconSys } from "../model/IconSys";
 import { Titles } from "../model/Titles";
 import { SessionStorageKeys } from '../utils/Consts';
 import './Icon.scss';
-import { ModelView, UrlModelLoader } from "../components/ModelView";
 
 /**
  * This component serves as a page, routed to by App.tsx.
