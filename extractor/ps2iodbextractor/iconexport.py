@@ -108,6 +108,9 @@ def export_variant(path: str, icon_filename: str, icon: Icon):
         print("Not writing animation file because only 1 frame")
     else:
         anim_data = {
+            # Version 2 has the missing frame key fix from techwritescode https://github.com/Issung/PS2IODB/pull/75/files.
+            # We need to differentiate so that v1 anim files (with this field absent) can use the old animation playback code.
+            "version": 2,
             "frameLength": icon.anim_header.frame_length,
             "animSpeed": icon.anim_header.anim_speed,
             "playOffset": icon.anim_header.play_offset,

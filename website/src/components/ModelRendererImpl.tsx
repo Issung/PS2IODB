@@ -541,43 +541,15 @@ export class ModelRendererImpl {
         // TODO: There's better ways to do this animationSpeed alteration, but that can come with the keyframing refactor eventually.
         const elapsedTime = this.clock.getElapsedTime() * this.prop_animationSpeed;
         if (this.animData && this.geometry) {
-            const positionAttribute = this.geometry.attributes.position;
-            const updatedPositions = new Float32Array(positionAttribute.count * 3);
-
-            let weights = [];
-
-            if (this.prop_animate) {
-                // Animated: evaluate timelines to get blended weights
-                const frame = Math.floor((elapsedTime % this.prop_animationLength) * 60);
-                let sum = 0;
-                for (const timeline of this.timelines) {
-                    let y = timeline.evaluate(frame);
-                    sum += y;
-                    weights.push(y);
-                }
-                // Normalize weights
-                weights = weights.map(w => w / sum);
-            } else {
-                // Static: prop_frame is a shape index, show only that shape at full weight
-                for (let j = 0; j < this.animData.frames.length; j++) {
-                    weights.push(j === this.prop_frame ? 1 : 0);
-                }
+            if (this.animData.version === undefined) {
+                this.animateV1(elapsedTime);
             }
-
-            for (let j = 0; j < this.animData.frames.length; j++) {
-                const frame = this.animData.frames[j];
-                const weight = weights[j];
-
-                for (let i = 0; i < frame.vertexData.length; i++) {
-                    const [x, y, z] = frame.vertexData.slice(i * 3, (i * 3) + 3);
-
-                    updatedPositions[i * 3 + 0] += -x * weight;
-                    updatedPositions[i * 3 + 1] += -y * weight;
-                    updatedPositions[i * 3 + 2] += z * weight;
-                }
+            else if (this.animData.version === 2) {
+                this.animateV2(elapsedTime);
             }
-
-            this.geometry.setAttribute('position', new THREE.BufferAttribute(updatedPositions, 3));
+            else {
+                console.warn(`Unknown AnimationData version ${this.animData.version}.`);
+            }
         }
 
         if (this.vertexNormalHelper?.visible) {
@@ -585,6 +557,78 @@ export class ModelRendererImpl {
         }
 
         this.renderer?.render(this.scene, this.camera);
+    }
+
+    private animateV1(elapsedTime: number) {
+        let animationTotalFrames = this.animData!.frames.length;
+        let secondsForWholeAnimation = ModelRendererImpl.secondsPerAnimationFrame * animationTotalFrames;
+        let animationFrame = !this.prop_animate ? this.clamp(this.prop_frame, 0, animationTotalFrames) : Math.floor((elapsedTime % secondsForWholeAnimation) / ModelRendererImpl.secondsPerAnimationFrame);
+        //console.log(`animationFrame: ${animationFrame}`);
+        // Modify the positions of each vertex.
+        const positionAttribute = this.geometry!.attributes.position;
+        const updatedPositions = new Float32Array(positionAttribute.count * 3);
+        for (let i = 0; i < positionAttribute.count; i++)
+        {
+            let [x1, y1, z1] = this.wrappedIndex(this.animData!.frames, animationFrame).vertexData.slice(i * 3, (i * 3) + 3);
+            x1 = -x1; y1 = -y1;
+
+            let [x2, y2, z2] = this.wrappedIndex(this.animData!.frames, animationFrame + 1).vertexData.slice(i * 3, (i * 3) + 3);
+            x2 = -x2; y2 = -y2;
+
+            let interp = !this.prop_animate ? 0 : (elapsedTime % ModelRendererImpl.secondsPerAnimationFrame) / ModelRendererImpl.secondsPerAnimationFrame;
+            updatedPositions[i * 3 + 0] = this.lerp(x1, x2, interp);
+            updatedPositions[i * 3 + 1] = this.lerp(y1, y2, interp);
+            updatedPositions[i * 3 + 2] = this.lerp(z1, z2, interp);
+        }
+
+        this.geometry!.setAttribute('position', new THREE.BufferAttribute(updatedPositions, 3));
+    }
+
+    private animateV2(elapsedTime: number) {
+        const positionAttribute = this.geometry!.attributes.position;
+        const updatedPositions = new Float32Array(positionAttribute.count * 3);
+
+        let weights = [];
+
+        if (this.prop_animate)
+        {
+            // Animated: evaluate timelines to get blended weights
+            const timeInCycle = elapsedTime % this.prop_animationLength;
+            const frame = Math.floor(timeInCycle * 60);
+            let sum = 0;
+            for (const timeline of this.timelines)
+            {
+                let y = timeline.evaluate(frame);
+                sum += y;
+                weights.push(y);
+            }
+            // Normalize weights
+            weights = weights.map(w => w / sum);
+        } else
+        {
+            // Static: prop_frame is a shape index, show only that shape at full weight
+            for (let j = 0; j < this.animData!.frames.length; j++)
+            {
+                weights.push(j === this.prop_frame ? 1 : 0);
+            }
+        }
+
+        for (let j = 0; j < this.animData!.frames.length; j++)
+        {
+            const frame = this.animData!.frames[j];
+            const weight = weights[j];
+
+            for (let i = 0; i < frame.vertexData.length; i++)
+            {
+                const [x, y, z] = frame.vertexData.slice(i * 3, (i * 3) + 3);
+
+                updatedPositions[i * 3 + 0] += -x * weight;
+                updatedPositions[i * 3 + 1] += -y * weight;
+                updatedPositions[i * 3 + 2] += z * weight;
+            }
+        }
+
+        this.geometry!.setAttribute('position', new THREE.BufferAttribute(updatedPositions, 3));
     }
 
     clamp(value: number, min: number, max: number): number {
