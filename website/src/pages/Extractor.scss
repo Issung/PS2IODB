@@ -58,11 +58,26 @@
     overflow: hidden;
 }
 
+.resize-handle {
+    width: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    cursor: col-resize;
+    transition: background 0.15s;
+    flex-shrink: 0;
+    outline: none;
+    border: none;
+
+    &:hover,
+    &[data-active] {
+        background: #4a90d9;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
 .directory-panel {
-    width: 50%;
-    min-width: 300px;
-    max-width: 600px;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
     overflow-y: auto;
     background: rgba(0, 0, 0, 0.2);
 

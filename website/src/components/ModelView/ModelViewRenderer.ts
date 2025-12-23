@@ -65,9 +65,11 @@ export class ModelViewRenderer {
     private controls: OrbitControls | undefined;
 
     // Bound event handlers (stored so they can be removed)
-    private boundOnWindowResize: () => void;
     private boundOnCanvasClick: ((e: MouseEvent) => void) | undefined;
     private boundOnCanvasTouchStart: ((e: TouchEvent) => void) | undefined;
+    private resizeObserver: ResizeObserver | undefined;
+    private resizePending: boolean = false;
+    private lastResizeTime: number = 0;
 
     private icon: THREE.Group | undefined;
     private pivot: THREE.Group | undefined;
@@ -108,12 +110,11 @@ export class ModelViewRenderer {
         }
 
         // Bind event handlers so they can be added and removed
-        this.boundOnWindowResize = this.onWindowResize.bind(this);
         this.assetLoadComplete = this.assetLoadComplete.bind(this);
         this.dispose = this.dispose.bind(this);
         this.animate = this.animate.bind(this);
+        this.updateSize = this.updateSize.bind(this);
 
-        window.addEventListener('resize', this.boundOnWindowResize);
         this.animate();
     }
 
@@ -138,7 +139,26 @@ export class ModelViewRenderer {
             logarithmicDepthBuffer: true,   // Fixes z-fighting texture flickering on icons, especially when icon is zoomed out a lot.
             alpha: true,    // Render the background transparent so we can display background colors (incl gradients) with CSS.
         });
-        this.onWindowResize();
+
+        // Set up ResizeObserver to watch for canvas size changes (throttled to 50ms to reduce flickering)
+        this.resizeObserver = new ResizeObserver(() => {
+            const now = performance.now();
+            const elapsed = now - this.lastResizeTime;
+            if (elapsed >= 50) {
+                this.lastResizeTime = now;
+                this.updateSize();
+            } else if (!this.resizePending) {
+                this.resizePending = true;
+                setTimeout(() => {
+                    this.resizePending = false;
+                    this.lastResizeTime = performance.now();
+                    this.updateSize();
+                }, 50 - elapsed);
+            }
+        });
+        this.resizeObserver.observe(this.canvas);
+
+        this.updateSize();
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.autoRotate = true;
         this.controls.autoRotateSpeed = -3;
@@ -470,6 +490,13 @@ export class ModelViewRenderer {
         this.controls?.dispose();
         this.controls = undefined;
 
+        // Disconnect ResizeObserver
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+            this.resizeObserver = undefined;
+        }
+        this.resizePending = false;
+
         // Remove stats from DOM if present
         if (this.stats) {
             this.stats.dom.remove();
@@ -483,12 +510,25 @@ export class ModelViewRenderer {
         this.initialised = false;
     }
 
-    onWindowResize() {
-        this.camera.aspect = window.innerWidth / window.innerHeight;
+    /**
+     * Updates the renderer and camera to match the current canvas size.
+     * Called by ResizeObserver when the canvas dimensions change.
+     */
+    updateSize() {
+        // Use canvas dimensions if available, otherwise use window dimensions
+        const width = this.canvas?.clientWidth ?? window.innerWidth;
+        const height = this.canvas?.clientHeight ?? window.innerHeight;
+
+        // Avoid division by zero and unnecessary updates
+        if (width === 0 || height === 0) {
+            return;
+        }
+
+        this.camera.aspect = width / height;
         this.camera.updateProjectionMatrix();
 
         if (this.renderer) {
-            this.renderer.setDrawingBufferSize(window.innerWidth, window.innerHeight, window.devicePixelRatio);
+            this.renderer.setSize(width, height, false);
         }
     }
 

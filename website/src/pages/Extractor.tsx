@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
+import { Group, Panel, Separator } from "react-resizable-panels";
 import './Extractor.scss';
 import { loadFile, ExtractedSave, extractedSaveToModelFiles } from '../extractor';
 import { ModelView } from '../components/ModelView/ModelView';
@@ -91,9 +92,9 @@ function Extractor() {
             </header>
 
             {/* Main content */}
-            <div className="extractor-main">
+            <Group orientation="horizontal" className="extractor-main">
                 {/* Left panel - Directory listing */}
-                <div className="directory-panel">
+                <Panel defaultSize="40%" minSize="200px" className="directory-panel">
                     {!file && !loading && (
                         <div className="drop-zone">
                             <p>Drop a PS2 memory card (.ps2) or save file (.psu) here</p>
@@ -140,10 +141,12 @@ function Extractor() {
                             </table>
                         </div>
                     )}
-                </div>
+                </Panel>
+
+                <Separator className="resize-handle" />
 
                 {/* Right panel - Icon viewer */}
-                <div className="viewer-panel">
+                <Panel minSize="300px" className="viewer-panel">
                     {selectedSave && (
                         <>
                             {/* Title display */}
@@ -169,8 +172,8 @@ function Extractor() {
                             Select a save from the list to view its icon
                         </div>
                     )}
-                </div>
-            </div>
+                </Panel>
+            </Group>
 
             {/* Status bar */}
             <footer className="extractor-footer">
