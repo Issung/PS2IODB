@@ -1,11 +1,5 @@
-The end goal of this project is to:
-* Create a tool that allows people to easily view and extract the icons.
-* Create an open archive of all PS2 icon models that can be viewed within the browser.
-
-For this we need to be able to extract:
-* The model geometry.
-* Animation data.
-* Texture data.
+# Current Issues
+Textures are broken on http://localhost:3000/icon/timesplitters2 vs the live site https://ps2iodb.com/icon/timesplitters2, the body and back "horns" appear to have no texturing.
 
 # Memory Card tool (MYMC):
 1. Understand/document the icon visual data format.

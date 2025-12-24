@@ -18,6 +18,11 @@ export class FileModelLoader implements ModelLoader {
         this.modelFiles = modelFiles;
     }
 
+    /** Get the underlying ModelFiles. */
+    getModelFiles(): ModelFiles {
+        return this.modelFiles;
+    }
+
     /**
      * Create a FileModelLoader from a zip file.
      * The zip must contain iconsys.json and the referenced .obj, .mtl, .png files.

@@ -50,6 +50,64 @@
             font-size: 0.9rem;
         }
     }
+
+    .stored-files {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        color: #aaa;
+
+        .label {
+            opacity: 0.8;
+        }
+
+        ul {
+            display: flex;
+            gap: 0.25rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .stored-file-button {
+            padding: 0.25rem 0.5rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: #ccc;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .stored-file-button:hover,
+        li.active .stored-file-button {
+            background: rgba(74, 144, 217, 0.2);
+            border-color: #4a90d9;
+            color: #fff;
+        }
+
+        .stored-file-remove {
+            background: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 0.75rem;
+            padding: 0;
+        }
+
+        .stored-file-remove:hover {
+            color: #ff6b6b;
+        }
+    }
 }
 
 .extractor-main {
