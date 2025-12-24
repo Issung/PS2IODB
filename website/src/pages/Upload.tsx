@@ -42,6 +42,7 @@ const Upload = () => {
                             title: stored.title,
                             storedAt: stored.storedAt,
                             hasError: stored.hasError,
+                            viewed: stored.viewed ?? true,
                         });
                     }
                 }

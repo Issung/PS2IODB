@@ -60,6 +60,7 @@ export class SaveStorage {
             title,
             storedAt: Date.now(),
             hasError: false,
+            viewed: false,
             files: { iconSys, files: filesRecord },
         };
 
@@ -68,7 +69,7 @@ export class SaveStorage {
         await requestToPromise(store.put(save));
 
         this.setLastSelectedId(id);
-        return { id, directory, title, storedAt: save.storedAt, hasError: false };
+        return { id, directory, title, storedAt: save.storedAt, hasError: false, viewed: false };
     }
 
     /**
@@ -90,6 +91,7 @@ export class SaveStorage {
             title,
             storedAt: Date.now(),
             hasError: true,
+            viewed: false,
             error,
         };
 
@@ -97,7 +99,7 @@ export class SaveStorage {
         const store = db.transaction(STORE_NAME, 'readwrite').objectStore(STORE_NAME);
         await requestToPromise(store.put(save));
 
-        return { id, directory, title, storedAt: save.storedAt, hasError: true };
+        return { id, directory, title, storedAt: save.storedAt, hasError: true, viewed: false };
     }
 
     /** Load a save by ID. */
@@ -114,13 +116,25 @@ export class SaveStorage {
         const store = db.transaction(STORE_NAME, 'readonly').objectStore(STORE_NAME);
         const saves = await requestToPromise(store.getAll()) as StoredSave[];
 
-        return saves.map(({ id, directory, title, storedAt, hasError }) => ({
+        return saves.map(({ id, directory, title, storedAt, hasError, viewed }) => ({
             id,
             directory,
             title,
             storedAt,
             hasError,
+            viewed: viewed ?? false,
         }));
+    }
+
+    /** Mark a save as viewed. */
+    async markViewed(id: string): Promise<void> {
+        const db = await this.dbPromise;
+        const store = db.transaction(STORE_NAME, 'readwrite').objectStore(STORE_NAME);
+        const save = await requestToPromise(store.get(id)) as StoredSave | undefined;
+        if (save && !save.viewed) {
+            save.viewed = true;
+            await requestToPromise(store.put(save));
+        }
     }
 
     /** Delete a save by ID. */

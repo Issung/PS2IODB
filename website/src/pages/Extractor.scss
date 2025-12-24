@@ -222,6 +222,17 @@
                 }
             }
 
+            .unread-indicator {
+                width: 20px;
+                text-align: center;
+                padding: 0;
+
+                .unread-dot {
+                    color: #4a90d9;
+                    font-size: 0.6rem;
+                }
+            }
+
             .dir-name {
                 font-family: monospace;
                 font-size: 0.85rem;
@@ -232,9 +243,36 @@
                 color: #fff;
             }
 
-            .icon-count {
+            .status {
                 text-align: center;
-                color: #4a90d9;
+                width: 50px;
+            }
+
+            .actions {
+                width: 30px;
+                text-align: center;
+                padding: 0;
+
+                .delete-button {
+                    background: none;
+                    border: none;
+                    color: #666;
+                    cursor: pointer;
+                    font-size: 0.8rem;
+                    padding: 2px 6px;
+                    border-radius: 3px;
+                    opacity: 0;
+                    transition: opacity 0.15s, color 0.15s, background 0.15s;
+
+                    &:hover {
+                        color: #ff6b6b;
+                        background: rgba(255, 107, 107, 0.1);
+                    }
+                }
+            }
+
+            tr:hover .delete-button {
+                opacity: 1;
             }
         }
     }

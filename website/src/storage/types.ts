@@ -7,6 +7,8 @@ export interface StoredSaveMetadata {
     title: string;
     storedAt: number;
     hasError: boolean;
+    /** Whether this save has been viewed by the user. */
+    viewed: boolean;
 }
 
 /** Error information for a save that failed to parse. */

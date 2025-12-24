@@ -13,21 +13,6 @@ import {
 } from "../storage";
 
 /**
- * Represents either a freshly extracted save or one loaded from storage.
- */
-interface DisplaySave {
-    id: string;
-    directory: string;
-    title: string;
-    hasError: boolean;
-    error?: { message: string; details?: string };
-    /** Present for freshly extracted saves. */
-    extracted?: ExtractedSave;
-    /** Present for saves loaded from storage. */
-    stored?: StoredSave;
-}
-
-/**
  * The Extractor page allows users to open PS2 memory card files
  * and view/extract save icons.
  */
@@ -38,32 +23,22 @@ function Extractor() {
     const [file, setFile] = useState<File | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    const [saves, setSaves] = useState<DisplaySave[]>([]);
-    const [selectedSave, setSelectedSave] = useState<DisplaySave | null>(null);
+    const [saves, setSaves] = useState<StoredSaveMetadata[]>([]);
+    const [selectedSaveId, setSelectedSaveId] = useState<string | null>(null);
+    const [selectedSaveData, setSelectedSaveData] = useState<StoredSave | null>(null);
     const [isRestoring, setIsRestoring] = useState(true);
-    const [storedSaves, setStoredSaves] = useState<StoredSaveMetadata[]>([]);
 
-    // Restore saves from IndexedDB on mount, dispose on unmount
+    // Load all saves from storage on mount
     useEffect(() => {
         const restoreFromStorage = async () => {
             try {
                 const list = await storage.list();
-                setStoredSaves(list);
+                setSaves(list);
 
-                // Try to restore the last-selected save
+                // Try to select the last-selected save
                 const lastSelectedId = storage.getLastSelectedId();
-                const candidateId =
-                    (lastSelectedId && list.some((s) => s.id === lastSelectedId))
-                        ? lastSelectedId
-                        : (list[0]?.id ?? null);
-
-                if (candidateId) {
-                    const stored = await storage.load(candidateId);
-                    if (stored) {
-                        const displaySave = storedToDisplaySave(stored);
-                        setSaves([displaySave]);
-                        setSelectedSave(displaySave);
-                    }
+                if (lastSelectedId && list.some((s) => s.id === lastSelectedId)) {
+                    await selectSave(lastSelectedId, list);
                 }
             } catch (err) {
                 console.error('Failed to restore from storage:', err);
@@ -79,15 +54,22 @@ function Extractor() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    /** Convert a StoredSave to DisplaySave. */
-    const storedToDisplaySave = (stored: StoredSave): DisplaySave => ({
-        id: stored.id,
-        directory: stored.directory,
-        title: stored.title,
-        hasError: stored.hasError,
-        error: stored.error,
-        stored,
-    });
+    /** Select a save and load its data. */
+    const selectSave = async (id: string, currentSaves?: StoredSaveMetadata[]) => {
+        const stored = await storage.load(id);
+        if (!stored) return;
+
+        setSelectedSaveId(id);
+        setSelectedSaveData(stored);
+        storage.setLastSelectedId(id);
+
+        // Mark as viewed and update local state
+        if (!stored.viewed) {
+            await storage.markViewed(id);
+            const savesToUpdate = currentSaves ?? saves;
+            setSaves(savesToUpdate.map(s => s.id === id ? { ...s, viewed: true } : s));
+        }
+    };
 
     // Handle file drop
     const handleDrop = useCallback((e: React.DragEvent) => {
@@ -104,18 +86,16 @@ function Extractor() {
     }, []);
 
     /**
-     * Load a file and extract saves from it.
+     * Load a file and extract saves from it, adding to storage.
      */
     const loadFileAndProcess = async (selectedFile: File) => {
         setFile(selectedFile);
         setError(null);
-        setSaves([]);
-        setSelectedSave(null);
         setLoading(true);
 
         try {
             const extractedSaves = await loadFile(selectedFile);
-            const displaySaves: DisplaySave[] = [];
+            const newSaveIds: string[] = [];
 
             for (const extracted of extractedSaves) {
                 try {
@@ -127,14 +107,7 @@ function Extractor() {
                         modelFiles.iconSys,
                         modelFiles.files,
                     );
-
-                    displaySaves.push({
-                        id: metadata.id,
-                        directory: extracted.directoryName,
-                        title: extracted.title,
-                        hasError: false,
-                        extracted,
-                    });
+                    newSaveIds.push(metadata.id);
                 } catch (err) {
                     // Store with error info
                     const errorMsg = err instanceof Error ? err.message : 'Unknown error';
@@ -143,24 +116,21 @@ function Extractor() {
                         extracted.title,
                         { message: errorMsg },
                     );
-
-                    displaySaves.push({
-                        id: metadata.id,
-                        directory: extracted.directoryName,
-                        title: extracted.title,
-                        hasError: true,
-                        error: { message: errorMsg },
-                    });
+                    newSaveIds.push(metadata.id);
                 }
             }
 
-            setSaves(displaySaves);
-            setStoredSaves(await storage.list());
+            // Refresh the full list from storage
+            const updatedList = await storage.list();
+            setSaves(updatedList);
 
-            if (displaySaves.length > 0) {
-                const firstGood = displaySaves.find(s => !s.hasError) ?? displaySaves[0];
-                setSelectedSave(firstGood);
-                storage.setLastSelectedId(firstGood.id);
+            // Select the first newly added save
+            if (newSaveIds.length > 0) {
+                const firstNewSave = updatedList.find(s => s.id === newSaveIds[0] && !s.hasError)
+                    ?? updatedList.find(s => s.id === newSaveIds[0]);
+                if (firstNewSave) {
+                    await selectSave(firstNewSave.id, updatedList);
+                }
             }
         } catch (err) {
             console.error('Failed to parse file:', err);
@@ -178,115 +148,58 @@ function Extractor() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleStoredSaveClick = async (id: string) => {
-        try {
-            const stored = await storage.load(id);
-            if (!stored) return;
-
-            storage.setLastSelectedId(id);
-            const displaySave = storedToDisplaySave(stored);
-            setSaves([displaySave]);
-            setSelectedSave(displaySave);
-            setFile(null);
-        } catch (err) {
-            console.error('Failed to load stored save:', err);
-        }
+    const handleSaveSelect = async (save: StoredSaveMetadata) => {
+        await selectSave(save.id);
     };
 
-    const handleStoredSaveDelete = async (id: string) => {
+    const handleSaveDelete = async (id: string) => {
         try {
             await storage.delete(id);
-            setStoredSaves((prev) => prev.filter((s) => s.id !== id));
             setSaves((prev) => prev.filter((s) => s.id !== id));
-            if (selectedSave?.id === id) {
-                setSelectedSave(null);
+            if (selectedSaveId === id) {
+                setSelectedSaveId(null);
+                setSelectedSaveData(null);
             }
         } catch (err) {
-            console.error('Failed to delete stored save:', err);
+            console.error('Failed to delete save:', err);
         }
     };
-
-    const handleSaveSelect = useCallback((save: DisplaySave) => {
-        setSelectedSave(save);
-        storage.setLastSelectedId(save.id);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     // Create a ModelLoader for the selected save
     const modelLoader = useMemo(() => {
-        if (!selectedSave || selectedSave.hasError) return null;
-
-        // If freshly extracted, use extracted data
-        if (selectedSave.extracted) {
-            const modelFiles = extractedSaveToModelFiles(selectedSave.extracted);
-            return new FileModelLoader(modelFiles);
+        if (!selectedSaveData || selectedSaveData.hasError || !selectedSaveData.files) {
+            return null;
         }
 
-        // If from storage, reconstruct from stored files
-        if (selectedSave.stored?.files) {
-            const blobMap = storedFilesToBlobMap(selectedSave.stored.files.files);
-            const modelFiles = new ModelFiles(blobMap, selectedSave.stored.files.iconSys);
-            return new FileModelLoader(modelFiles);
-        }
+        const blobMap = storedFilesToBlobMap(selectedSaveData.files.files);
+        const modelFiles = new ModelFiles(blobMap, selectedSaveData.files.iconSys);
+        return new FileModelLoader(modelFiles);
+    }, [selectedSaveData]);
 
-        return null;
-    }, [selectedSave]);
-
-	    return (
-	        <div className="extractor-page" onDrop={handleDrop} onDragOver={handleDragOver}>
-	            {/* Header */}
-	            <header className="extractor-header">
-	                <h1>PS2 Icon Extractor</h1>
-	                <div className="file-input-section">
-	                    <label htmlFor="mc-file-input" className="file-input-label">
-	                        <span>Open File</span>
-	                        <input
-	                            id="mc-file-input"
-	                            type="file"
-	                            accept=".ps2,.psu,.max,.sps,.xps,.cbs,.psv"
-	                            onChange={handleFileChange}
-	                        />
-	                    </label>
-	                    {file && <span className="file-name">{file.name}</span>}
-	                </div>
-                {storedSaves.length > 0 && (
-                    <div className="stored-files">
-                        <span className="label">Recent saves:</span>
-                        <ul>
-                            {storedSaves.map((stored) => (
-                                <li
-                                    key={stored.id}
-                                    className={stored.id === selectedSave?.id ? 'active' : undefined}
-                                >
-                                    <button
-                                        type="button"
-                                        className="stored-file-button"
-                                        onClick={() => handleStoredSaveClick(stored.id)}
-                                    >
-                                        {stored.title || stored.directory}
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="stored-file-remove"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleStoredSaveDelete(stored.id);
-                                        }}
-                                    >
-                                        X
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-	            </header>
+    return (
+        <div className="extractor-page" onDrop={handleDrop} onDragOver={handleDragOver}>
+            {/* Header */}
+            <header className="extractor-header">
+                <h1>PS2 Icon Extractor</h1>
+                <div className="file-input-section">
+                    <label htmlFor="mc-file-input" className="file-input-label">
+                        <span>Open File</span>
+                        <input
+                            id="mc-file-input"
+                            type="file"
+                            accept=".ps2,.psu,.max,.sps,.xps,.cbs,.psv"
+                            onChange={handleFileChange}
+                        />
+                    </label>
+                    {file && <span className="file-name">{file.name}</span>}
+                </div>
+            </header>
 
             {/* Main content */}
             <Group orientation="horizontal" className="extractor-main">
                 {/* Left panel - Directory listing */}
                 <Panel defaultSize="40%" minSize="200px" className="directory-panel">
-                    {!file && !loading && !isRestoring && (
+                    {saves.length === 0 && !loading && !isRestoring && (
                         <div className="drop-zone">
                             <p>Drop a PS2 memory card (.ps2) or save file (.psu) here</p>
                             <p className="hint">or use the "Open File" button above</p>
@@ -311,9 +224,11 @@ function Extractor() {
                             <table>
                                 <thead>
                                     <tr>
+                                        <th></th>
                                         <th>Directory</th>
                                         <th>Title</th>
                                         <th>Status</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -321,11 +236,27 @@ function Extractor() {
                                         <tr
                                             key={save.id}
                                             onClick={() => handleSaveSelect(save)}
-                                            className={selectedSave?.id === save.id ? 'selected' : ''}
+                                            className={selectedSaveId === save.id ? 'selected' : ''}
                                         >
+                                            <td className="unread-indicator">
+                                                {!save.viewed && <span className="unread-dot" title="Not yet viewed">●</span>}
+                                            </td>
                                             <td className="dir-name">{save.directory}</td>
                                             <td className="title">{save.title}</td>
                                             <td className="status">{save.hasError ? '❌' : '✓'}</td>
+                                            <td className="actions">
+                                                <button
+                                                    type="button"
+                                                    className="delete-button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleSaveDelete(save.id);
+                                                    }}
+                                                    title="Delete"
+                                                >
+                                                    ✕
+                                                </button>
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -338,11 +269,11 @@ function Extractor() {
 
                 {/* Right panel - Icon viewer */}
                 <Panel minSize="300px" className="viewer-panel">
-                    {selectedSave && (
+                    {selectedSaveData && (
                         <>
                             {/* Title display */}
                             <div className="save-title">
-                                <h2>{selectedSave.title}</h2>
+                                <h2>{selectedSaveData.title}</h2>
                             </div>
 
                             {/* 3D Icon viewer */}
@@ -358,7 +289,7 @@ function Extractor() {
                         </>
                     )}
 
-                    {!selectedSave && saves.length > 0 && (
+                    {!selectedSaveData && saves.length > 0 && (
                         <div className="no-selection-message">
                             Select a save from the list to view its icon
                         </div>
@@ -369,10 +300,10 @@ function Extractor() {
             {/* Status bar */}
             <footer className="extractor-footer">
                 {saves.length > 0 && (
-                    <span>{saves.length} save{saves.length !== 1 ? 's' : ''} found</span>
+                    <span>{saves.length} save{saves.length !== 1 ? 's' : ''} stored</span>
                 )}
-                {selectedSave && (
-                    <span>Selected: {selectedSave.directory}</span>
+                {selectedSaveData && (
+                    <span>Selected: {selectedSaveData.directory}</span>
                 )}
             </footer>
         </div>
