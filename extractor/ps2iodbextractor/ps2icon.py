@@ -95,7 +95,7 @@ class Icon:
 
 
 
-    def __init__(self, data):
+    def __init__(self, data: bytes):
         self.animation_shapes = 0
         self.texture_type = 0   
         self.header_unknown = 0
@@ -121,7 +121,7 @@ class Icon:
 
         #print("_____________________________")
 
-    def __load_header(self, data, length, offset):
+    def __load_header(self, data: bytes, length, offset):
         if length < _icon_header_struct.size:
             raise FileTooSmall("Data length is smaller than expected icon header size.")
 
@@ -139,7 +139,7 @@ class Icon:
         return offset + _icon_header_struct.size
 
 
-    def __load_vertex_data(self, data, length, offset):
+    def __load_vertex_data(self, data: bytes, length, offset):
         stride = _vertex_coords_struct.size * self.animation_shapes \
                  + _normal_struct.size + _uv_struct.size + _color_struct.size
 
@@ -190,7 +190,7 @@ class Icon:
                 
         return offset
 
-    def __load_animation_data(self, data, length, offset):
+    def __load_animation_data(self, data: bytes, length, offset):
         if length < offset + _anim_header_struct.size:
             raise FileTooSmall("Data length is smaller than expected animation data size.")
 
@@ -239,7 +239,7 @@ class Icon:
         return offset
 
 
-    def __load_texture(self, data, length, offset):
+    def __load_texture(self, data: bytes, length, offset):
         # No textures to load. This may be the case when are colored without a texture.
         # Fix copied from https://github.com/Adubbz/mymcplusplus/commit/b7291e691de4badf7d1ff1b6a9a6491781f26121
         if offset == length:
@@ -256,8 +256,8 @@ class Icon:
             print(f"texture_type is {self.texture_type} loading as uncompressed.")
             return self.__load_texture_uncompressed(data, length, offset)
 
+    def __load_texture_uncompressed(self, data: bytes, length, offset):
 
-    def __load_texture_uncompressed(self, data, length, offset):
         if length < offset + _TEXTURE_SIZE:
             raise FileTooSmall("Data length is smaller than expected uncompressed texture size.")
 
@@ -266,7 +266,7 @@ class Icon:
         return offset + _TEXTURE_SIZE
 
 
-    def __load_texture_compressed(self, data, length, offset):
+    def __load_texture_compressed(self, data: bytes, length, offset):
         if length < offset + 4:
             raise FileTooSmall("Data length is smaller than expected compressed texture header size.")
 
