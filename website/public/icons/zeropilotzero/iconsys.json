@@ -1,0 +1,19 @@
+{
+    "directory":"BISLPM-66459-rei",
+    "title":"ZERO PILOT\u96f6",
+    "normal":"k3_save1.ico",
+    "copy":"k3_save2.ico",
+    "delete":"k3_save3.ico",
+    "bgOpacity":112,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#4a2d18",
+    "bgColBR":"#4a2d18",
+    "light1Dir":[0.5, 0.5, 0.5, 0.0],
+    "light2Dir":[0.0, -0.4000000059604645, -0.10000000149011612, 0.0],
+    "light3Dir":[-0.5, -0.5, 0.5, 0.0],
+    "light1Col":[0.0, 0.0, 0.0, 0.0],
+    "light2Col":[0.800000011920929, 0.5, 0.30000001192092896, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[0.20000000298023224, 0.20000000298023224, 0.20000000298023224, 0.0]
+}
