@@ -27,6 +27,7 @@ function Extractor() {
     const [selectedSaveId, setSelectedSaveId] = useState<string | null>(null);
     const [selectedSaveData, setSelectedSaveData] = useState<StoredSave | null>(null);
     const [isRestoring, setIsRestoring] = useState(true);
+    const [showClearConfirm, setShowClearConfirm] = useState(false);
 
     // Load all saves from storage on mount
     useEffect(() => {
@@ -165,6 +166,18 @@ function Extractor() {
         }
     };
 
+    const handleClearAll = async () => {
+        setShowClearConfirm(false);
+        try {
+            await storage.clear();
+            setSaves([]);
+            setSelectedSaveId(null);
+            setSelectedSaveData(null);
+        } catch (err) {
+            console.error('Failed to clear saves:', err);
+        }
+    };
+
     // Create a ModelLoader for the selected save
     const modelLoader = useMemo(() => {
         if (!selectedSaveData || selectedSaveData.hasError || !selectedSaveData.files) {
@@ -191,6 +204,15 @@ function Extractor() {
                             onChange={handleFileChange}
                         />
                     </label>
+                    {saves.length > 0 && (
+                        <button
+                            type="button"
+                            className="clear-button"
+                            onClick={() => setShowClearConfirm(true)}
+                        >
+                            Clear
+                        </button>
+                    )}
                     {file && <span className="file-name">{file.name}</span>}
                 </div>
             </header>
@@ -306,6 +328,44 @@ function Extractor() {
                     <span>Selected: {selectedSaveData.directory}</span>
                 )}
             </footer>
+
+            {/* Clear confirmation modal */}
+            {showClearConfirm && (
+                <div className="confirm-modal-overlay" onClick={() => setShowClearConfirm(false)}>
+                    <div className="confirm-modal" onClick={e => e.stopPropagation()}>
+                        <div className="confirm-modal-header">
+                            <h5>Clear All Saves</h5>
+                            <button
+                                type="button"
+                                className="confirm-modal-close"
+                                onClick={() => setShowClearConfirm(false)}
+                                aria-label="Close"
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <div className="confirm-modal-body">
+                            <p>Are you sure you want to remove all {saves.length} saved {saves.length === 1 ? 'item' : 'items'}? This action cannot be undone.</p>
+                        </div>
+                        <div className="confirm-modal-footer">
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() => setShowClearConfirm(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-danger"
+                                onClick={handleClearAll}
+                            >
+                                Clear All
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
