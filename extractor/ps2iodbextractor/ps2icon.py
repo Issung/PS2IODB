@@ -95,7 +95,7 @@ class Icon:
 
 
 
-    def __init__(self, data):
+    def __init__(self, data: bytes):
         self.animation_shapes = 0
         self.texture_type = 0   
         self.header_unknown = 0
@@ -121,7 +121,7 @@ class Icon:
 
         #print("_____________________________")
 
-    def __load_header(self, data, length, offset):
+    def __load_header(self, data: bytes, length, offset):
         if length < _icon_header_struct.size:
             raise FileTooSmall("Data length is smaller than expected icon header size.")
 
@@ -139,7 +139,7 @@ class Icon:
         return offset + _icon_header_struct.size
 
 
-    def __load_vertex_data(self, data, length, offset):
+    def __load_vertex_data(self, data: bytes, length, offset):
         stride = _vertex_coords_struct.size * self.animation_shapes \
                  + _normal_struct.size + _uv_struct.size + _color_struct.size
 
@@ -190,7 +190,7 @@ class Icon:
                 
         return offset
 
-    def __load_animation_data(self, data, length, offset):
+    def __load_animation_data(self, data: bytes, length, offset):
         if length < offset + _anim_header_struct.size:
             raise FileTooSmall("Data length is smaller than expected animation data size.")
 
@@ -239,34 +239,35 @@ class Icon:
         return offset
 
 
-    def __load_texture(self, data, length, offset):
-        # No textures to load. This may be the case when are colored without a texture.
-        # Fix copied from https://github.com/Adubbz/mymcplusplus/commit/b7291e691de4badf7d1ff1b6a9a6491781f26121
-        if offset == length:
-            self.texture = [0xFFFF] * _TEXTURE_SIZE # An all white texture
-            return offset
-
-        compressed_types = [12, 14, 15] # From Ross' ps2icon.c.
-        is_compressed = self.texture_type in compressed_types
-
-        if is_compressed:
-            print(f"texture_type is {self.texture_type} loading as compressed.")
-            return self.__load_texture_compressed(data, length, offset)
+    def __load_texture(self, data: bytes, length, offset):
+        # Magic bytes checks copied from here: https://github.com/ps2store/ps2suitcase/blob/2671f127b6d5148a764101eee8e01f1f17200bdb/crates/ps2-filetypes/src/parser/icn.rs#L180
+        if self.texture_type & 0b0100:
+            if self.texture_type & 0b1000:
+                print(f"texture_type is {self.texture_type}, loading as compressed.")
+                return self.__load_texture_compressed(data, length, offset)
+            else:
+                print(f"texture_type is {self.texture_type}, loading as uncompressed.")
+                return self.__load_texture_uncompressed(data, length, offset)
         else:
-            print(f"texture_type is {self.texture_type} loading as uncompressed.")
-            return self.__load_texture_uncompressed(data, length, offset)
+            print(f"texture_type is {self.texture_type}, setting texture to all-white.")
+            self.texture = [0xFFFF] * _TEXTURE_SIZE
+            return offset
+        
+    def __load_texture_uncompressed(self, data: bytes, length, offset):
+        chunk = data[offset:offset + _TEXTURE_SIZE]
 
+        # Pad with 0xFFFF if too short
+        diff = _TEXTURE_SIZE - len(chunk)
+        if diff > 0:
+            print(f"Warning: Uncompressed texture is {diff} bytes smaller than expected. Filling remaining data with 00 (black).")
+            chunk += b'\x00' * diff
+            self.texture = chunk
+            return length
 
-    def __load_texture_uncompressed(self, data, length, offset):
-        if length < offset + _TEXTURE_SIZE:
-            raise FileTooSmall("Data length is smaller than expected uncompressed texture size.")
-
-        self.texture = data[offset:(offset + _TEXTURE_SIZE)]
-
+        self.texture = chunk
         return offset + _TEXTURE_SIZE
 
-
-    def __load_texture_compressed(self, data, length, offset):
+    def __load_texture_compressed(self, data: bytes, length, offset):
         if length < offset + 4:
             raise FileTooSmall("Data length is smaller than expected compressed texture header size.")
 
@@ -279,7 +280,7 @@ class Icon:
         if compressed_size % 2 != 0:
             raise Corrupt("Compressed data size is odd.")
 
-        texture_buf = bytearray(_TEXTURE_SIZE * 2)
+        texture_buf = bytearray(_TEXTURE_SIZE)
         tex_offset = 0
         rle_offset = 0
 
@@ -299,8 +300,8 @@ class Icon:
                         break
                     pixel = int.from_bytes(data[offset + rle_offset : offset + rle_offset + 2], "little")
                     rle_offset += 2
-                    texture_buf[tex_offset*2 : tex_offset*2 + 2] = pixel.to_bytes(2, "little")
-                    tex_offset += 1
+                    texture_buf[tex_offset : tex_offset + 2] = pixel.to_bytes(2, "little")
+                    tex_offset += 2
             else:  # repeated run
                 times = rle_code
                 if times > 0:
@@ -311,13 +312,14 @@ class Icon:
                     for _ in range(times):
                         if tex_offset >= _TEXTURE_SIZE:
                             break
-                        texture_buf[tex_offset*2 : tex_offset*2 + 2] = pixel.to_bytes(2, "little")
-                        tex_offset += 1
+                        texture_buf[tex_offset : tex_offset + 2] = pixel.to_bytes(2, "little")
+                        tex_offset += 2
 
         # Fill remaining pixels with 0 if decompressed data is smaller
         if tex_offset < _TEXTURE_SIZE:
+            print(f"Warning: Compressed texture is {_TEXTURE_SIZE - tex_offset} bytes smaller than expected. Filling remaining data with 00 (black).")
             for i in range(tex_offset, _TEXTURE_SIZE):
-                texture_buf[i*2 : i*2 + 2] = b"\x00\x00"
+                texture_buf[i : i + 2] = b"\x00\x00"
 
         self.texture = bytes(texture_buf)
         return offset + compressed_size
