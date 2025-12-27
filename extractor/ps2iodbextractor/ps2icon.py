@@ -279,7 +279,7 @@ class Icon:
         if compressed_size % 2 != 0:
             raise Corrupt("Compressed data size is odd.")
 
-        texture_buf = bytearray(_TEXTURE_SIZE * 2)
+        texture_buf = bytearray(_TEXTURE_SIZE)
         tex_offset = 0
         rle_offset = 0
 
@@ -299,8 +299,8 @@ class Icon:
                         break
                     pixel = int.from_bytes(data[offset + rle_offset : offset + rle_offset + 2], "little")
                     rle_offset += 2
-                    texture_buf[tex_offset*2 : tex_offset*2 + 2] = pixel.to_bytes(2, "little")
-                    tex_offset += 1
+                    texture_buf[tex_offset : tex_offset + 2] = pixel.to_bytes(2, "little")
+                    tex_offset += 2
             else:  # repeated run
                 times = rle_code
                 if times > 0:
@@ -311,13 +311,13 @@ class Icon:
                     for _ in range(times):
                         if tex_offset >= _TEXTURE_SIZE:
                             break
-                        texture_buf[tex_offset*2 : tex_offset*2 + 2] = pixel.to_bytes(2, "little")
-                        tex_offset += 1
+                        texture_buf[tex_offset : tex_offset + 2] = pixel.to_bytes(2, "little")
+                        tex_offset += 2
 
         # Fill remaining pixels with 0 if decompressed data is smaller
         if tex_offset < _TEXTURE_SIZE:
             for i in range(tex_offset, _TEXTURE_SIZE):
-                texture_buf[i*2 : i*2 + 2] = b"\x00\x00"
+                texture_buf[i : i + 2] = b"\x00\x00"
 
         self.texture = bytes(texture_buf)
         return offset + compressed_size
