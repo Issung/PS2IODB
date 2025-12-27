@@ -21,7 +21,6 @@ function Extractor() {
     const storageRef = useRef<SaveStorage>(new SaveStorage());
     const storage = storageRef.current;
 
-    const [file, setFile] = useState<File | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [saves, setSaves] = useState<StoredSaveMetadata[]>([]);
@@ -91,7 +90,6 @@ function Extractor() {
      * Load a file and extract saves from it, adding to storage.
      */
     const loadFileAndProcess = async (selectedFile: File) => {
-        setFile(selectedFile);
         setError(null);
         setLoading(true);
 
@@ -200,7 +198,7 @@ function Extractor() {
                 <h1>Icon Extractor</h1>
                 <div className="file-input-section">
                     <label htmlFor="mc-file-input" className="file-input-label">
-                        <span>Open File</span>
+                        <span>Import File</span>
                         <input
                             id="mc-file-input"
                             type="file"
@@ -217,7 +215,6 @@ function Extractor() {
                             Clear
                         </button>
                     )}
-                    {file && <span className="file-name">{file.name}</span>}
                 </div>
             </header>
 
@@ -322,16 +319,6 @@ function Extractor() {
                     )}
                 </Panel>
             </Group>
-
-            {/* Status bar */}
-            <footer className="extractor-footer">
-                {saves.length > 0 && (
-                    <span>{saves.length} save{saves.length !== 1 ? 's' : ''} stored</span>
-                )}
-                {selectedSaveData && (
-                    <span>Selected: {selectedSaveData.directory}</span>
-                )}
-            </footer>
 
             {/* Clear confirmation modal */}
             {showClearConfirm && (
