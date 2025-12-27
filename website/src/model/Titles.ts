@@ -2032,7 +2032,7 @@ export const Titles: Title[] = [
     new Game(`IndyCar Series`, `indycarseries`, 1, Contributors.TheZulaPatrolFan2005),
     new Game(`IndyCar Series 2005`, `indycarseries2005`, 1, Contributors.TheZulaPatrolFan2005),
     new Game(`Initial D Special Stage`, `initialdspecialstage`, 1, Contributors.Psiences),
-    new Game(`Initial D - Takahashi Ryosuke no Typing Saisoku Riron`),
+    new Game(`Initial D - Takahashi Ryosuke no Typing Saisoku Riron`),  // No save data -Mkca
     new Game(`Innocent Life: A Futuristic Harvest Moon`, `innocentlife`, 1, Contributors.Cajas),
     new Game(`Inspector Gadget: Mad Robots Invasion`, `inspectorgadgetmadrobotsinvasion`, 1, Contributors.Sebita),
     new Game(`Intellivision Lives!`, `intellivisionlives`, 1, Contributors.Cajas),
