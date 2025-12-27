@@ -279,44 +279,46 @@ class Icon:
         if compressed_size % 2 != 0:
             raise Corrupt("Compressed data size is odd.")
 
-        texture_buf = bytearray(_TEXTURE_SIZE)
-
+        texture_buf = bytearray(_TEXTURE_SIZE * 2)
         tex_offset = 0
         rle_offset = 0
 
         while rle_offset < compressed_size:
-            rle_code = int(data[offset + rle_offset]) | (int(data[offset + rle_offset + 1]) << 8)
+            if rle_offset + 2 > compressed_size:
+                raise Corrupt("Compressed data too short for RLE code")
+
+            rle_code = int.from_bytes(data[offset + rle_offset : offset + rle_offset + 2], "little")
             rle_offset += 2
 
-            if rle_code & 0xff00 == 0xff00: # use the next (0xffff - rle_code) * 2 bytes as they are
-                sublength = (0x10000 - rle_code) * 2
-                if compressed_size < rle_offset + sublength:
-                    raise Corrupt("Compressed data is too short.")
-                if tex_offset + sublength > _TEXTURE_SIZE:
-                    raise Corrupt("Decompressed data exceeds texture size.")
-
-                for i in range(sublength):
-                    texture_buf[tex_offset] = data[offset + rle_offset]
+            if rle_code & 0x8000:  # literal run
+                literal_count = 0x8000 - (rle_code ^ 0x8000)
+                for _ in range(literal_count):
+                    if rle_offset + 2 > compressed_size:
+                        raise Corrupt("Compressed data too short for literal pixel")
+                    if tex_offset >= _TEXTURE_SIZE:
+                        break
+                    pixel = int.from_bytes(data[offset + rle_offset : offset + rle_offset + 2], "little")
+                    rle_offset += 2
+                    texture_buf[tex_offset*2 : tex_offset*2 + 2] = pixel.to_bytes(2, "little")
                     tex_offset += 1
-                    rle_offset += 1
+            else:  # repeated run
+                times = rle_code
+                if times > 0:
+                    if rle_offset + 2 > compressed_size:
+                        raise Corrupt("Compressed data too short for repeated pixel")
+                    pixel = int.from_bytes(data[offset + rle_offset : offset + rle_offset + 2], "little")
+                    rle_offset += 2
+                    for _ in range(times):
+                        if tex_offset >= _TEXTURE_SIZE:
+                            break
+                        texture_buf[tex_offset*2 : tex_offset*2 + 2] = pixel.to_bytes(2, "little")
+                        tex_offset += 1
 
-            else: # repeat next 2 bytes rle_code times
-                rep = rle_code
-                if compressed_size < rle_offset + 2:
-                    raise Corrupt("Compressed data is too short.")
-                if tex_offset + rep * 2 > _TEXTURE_SIZE:
-                    raise Corrupt("Decompressed data exceeds texture size.")
-
-                subdata = data[(offset + rle_offset):(offset + rle_offset + 2)]
-                rle_offset += 2
-
-                for i in range(rep):
-                    texture_buf[tex_offset] = subdata[0]
-                    texture_buf[tex_offset+1] = subdata[1]
-                    tex_offset += 2
-
-        assert rle_offset == compressed_size
+        # Fill remaining pixels with 0 if decompressed data is smaller
+        if tex_offset < _TEXTURE_SIZE:
+            for i in range(tex_offset, _TEXTURE_SIZE):
+                texture_buf[i*2 : i*2 + 2] = b"\x00\x00"
 
         self.texture = bytes(texture_buf)
-
         return offset + compressed_size
+

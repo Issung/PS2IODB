@@ -369,7 +369,7 @@ class IconRenderer:
                 progress = 0.0
 
             if last is not None and next is not None:
-                shape_values[frame.shape_id] = (1.0 - progress) * last.value + progress * next.value
+                shape_values[frame.shape_id - 1] = (1.0 - progress) * last.value + progress * next.value
 
         # Guard, if no shape values then no animation, set to a default of { 0: 1.0 }.
         if shape_values == {}:
