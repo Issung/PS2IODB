@@ -140,10 +140,12 @@ function Extractor() {
         }
     };
 
-    const handleFileChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFilesImport = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
-        if (files && files.length > 0) {
-            loadFileAndProcess(files[0]);
+        if (files) {
+            for (let i = 0; i < files.length; ++i) {
+                await loadFileAndProcess(files[i]);
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -203,7 +205,8 @@ function Extractor() {
                             id="mc-file-input"
                             type="file"
                             accept=".ps2,.psu,.max,.sps,.xps,.cbs,.psv"
-                            onChange={handleFileChange}
+                            multiple
+                            onChange={handleFilesImport}
                         />
                     </label>
                     {saves.length > 0 && (
