@@ -208,18 +208,23 @@ export function parsePS2Icon(data: Uint8Array): PS2Icon {
     // Load texture
     let texture: Uint8Array;
 
-    if (offset >= data.length) {
-        // No texture - create all white
-        texture = new Uint8Array(TEXTURE_SIZE);
-        texture.fill(0xFF);
-    } else {
-        const compressedTypes = [12, 14, 15];
-        const isCompressed = compressedTypes.includes(textureType);
-
-        if (isCompressed) {
+    // Check texture_type bits to determine loading strategy
+    // Bit 2 (0b0100): texture present
+    // Bit 3 (0b1000): texture is compressed
+    if (textureType & 0b0100) {
+        if (textureType & 0b1000) {
+            // Compressed texture
             texture = loadTextureCompressed(reader, data.length, offset);
         } else {
+            // Uncompressed texture
             texture = loadTextureUncompressed(reader, data.length, offset);
+        }
+    } else {
+        // No texture, fill with white (0xFFFF per pixel)
+        texture = new Uint8Array(TEXTURE_SIZE);
+        for (let i = 0; i < TEXTURE_SIZE; i += 2) {
+            texture[i] = 0xFF;
+            texture[i + 1] = 0xFF;
         }
     }
 
@@ -239,10 +244,21 @@ export function parsePS2Icon(data: Uint8Array): PS2Icon {
 }
 
 function loadTextureUncompressed(reader: BinaryReader, length: number, offset: number): Uint8Array {
-    if (length < offset + TEXTURE_SIZE) {
-        throw new IconFileTooSmall('Data length is smaller than expected uncompressed texture size.');
+    const availableBytes = length - offset;
+    const bytesToRead = Math.min(availableBytes, TEXTURE_SIZE);
+    const chunk = reader.readBytes(bytesToRead);
+
+    // Pad with 0x00 if too short
+    const diff = TEXTURE_SIZE - bytesToRead;
+    if (diff > 0) {
+        console.warn(`Warning: Uncompressed texture is ${diff} bytes smaller than expected. Filling remaining data with 00 (black).`);
+        const padded = new Uint8Array(TEXTURE_SIZE);
+        padded.set(chunk);
+        // Remaining bytes are already 0x00 by default in Uint8Array
+        return padded;
     }
-    return reader.readBytes(TEXTURE_SIZE);
+
+    return chunk;
 }
 
 function loadTextureCompressed(reader: BinaryReader, length: number, offset: number): Uint8Array {
@@ -268,43 +284,49 @@ function loadTextureCompressed(reader: BinaryReader, length: number, offset: num
     const compressedData = reader.readBytes(compressedSize);
 
     while (rleOffset < compressedSize) {
+        if (rleOffset + 2 > compressedSize) {
+            throw new IconCorrupt('Compressed data too short for RLE code.');
+        }
+
         const rleCode = compressedData[rleOffset] | (compressedData[rleOffset + 1] << 8);
         rleOffset += 2;
 
-        if ((rleCode & 0xff00) === 0xff00) {
-            // Use next (0x10000 - rleCode) * 2 bytes as they are
-            const sublength = (0x10000 - rleCode) * 2;
-            if (compressedSize < rleOffset + sublength) {
-                throw new IconCorrupt('Compressed data is too short.');
-            }
-            if (texOffset + sublength > TEXTURE_SIZE) {
-                throw new IconCorrupt('Decompressed data exceeds texture size.');
-            }
-
-            for (let i = 0; i < sublength; i++) {
+        if (rleCode & 0x8000) {
+            // Literal run: use next literalCount pixels as they are
+            const literalCount = 0x8000 - (rleCode ^ 0x8000);
+            for (let i = 0; i < literalCount; i++) {
+                if (rleOffset + 2 > compressedSize) {
+                    throw new IconCorrupt('Compressed data too short for literal pixel.');
+                }
+                if (texOffset >= TEXTURE_SIZE) {
+                    break;
+                }
+                textureBuf[texOffset++] = compressedData[rleOffset++];
                 textureBuf[texOffset++] = compressedData[rleOffset++];
             }
         } else {
-            // Repeat next 2 bytes rleCode times
-            const rep = rleCode;
-            if (compressedSize < rleOffset + 2) {
-                throw new IconCorrupt('Compressed data is too short.');
-            }
-            if (texOffset + rep * 2 > TEXTURE_SIZE) {
-                throw new IconCorrupt('Decompressed data exceeds texture size.');
-            }
+            // Repeat run: repeat next pixel rleCode times
+            const times = rleCode;
+            if (times > 0) {
+                if (rleOffset + 2 > compressedSize) {
+                    throw new IconCorrupt('Compressed data too short for repeated pixel.');
+                }
+                const byte0 = compressedData[rleOffset];
+                const byte1 = compressedData[rleOffset + 1];
+                rleOffset += 2;
 
-            const byte0 = compressedData[rleOffset];
-            const byte1 = compressedData[rleOffset + 1];
-            rleOffset += 2;
-
-            for (let i = 0; i < rep; i++) {
-                textureBuf[texOffset++] = byte0;
-                textureBuf[texOffset++] = byte1;
+                for (let i = 0; i < times; i++) {
+                    if (texOffset >= TEXTURE_SIZE) {
+                        break;
+                    }
+                    textureBuf[texOffset++] = byte0;
+                    textureBuf[texOffset++] = byte1;
+                }
             }
         }
     }
 
+    // Remaining bytes are already initialized to 0 (black)
     return textureBuf;
 }
 
