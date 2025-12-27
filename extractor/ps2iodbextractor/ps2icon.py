@@ -240,22 +240,19 @@ class Icon:
 
 
     def __load_texture(self, data: bytes, length, offset):
-        # No textures to load. This may be the case when are colored without a texture.
-        # Fix copied from https://github.com/Adubbz/mymcplusplus/commit/b7291e691de4badf7d1ff1b6a9a6491781f26121
-        if offset == length:
-            self.texture = [0xFFFF] * _TEXTURE_SIZE # An all white texture
-            return offset
-
-        # https://github.com/ps2store/ps2suitcase/blob/2671f127b6d5148a764101eee8e01f1f17200bdb/crates/ps2-filetypes/src/parser/icn.rs#L180
-        is_compressed = self.texture_type & 0b1000 > 0
-
-        if is_compressed:
-            print(f"texture_type is {self.texture_type} loading as compressed.")
-            return self.__load_texture_compressed(data, length, offset)
+        # Magic bytes checks copied from here: https://github.com/ps2store/ps2suitcase/blob/2671f127b6d5148a764101eee8e01f1f17200bdb/crates/ps2-filetypes/src/parser/icn.rs#L180
+        if self.texture_type & 0b0100:
+            if self.texture_type & 0b1000:
+                print(f"texture_type is {self.texture_type}, loading as compressed.")
+                return self.__load_texture_compressed(data, length, offset)
+            else:
+                print(f"texture_type is {self.texture_type}, loading as uncompressed.")
+                return self.__load_texture_uncompressed(data, length, offset)
         else:
-            print(f"texture_type is {self.texture_type} loading as uncompressed.")
-            return self.__load_texture_uncompressed(data, length, offset)
-
+            print(f"texture_type is {self.texture_type}, setting texture to all-white.")
+            self.texture = [0xFFFF] * _TEXTURE_SIZE
+            return offset
+        
     def __load_texture_uncompressed(self, data: bytes, length, offset):
         chunk = data[offset:offset + _TEXTURE_SIZE]
 
