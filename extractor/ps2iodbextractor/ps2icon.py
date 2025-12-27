@@ -246,8 +246,8 @@ class Icon:
             self.texture = [0xFFFF] * _TEXTURE_SIZE # An all white texture
             return offset
 
-        compressed_types = [12, 14, 15] # From Ross' ps2icon.c.
-        is_compressed = self.texture_type in compressed_types
+        # https://github.com/ps2store/ps2suitcase/blob/2671f127b6d5148a764101eee8e01f1f17200bdb/crates/ps2-filetypes/src/parser/icn.rs#L180
+        is_compressed = self.texture_type & 0b1000 > 0
 
         if is_compressed:
             print(f"texture_type is {self.texture_type} loading as compressed.")
