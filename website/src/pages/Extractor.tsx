@@ -1,16 +1,17 @@
-import { useState, useCallback, useMemo, useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Group, Panel, Separator } from "react-resizable-panels";
-import './Extractor.scss';
-import { loadFile, ExtractedSave, extractedSaveToModelFiles } from '../extractor';
-import { ModelView } from '../components/ModelView/ModelView';
+import { Link } from "react-router-dom";
 import { FileModelLoader } from '../components/ModelView/FileModelLoader';
 import { ModelFiles } from '../components/ModelView/ModelFiles';
+import { ModelView } from '../components/ModelView/ModelView';
+import { extractedSaveToModelFiles, loadFile } from '../extractor';
 import {
     SaveStorage,
-    StoredSaveMetadata,
     StoredSave,
+    StoredSaveMetadata,
     storedFilesToBlobMap,
 } from "../storage";
+import './Extractor.scss';
 
 /**
  * The Extractor page allows users to open PS2 memory card files
@@ -193,7 +194,10 @@ function Extractor() {
         <div className="extractor-page" onDrop={handleDrop} onDragOver={handleDragOver}>
             {/* Header */}
             <header className="extractor-header">
-                <h1>PS2 Icon Extractor</h1>
+                <Link to="/">
+                    <img id="logo-full" src="/images/logo-full-min.svg" height="40px" alt="PS2IODB Logo"/>
+                </Link>
+                <h1>Icon Extractor</h1>
                 <div className="file-input-section">
                     <label htmlFor="mc-file-input" className="file-input-label">
                         <span>Open File</span>
