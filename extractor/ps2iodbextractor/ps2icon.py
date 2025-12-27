@@ -257,14 +257,18 @@ class Icon:
             return self.__load_texture_uncompressed(data, length, offset)
 
     def __load_texture_uncompressed(self, data: bytes, length, offset):
+        chunk = data[offset:offset + _TEXTURE_SIZE]
 
-        if length < offset + _TEXTURE_SIZE:
-            raise FileTooSmall("Data length is smaller than expected uncompressed texture size.")
+        # Pad with 0xFFFF if too short
+        diff = _TEXTURE_SIZE - len(chunk)
+        if diff > 0:
+            print(f"Warning: Uncompressed texture is {diff} bytes smaller than expected. Filling remaining data with 00 (black).")
+            chunk += b'\x00' * diff
+            self.texture = chunk
+            return length
 
-        self.texture = data[offset:(offset + _TEXTURE_SIZE)]
-
+        self.texture = chunk
         return offset + _TEXTURE_SIZE
-
 
     def __load_texture_compressed(self, data: bytes, length, offset):
         if length < offset + 4:
@@ -316,6 +320,7 @@ class Icon:
 
         # Fill remaining pixels with 0 if decompressed data is smaller
         if tex_offset < _TEXTURE_SIZE:
+            print(f"Warning: Compressed texture is {_TEXTURE_SIZE - tex_offset} bytes smaller than expected. Filling remaining data with 00 (black).")
             for i in range(tex_offset, _TEXTURE_SIZE):
                 texture_buf[i : i + 2] = b"\x00\x00"
 
