@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { FileModelLoader } from '../components/ModelView/FileModelLoader';
 import { ModelFiles } from '../components/ModelView/ModelFiles';
 import { ModelView } from '../components/ModelView/ModelView';
-import { extractedSaveToModelFiles, loadFile } from '../extractor';
+import { importedSaveToModelFiles, loadFile } from '../extractor';
 import {
     SaveStorage,
     StoredSave,
@@ -94,13 +94,13 @@ function Extractor() {
         setLoading(true);
 
         try {
-            const extractedSaves = await loadFile(selectedFile);
+            const importedSaves = await loadFile(selectedFile);
             const newSaveIds: string[] = [];
 
-            for (const extracted of extractedSaves) {
+            for (const extracted of importedSaves) {
                 try {
                     // Convert to model files and store
-                    const modelFiles = extractedSaveToModelFiles(extracted);
+                    const modelFiles = importedSaveToModelFiles(extracted);
                     const metadata = await storage.saveSuccess(
                         extracted.directoryName,
                         extracted.title,

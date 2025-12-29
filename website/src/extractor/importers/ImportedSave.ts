@@ -4,7 +4,7 @@ import { IconSysData } from "../ps2iconsys";
 /**
  * Information about a parsed save with icon data.
  */
-export interface ExtractedSave {
+export interface ImportedSave {
     directoryName: string;
     title: string;
     iconSys: IconSysData | null;

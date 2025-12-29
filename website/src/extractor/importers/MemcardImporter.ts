@@ -3,25 +3,39 @@
  * Handles loading and parsing PS2 memory card images.
  */
 
-import { ExtractedSave } from '.';
+import { ImportedSave } from './ImportedSave';
+import { SaveImporter } from './SaveImporter';
 import { parsePS2Icon, PS2Icon } from '../ps2icon';
 import { decodeTitle, IconSysData, parseIconSys } from '../ps2iconsys';
-import { PS2MemoryCard, SaveInfo } from '../ps2mc';
+import { PS2MC_MAGIC, PS2MemoryCard, SaveInfo } from '../ps2mc';
 
 /**
- * Static class for importing PS2 memory card images.
+ * Importer for PS2 memory card images.
  */
-export class MemcardImporter {
+export class MemcardImporter implements SaveImporter {
+    readonly name = 'PS2 Memory Card';
+
+    /**
+     * Check if this importer can handle the given file data.
+     */
+    handles(data: Uint8Array): boolean {
+        if (data.length < 28) {
+            return false;
+        }
+        const magic = new TextDecoder('ascii').decode(data.subarray(0, 28));
+        return magic === PS2MC_MAGIC || magic.startsWith('Sony PS2 Memory Card Format');
+    }
+
     /**
      * Load and parse a PS2 memory card image.
      */
-    static load(buffer: ArrayBuffer): ExtractedSave[] {
-        const mc = new PS2MemoryCard(buffer);
+    load(data: Uint8Array): ImportedSave[] {
+        const mc = new PS2MemoryCard(data.buffer as ArrayBuffer);
         const saves = mc.getSaveDirectories();
-        const results: ExtractedSave[] = [];
+        const results: ImportedSave[] = [];
 
         for (const save of saves) {
-            const extracted = MemcardImporter.extractSaveData(mc, save);
+            const extracted = this.extractSaveData(mc, save);
             if (extracted) {
                 results.push(extracted);
             }
@@ -33,7 +47,7 @@ export class MemcardImporter {
     /**
      * Extract icon data from a save on the memory card.
      */
-    private static extractSaveData(mc: PS2MemoryCard, save: SaveInfo): ExtractedSave | null {
+    private extractSaveData(mc: PS2MemoryCard, save: SaveInfo): ImportedSave | null {
         try {
             let iconSys: IconSysData | null = null;
             const icons = new Map<string, PS2Icon>();

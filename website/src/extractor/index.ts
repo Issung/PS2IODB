@@ -1,54 +1,53 @@
+/**
+ * PS2 Memory Card and Save File Extractor
+ *
+ * This module provides functionality to parse PS2 memory card images
+ * and save files to extract icon data for viewing.
+ */
+
+export * from './importers';
+export type { ImportedSave } from './importers';
 export * from './ps2icon';
 export * from './ps2iconsys';
 export * from './ps2mc';
 export * from './ps2mcDir';
 export * from './ps2save';
 export * from './utils';
-export * from './importers';
 
-import { PS2Icon, TEXTURE_WIDTH, TEXTURE_HEIGHT } from './ps2icon';
-import { IconSysData, bgColorToHex } from './ps2iconsys';
-import { PS2MC_MAGIC } from './ps2mc';
-import { detectSaveFormat } from './ps2save';
-import './importers';
 import { ModelFiles } from '../components/ModelView/ModelFiles';
+import { AnimationData, AnimationFrameKey, AnimationFrame as ModelAnimationFrame } from '../model/AnimationData';
 import { IconSys } from '../model/IconSys';
-import { AnimationData, AnimationFrame as ModelAnimationFrame, AnimationFrameKey } from '../model/AnimationData';
-import { ExtractedSave, MemcardImporter, PsuImporter } from './importers';
-
-// Re-export ExtractedSave for backward compatibility
-export type { ExtractedSave } from './importers';
+import { ImportedSave, importers } from './importers';
+import { PS2Icon, TEXTURE_HEIGHT, TEXTURE_WIDTH } from './ps2icon';
+import { IconSysData, bgColorToHex } from './ps2iconsys';
 
 /**
  * Load and parse a memory card or save file.
+ * Iterates through registered importers to find one that can handle the file.
  */
-export async function loadFile(file: File): Promise<ExtractedSave[]> {
+export async function loadFile(file: File): Promise<ImportedSave[]> {
     const buffer = await file.arrayBuffer();
     const data = new Uint8Array(buffer);
 
-    // First, check if it's a memory card image
-    // The magic string is "Sony PS2 Memory Card Format " (28 characters with trailing space)
-    const magic = new TextDecoder('ascii').decode(data.subarray(0, 28));
-    console.log('File magic:', JSON.stringify(magic), 'Expected:', JSON.stringify(PS2MC_MAGIC));
-
-    if (magic === PS2MC_MAGIC || magic.startsWith('Sony PS2 Memory Card Format')) {
-        return MemcardImporter.load(buffer);
+    // Try each registered importer
+    for (const importer of importers) {
+        if (importer.handles(data)) {
+            console.log(`Using importer: ${importer.name}`);
+            return importer.load(data);
+        }
     }
 
-    // Otherwise, try save file formats
-    const format = detectSaveFormat(data);
-    if (format === 'psu') {
-        return [PsuImporter.load(data)];
-    }
-
-    throw new Error(`Unsupported file format. Magic found: "${magic.substring(0, 30)}". Supported formats: .ps2 (memory card), .psu (EMS save)`);
+    // No importer found
+    const magic = new TextDecoder('ascii').decode(data.subarray(0, 30));
+    const supportedFormats = importers.map(i => i.name).join(', ');
+    throw new Error(`Unsupported file format. Magic found: "${magic}". Supported formats: ${supportedFormats}`);
 }
 
 /**
- * Convert an ExtractedSave to ModelFiles format for use with FileModelLoader.
+ * Convert an ImportedSave to ModelFiles format for use with FileModelLoader.
  * Generates OBJ, MTL, PNG, and ANIM files from the PS2Icon data.
  */
-export function extractedSaveToModelFiles(save: ExtractedSave): ModelFiles {
+export function importedSaveToModelFiles(save: ImportedSave): ModelFiles {
     if (!save.iconSys) {
         throw new Error('Cannot convert save without iconSys data');
     }

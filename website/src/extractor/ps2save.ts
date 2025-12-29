@@ -44,65 +44,6 @@ export interface PS2SaveFile {
 }
 
 /**
- * Detect the format of a PS2 save file.
- */
-export function detectSaveFormat(data: Uint8Array): string | null {
-    if (data.length < PS2MC_DIRENT_LENGTH * 3) {
-        return null;
-    }
-
-    // Check for EMS/PSU format (no magic, just valid directory entries)
-    if (isPsuFormat(data)) {
-        return 'psu';
-    }
-
-    // Check for MAX Drive format
-    const magic = new TextDecoder('ascii').decode(data.subarray(0, 12));
-    if (magic === 'Ps2PowerSave') {
-        return 'max';
-    }
-
-    // Check for SharkPort format
-    if (data[0] === 0x0d && data[1] === 0x00 && data[2] === 0x00 && data[3] === 0x00) {
-        const spsCheck = new TextDecoder('ascii').decode(data.subarray(4, 17));
-        if (spsCheck === 'SharkPortSave') {
-            return 'sps';
-        }
-    }
-
-    // Check for CodeBreaker format
-    if (data[0] === 0x43 && data[1] === 0x46 && data[2] === 0x55 && data[3] === 0x00) {
-        return 'cbs';
-    }
-
-    return null;
-}
-
-/**
- * Check if data looks like a PSU/EMS format save.
- */
-function isPsuFormat(data: Uint8Array): boolean {
-    if (data.length < PS2MC_DIRENT_LENGTH * 3) {
-        return false;
-    }
-
-    try {
-        const dirent = unpackDirEntry(data.subarray(0, PS2MC_DIRENT_LENGTH));
-        const dotent = unpackDirEntry(data.subarray(PS2MC_DIRENT_LENGTH, PS2MC_DIRENT_LENGTH * 2));
-        const dotdotent = unpackDirEntry(data.subarray(PS2MC_DIRENT_LENGTH * 2, PS2MC_DIRENT_LENGTH * 3));
-
-        return modeIsDir(dirent.mode) && 
-               modeIsDir(dotent.mode) && 
-               modeIsDir(dotdotent.mode) && 
-               dirent.length >= 2 &&
-               dotent.name === '.' && 
-               dotdotent.name === '..';
-    } catch {
-        return false;
-    }
-}
-
-/**
  * Load a PSU/EMS format save file.
  */
 export function loadPsuSave(data: Uint8Array): PS2SaveFile {
