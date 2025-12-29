@@ -345,6 +345,10 @@
         height: auto;
     }
 
+    #model-view {
+        flex: 1;
+    }
+
     .no-icon-message,
     .no-selection-message {
         display: flex;

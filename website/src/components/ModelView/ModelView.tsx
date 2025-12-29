@@ -18,14 +18,11 @@ export interface ModelViewProps {
 
     /** Optional: download button status text (e.g., "Loading..."). */
     downloadStatus?: string;
-
-    /** Optional: if true, the component fills its container instead of being fullscreen. */
-    embedded?: boolean;
 }
 
 const renderer = new ModelViewRenderer();
 
-export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, embedded }: ModelViewProps) => {
+export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: ModelViewProps) => {
     // State for loaded data
     const [iconsys, setIconSys] = useState<IconSys | undefined>(undefined);
     const [loadError, setLoadError] = useState<string | undefined>(undefined);
@@ -201,7 +198,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, em
     console.log('ModelView', { loader });
 
     return (
-        <div id="model-view" className={embedded ? 'embedded' : ''}>
+        <div id="model-view">
             <canvas
                 id="iconRenderCanvas"
                 style={{

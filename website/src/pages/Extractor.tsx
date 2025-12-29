@@ -304,7 +304,7 @@ function Extractor() {
 
                             {/* 3D Icon viewer */}
                             {modelLoader && (
-                                <ModelView loader={modelLoader} embedded={true} hideControls={false} />
+                                <ModelView loader={modelLoader} hideControls={false} />
                             )}
 
                             {!modelLoader && (

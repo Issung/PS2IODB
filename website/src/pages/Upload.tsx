@@ -150,7 +150,9 @@ const Upload = () => {
                         </button>
                     </div>
 
-                    <ModelView loader={loader} />
+                    <div className="model-view-fullscreen">
+                        <ModelView loader={loader} />
+                    </div>
                 </>
             )}
         </div>

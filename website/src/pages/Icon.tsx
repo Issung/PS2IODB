@@ -197,11 +197,13 @@ const Icon = () => {
             </div>
 
             {loader && (
-                <ModelView
-                    loader={loader}
-                    onDownload={download}
-                    downloadStatus={downloadStatus}
-                />
+                <div className="model-view-fullscreen">
+                    <ModelView
+                        loader={loader}
+                        onDownload={download}
+                        downloadStatus={downloadStatus}
+                    />
+                </div>
             )}
         </div>
     );
