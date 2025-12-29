@@ -1,0 +1,96 @@
+/**
+ * PS2 Memory Card importer.
+ * Handles loading and parsing PS2 memory card images.
+ */
+
+import { ExtractedSave } from '.';
+import { parsePS2Icon, PS2Icon } from '../ps2icon';
+import { decodeTitle, IconSysData, parseIconSys } from '../ps2iconsys';
+import { PS2MemoryCard, SaveInfo } from '../ps2mc';
+
+/**
+ * Static class for importing PS2 memory card images.
+ */
+export class MemcardImporter {
+    /**
+     * Load and parse a PS2 memory card image.
+     */
+    static load(buffer: ArrayBuffer): ExtractedSave[] {
+        const mc = new PS2MemoryCard(buffer);
+        const saves = mc.getSaveDirectories();
+        const results: ExtractedSave[] = [];
+
+        for (const save of saves) {
+            const extracted = MemcardImporter.extractSaveData(mc, save);
+            if (extracted) {
+                results.push(extracted);
+            }
+        }
+
+        return results;
+    }
+
+    /**
+     * Extract icon data from a save on the memory card.
+     */
+    private static extractSaveData(mc: PS2MemoryCard, save: SaveInfo): ExtractedSave | null {
+        try {
+            let iconSys: IconSysData | null = null;
+            const icons = new Map<string, PS2Icon>();
+
+            console.log(`Processing save: ${save.directory.name}, files:`, save.files.map(f => f.name));
+
+            // Find and parse icon.sys (case insensitive)
+            const iconSysData = mc.readFile(save, 'icon.sys');
+            // icon.sys format is 964 bytes, but file on disk may be padded larger
+            if (iconSysData && iconSysData.length >= 964) {
+                // Only use first 964 bytes (the actual icon.sys format)
+                const iconSysTrimmed = iconSysData.length === 964 ? iconSysData : iconSysData.subarray(0, 964);
+                iconSys = parseIconSys(iconSysTrimmed);
+                console.log(`icon.sys parsed: normal=${iconSys.iconFileNormal}, copy=${iconSys.iconFileCopy}, delete=${iconSys.iconFileDelete}`);
+
+                // Parse each icon file
+                const iconFiles = [iconSys.iconFileNormal, iconSys.iconFileCopy, iconSys.iconFileDelete];
+                for (const iconFile of iconFiles) {
+                    if (iconFile && !icons.has(iconFile)) {
+                        const iconData = mc.readFile(save, iconFile);
+                        if (iconData && iconData.length > 0) {
+                            console.log(`Reading icon file ${iconFile}: ${iconData.length} bytes`);
+                            try {
+                                const icon = parsePS2Icon(iconData);
+                                icons.set(iconFile, icon);
+                                console.log(`Parsed icon ${iconFile}: ${icon.vertexCount} vertices, texture type ${icon.textureType}`);
+                            } catch (e) {
+                                console.warn(`Failed to parse icon ${iconFile}:`, e);
+                            }
+                        } else {
+                            console.log(`Icon file not found or empty: ${iconFile}`);
+                        }
+                    }
+                }
+            } else {
+                console.log(`icon.sys not found or invalid size in ${save.directory.name}`);
+            }
+
+            // Get title
+            let title = save.directory.name;
+            if (iconSys) {
+                const decoded = decodeTitle(iconSys.titleRaw, iconSys.titleLineOffset);
+                title = decoded.line1 + (decoded.line2 ? ' ' + decoded.line2 : '');
+            }
+
+            console.log(`Save ${save.directory.name}: ${icons.size} icons parsed`);
+
+            return {
+                directoryName: save.directory.name,
+                title,
+                iconSys,
+                icons
+            };
+        } catch (e) {
+            console.warn(`Failed to extract save ${save.directory.name}:`, e);
+            return null;
+        }
+    }
+}
+
