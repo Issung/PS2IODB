@@ -159,7 +159,7 @@ export function parsePS2Icon(data: Uint8Array): PS2Icon {
         colorData[i * 4 + 3] = reader.readUint8();
     }
 
-    offset = reader.position;
+    offset = reader.position - data.byteOffset;
 
     // Load animation header
     if (data.length < offset + 20) {
