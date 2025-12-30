@@ -13,7 +13,7 @@ import { loadPsuSave } from '../ps2save';
 /**
  * Importer for PSU/EMS format save files.
  */
-export class PsuImporter implements SaveImporter {
+export class EmsPsuImporter implements SaveImporter {
     readonly name = 'PSU/EMS Save';
 
     /**

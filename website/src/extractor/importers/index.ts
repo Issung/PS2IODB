@@ -1,33 +1,32 @@
-/**
- * PS2 save file importers.
- * Provides classes for importing various PS2 save file formats.
- */
-
-export type { ImportedSave } from './ImportedSave';
-export type { SaveImporter } from './SaveImporter';
-export { PsuImporter } from './PsuImporter';
-export { MemcardImporter } from './MemcardImporter';
-export { MaxImporter } from './MaxImporter';
-export { SharkPortImporter } from './SharkPortImporter';
 export { CodeBreakerImporter } from './CodeBreakerImporter';
+export { EmsPsuImporter } from './EmsPsuImporter';
+export type { ImportedSave } from './ImportedSave';
+export { MaxDriveImporter as MaxImporter } from './MaxImporter';
+export { MemcardImporter } from './MemcardImporter';
+export { PsvImporter } from './PsvImporter';
+export type { SaveImporter } from './SaveImporter';
+export { SharkPortImporter } from './SharkPortImporter';
 
-import { SaveImporter } from './SaveImporter';
-import { MemcardImporter } from './MemcardImporter';
-import { PsuImporter } from './PsuImporter';
-import { MaxImporter } from './MaxImporter';
-import { SharkPortImporter } from './SharkPortImporter';
 import { CodeBreakerImporter } from './CodeBreakerImporter';
+import { EmsPsuImporter } from './EmsPsuImporter';
+import { MaxDriveImporter } from './MaxImporter';
+import { MemcardImporter } from './MemcardImporter';
+import { PsvImporter } from './PsvImporter';
+import { SaveImporter } from './SaveImporter';
+import { SharkPortImporter } from './SharkPortImporter';
 
 /**
  * List of all registered save importers.
  * Importers are checked in order, so more specific formats should come first.
- * Note: MAX, SharkPort, and CodeBreaker are stubs - they detect but don't load.
+ * Note: MAX and SharkPort are stubs - they detect but don't load.
  */
 export const importers: SaveImporter[] = [
     new MemcardImporter(),
-    new MaxImporter(),
-    new SharkPortImporter(),
+
     new CodeBreakerImporter(),
-    new PsuImporter(),  // PSU last since it has no magic bytes - uses heuristics based upon directory structure.
+    new SharkPortImporter(),
+    new PsvImporter(),
+    new MaxDriveImporter(),
+    new EmsPsuImporter(),  // Import EMS/PSU last since it has no magic bytes - uses heuristics based upon directory structure.
 ];
 
