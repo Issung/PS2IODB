@@ -17,7 +17,7 @@ export * from './utils';
 import { ModelFiles } from '../components/ModelView/ModelFiles';
 import { AnimationData, AnimationFrameKey, AnimationFrame as ModelAnimationFrame } from '../model/AnimationData';
 import { ImportedSave, importers } from './importers';
-import { PS2Icon, TEXTURE_HEIGHT, TEXTURE_WIDTH } from './ps2icon';
+import { parsePS2Icon, PS2Icon, TEXTURE_HEIGHT, TEXTURE_WIDTH } from './ps2icon';
 
 /**
  * Load and parse a memory card or save file.
@@ -43,7 +43,7 @@ export async function loadFile(file: File): Promise<ImportedSave[]> {
 
 /**
  * Convert an ImportedSave to ModelFiles format for use with FileModelLoader.
- * Generates OBJ, MTL, PNG, and ANIM files from the PS2Icon data.
+ * Parses raw icon binaries and generates OBJ, MTL, PNG, and ANIM files.
  */
 export function importedSaveToModelFiles(save: ImportedSave): ModelFiles {
     if (!save.iconSys) {
@@ -52,8 +52,10 @@ export function importedSaveToModelFiles(save: ImportedSave): ModelFiles {
 
     const files = new Map<string, Blob>();
 
-    // Process each icon
-    save.icons.forEach((icon, filename) => {
+    // Parse and process each icon from raw binary
+    save.iconFiles.forEach((iconData, filename) => {
+        const icon = parsePS2Icon(iconData);
+
         // Generate OBJ content
         const objContent = generateOBJ(icon, filename);
         files.set(`${filename}.obj`, new Blob([objContent], { type: 'text/plain' }));

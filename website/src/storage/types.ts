@@ -19,8 +19,10 @@ export interface SaveError {
 
 /** File data for a successfully parsed save. */
 export interface SaveFiles {
-    /** The iconsys.json content. */
+    /** The icon.sys parsed data. */
     iconSys: IconSys;
+    /** Raw icon file binaries for re-parsing when extraction code changes. */
+    iconFiles: Record<string, ArrayBuffer>;
     /** Map of filename -> file data (ArrayBuffer for binary, string for text). */
     files: Record<string, ArrayBuffer | string>;
 }

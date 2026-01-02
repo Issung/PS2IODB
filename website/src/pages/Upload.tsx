@@ -74,11 +74,12 @@ const Upload = () => {
             const newLoader = await FileModelLoader.fromZipFile(file);
             const modelFiles = newLoader.getModelFiles();
 
-            // Store the parsed files
+            // Store the parsed files (no raw icon files for pre-processed zip uploads)
             const metadata = await storage.saveSuccess(
                 file.name,
                 modelFiles.iconSys.title ?? file.name,
                 modelFiles.iconSys,
+                null,
                 modelFiles.files,
             );
             storage.setLastSelectedId(metadata.id);

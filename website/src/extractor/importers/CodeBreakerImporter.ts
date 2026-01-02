@@ -1,6 +1,5 @@
 import pako from 'pako';
 import { IconSys } from '../../model/IconSys';
-import { parsePS2Icon, PS2Icon } from '../ps2icon';
 import { parseIconSys } from '../ps2iconsys';
 import {
     DF_0400,
@@ -218,7 +217,7 @@ export class CodeBreakerImporter implements SaveImporter {
 
         // Build ImportedSave
         let iconSys: IconSys | null = null;
-        const icons = new Map<string, PS2Icon>();
+        const iconFiles = new Map<string, Uint8Array>();
 
         // Find icon.sys
         const iconSysFile = files.find(f => f.name === 'icon.sys');
@@ -226,18 +225,13 @@ export class CodeBreakerImporter implements SaveImporter {
             iconSys = parseIconSys(iconSysFile.data);
             iconSys.directory = dirname;
 
-            // Parse each icon file
-            const iconFiles = [iconSys.normal, iconSys.copy, iconSys.delete];
-            for (const iconFileName of iconFiles) {
-                if (iconFileName && !icons.has(iconFileName)) {
+            // Collect raw icon file binaries
+            const iconFileNames = [iconSys.normal, iconSys.copy, iconSys.delete];
+            for (const iconFileName of iconFileNames) {
+                if (iconFileName && !iconFiles.has(iconFileName)) {
                     const iconFileEntry = files.find(f => f.name === iconFileName);
                     if (iconFileEntry && iconFileEntry.data.length > 0) {
-                        try {
-                            const icon = parsePS2Icon(iconFileEntry.data);
-                            icons.set(iconFileName, icon);
-                        } catch (e) {
-                            console.warn(`Failed to parse icon ${iconFileName}:`, e);
-                        }
+                        iconFiles.set(iconFileName, iconFileEntry.data);
                     }
                 }
             }
@@ -245,7 +239,7 @@ export class CodeBreakerImporter implements SaveImporter {
 
         return [{
             iconSys,
-            icons
+            iconFiles
         }];
     }
 

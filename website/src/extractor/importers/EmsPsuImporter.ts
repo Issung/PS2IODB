@@ -6,7 +6,6 @@
 import { IconSys } from '../../model/IconSys';
 import { ImportedSave } from './ImportedSave';
 import { SaveImporter } from './SaveImporter';
-import { parsePS2Icon, PS2Icon } from '../ps2icon';
 import { parseIconSys } from '../ps2iconsys';
 import { PS2MC_DIRENT_LENGTH, unpackDirEntry, modeIsDir } from '../ps2mcDir';
 import { loadPsuSave } from '../ps2save';
@@ -49,7 +48,7 @@ export class EmsPsuImporter implements SaveImporter {
         const save = loadPsuSave(data);
 
         let iconSys: IconSys | null = null;
-        const icons = new Map<string, PS2Icon>();
+        const iconFiles = new Map<string, Uint8Array>();
 
         // Find icon.sys
         const iconSysFile = save.files.find(f => f.entry.name === 'icon.sys');
@@ -57,18 +56,13 @@ export class EmsPsuImporter implements SaveImporter {
             iconSys = parseIconSys(iconSysFile.data);
             iconSys.directory = save.directory.name;
 
-            // Parse each icon file
-            const iconFiles = [iconSys.normal, iconSys.copy, iconSys.delete];
-            for (const iconFile of iconFiles) {
-                if (iconFile && !icons.has(iconFile)) {
-                    const iconFileEntry = save.files.find(f => f.entry.name === iconFile);
+            // Collect raw icon file binaries
+            const iconFileNames = [iconSys.normal, iconSys.copy, iconSys.delete];
+            for (const iconFileName of iconFileNames) {
+                if (iconFileName && !iconFiles.has(iconFileName)) {
+                    const iconFileEntry = save.files.find(f => f.entry.name === iconFileName);
                     if (iconFileEntry && iconFileEntry.data.length > 0) {
-                        try {
-                            const icon = parsePS2Icon(iconFileEntry.data);
-                            icons.set(iconFile, icon);
-                        } catch (e) {
-                            console.warn(`Failed to parse icon ${iconFile}:`, e);
-                        }
+                        iconFiles.set(iconFileName, iconFileEntry.data);
                     }
                 }
             }
@@ -76,7 +70,7 @@ export class EmsPsuImporter implements SaveImporter {
 
         return [{
             iconSys,
-            icons
+            iconFiles
         }];
     }
 }

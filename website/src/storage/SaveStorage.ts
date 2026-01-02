@@ -33,18 +33,28 @@ export class SaveStorage {
      * @param directory The save directory name (e.g. "BADATA-SYSTEM")
      * @param title The decoded save title
      * @param iconSys The IconSys data
+     * @param iconFiles Raw icon file binaries for re-parsing (optional, may be empty for pre-processed files)
      * @param files Map of filename -> Blob (obj, mtl, png, anim files)
      */
     async saveSuccess(
         directory: string,
         title: string,
         iconSys: IconSys,
+        iconFiles: Map<string, Uint8Array> | null,
         files: Map<string, Blob>,
     ): Promise<StoredSaveMetadata> {
         const id = crypto.randomUUID();
-        const filesRecord: Record<string, ArrayBuffer | string> = {};
+
+        // Convert icon files to ArrayBuffer for storage
+        const iconFilesRecord: Record<string, ArrayBuffer> = {};
+        if (iconFiles) {
+            iconFiles.forEach((data, filename) => {
+                iconFilesRecord[filename] = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength) as ArrayBuffer;
+            });
+        }
 
         // Convert Blobs to ArrayBuffer/string for storage
+        const filesRecord: Record<string, ArrayBuffer | string> = {};
         const entries = Array.from(files.entries());
         for (const [filename, blob] of entries) {
             if (filename.endsWith('.obj') || filename.endsWith('.mtl') || filename.endsWith('.anim')) {
@@ -61,7 +71,7 @@ export class SaveStorage {
             storedAt: Date.now(),
             hasError: false,
             viewed: false,
-            files: { iconSys, files: filesRecord },
+            files: { iconSys, iconFiles: iconFilesRecord, files: filesRecord },
         };
 
         const db = await this.dbPromise;

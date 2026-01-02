@@ -1,6 +1,5 @@
 import { IconSys } from '../../model/IconSys';
 import { lzariDecode } from '../lzari';
-import { parsePS2Icon, PS2Icon } from '../ps2icon';
 import { parseIconSys } from '../ps2iconsys';
 import { BinaryReader, roundUp, zeroTerminate } from '../utils';
 import { ImportedSave } from './ImportedSave';
@@ -116,7 +115,7 @@ export class MaxDriveImporter implements SaveImporter {
      */
     private buildImportedSave(dirname: string, files: MaxFileEntry[]): ImportedSave {
         let iconSys: IconSys | null = null;
-        const icons = new Map<string, PS2Icon>();
+        const iconFiles = new Map<string, Uint8Array>();
 
         // Find icon.sys
         const iconSysFile = files.find(f => f.name === 'icon.sys');
@@ -124,18 +123,13 @@ export class MaxDriveImporter implements SaveImporter {
             iconSys = parseIconSys(iconSysFile.data);
             iconSys.directory = dirname;
 
-            // Parse each icon file
-            const iconFiles = [iconSys.normal, iconSys.copy, iconSys.delete];
-            for (const iconFile of iconFiles) {
-                if (iconFile && !icons.has(iconFile)) {
-                    const iconFileEntry = files.find(f => f.name === iconFile);
+            // Collect raw icon file binaries
+            const iconFileNames = [iconSys.normal, iconSys.copy, iconSys.delete];
+            for (const iconFileName of iconFileNames) {
+                if (iconFileName && !iconFiles.has(iconFileName)) {
+                    const iconFileEntry = files.find(f => f.name === iconFileName);
                     if (iconFileEntry && iconFileEntry.data.length > 0) {
-                        try {
-                            const icon = parsePS2Icon(iconFileEntry.data);
-                            icons.set(iconFile, icon);
-                        } catch (e) {
-                            console.warn(`Failed to parse icon ${iconFile}:`, e);
-                        }
+                        iconFiles.set(iconFileName, iconFileEntry.data);
                     }
                 }
             }
@@ -143,7 +137,7 @@ export class MaxDriveImporter implements SaveImporter {
 
         return {
             iconSys,
-            icons
+            iconFiles
         };
     }
 }

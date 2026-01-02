@@ -6,7 +6,6 @@
 import { IconSys } from '../../model/IconSys';
 import { ImportedSave } from './ImportedSave';
 import { SaveImporter } from './SaveImporter';
-import { parsePS2Icon, PS2Icon } from '../ps2icon';
 import { parseIconSys } from '../ps2iconsys';
 import { PS2MC_MAGIC, PS2MemoryCard, SaveInfo } from '../ps2mc';
 
@@ -51,7 +50,7 @@ export class MemcardImporter implements SaveImporter {
     private extractSaveData(mc: PS2MemoryCard, save: SaveInfo): ImportedSave | null {
         try {
             let iconSys: IconSys | null = null;
-            const icons = new Map<string, PS2Icon>();
+            const iconFiles = new Map<string, Uint8Array>();
 
             console.log(`Processing save: ${save.directory.name}, files:`, save.files.map(f => f.name));
 
@@ -65,22 +64,16 @@ export class MemcardImporter implements SaveImporter {
                 iconSys.directory = save.directory.name;
                 console.log(`icon.sys parsed: normal=${iconSys.normal}, copy=${iconSys.copy}, delete=${iconSys.delete}`);
 
-                // Parse each icon file
-                const iconFiles = [iconSys.normal, iconSys.copy, iconSys.delete];
-                for (const iconFile of iconFiles) {
-                    if (iconFile && !icons.has(iconFile)) {
-                        const iconData = mc.readFile(save, iconFile);
+                // Collect raw icon file binaries
+                const iconFileNames = [iconSys.normal, iconSys.copy, iconSys.delete];
+                for (const iconFileName of iconFileNames) {
+                    if (iconFileName && !iconFiles.has(iconFileName)) {
+                        const iconData = mc.readFile(save, iconFileName);
                         if (iconData && iconData.length > 0) {
-                            console.log(`Reading icon file ${iconFile}: ${iconData.length} bytes`);
-                            try {
-                                const icon = parsePS2Icon(iconData);
-                                icons.set(iconFile, icon);
-                                console.log(`Parsed icon ${iconFile}: ${icon.vertexCount} vertices, texture type ${icon.textureType}`);
-                            } catch (e) {
-                                console.warn(`Failed to parse icon ${iconFile}:`, e);
-                            }
+                            console.log(`Reading icon file ${iconFileName}: ${iconData.length} bytes`);
+                            iconFiles.set(iconFileName, iconData);
                         } else {
-                            console.log(`Icon file not found or empty: ${iconFile}`);
+                            console.log(`Icon file not found or empty: ${iconFileName}`);
                         }
                     }
                 }
@@ -88,11 +81,11 @@ export class MemcardImporter implements SaveImporter {
                 console.log(`icon.sys not found or invalid size in ${save.directory.name}`);
             }
 
-            console.log(`Save ${save.directory.name}: ${icons.size} icons parsed`);
+            console.log(`Save ${save.directory.name}: ${iconFiles.size} icon files collected`);
 
             return {
                 iconSys,
-                icons
+                iconFiles
             };
         } catch (e) {
             console.warn(`Failed to extract save ${save.directory.name}:`, e);

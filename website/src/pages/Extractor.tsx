@@ -103,12 +103,13 @@ function Extractor() {
                 const title = extracted.iconSys?.title ?? directory;
 
                 try {
-                    // Convert to model files and store
+                    // Convert to model files and store (includes raw icon files for re-parsing)
                     const modelFiles = importedSaveToModelFiles(extracted);
                     const metadata = await storage.saveSuccess(
                         directory,
                         title,
                         modelFiles.iconSys,
+                        extracted.iconFiles,
                         modelFiles.files,
                     );
                     newSaveIds.push(metadata.id);
