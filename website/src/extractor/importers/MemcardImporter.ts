@@ -60,8 +60,7 @@ export class MemcardImporter implements SaveImporter {
             if (iconSysData && iconSysData.length >= 964) {
                 // Only use first 964 bytes (the actual icon.sys format)
                 const iconSysTrimmed = iconSysData.length === 964 ? iconSysData : iconSysData.subarray(0, 964);
-                iconSys = parseIconSys(iconSysTrimmed);
-                iconSys.directory = save.directory.name;
+                iconSys = parseIconSys(save.directory.name, iconSysTrimmed);
                 console.log(`icon.sys parsed: normal=${iconSys.normal}, copy=${iconSys.copy}, delete=${iconSys.delete}`);
 
                 // Collect raw icon file binaries

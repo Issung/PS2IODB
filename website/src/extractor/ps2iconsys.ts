@@ -26,7 +26,7 @@ export class IconSysCorrupt extends IconSysError {
 /**
  * Parse an icon.sys file.
  */
-export function parseIconSys(data: Uint8Array): IconSys {
+export function parseIconSys(directory: string, data: Uint8Array): IconSys {
     if (data.length !== ICON_SYS_SIZE) {
         throw new IconSysCorrupt(`Invalid size: ${data.length} != ${ICON_SYS_SIZE}`);
     }
@@ -83,7 +83,10 @@ export function parseIconSys(data: Uint8Array): IconSys {
     const iconFileCopy = reader.readFixedString(64);
     const iconFileDelete = reader.readFixedString(64);
 
+    // JSON stringify outputs properties in the order they were set. Preserve the order from the Python code here.
     const iconSys = new IconSys();
+    iconSys.directory = directory;
+    iconSys.title = title;
     iconSys.normal = iconFileNormal;
     iconSys.copy = iconFileCopy;
     iconSys.delete = iconFileDelete;
@@ -99,7 +102,6 @@ export function parseIconSys(data: Uint8Array): IconSys {
     iconSys.light2Col = lightColors[1];
     iconSys.light3Col = lightColors[2];
     iconSys.ambiLightCol = ambientLightColor;
-    iconSys.title = title;
 
     return iconSys;
 }

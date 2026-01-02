@@ -217,11 +217,13 @@ function convertAnimationData(icon: PS2Icon): AnimationData | undefined {
         return undefined;
     }
 
+    // JSON stringify outputs properties in the order they were set. Preserve the order from the Python code here.
     const animData = new AnimationData();
     animData.version = 2;
     animData.frameLength = icon.animHeader.frameLength;
     animData.animationSpeed = icon.animHeader.animSpeed;
     animData.playOffset = icon.animHeader.playOffset;
+    animData.frames = [];
 
     // Python: for frame_index in range(frame_count):
     for (let frameIndex = 0; frameIndex < frameCount; frameIndex++) {

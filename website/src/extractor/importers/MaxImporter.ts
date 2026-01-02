@@ -120,8 +120,7 @@ export class MaxDriveImporter implements SaveImporter {
         // Find icon.sys
         const iconSysFile = files.find(f => f.name === 'icon.sys');
         if (iconSysFile && iconSysFile.data.length === 964) {
-            iconSys = parseIconSys(iconSysFile.data);
-            iconSys.directory = dirname;
+            iconSys = parseIconSys(dirname, iconSysFile.data);
 
             // Collect raw icon file binaries
             const iconFileNames = [iconSys.normal, iconSys.copy, iconSys.delete];

@@ -1,3 +1,4 @@
+import JSZip from "jszip";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { Link } from "react-router-dom";
@@ -11,6 +12,7 @@ import {
     StoredSaveMetadata,
     storedSaveToModelFiles,
 } from "../storage";
+import { formatAnim, formatIconSys } from '../utils/JsonFormatter';
 import './Extractor.scss';
 
 /** Props for the SaveRow component. */
@@ -60,7 +62,12 @@ function Extractor() {
 
     // Context menu items for saves
     const saveContextMenuItems: ContextMenuItem[] = useMemo(() => [
+        { id: 'extract-zip', label: 'Extract & Download Assets in .zip' },
         { id: 'delete', label: 'Delete', danger: true },
+        ...(!import.meta.env.DEV ? [] : [
+            { id: 'copy-iconsys', label: 'DEV - Copy iconsys.json' },
+            { id: 'copy-anim', label: 'DEV - Copy first .anim' },
+        ]),
     ], []);
 
     // Load all saves from storage on mount
@@ -219,13 +226,132 @@ function Extractor() {
         }
     };
 
+    /**
+     * Clean filename for use in export.
+     * Some games have extra directories for the files which messes up our storage, e.g. Rayman Revolution.
+     * Matches Python iconexport.py clean_icon_filename function.
+     */
+    const cleanIconFilename = (filename: string): string => {
+        return filename.replace(/\\/g, '_').replace(/\//g, '-');
+    };
+
+    const handleExtractToZip = async (saveId: string) => {
+        try {
+            const stored = await storage.load(saveId);
+            if (!stored || stored.hasError || !stored.files) {
+                console.error('Cannot extract save: no files available');
+                return;
+            }
+
+            // Convert to ModelFiles to get OBJ/MTL/PNG/ANIM files
+            const modelFiles = storedSaveToModelFiles(stored.files);
+            const iconSys = modelFiles.iconSys;
+
+            // Create zip file with all model files
+            const zip = new JSZip();
+
+            // Add iconsys.json with compact formatting (arrays on single lines)
+            zip.file('iconsys.json', formatIconSys(iconSys));
+
+            // Add all model files (OBJ, MTL, PNG, ANIM)
+            // Clean filenames to handle games with subdirectories in icon paths
+            const filePromises: Promise<void>[] = [];
+            modelFiles.files.forEach((blob, filename) => {
+                const promise = (async () => {
+                    const cleanedFilename = cleanIconFilename(filename);
+                    let content: string | ArrayBuffer = await blob.arrayBuffer();
+
+                    // For MTL files, update the texture reference to use the cleaned filename
+                    if (filename.endsWith('.mtl')) {
+                        const mtlContent = await blob.text();
+                        // Replace any texture references with cleaned filenames
+                        content = mtlContent.replace(
+                            /^(map_Kd\s+)(.+)$/m,
+                            (_, prefix, texPath) => prefix + cleanIconFilename(texPath)
+                        );
+                    }
+                    // For ANIM files, reformat JSON with compact formatting
+                    else if (filename.endsWith('.anim')) {
+                        const animContent = await blob.text();
+                        const animData = JSON.parse(animContent);
+                        content = formatAnim(animData);
+                    }
+
+                    zip.file(cleanedFilename, content);
+                })();
+                filePromises.push(promise);
+            });
+            await Promise.all(filePromises);
+
+            // Generate and download zip
+            const zipContent = await zip.generateAsync({ type: 'blob' });
+            const url = URL.createObjectURL(zipContent);
+            const a = document.createElement('a');
+            a.href = url;
+            // Use directory name for the zip filename, sanitized for filesystem
+            const safeName = stored.directory.replace(/[^a-zA-Z0-9_-]/g, '_');
+            a.download = `ps2iodb_${safeName}.zip`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } catch (err) {
+            console.error('Failed to extract save to zip:', err);
+        }
+    };
+
     const handleSaveContextMenu = useCallback((x: number, y: number, saveId: string) => {
         contextMenu.show(x, y, saveId);
     }, [contextMenu]);
 
+    const handleCopyIconSys = async (saveId: string) => {
+        try {
+            const stored = await storage.load(saveId);
+            if (!stored || stored.hasError || !stored.files) {
+                console.error('Cannot copy iconsys: no files available');
+                return;
+            }
+            const modelFiles = storedSaveToModelFiles(stored.files);
+            const json = formatIconSys(modelFiles.iconSys);
+            await navigator.clipboard.writeText(json);
+        } catch (err) {
+            console.error('Failed to copy iconsys.json:', err);
+        }
+    };
+
+    const handleCopyFirstAnim = async (saveId: string) => {
+        try {
+            const stored = await storage.load(saveId);
+            if (!stored || stored.hasError || !stored.files) {
+                console.error('Cannot copy anim: no files available');
+                return;
+            }
+            const modelFiles = storedSaveToModelFiles(stored.files);
+            // Find the first .anim file
+            for (const [filename, blob] of Array.from(modelFiles.files.entries())) {
+                if (filename.endsWith('.anim')) {
+                    const animContent = await blob.text();
+                    const animData = JSON.parse(animContent);
+                    const json = formatAnim(animData);
+                    await navigator.clipboard.writeText(json);
+                    return;
+                }
+            }
+            console.error('No .anim file found');
+        } catch (err) {
+            console.error('Failed to copy first .anim:', err);
+        }
+    };
+
     const handleContextMenuItemClick = (itemId: string, data?: unknown) => {
         const saveId = data as string;
-        if (itemId === 'delete' && saveId) {
+        if (itemId === 'extract-zip' && saveId) {
+            handleExtractToZip(saveId);
+        } else if (itemId === 'copy-iconsys' && saveId) {
+            handleCopyIconSys(saveId);
+        } else if (itemId === 'copy-anim' && saveId) {
+            handleCopyFirstAnim(saveId);
+        } else if (itemId === 'delete' && saveId) {
             handleSaveDelete(saveId);
         }
     };
@@ -336,7 +462,11 @@ function Extractor() {
 
                             {/* 3D Icon viewer */}
                             {modelLoader && (
-                                <ModelView loader={modelLoader} hideControls={false} />
+                                <ModelView
+                                    loader={modelLoader}
+                                    hideControls={false}
+                                    onDownload={() => selectedSaveId && handleExtractToZip(selectedSaveId)}
+                                />
                             )}
 
                             {!modelLoader && (

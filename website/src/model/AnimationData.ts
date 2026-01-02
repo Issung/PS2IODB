@@ -5,10 +5,10 @@ export class AnimationData
      * We need to differentiate so that v1 anim files (with this field absent) can use the old animation playback code.
      */
     version: undefined | 2;
-    frameLength: number = -1;
-    animationSpeed: number = -1.0;
-    playOffset: number = -1;
-    frames: AnimationFrame[] = [];
+    frameLength!: number;
+    animationSpeed!: number;
+    playOffset!: number;
+    frames!: AnimationFrame[];
 }
 
 export class AnimationFrame 

@@ -1,14 +1,20 @@
 /**
  * Documentation: https://www.ps2savetools.com/documents/iconsys-format/
  * Must mirror `iconsys_dto.py` from MYMC++ program.
- */
+*/
 export class IconSys 
 {
+    // iconsys.json v3 field (unused on website):
+    public directory: string | undefined;
+
+    // Both titles of the save joined.
+    public title: string | undefined;
+    
     // Filenames of the normal, copy & delete icons.
     // Present from the first version of iconsys.json. Should always be populated.
-    public normal: string = '';
-    public copy: string = '';
-    public delete: string = '';
+    public normal!: string;
+    public copy!: string;
+    public delete!: string;
 
     // iconsys.json v2 fields:
 
@@ -32,10 +38,4 @@ export class IconSys
     public light2Col: number[] | undefined;
     public light3Col: number[] | undefined;
     public ambiLightCol: number[] | undefined;
-
-    // Both titles of the save joined.
-    public title: string | undefined;
-
-    // iconsys.json v3 field (unused on website):
-    public directory: string | undefined;
 }
