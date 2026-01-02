@@ -2,14 +2,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { Link } from "react-router-dom";
 import { FileModelLoader } from '../components/ModelView/FileModelLoader';
-import { ModelFiles } from '../components/ModelView/ModelFiles';
 import { ModelView } from '../components/ModelView/ModelView';
-import { importedSaveToModelFiles, loadFile } from '../extractor';
+import { loadFile } from '../extractor';
 import {
     SaveStorage,
     StoredSave,
     StoredSaveMetadata,
-    storedFilesToBlobMap,
+    storedSaveToModelFiles,
 } from "../storage";
 import './Extractor.scss';
 
@@ -103,14 +102,15 @@ function Extractor() {
                 const title = extracted.iconSys?.title ?? directory;
 
                 try {
-                    // Convert to model files and store (includes raw icon files for re-parsing)
-                    const modelFiles = importedSaveToModelFiles(extracted);
+                    if (!extracted.iconSys) {
+                        throw new Error('No iconSys data found');
+                    }
+                    // Store raw icon files for re-parsing when viewing
                     const metadata = await storage.saveSuccess(
                         directory,
                         title,
-                        modelFiles.iconSys,
+                        extracted.iconSys,
                         extracted.iconFiles,
-                        modelFiles.files,
                     );
                     newSaveIds.push(metadata.id);
                 } catch (err) {
@@ -184,14 +184,14 @@ function Extractor() {
         }
     };
 
-    // Create a ModelLoader for the selected save
+    // Create a ModelLoader for the selected save by re-parsing icons
     const modelLoader = useMemo(() => {
         if (!selectedSaveData || selectedSaveData.hasError || !selectedSaveData.files) {
             return null;
         }
 
-        const blobMap = storedFilesToBlobMap(selectedSaveData.files.files);
-        const modelFiles = new ModelFiles(blobMap, selectedSaveData.files.iconSys);
+        // Re-parse raw icon files to generate OBJ/MTL/PNG/ANIM
+        const modelFiles = storedSaveToModelFiles(selectedSaveData.files);
         return new FileModelLoader(modelFiles);
     }, [selectedSaveData]);
 

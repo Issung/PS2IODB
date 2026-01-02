@@ -1,20 +1,24 @@
+import { ModelFiles } from '../components/ModelView/ModelFiles';
+import { iconFilesToModelFiles } from '../extractor';
 import { SaveFiles } from './types';
 
 /**
- * Convert stored save files back to a Map<string, Blob> for use with ModelFiles.
+ * Convert stored save files to ModelFiles by re-parsing the raw icon binaries.
+ * This is called when viewing a stored save.
  */
-export function storedFilesToBlobMap(files: SaveFiles['files']): Map<string, Blob> {
-    const blobMap = new Map<string, Blob>();
-
-    for (const [filename, data] of Object.entries(files)) {
-        if (typeof data === 'string') {
-            blobMap.set(filename, new Blob([data], { type: 'text/plain' }));
-        } else {
-            const type = filename.endsWith('.png') ? 'image/png' : 'application/octet-stream';
-            blobMap.set(filename, new Blob([data], { type }));
-        }
+export function storedSaveToModelFiles(saveFiles: SaveFiles): ModelFiles {
+    // Convert ArrayBuffer back to Uint8Array Map
+    const iconFilesMap = new Map<string, Uint8Array>();
+    for (const [filename, buffer] of Object.entries(saveFiles.iconFiles)) {
+        iconFilesMap.set(filename, new Uint8Array(buffer));
     }
 
-    return blobMap;
+    return iconFilesToModelFiles(saveFiles.iconSys, iconFilesMap);
 }
+
+/**
+ * Convert raw icon files to ModelFiles by parsing and generating OBJ/MTL/PNG/ANIM files.
+ * Re-exported from extractor for convenience.
+ */
+export { iconFilesToModelFiles } from '../extractor';
 

@@ -16,6 +16,7 @@ export * from './utils';
 
 import { ModelFiles } from '../components/ModelView/ModelFiles';
 import { AnimationData, AnimationFrameKey, AnimationFrame as ModelAnimationFrame } from '../model/AnimationData';
+import { IconSys } from '../model/IconSys';
 import { ImportedSave, importers } from './importers';
 import { parsePS2Icon, PS2Icon, TEXTURE_HEIGHT, TEXTURE_WIDTH } from './ps2icon';
 
@@ -42,18 +43,15 @@ export async function loadFile(file: File): Promise<ImportedSave[]> {
 }
 
 /**
- * Convert an ImportedSave to ModelFiles format for use with FileModelLoader.
- * Parses raw icon binaries and generates OBJ, MTL, PNG, and ANIM files.
+ * Convert raw icon files to ModelFiles by parsing and generating OBJ, MTL, PNG, and ANIM files.
+ * @param iconSys The IconSys data defining the icons
+ * @param iconFiles Map of filename -> raw icon binary data
  */
-export function importedSaveToModelFiles(save: ImportedSave): ModelFiles {
-    if (!save.iconSys) {
-        throw new Error('Cannot convert save without iconSys data');
-    }
-
+export function iconFilesToModelFiles(iconSys: IconSys, iconFiles: Map<string, Uint8Array>): ModelFiles {
     const files = new Map<string, Blob>();
 
     // Parse and process each icon from raw binary
-    save.iconFiles.forEach((iconData, filename) => {
+    iconFiles.forEach((iconData, filename) => {
         const icon = parsePS2Icon(iconData);
 
         // Generate OBJ content
@@ -77,7 +75,19 @@ export function importedSaveToModelFiles(save: ImportedSave): ModelFiles {
         }
     });
 
-    return new ModelFiles(files, save.iconSys);
+    return new ModelFiles(files, iconSys);
+}
+
+/**
+ * Convert an ImportedSave to ModelFiles format for use with FileModelLoader.
+ * Parses raw icon binaries and generates OBJ, MTL, PNG, and ANIM files.
+ */
+export function importedSaveToModelFiles(save: ImportedSave): ModelFiles {
+    if (!save.iconSys) {
+        throw new Error('Cannot convert save without iconSys data');
+    }
+
+    return iconFilesToModelFiles(save.iconSys, save.iconFiles);
 }
 
 /**

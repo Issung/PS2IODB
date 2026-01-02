@@ -1,37 +1,52 @@
 import { IconSys } from '../model/IconSys';
 
-/** Metadata for a stored save (excludes file data for listing). */
-export interface StoredSaveMetadata {
-    id: string;
-    directory: string;
-    title: string;
-    storedAt: number;
-    hasError: boolean;
-    /** Whether this save has been viewed by the user. */
-    viewed: boolean;
-}
-
 /** Error information for a save that failed to parse. */
-export interface SaveError {
-    message: string;
-    details?: string;
+export class SaveError {
+    constructor(
+        public readonly message: string,
+        public readonly details?: string,
+    ) {}
 }
 
 /** File data for a successfully parsed save. */
-export interface SaveFiles {
-    /** The icon.sys parsed data. */
-    iconSys: IconSys;
-    /** Raw icon file binaries for re-parsing when extraction code changes. */
-    iconFiles: Record<string, ArrayBuffer>;
-    /** Map of filename -> file data (ArrayBuffer for binary, string for text). */
-    files: Record<string, ArrayBuffer | string>;
+export class SaveFiles {
+    constructor(
+        /** The icon.sys parsed data. */
+        public readonly iconSys: IconSys,
+        /** Raw icon file binaries for re-parsing when viewing. */
+        public readonly iconFiles: Record<string, ArrayBuffer>,
+    ) {}
 }
 
 /** A stored save - either has files or an error. */
-export interface StoredSave extends StoredSaveMetadata {
-    /** Present if parsing succeeded. */
-    files?: SaveFiles;
-    /** Present if parsing failed. */
-    error?: SaveError;
+export class StoredSave {
+    constructor(
+        public readonly id: string,
+        public readonly directory: string,
+        public readonly title: string,
+        public readonly storedAt: number,
+        public viewed: boolean,
+        /** Present if parsing succeeded. */
+        public readonly files?: SaveFiles,
+        /** Present if parsing failed. */
+        public readonly error?: SaveError,
+    ) {}
+
+    /** Whether this save has an error. */
+    get hasError(): boolean {
+        return this.error !== undefined;
+    }
+}
+
+/** Metadata for a stored save (excludes file data for listing). */
+export class StoredSaveMetadata {
+    constructor(
+        public readonly id: string,
+        public readonly directory: string,
+        public readonly title: string,
+        public readonly storedAt: number,
+        public readonly hasError: boolean,
+        public readonly viewed: boolean,
+    ) {}
 }
 

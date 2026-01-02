@@ -1,13 +1,14 @@
 /**
- * Storage for parsed PS2 save icons.
+ * Storage for PS2 save icons.
  *
- * Each save contains either the generated model files (for successful parses)
+ * Each save contains either the raw icon files (for successful parses)
  * or error information (for failed parses).
+ * Icons are re-parsed when viewed.
  */
 
 import { IconSys } from '../model/IconSys';
 import { openDatabase, requestToPromise, STORE_NAME, LAST_SELECTED_KEY } from './db';
-import { StoredSave, StoredSaveMetadata, SaveError } from './types';
+import { StoredSave, StoredSaveMetadata, SaveError, SaveFiles } from './types';
 
 export class SaveStorage {
     private readonly dbPromise: Promise<IDBDatabase>;
@@ -33,53 +34,32 @@ export class SaveStorage {
      * @param directory The save directory name (e.g. "BADATA-SYSTEM")
      * @param title The decoded save title
      * @param iconSys The IconSys data
-     * @param iconFiles Raw icon file binaries for re-parsing (optional, may be empty for pre-processed files)
-     * @param files Map of filename -> Blob (obj, mtl, png, anim files)
+     * @param iconFiles Raw icon file binaries for re-parsing when viewing
      */
     async saveSuccess(
         directory: string,
         title: string,
         iconSys: IconSys,
-        iconFiles: Map<string, Uint8Array> | null,
-        files: Map<string, Blob>,
+        iconFiles: Map<string, Uint8Array>,
     ): Promise<StoredSaveMetadata> {
         const id = crypto.randomUUID();
+        const storedAt = Date.now();
 
         // Convert icon files to ArrayBuffer for storage
         const iconFilesRecord: Record<string, ArrayBuffer> = {};
-        if (iconFiles) {
-            iconFiles.forEach((data, filename) => {
-                iconFilesRecord[filename] = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength) as ArrayBuffer;
-            });
-        }
+        iconFiles.forEach((data, filename) => {
+            iconFilesRecord[filename] = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength) as ArrayBuffer;
+        });
 
-        // Convert Blobs to ArrayBuffer/string for storage
-        const filesRecord: Record<string, ArrayBuffer | string> = {};
-        const entries = Array.from(files.entries());
-        for (const [filename, blob] of entries) {
-            if (filename.endsWith('.obj') || filename.endsWith('.mtl') || filename.endsWith('.anim')) {
-                filesRecord[filename] = await blob.text();
-            } else {
-                filesRecord[filename] = await blob.arrayBuffer();
-            }
-        }
-
-        const save: StoredSave = {
-            id,
-            directory,
-            title,
-            storedAt: Date.now(),
-            hasError: false,
-            viewed: false,
-            files: { iconSys, iconFiles: iconFilesRecord, files: filesRecord },
-        };
+        const files = new SaveFiles(iconSys, iconFilesRecord);
+        const save = new StoredSave(id, directory, title, storedAt, false, files);
 
         const db = await this.dbPromise;
         const store = db.transaction(STORE_NAME, 'readwrite').objectStore(STORE_NAME);
         await requestToPromise(store.put(save));
 
         this.setLastSelectedId(id);
-        return { id, directory, title, storedAt: save.storedAt, hasError: false, viewed: false };
+        return new StoredSaveMetadata(id, directory, title, storedAt, false, false);
     }
 
     /**
@@ -94,22 +74,15 @@ export class SaveStorage {
         error: SaveError,
     ): Promise<StoredSaveMetadata> {
         const id = crypto.randomUUID();
+        const storedAt = Date.now();
 
-        const save: StoredSave = {
-            id,
-            directory,
-            title,
-            storedAt: Date.now(),
-            hasError: true,
-            viewed: false,
-            error,
-        };
+        const save = new StoredSave(id, directory, title, storedAt, false, undefined, error);
 
         const db = await this.dbPromise;
         const store = db.transaction(STORE_NAME, 'readwrite').objectStore(STORE_NAME);
         await requestToPromise(store.put(save));
 
-        return { id, directory, title, storedAt: save.storedAt, hasError: true, viewed: false };
+        return new StoredSaveMetadata(id, directory, title, storedAt, true, false);
     }
 
     /** Load a save by ID. */
@@ -117,7 +90,7 @@ export class SaveStorage {
         const db = await this.dbPromise;
         const store = db.transaction(STORE_NAME, 'readonly').objectStore(STORE_NAME);
         const result = await requestToPromise(store.get(id));
-        return (result as StoredSave | undefined) ?? null;
+        return this.hydrateStoredSave(result) ?? null;
     }
 
     /** List all stored saves (metadata only, no file data). */
@@ -126,25 +99,56 @@ export class SaveStorage {
         const store = db.transaction(STORE_NAME, 'readonly').objectStore(STORE_NAME);
         const saves = await requestToPromise(store.getAll()) as StoredSave[];
 
-        return saves.map(({ id, directory, title, storedAt, hasError, viewed }) => ({
-            id,
-            directory,
-            title,
-            storedAt,
-            hasError,
-            viewed: viewed ?? false,
-        }));
+        return saves.map((save) => new StoredSaveMetadata(
+            save.id,
+            save.directory,
+            save.title,
+            save.storedAt,
+            save.error !== undefined,
+            save.viewed ?? false,
+        ));
     }
 
     /** Mark a save as viewed. */
     async markViewed(id: string): Promise<void> {
         const db = await this.dbPromise;
         const store = db.transaction(STORE_NAME, 'readwrite').objectStore(STORE_NAME);
-        const save = await requestToPromise(store.get(id)) as StoredSave | undefined;
-        if (save && !save.viewed) {
-            save.viewed = true;
-            await requestToPromise(store.put(save));
+        const raw = await requestToPromise(store.get(id));
+        if (raw && !raw.viewed) {
+            raw.viewed = true;
+            await requestToPromise(store.put(raw));
         }
+    }
+
+    /** Hydrate a plain object from IndexedDB into a proper StoredSave instance. */
+    private hydrateStoredSave(raw: unknown): StoredSave | undefined {
+        if (!raw || typeof raw !== 'object') return undefined;
+        const obj = raw as Record<string, unknown>;
+
+        let files: SaveFiles | undefined;
+        if (obj.files && typeof obj.files === 'object') {
+            const f = obj.files as Record<string, unknown>;
+            files = new SaveFiles(
+                f.iconSys as IconSys,
+                f.iconFiles as Record<string, ArrayBuffer>,
+            );
+        }
+
+        let error: SaveError | undefined;
+        if (obj.error && typeof obj.error === 'object') {
+            const e = obj.error as Record<string, unknown>;
+            error = new SaveError(e.message as string, e.details as string | undefined);
+        }
+
+        return new StoredSave(
+            obj.id as string,
+            obj.directory as string,
+            obj.title as string,
+            obj.storedAt as number,
+            (obj.viewed as boolean) ?? false,
+            files,
+            error,
+        );
     }
 
     /** Delete a save by ID. */
