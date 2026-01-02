@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { Link } from "react-router-dom";
+import { ContextMenu, ContextMenuItem, useContextMenu, useLongPress } from '../components/ContextMenu';
 import { FileModelLoader } from '../components/ModelView/FileModelLoader';
 import { ModelView } from '../components/ModelView/ModelView';
 import { loadFile } from '../extractor';
@@ -11,6 +12,34 @@ import {
     storedSaveToModelFiles,
 } from "../storage";
 import './Extractor.scss';
+
+/** Props for the SaveRow component. */
+interface SaveRowProps {
+    save: StoredSaveMetadata;
+    isSelected: boolean;
+    onSelect: () => void;
+    onContextMenu: (x: number, y: number, saveId: string) => void;
+}
+
+/** A single row in the saves table with long-press support. */
+function SaveRow({ save, isSelected, onSelect, onContextMenu }: SaveRowProps) {
+    const longPressHandlers = useLongPress(onContextMenu, save.id);
+
+    return (
+        <tr
+            onClick={onSelect}
+            className={isSelected ? 'selected' : ''}
+            {...longPressHandlers}
+        >
+            <td className="unread-indicator">
+                {!save.viewed && <span className="unread-dot" title="Not yet viewed">●</span>}
+            </td>
+            <td className="dir-name">{save.directory}</td>
+            <td className="title">{save.title}</td>
+            <td className="status">{save.hasError ? '❌' : '✓'}</td>
+        </tr>
+    );
+}
 
 /**
  * The Extractor page allows users to open PS2 memory card files
@@ -27,6 +56,12 @@ function Extractor() {
     const [selectedSaveData, setSelectedSaveData] = useState<StoredSave | null>(null);
     const [isRestoring, setIsRestoring] = useState(true);
     const [showClearConfirm, setShowClearConfirm] = useState(false);
+    const contextMenu = useContextMenu();
+
+    // Context menu items for saves
+    const saveContextMenuItems: ContextMenuItem[] = useMemo(() => [
+        { id: 'delete', label: 'Delete', danger: true },
+    ], []);
 
     // Load all saves from storage on mount
     useEffect(() => {
@@ -184,6 +219,17 @@ function Extractor() {
         }
     };
 
+    const handleSaveContextMenu = useCallback((x: number, y: number, saveId: string) => {
+        contextMenu.show(x, y, saveId);
+    }, [contextMenu]);
+
+    const handleContextMenuItemClick = (itemId: string, data?: unknown) => {
+        const saveId = data as string;
+        if (itemId === 'delete' && saveId) {
+            handleSaveDelete(saveId);
+        }
+    };
+
     // Create a ModelLoader for the selected save by re-parsing icons
     const modelLoader = useMemo(() => {
         if (!selectedSaveData || selectedSaveData.hasError || !selectedSaveData.files) {
@@ -259,36 +305,17 @@ function Extractor() {
                                         <th>Directory</th>
                                         <th>Title</th>
                                         <th>Status</th>
-                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {saves.map((save) => (
-                                        <tr
+                                        <SaveRow
                                             key={save.id}
-                                            onClick={() => handleSaveSelect(save)}
-                                            className={selectedSaveId === save.id ? 'selected' : ''}
-                                        >
-                                            <td className="unread-indicator">
-                                                {!save.viewed && <span className="unread-dot" title="Not yet viewed">●</span>}
-                                            </td>
-                                            <td className="dir-name">{save.directory}</td>
-                                            <td className="title">{save.title}</td>
-                                            <td className="status">{save.hasError ? '❌' : '✓'}</td>
-                                            <td className="actions">
-                                                <button
-                                                    type="button"
-                                                    className="delete-button"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleSaveDelete(save.id);
-                                                    }}
-                                                    title="Delete"
-                                                >
-                                                    ✕
-                                                </button>
-                                            </td>
-                                        </tr>
+                                            save={save}
+                                            isSelected={selectedSaveId === save.id}
+                                            onSelect={() => handleSaveSelect(save)}
+                                            onContextMenu={handleSaveContextMenu}
+                                        />
                                     ))}
                                 </tbody>
                             </table>
@@ -365,6 +392,14 @@ function Extractor() {
                     </div>
                 </div>
             )}
+
+            {/* Save context menu */}
+            <ContextMenu
+                items={saveContextMenuItems}
+                state={contextMenu.state}
+                onItemClick={handleContextMenuItemClick}
+                onClose={contextMenu.close}
+            />
         </div>
     );
 }
