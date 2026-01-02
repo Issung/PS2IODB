@@ -1,12 +1,10 @@
+import { IconSys } from "../../model/IconSys";
 import { PS2Icon } from "../ps2icon";
-import { IconSysData } from "../ps2iconsys";
 
 /**
  * Information about a parsed save with icon data.
  */
 export interface ImportedSave {
-    directoryName: string;
-    title: string;
-    iconSys: IconSysData | null;
+    iconSys: IconSys | null;
     icons: Map<string, PS2Icon>;
 }

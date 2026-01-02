@@ -1,5 +1,6 @@
+import { IconSys } from '../../model/IconSys';
 import { parsePS2Icon, PS2Icon } from '../ps2icon';
-import { decodeTitle, IconSysData, parseIconSys } from '../ps2iconsys';
+import { parseIconSys } from '../ps2iconsys';
 import { modeIsDir, modeIsFile, TimeOfDay } from '../ps2mcDir';
 import { PS2SaveCorrupt, PS2SaveFile, SaveFileEntry } from '../ps2save';
 import { BinaryReader, zeroTerminate } from '../utils';
@@ -38,16 +39,17 @@ export class SharkPortImporter implements SaveImporter {
     load(data: Uint8Array): ImportedSave[] {
         const save = SharkPortImporter.loadSharkPortSave(data);
 
-        let iconSys: IconSysData | null = null;
+        let iconSys: IconSys | null = null;
         const icons = new Map<string, PS2Icon>();
 
         // Find icon.sys
         const iconSysFile = save.files.find(f => f.entry.name === 'icon.sys');
         if (iconSysFile && iconSysFile.data.length === 964) {
             iconSys = parseIconSys(iconSysFile.data);
+            iconSys.directory = save.directory.name;
 
             // Parse each icon file
-            const iconFiles = [iconSys.iconFileNormal, iconSys.iconFileCopy, iconSys.iconFileDelete];
+            const iconFiles = [iconSys.normal, iconSys.copy, iconSys.delete];
             for (const iconFile of iconFiles) {
                 if (iconFile && !icons.has(iconFile)) {
                     const iconFileEntry = save.files.find(f => f.entry.name === iconFile);
@@ -63,16 +65,7 @@ export class SharkPortImporter implements SaveImporter {
             }
         }
 
-        // Get title
-        let title = save.directory.name;
-        if (iconSys) {
-            const decoded = decodeTitle(iconSys.titleRaw, iconSys.titleLineOffset);
-            title = decoded.line1 + (decoded.line2 ? ' ' + decoded.line2 : '');
-        }
-
         return [{
-            directoryName: save.directory.name,
-            title,
             iconSys,
             icons
         }];

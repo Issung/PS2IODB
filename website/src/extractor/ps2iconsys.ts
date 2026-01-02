@@ -3,6 +3,7 @@
  * Ported from ps2iconsys.py
  */
 
+import { IconSys } from '../model/IconSys';
 import { BinaryReader, zeroTerminateBytes } from './utils';
 
 const PS2_ICON_SYS_MAGIC = 'PS2D';
@@ -23,36 +24,9 @@ export class IconSysCorrupt extends IconSysError {
 }
 
 /**
- * Parsed icon.sys data.
- */
-export interface IconSysData {
-    /** Background transparency (0-255) */
-    backgroundTransparency: number;
-
-    /** Background colors for each corner [TL, TR, BL, BR] as RGBA tuples */
-    bgColors: [number[], number[], number[], number[]];
-
-    /** Light direction vectors (3 lights) */
-    lightDirs: [number[], number[], number[]];
-
-    /** Light colors (3 lights + ambient) as RGBA tuples */
-    lightColors: [number[], number[], number[]];
-    ambientLightColor: number[];
-
-    /** Title in Shift-JIS (raw bytes) */
-    titleRaw: Uint8Array;
-    titleLineOffset: number;
-
-    /** Icon filenames */
-    iconFileNormal: string;
-    iconFileCopy: string;
-    iconFileDelete: string;
-}
-
-/**
  * Parse an icon.sys file.
  */
-export function parseIconSys(data: Uint8Array): IconSysData {
+export function parseIconSys(data: Uint8Array): IconSys {
     if (data.length !== ICON_SYS_SIZE) {
         throw new IconSysCorrupt(`Invalid size: ${data.length} != ${ICON_SYS_SIZE}`);
     }
@@ -100,25 +74,34 @@ export function parseIconSys(data: Uint8Array): IconSysData {
     }
 
     // Read title (68 bytes, Shift-JIS encoded)
-    const titleRaw = reader.readBytes(68);
+    const titleRaw = zeroTerminateBytes(reader.readBytes(68));
+    const { line1, line2 } = decodeTitle(titleRaw, titleLineOffset);
+    const title = line1 + (line2 ? ' ' + line2 : '');
 
     // Read icon filenames (64 bytes each)
     const iconFileNormal = reader.readFixedString(64);
     const iconFileCopy = reader.readFixedString(64);
     const iconFileDelete = reader.readFixedString(64);
 
-    return {
-        backgroundTransparency,
-        bgColors,
-        lightDirs,
-        lightColors,
-        ambientLightColor,
-        titleRaw: zeroTerminateBytes(titleRaw),
-        titleLineOffset,
-        iconFileNormal,
-        iconFileCopy,
-        iconFileDelete
-    };
+    const iconSys = new IconSys();
+    iconSys.normal = iconFileNormal;
+    iconSys.copy = iconFileCopy;
+    iconSys.delete = iconFileDelete;
+    iconSys.bgOpacity = backgroundTransparency;
+    iconSys.bgColTL = bgColorToHex(bgColors[0]);
+    iconSys.bgColTR = bgColorToHex(bgColors[1]);
+    iconSys.bgColBL = bgColorToHex(bgColors[2]);
+    iconSys.bgColBR = bgColorToHex(bgColors[3]);
+    iconSys.light1Dir = lightDirs[0];
+    iconSys.light2Dir = lightDirs[1];
+    iconSys.light3Dir = lightDirs[2];
+    iconSys.light1Col = lightColors[0];
+    iconSys.light2Col = lightColors[1];
+    iconSys.light3Col = lightColors[2];
+    iconSys.ambiLightCol = ambientLightColor;
+    iconSys.title = title;
+
+    return iconSys;
 }
 
 /**

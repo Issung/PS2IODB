@@ -16,10 +16,8 @@ export * from './utils';
 
 import { ModelFiles } from '../components/ModelView/ModelFiles';
 import { AnimationData, AnimationFrameKey, AnimationFrame as ModelAnimationFrame } from '../model/AnimationData';
-import { IconSys } from '../model/IconSys';
 import { ImportedSave, importers } from './importers';
 import { PS2Icon, TEXTURE_HEIGHT, TEXTURE_WIDTH } from './ps2icon';
-import { IconSysData, bgColorToHex } from './ps2iconsys';
 
 /**
  * Load and parse a memory card or save file.
@@ -52,7 +50,6 @@ export function importedSaveToModelFiles(save: ImportedSave): ModelFiles {
         throw new Error('Cannot convert save without iconSys data');
     }
 
-    const iconSys = convertToIconSys(save.iconSys, save.title);
     const files = new Map<string, Blob>();
 
     // Process each icon
@@ -78,38 +75,7 @@ export function importedSaveToModelFiles(save: ImportedSave): ModelFiles {
         }
     });
 
-    return new ModelFiles(files, iconSys);
-}
-
-/**
- * Convert IconSysData (extractor format) to IconSys (ModelView format).
- */
-function convertToIconSys(data: IconSysData, title: string): IconSys {
-    const iconSys = new IconSys();
-    iconSys.normal = data.iconFileNormal;
-    iconSys.copy = data.iconFileCopy;
-    iconSys.delete = data.iconFileDelete;
-    iconSys.title = title;
-
-    // Background colors
-    iconSys.bgOpacity = data.backgroundTransparency;
-    iconSys.bgColTL = bgColorToHex(data.bgColors[0]);
-    iconSys.bgColTR = bgColorToHex(data.bgColors[1]);
-    iconSys.bgColBL = bgColorToHex(data.bgColors[2]);
-    iconSys.bgColBR = bgColorToHex(data.bgColors[3]);
-
-    // Light directions
-    iconSys.light1Dir = data.lightDirs[0];
-    iconSys.light2Dir = data.lightDirs[1];
-    iconSys.light3Dir = data.lightDirs[2];
-
-    // Light colors
-    iconSys.light1Col = data.lightColors[0];
-    iconSys.light2Col = data.lightColors[1];
-    iconSys.light3Col = data.lightColors[2];
-    iconSys.ambiLightCol = data.ambientLightColor;
-
-    return iconSys;
+    return new ModelFiles(files, save.iconSys);
 }
 
 /**

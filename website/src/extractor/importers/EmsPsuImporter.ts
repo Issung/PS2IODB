@@ -3,10 +3,11 @@
  * Handles loading and parsing PSU format save files.
  */
 
+import { IconSys } from '../../model/IconSys';
 import { ImportedSave } from './ImportedSave';
 import { SaveImporter } from './SaveImporter';
 import { parsePS2Icon, PS2Icon } from '../ps2icon';
-import { decodeTitle, IconSysData, parseIconSys } from '../ps2iconsys';
+import { parseIconSys } from '../ps2iconsys';
 import { PS2MC_DIRENT_LENGTH, unpackDirEntry, modeIsDir } from '../ps2mcDir';
 import { loadPsuSave } from '../ps2save';
 
@@ -47,16 +48,17 @@ export class EmsPsuImporter implements SaveImporter {
     load(data: Uint8Array): ImportedSave[] {
         const save = loadPsuSave(data);
 
-        let iconSys: IconSysData | null = null;
+        let iconSys: IconSys | null = null;
         const icons = new Map<string, PS2Icon>();
 
         // Find icon.sys
         const iconSysFile = save.files.find(f => f.entry.name === 'icon.sys');
         if (iconSysFile && iconSysFile.data.length === 964) {
             iconSys = parseIconSys(iconSysFile.data);
+            iconSys.directory = save.directory.name;
 
             // Parse each icon file
-            const iconFiles = [iconSys.iconFileNormal, iconSys.iconFileCopy, iconSys.iconFileDelete];
+            const iconFiles = [iconSys.normal, iconSys.copy, iconSys.delete];
             for (const iconFile of iconFiles) {
                 if (iconFile && !icons.has(iconFile)) {
                     const iconFileEntry = save.files.find(f => f.entry.name === iconFile);
@@ -72,16 +74,7 @@ export class EmsPsuImporter implements SaveImporter {
             }
         }
 
-        // Get title
-        let title = save.directory.name;
-        if (iconSys) {
-            const decoded = decodeTitle(iconSys.titleRaw, iconSys.titleLineOffset);
-            title = decoded.line1 + (decoded.line2 ? ' ' + decoded.line2 : '');
-        }
-
         return [{
-            directoryName: save.directory.name,
-            title,
             iconSys,
             icons
         }];

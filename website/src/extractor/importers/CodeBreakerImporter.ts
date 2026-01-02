@@ -1,6 +1,7 @@
 import pako from 'pako';
+import { IconSys } from '../../model/IconSys';
 import { parsePS2Icon, PS2Icon } from '../ps2icon';
-import { decodeTitle, IconSysData, parseIconSys } from '../ps2iconsys';
+import { parseIconSys } from '../ps2iconsys';
 import {
     DF_0400,
     DF_DIR,
@@ -216,16 +217,17 @@ export class CodeBreakerImporter implements SaveImporter {
         }
 
         // Build ImportedSave
-        let iconSys: IconSysData | null = null;
+        let iconSys: IconSys | null = null;
         const icons = new Map<string, PS2Icon>();
 
         // Find icon.sys
         const iconSysFile = files.find(f => f.name === 'icon.sys');
         if (iconSysFile && iconSysFile.data.length === 964) {
             iconSys = parseIconSys(iconSysFile.data);
+            iconSys.directory = dirname;
 
             // Parse each icon file
-            const iconFiles = [iconSys.iconFileNormal, iconSys.iconFileCopy, iconSys.iconFileDelete];
+            const iconFiles = [iconSys.normal, iconSys.copy, iconSys.delete];
             for (const iconFileName of iconFiles) {
                 if (iconFileName && !icons.has(iconFileName)) {
                     const iconFileEntry = files.find(f => f.name === iconFileName);
@@ -241,16 +243,7 @@ export class CodeBreakerImporter implements SaveImporter {
             }
         }
 
-        // Get title
-        let title = dirname;
-        if (iconSys) {
-            const decoded = decodeTitle(iconSys.titleRaw, iconSys.titleLineOffset);
-            title = decoded.line1 + (decoded.line2 ? ' ' + decoded.line2 : '');
-        }
-
         return [{
-            directoryName: dirname,
-            title,
             iconSys,
             icons
         }];

@@ -98,12 +98,16 @@ function Extractor() {
             const newSaveIds: string[] = [];
 
             for (const extracted of importedSaves) {
+                // Get directory and title from iconSys if available
+                const directory = extracted.iconSys?.directory ?? 'Unknown';
+                const title = extracted.iconSys?.title ?? directory;
+
                 try {
                     // Convert to model files and store
                     const modelFiles = importedSaveToModelFiles(extracted);
                     const metadata = await storage.saveSuccess(
-                        extracted.directoryName,
-                        extracted.title,
+                        directory,
+                        title,
                         modelFiles.iconSys,
                         modelFiles.files,
                     );
@@ -112,8 +116,8 @@ function Extractor() {
                     // Store with error info
                     const errorMsg = err instanceof Error ? err.message : 'Unknown error';
                     const metadata = await storage.saveError(
-                        extracted.directoryName,
-                        extracted.title,
+                        directory,
+                        title,
                         { message: errorMsg },
                     );
                     newSaveIds.push(metadata.id);

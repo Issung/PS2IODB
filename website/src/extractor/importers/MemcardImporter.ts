@@ -3,10 +3,11 @@
  * Handles loading and parsing PS2 memory card images.
  */
 
+import { IconSys } from '../../model/IconSys';
 import { ImportedSave } from './ImportedSave';
 import { SaveImporter } from './SaveImporter';
 import { parsePS2Icon, PS2Icon } from '../ps2icon';
-import { decodeTitle, IconSysData, parseIconSys } from '../ps2iconsys';
+import { parseIconSys } from '../ps2iconsys';
 import { PS2MC_MAGIC, PS2MemoryCard, SaveInfo } from '../ps2mc';
 
 /**
@@ -49,7 +50,7 @@ export class MemcardImporter implements SaveImporter {
      */
     private extractSaveData(mc: PS2MemoryCard, save: SaveInfo): ImportedSave | null {
         try {
-            let iconSys: IconSysData | null = null;
+            let iconSys: IconSys | null = null;
             const icons = new Map<string, PS2Icon>();
 
             console.log(`Processing save: ${save.directory.name}, files:`, save.files.map(f => f.name));
@@ -61,10 +62,11 @@ export class MemcardImporter implements SaveImporter {
                 // Only use first 964 bytes (the actual icon.sys format)
                 const iconSysTrimmed = iconSysData.length === 964 ? iconSysData : iconSysData.subarray(0, 964);
                 iconSys = parseIconSys(iconSysTrimmed);
-                console.log(`icon.sys parsed: normal=${iconSys.iconFileNormal}, copy=${iconSys.iconFileCopy}, delete=${iconSys.iconFileDelete}`);
+                iconSys.directory = save.directory.name;
+                console.log(`icon.sys parsed: normal=${iconSys.normal}, copy=${iconSys.copy}, delete=${iconSys.delete}`);
 
                 // Parse each icon file
-                const iconFiles = [iconSys.iconFileNormal, iconSys.iconFileCopy, iconSys.iconFileDelete];
+                const iconFiles = [iconSys.normal, iconSys.copy, iconSys.delete];
                 for (const iconFile of iconFiles) {
                     if (iconFile && !icons.has(iconFile)) {
                         const iconData = mc.readFile(save, iconFile);
@@ -86,18 +88,9 @@ export class MemcardImporter implements SaveImporter {
                 console.log(`icon.sys not found or invalid size in ${save.directory.name}`);
             }
 
-            // Get title
-            let title = save.directory.name;
-            if (iconSys) {
-                const decoded = decodeTitle(iconSys.titleRaw, iconSys.titleLineOffset);
-                title = decoded.line1 + (decoded.line2 ? ' ' + decoded.line2 : '');
-            }
-
             console.log(`Save ${save.directory.name}: ${icons.size} icons parsed`);
 
             return {
-                directoryName: save.directory.name,
-                title,
                 iconSys,
                 icons
             };

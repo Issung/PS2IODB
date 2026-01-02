@@ -1,6 +1,7 @@
+import { IconSys } from '../../model/IconSys';
 import { lzariDecode } from '../lzari';
 import { parsePS2Icon, PS2Icon } from '../ps2icon';
-import { decodeTitle, IconSysData, parseIconSys } from '../ps2iconsys';
+import { parseIconSys } from '../ps2iconsys';
 import { BinaryReader, roundUp, zeroTerminate } from '../utils';
 import { ImportedSave } from './ImportedSave';
 import { SaveImporter } from './SaveImporter';
@@ -114,16 +115,17 @@ export class MaxDriveImporter implements SaveImporter {
      * Build an ImportedSave from parsed files.
      */
     private buildImportedSave(dirname: string, files: MaxFileEntry[]): ImportedSave {
-        let iconSys: IconSysData | null = null;
+        let iconSys: IconSys | null = null;
         const icons = new Map<string, PS2Icon>();
 
         // Find icon.sys
         const iconSysFile = files.find(f => f.name === 'icon.sys');
         if (iconSysFile && iconSysFile.data.length === 964) {
             iconSys = parseIconSys(iconSysFile.data);
+            iconSys.directory = dirname;
 
             // Parse each icon file
-            const iconFiles = [iconSys.iconFileNormal, iconSys.iconFileCopy, iconSys.iconFileDelete];
+            const iconFiles = [iconSys.normal, iconSys.copy, iconSys.delete];
             for (const iconFile of iconFiles) {
                 if (iconFile && !icons.has(iconFile)) {
                     const iconFileEntry = files.find(f => f.name === iconFile);
@@ -139,16 +141,7 @@ export class MaxDriveImporter implements SaveImporter {
             }
         }
 
-        // Get title
-        let title = dirname;
-        if (iconSys) {
-            const decoded = decodeTitle(iconSys.titleRaw, iconSys.titleLineOffset);
-            title = decoded.line1 + (decoded.line2 ? ' ' + decoded.line2 : '');
-        }
-
         return {
-            directoryName: dirname,
-            title,
             iconSys,
             icons
         };
