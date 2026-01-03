@@ -48,8 +48,15 @@ export function useSaveStorage(): UseSaveStorageResult {
     const [selectedSaveData, setSelectedSaveData] = useState<StoredSave | null>(null);
     const [isRestoring, setIsRestoring] = useState(true);
 
+    // Use a ref to track current selected ID without causing callback recreation
+    const selectedSaveIdRef = useRef<string | null>(null);
+    selectedSaveIdRef.current = selectedSaveId;
+
     /** Select a save and load its data. */
     const selectSave = useCallback(async (id: string, currentSaves?: StoredSaveMetadata[]) => {
+        // Skip if already selected (avoids unnecessary re-renders)
+        if (id === selectedSaveIdRef.current) return;
+
         const stored = await storage.load(id);
         if (!stored) return;
 
