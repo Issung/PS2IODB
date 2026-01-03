@@ -22,7 +22,6 @@
     font-size: 0.9rem;
     text-align: left;
     cursor: pointer;
-    transition: background 0.15s;
 
     &:hover:not(.disabled) {
         background: rgba(74, 144, 217, 0.2);

@@ -1,0 +1,99 @@
+import { useEffect, useRef } from 'react';
+import './Modal.scss';
+
+export interface ModalProps {
+    /** Whether the modal is visible. */
+    isOpen: boolean;
+    /** Title displayed in the modal header. */
+    title: string;
+    /** Called when the modal should close (X button, overlay click, or Escape key). */
+    onClose: () => void;
+    /** Content to display in the modal body. */
+    children: React.ReactNode;
+    /** Optional footer content (typically buttons). */
+    footer?: React.ReactNode;
+    /** Whether clicking the overlay closes the modal. Default: true */
+    closeOnOverlayClick?: boolean;
+    /** Whether pressing Escape closes the modal. Default: true */
+    closeOnEscape?: boolean;
+    /** Optional className for the modal container. */
+    className?: string;
+}
+
+/**
+ * A general-purpose modal component.
+ * Can be used for confirmations, forms, text entry, or any custom content.
+ */
+export function Modal({
+    isOpen,
+    title,
+    onClose,
+    children,
+    footer,
+    closeOnOverlayClick = true,
+    closeOnEscape = true,
+    className,
+}: ModalProps) {
+    const modalRef = useRef<HTMLDivElement>(null);
+
+    // Handle Escape key
+    useEffect(() => {
+        if (!isOpen || !closeOnEscape) return;
+
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        };
+
+        document.addEventListener('keydown', handleEscape);
+        return () => document.removeEventListener('keydown', handleEscape);
+    }, [isOpen, closeOnEscape, onClose]);
+
+    // Focus trap - focus the modal when it opens
+    useEffect(() => {
+        if (isOpen && modalRef.current) {
+            modalRef.current.focus();
+        }
+    }, [isOpen]);
+
+    if (!isOpen) return null;
+
+    const handleOverlayClick = () => {
+        if (closeOnOverlayClick) {
+            onClose();
+        }
+    };
+
+    return (
+        <div className="ps2-modal-overlay" onClick={handleOverlayClick}>
+            <div
+                ref={modalRef}
+                className={`ps2-modal ${className ?? ''}`}
+                onClick={e => e.stopPropagation()}
+                tabIndex={-1}
+            >
+                <div className="ps2-modal-header">
+                    <h5>{title}</h5>
+                    <button
+                        type="button"
+                        className="ps2-modal-close"
+                        onClick={onClose}
+                        aria-label="Close"
+                    >
+                        ×
+                    </button>
+                </div>
+                <div className="ps2-modal-body">
+                    {children}
+                </div>
+                {footer && (
+                    <div className="ps2-modal-footer">
+                        {footer}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
+

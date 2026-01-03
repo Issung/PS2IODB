@@ -195,7 +195,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
         return `linear-gradient(to top left, ${backgroundColor}, ${backgroundColor})`;
     }, [backgroundType, backgroundColor, iconsys]);
 
-    console.log('ModelView', { loader });
+    //console.log('ModelView', { loader });
 
     return (
         <div id="model-view">

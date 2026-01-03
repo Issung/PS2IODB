@@ -1,62 +1,39 @@
-import JSZip from "jszip";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Group, Panel, Separator } from "react-resizable-panels";
-import { Link } from "react-router-dom";
-import { ContextMenu, ContextMenuItem, useContextMenu, useLongPress } from '../components/ContextMenu';
+import { ConfirmModal } from '../components/ConfirmModal';
+import { ContextMenu, ContextMenuItem, useContextMenu } from '../components/ContextMenu';
+import { ExtractorHeader } from '../components/ExtractorHeader';
 import { FileModelLoader } from '../components/ModelView/FileModelLoader';
-import { ModelView } from '../components/ModelView/ModelView';
-import { loadFile } from '../extractor';
-import {
-    SaveStorage,
-    StoredSave,
-    StoredSaveMetadata,
-    storedSaveToModelFiles,
-} from "../storage";
-import { formatAnim, formatIconSys } from '../utils/JsonFormatter';
+import { SavesListPanel } from '../components/SavesListPanel';
+import { SaveViewerPanel } from '../components/SaveViewerPanel';
+import { useSaveExport, useSaveStorage } from '../hooks';
+import { storedSaveToModelFiles } from "../storage";
 import './Extractor.scss';
-
-/** Props for the SaveRow component. */
-interface SaveRowProps {
-    save: StoredSaveMetadata;
-    isSelected: boolean;
-    onSelect: () => void;
-    onContextMenu: (x: number, y: number, saveId: string) => void;
-}
-
-/** A single row in the saves table with long-press support. */
-function SaveRow({ save, isSelected, onSelect, onContextMenu }: SaveRowProps) {
-    const longPressHandlers = useLongPress(onContextMenu, save.id);
-
-    return (
-        <tr
-            onClick={onSelect}
-            className={isSelected ? 'selected' : ''}
-            {...longPressHandlers}
-        >
-            <td className="unread-indicator">
-                {!save.viewed && <span className="unread-dot" title="Not yet viewed">●</span>}
-            </td>
-            <td className="dir-name">{save.directory}</td>
-            <td className="title">{save.title}</td>
-            <td className="status">{save.hasError ? '❌' : '✓'}</td>
-        </tr>
-    );
-}
 
 /**
  * The Extractor page allows users to open PS2 memory card files
  * and view/extract save icons.
  */
 function Extractor() {
-    const storageRef = useRef<SaveStorage>(new SaveStorage());
-    const storage = storageRef.current;
+    // Storage hook for managing saves
+    const {
+        saves,
+        selectedSaveId,
+        selectedSaveData,
+        isRestoring,
+        loading,
+        error,
+        selectSave,
+        loadFileAndProcess,
+        deleteSave,
+        clearAll,
+        loadSave,
+    } = useSaveStorage();
 
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [saves, setSaves] = useState<StoredSaveMetadata[]>([]);
-    const [selectedSaveId, setSelectedSaveId] = useState<string | null>(null);
-    const [selectedSaveData, setSelectedSaveData] = useState<StoredSave | null>(null);
-    const [isRestoring, setIsRestoring] = useState(true);
+    // Export hook for zip and clipboard operations
+    const { extractToZip, copyIconSys, copyFirstAnim } = useSaveExport();
+
+    // Local UI state
     const [showClearConfirm, setShowClearConfirm] = useState(false);
     const contextMenu = useContextMenu();
 
@@ -70,49 +47,6 @@ function Extractor() {
         ]),
     ], []);
 
-    // Load all saves from storage on mount
-    useEffect(() => {
-        const restoreFromStorage = async () => {
-            try {
-                const list = await storage.list();
-                setSaves(list);
-
-                // Try to select the last-selected save
-                const lastSelectedId = storage.getLastSelectedId();
-                if (lastSelectedId && list.some((s) => s.id === lastSelectedId)) {
-                    await selectSave(lastSelectedId, list);
-                }
-            } catch (err) {
-                console.error('Failed to restore from storage:', err);
-            } finally {
-                setIsRestoring(false);
-            }
-        };
-        restoreFromStorage();
-
-        return () => {
-            storage.dispose();
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    /** Select a save and load its data. */
-    const selectSave = async (id: string, currentSaves?: StoredSaveMetadata[]) => {
-        const stored = await storage.load(id);
-        if (!stored) return;
-
-        setSelectedSaveId(id);
-        setSelectedSaveData(stored);
-        storage.setLastSelectedId(id);
-
-        // Mark as viewed and update local state
-        if (!stored.viewed) {
-            await storage.markViewed(id);
-            const savesToUpdate = currentSaves ?? saves;
-            setSaves(savesToUpdate.map(s => s.id === id ? { ...s, viewed: true } : s));
-        }
-    };
-
     // Handle file drop
     const handleDrop = useCallback((e: React.DragEvent) => {
         e.preventDefault();
@@ -120,72 +54,11 @@ function Extractor() {
         if (files.length > 0) {
             loadFileAndProcess(files[0]);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [loadFileAndProcess]);
 
     const handleDragOver = useCallback((e: React.DragEvent) => {
         e.preventDefault();
     }, []);
-
-    /**
-     * Load a file and extract saves from it, adding to storage.
-     */
-    const loadFileAndProcess = async (selectedFile: File) => {
-        setError(null);
-        setLoading(true);
-
-        try {
-            const importedSaves = await loadFile(selectedFile);
-            const newSaveIds: string[] = [];
-
-            for (const extracted of importedSaves) {
-                // Get directory and title from iconSys if available
-                const directory = extracted.iconSys?.directory ?? 'Unknown';
-                const title = extracted.iconSys?.title ?? directory;
-
-                try {
-                    if (!extracted.iconSys) {
-                        throw new Error('No iconSys data found');
-                    }
-                    // Store raw icon files for re-parsing when viewing
-                    const metadata = await storage.saveSuccess(
-                        directory,
-                        title,
-                        extracted.iconSys,
-                        extracted.iconFiles,
-                    );
-                    newSaveIds.push(metadata.id);
-                } catch (err) {
-                    // Store with error info
-                    const errorMsg = err instanceof Error ? err.message : 'Unknown error';
-                    const metadata = await storage.saveError(
-                        directory,
-                        title,
-                        { message: errorMsg },
-                    );
-                    newSaveIds.push(metadata.id);
-                }
-            }
-
-            // Refresh the full list from storage
-            const updatedList = await storage.list();
-            setSaves(updatedList);
-
-            // Select the first newly added save
-            if (newSaveIds.length > 0) {
-                const firstNewSave = updatedList.find(s => s.id === newSaveIds[0] && !s.hasError)
-                    ?? updatedList.find(s => s.id === newSaveIds[0]);
-                if (firstNewSave) {
-                    await selectSave(firstNewSave.id, updatedList);
-                }
-            }
-        } catch (err) {
-            console.error('Failed to parse file:', err);
-            setError(err instanceof Error ? err.message : 'Failed to parse file');
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleFilesImport = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
@@ -194,167 +67,46 @@ function Extractor() {
                 await loadFileAndProcess(files[i]);
             }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [loadFileAndProcess]);
 
-    const handleSaveSelect = async (save: StoredSaveMetadata) => {
-        await selectSave(save.id);
-    };
-
-    const handleSaveDelete = async (id: string) => {
-        try {
-            await storage.delete(id);
-            setSaves((prev) => prev.filter((s) => s.id !== id));
-            if (selectedSaveId === id) {
-                setSelectedSaveId(null);
-                setSelectedSaveData(null);
-            }
-        } catch (err) {
-            console.error('Failed to delete save:', err);
-        }
-    };
-
-    const handleClearAll = async () => {
+    const handleClearAll = useCallback(async () => {
         setShowClearConfirm(false);
-        try {
-            await storage.clear();
-            setSaves([]);
-            setSelectedSaveId(null);
-            setSelectedSaveData(null);
-        } catch (err) {
-            console.error('Failed to clear saves:', err);
+        await clearAll();
+    }, [clearAll]);
+
+    const handleExtractToZip = useCallback(async (saveId: string) => {
+        const stored = await loadSave(saveId);
+        if (stored) {
+            await extractToZip(stored);
         }
-    };
-
-    /**
-     * Clean filename for use in export.
-     * Some games have extra directories for the files which messes up our storage, e.g. Rayman Revolution.
-     * Matches Python iconexport.py clean_icon_filename function.
-     */
-    const cleanIconFilename = (filename: string): string => {
-        return filename.replace(/\\/g, '_').replace(/\//g, '-');
-    };
-
-    const handleExtractToZip = async (saveId: string) => {
-        try {
-            const stored = await storage.load(saveId);
-            if (!stored || stored.hasError || !stored.files) {
-                console.error('Cannot extract save: no files available');
-                return;
-            }
-
-            // Convert to ModelFiles to get OBJ/MTL/PNG/ANIM files
-            const modelFiles = storedSaveToModelFiles(stored.files);
-            const iconSys = modelFiles.iconSys;
-
-            // Create zip file with all model files
-            const zip = new JSZip();
-
-            // Add iconsys.json with compact formatting (arrays on single lines)
-            zip.file('iconsys.json', formatIconSys(iconSys));
-
-            // Add all model files (OBJ, MTL, PNG, ANIM)
-            // Clean filenames to handle games with subdirectories in icon paths
-            const filePromises: Promise<void>[] = [];
-            modelFiles.files.forEach((blob, filename) => {
-                const promise = (async () => {
-                    const cleanedFilename = cleanIconFilename(filename);
-                    let content: string | ArrayBuffer = await blob.arrayBuffer();
-
-                    // For MTL files, update the texture reference to use the cleaned filename
-                    if (filename.endsWith('.mtl')) {
-                        const mtlContent = await blob.text();
-                        // Replace any texture references with cleaned filenames
-                        content = mtlContent.replace(
-                            /^(map_Kd\s+)(.+)$/m,
-                            (_, prefix, texPath) => prefix + cleanIconFilename(texPath)
-                        );
-                    }
-                    // For ANIM files, reformat JSON with compact formatting
-                    else if (filename.endsWith('.anim')) {
-                        const animContent = await blob.text();
-                        const animData = JSON.parse(animContent);
-                        content = formatAnim(animData);
-                    }
-
-                    zip.file(cleanedFilename, content);
-                })();
-                filePromises.push(promise);
-            });
-            await Promise.all(filePromises);
-
-            // Generate and download zip
-            const zipContent = await zip.generateAsync({ type: 'blob' });
-            const url = URL.createObjectURL(zipContent);
-            const a = document.createElement('a');
-            a.href = url;
-            // Use directory name for the zip filename, sanitized for filesystem
-            const safeName = stored.directory.replace(/[^a-zA-Z0-9_-]/g, '_');
-            a.download = `ps2iodb_${safeName}.zip`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        } catch (err) {
-            console.error('Failed to extract save to zip:', err);
-        }
-    };
+    }, [loadSave, extractToZip]);
 
     const handleSaveContextMenu = useCallback((x: number, y: number, saveId: string) => {
         contextMenu.show(x, y, saveId);
     }, [contextMenu]);
 
-    const handleCopyIconSys = async (saveId: string) => {
-        try {
-            const stored = await storage.load(saveId);
-            if (!stored || stored.hasError || !stored.files) {
-                console.error('Cannot copy iconsys: no files available');
-                return;
-            }
-            const modelFiles = storedSaveToModelFiles(stored.files);
-            const json = formatIconSys(modelFiles.iconSys);
-            await navigator.clipboard.writeText(json);
-        } catch (err) {
-            console.error('Failed to copy iconsys.json:', err);
-        }
-    };
-
-    const handleCopyFirstAnim = async (saveId: string) => {
-        try {
-            const stored = await storage.load(saveId);
-            if (!stored || stored.hasError || !stored.files) {
-                console.error('Cannot copy anim: no files available');
-                return;
-            }
-            const modelFiles = storedSaveToModelFiles(stored.files);
-            // Find the first .anim file
-            for (const [filename, blob] of Array.from(modelFiles.files.entries())) {
-                if (filename.endsWith('.anim')) {
-                    const animContent = await blob.text();
-                    const animData = JSON.parse(animContent);
-                    const json = formatAnim(animData);
-                    await navigator.clipboard.writeText(json);
-                    return;
-                }
-            }
-            console.error('No .anim file found');
-        } catch (err) {
-            console.error('Failed to copy first .anim:', err);
-        }
-    };
-
-    const handleContextMenuItemClick = (itemId: string, data?: unknown) => {
+    const handleContextMenuItemClick = useCallback(async (itemId: string, data?: unknown) => {
         const saveId = data as string;
-        if (itemId === 'extract-zip' && saveId) {
-            handleExtractToZip(saveId);
-        } else if (itemId === 'copy-iconsys' && saveId) {
-            handleCopyIconSys(saveId);
-        } else if (itemId === 'copy-anim' && saveId) {
-            handleCopyFirstAnim(saveId);
-        } else if (itemId === 'delete' && saveId) {
-            handleSaveDelete(saveId);
+        if (!saveId) return;
+
+        const stored = await loadSave(saveId);
+        if (!stored) return;
+
+        switch (itemId) {
+            case 'extract-zip':
+                await extractToZip(stored);
+                break;
+            case 'copy-iconsys':
+                await copyIconSys(stored);
+                break;
+            case 'copy-anim':
+                await copyFirstAnim(stored);
+                break;
+            case 'delete':
+                await deleteSave(saveId);
+                break;
         }
-    };
+    }, [loadSave, extractToZip, copyIconSys, copyFirstAnim, deleteSave]);
 
     // Create a ModelLoader for the selected save by re-parsing icons
     const modelLoader = useMemo(() => {
@@ -367,163 +119,59 @@ function Extractor() {
         return new FileModelLoader(modelFiles);
     }, [selectedSaveData]);
 
+    // Generate clear confirmation message
+    const clearMessage = `Are you sure you want to remove all ${saves.length} saved ${saves.length === 1 ? 'item' : 'items'}? This action cannot be undone.`;
+
+    const handleDownload = useCallback(() => {
+        if (selectedSaveId) {
+            handleExtractToZip(selectedSaveId);
+        }
+    }, [selectedSaveId, handleExtractToZip]);
+
     return (
         <div className="extractor-page" onDrop={handleDrop} onDragOver={handleDragOver}>
             {/* Header */}
-            <header className="extractor-header">
-                <Link to="/">
-                    <img id="logo-full" src="/images/logo-full-min.svg" height="40px" alt="PS2IODB Logo"/>
-                </Link>
-                <h1>Icon Extractor</h1>
-                <div className="file-input-section">
-                    <label htmlFor="mc-file-input" className="file-input-label">
-                        <span>Import File</span>
-                        <input
-                            id="mc-file-input"
-                            type="file"
-                            accept=".ps2,.psu,.max,.sps,.xps,.cbs,.psv"
-                            multiple
-                            onChange={handleFilesImport}
-                        />
-                    </label>
-                    {saves.length > 0 && (
-                        <button
-                            type="button"
-                            className="clear-button"
-                            onClick={() => setShowClearConfirm(true)}
-                        >
-                            Clear
-                        </button>
-                    )}
-                </div>
-            </header>
+            <ExtractorHeader
+                savesCount={saves.length}
+                onFilesImport={handleFilesImport}
+                onClearClick={() => setShowClearConfirm(true)}
+            />
 
-            {/* Main content */}
             <Group orientation="horizontal" className="extractor-main">
-                {/* Left panel - Directory listing */}
-                <Panel defaultSize="40%" minSize="200px" className="directory-panel">
-                    {saves.length === 0 && !loading && !isRestoring && (
-                        <div className="drop-zone">
-                            <p>Drop a PS2 memory card (.ps2) or save file (.psu) here</p>
-                            <p className="hint">or use the "Open File" button above</p>
-                        </div>
-                    )}
-
-                    {(loading || isRestoring) && (
-                        <div className="loading-message">
-                            <div className="spinner"></div>
-                            <p>{isRestoring ? 'Restoring...' : 'Loading...'}</p>
-                        </div>
-                    )}
-
-                    {error && (
-                        <div className="error-message">
-                            <strong>Error:</strong> {error}
-                        </div>
-                    )}
-
-                    {saves.length > 0 && (
-                        <div className="saves-table">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Directory</th>
-                                        <th>Title</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {saves.map((save) => (
-                                        <SaveRow
-                                            key={save.id}
-                                            save={save}
-                                            isSelected={selectedSaveId === save.id}
-                                            onSelect={() => handleSaveSelect(save)}
-                                            onContextMenu={handleSaveContextMenu}
-                                        />
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
+                <Panel defaultSize="50%" minSize="200px" className="directory-panel">
+                    <SavesListPanel
+                        saves={saves}
+                        selectedSaveId={selectedSaveId}
+                        loading={loading}
+                        isRestoring={isRestoring}
+                        error={error}
+                        onSaveSelect={(save) => selectSave(save.id)}
+                        onContextMenu={handleSaveContextMenu}
+                    />
                 </Panel>
 
                 <Separator className="resize-handle" />
 
-                {/* Right panel - Icon viewer */}
                 <Panel minSize="300px" className="viewer-panel">
-                    {selectedSaveData && (
-                        <>
-                            {/* Title display */}
-                            <div className="save-title">
-                                <h2>{selectedSaveData.title}</h2>
-                            </div>
-
-                            {/* 3D Icon viewer */}
-                            {modelLoader && (
-                                <ModelView
-                                    loader={modelLoader}
-                                    hideControls={false}
-                                    onDownload={() => selectedSaveId && handleExtractToZip(selectedSaveId)}
-                                />
-                            )}
-
-                            {!modelLoader && (
-                                <div className="no-icon-message">
-                                    No icons available for this save
-                                </div>
-                            )}
-                        </>
-                    )}
-
-                    {!selectedSaveData && saves.length > 0 && (
-                        <div className="no-selection-message">
-                            Select a save from the list to view its icon
-                        </div>
-                    )}
+                    <SaveViewerPanel
+                        selectedSaveData={selectedSaveData}
+                        modelLoader={modelLoader}
+                        hasSaves={saves.length > 0}
+                        onDownload={handleDownload}
+                    />
                 </Panel>
             </Group>
 
-            {/* Clear confirmation modal */}
-            {showClearConfirm && (
-                <div className="confirm-modal-overlay" onClick={() => setShowClearConfirm(false)}>
-                    <div className="confirm-modal" onClick={e => e.stopPropagation()}>
-                        <div className="confirm-modal-header">
-                            <h5>Clear All Saves</h5>
-                            <button
-                                type="button"
-                                className="confirm-modal-close"
-                                onClick={() => setShowClearConfirm(false)}
-                                aria-label="Close"
-                            >
-                                ×
-                            </button>
-                        </div>
-                        <div className="confirm-modal-body">
-                            <p>Are you sure you want to remove all {saves.length} saved {saves.length === 1 ? 'item' : 'items'}? This action cannot be undone.</p>
-                        </div>
-                        <div className="confirm-modal-footer">
-                            <button
-                                type="button"
-                                className="btn btn-secondary"
-                                onClick={() => setShowClearConfirm(false)}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="button"
-                                className="btn btn-danger"
-                                onClick={handleClearAll}
-                            >
-                                Clear All
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <ConfirmModal
+                isOpen={showClearConfirm}
+                title="Clear All Saves"
+                message={clearMessage}
+                confirmText="Clear All"
+                danger={true}
+                onConfirm={handleClearAll}
+                onCancel={() => setShowClearConfirm(false)}
+            />
 
-            {/* Save context menu */}
             <ContextMenu
                 items={saveContextMenuItems}
                 state={contextMenu.state}
