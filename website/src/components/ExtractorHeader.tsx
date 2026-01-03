@@ -5,6 +5,10 @@ export interface ExtractorHeaderProps {
     savesCount: number;
     /** Called when files are selected for import. */
     onFilesImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    /** Called when the Extract All button is clicked. */
+    onExtractAllClick: () => void;
+    /** Whether the Extract All operation is in progress. */
+    isExtractingAll: boolean;
     /** Called when the clear button is clicked. */
     onClearClick: () => void;
 }
@@ -13,7 +17,7 @@ export interface ExtractorHeaderProps {
  * Header component for the Extractor page.
  * Displays logo, title, file import button, and clear button.
  */
-export function ExtractorHeader({ savesCount, onFilesImport, onClearClick }: ExtractorHeaderProps) {
+export function ExtractorHeader({ savesCount, onFilesImport, onExtractAllClick, isExtractingAll, onClearClick }: ExtractorHeaderProps) {
     return (
         <header className="extractor-header">
             <Link to="/">
@@ -32,13 +36,24 @@ export function ExtractorHeader({ savesCount, onFilesImport, onClearClick }: Ext
                     />
                 </label>
                 {savesCount > 0 && (
-                    <button
-                        type="button"
-                        className="clear-button"
-                        onClick={onClearClick}
-                    >
-                        Clear
-                    </button>
+                    <>
+                        <button
+                            type="button"
+                            className="extract-all-button"
+                            onClick={onExtractAllClick}
+                            disabled={isExtractingAll}
+                        >
+                            {isExtractingAll && <span className="button-spinner" />}
+                            {isExtractingAll ? 'Extracting...' : 'Extract All'}
+                        </button>
+                        <button
+                            type="button"
+                            className="clear-button"
+                            onClick={onClearClick}
+                        >
+                            Clear
+                        </button>
+                    </>
                 )}
             </div>
         </header>

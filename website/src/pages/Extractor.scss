@@ -50,6 +50,39 @@
             font-size: 0.9rem;
         }
 
+        .extract-all-button {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid rgba(100, 181, 246, 0.4);
+            color: #64b5f6;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            &:hover:not(:disabled) {
+                background: rgba(100, 181, 246, 0.15);
+                border-color: #64b5f6;
+            }
+
+            &:disabled {
+                opacity: 0.7;
+                cursor: not-allowed;
+            }
+
+            .button-spinner {
+                width: 14px;
+                height: 14px;
+                border: 2px solid rgba(100, 181, 246, 0.3);
+                border-top-color: #64b5f6;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+        }
+
         .clear-button {
             padding: 0.5rem 1rem;
             background: transparent;

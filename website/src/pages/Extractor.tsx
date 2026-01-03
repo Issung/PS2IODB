@@ -33,12 +33,13 @@ function Extractor() {
     } = useSaveStorage();
 
     // Export hook for zip and clipboard operations
-    const { extractToZip, copyIconSys, copyFirstAnim } = useSaveExport();
+    const { extractToZip, extractAllToZip, copyIconSys, copyFirstAnim } = useSaveExport();
 
     // Local UI state
     const [showClearConfirm, setShowClearConfirm] = useState(false);
     const [renameState, setRenameState] = useState<{ saveId: string; currentTitle: string } | null>(null);
     const [deleteState, setDeleteState] = useState<{ saveId: string; title: string } | null>(null);
+    const [isExtractingAll, setIsExtractingAll] = useState(false);
     const contextMenu = useContextMenu();
 
     // Context menu items for saves
@@ -85,6 +86,21 @@ function Extractor() {
             await extractToZip(stored);
         }
     }, [loadSave, extractToZip]);
+
+    const handleExtractAll = useCallback(async () => {
+        setIsExtractingAll(true);
+        try {
+            const loadedSaves = await Promise.all(
+                saves.map(save => loadSave(save.id))
+            );
+            const validSaves = loadedSaves.filter(s => s != null);
+            if (validSaves.length > 0) {
+                await extractAllToZip(validSaves);
+            }
+        } finally {
+            setIsExtractingAll(false);
+        }
+    }, [saves, loadSave, extractAllToZip]);
 
     const handleSaveContextMenu = useCallback((x: number, y: number, saveId: string) => {
         contextMenu.show(x, y, saveId);
@@ -190,6 +206,8 @@ function Extractor() {
             <ExtractorHeader
                 savesCount={saves.length}
                 onFilesImport={handleFilesImport}
+                onExtractAllClick={handleExtractAll}
+                isExtractingAll={isExtractingAll}
                 onClearClick={() => setShowClearConfirm(true)}
             />
 
