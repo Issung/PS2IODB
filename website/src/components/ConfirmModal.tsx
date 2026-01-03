@@ -1,3 +1,4 @@
+import { useCallback, useEffect } from 'react';
 import { Modal } from './Modal';
 
 export interface ConfirmModalProps {
@@ -22,6 +23,7 @@ export interface ConfirmModalProps {
 /**
  * A confirmation modal built on top of the base Modal component.
  * Displays a modal dialog with title, message, and confirm/cancel buttons.
+ * Supports Enter to confirm (Escape to cancel is handled by Modal).
  */
 export function ConfirmModal({
     isOpen,
@@ -33,6 +35,21 @@ export function ConfirmModal({
     onConfirm,
     onCancel,
 }: ConfirmModalProps) {
+    // Handle Enter key to confirm
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            onConfirm();
+        }
+    }, [onConfirm]);
+
+    useEffect(() => {
+        if (!isOpen) return;
+
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, [isOpen, handleKeyDown]);
+
     const footer = (
         <>
             <button

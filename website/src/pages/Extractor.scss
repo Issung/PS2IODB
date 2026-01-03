@@ -155,6 +155,15 @@
     overflow-y: auto;
     background: rgba(0, 0, 0, 0.2);
 
+    .saves-list-panel {
+        height: 100%;
+        outline: none;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
     .drop-zone {
         display: flex;
         flex-direction: column;
@@ -228,6 +237,8 @@
             tbody tr {
                 cursor: pointer;
                 transition: background 0.15s;
+                // Account for sticky header when scrolling into view
+                scroll-margin-top: 2.5rem;
 
                 &:hover {
                     background: rgba(74, 144, 217, 0.1);

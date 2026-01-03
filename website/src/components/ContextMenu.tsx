@@ -13,6 +13,8 @@ export interface ContextMenuItem {
     disabled?: boolean;
     /** Whether this is a dangerous/destructive action (renders in red). */
     danger?: boolean;
+    /** Optional, keyboard shortcut to display (display only, will need to be listened for elsewhere). */
+    shortcut?: string;
 }
 
 export interface ContextMenuState {
@@ -226,6 +228,7 @@ export function ContextMenu({ items, state, onItemClick, onClose }: ContextMenuP
                 >
                     {item.icon && <span className="context-menu-icon">{item.icon}</span>}
                     <span className="context-menu-label">{item.label}</span>
+                    {item.shortcut && <span className="context-menu-shortcut">{item.shortcut}</span>}
                 </button>
             ))}
         </div>

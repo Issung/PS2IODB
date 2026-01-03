@@ -1,3 +1,4 @@
+import { useCallback, useEffect } from 'react';
 import { StoredSaveMetadata } from '../storage';
 import { SaveRow } from './SaveRow';
 
@@ -16,11 +17,18 @@ export interface SavesListPanelProps {
     onSaveSelect: (save: StoredSaveMetadata) => void;
     /** Called when context menu is triggered on a save. */
     onContextMenu: (x: number, y: number, saveId: string) => void;
+    /** Called when rename is requested for the selected save. */
+    onRename?: (save: StoredSaveMetadata) => void;
+    /** Called when delete is requested for the selected save. */
+    onDelete?: (save: StoredSaveMetadata) => void;
+    /** Called when extract is requested for the selected save. */
+    onExtract?: (save: StoredSaveMetadata) => void;
 }
 
 /**
  * Panel component that displays the list of saves.
  * Shows loading state, errors, empty state, or the saves table.
+ * Supports keyboard navigation: Up/Down to select, F2/R to rename, Delete to delete, E to extract.
  */
 export function SavesListPanel({
     saves,
@@ -30,10 +38,91 @@ export function SavesListPanel({
     error,
     onSaveSelect,
     onContextMenu,
+    onRename,
+    onDelete,
+    onExtract,
 }: SavesListPanelProps
 ) {
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        // Don't handle if user is typing in an input or modal is open
+        const target = e.target as HTMLElement;
+        if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
+            return;
+        }
+        // Don't handle if a modal is open (check for modal backdrop)
+        if (document.querySelector('.modal-backdrop')) {
+            return;
+        }
+
+        if (saves.length === 0) return;
+
+        const currentIndex = saves.findIndex(s => s.id === selectedSaveId);
+
+        switch (e.key) {
+            case 'ArrowUp': {
+                e.preventDefault();
+                if (currentIndex > 0) {
+                    onSaveSelect(saves[currentIndex - 1]);
+                } else if (currentIndex === -1 && saves.length > 0) {
+                    // Nothing selected, select last
+                    onSaveSelect(saves[saves.length - 1]);
+                }
+                break;
+            }
+            case 'ArrowDown': {
+                e.preventDefault();
+                if (currentIndex < saves.length - 1) {
+                    onSaveSelect(saves[currentIndex + 1]);
+                } else if (currentIndex === -1 && saves.length > 0) {
+                    // Nothing selected, select first
+                    onSaveSelect(saves[0]);
+                }
+                break;
+            }
+            case 'F2': {
+                if (selectedSaveId && onRename) {
+                    const save = saves.find(s => s.id === selectedSaveId);
+                    if (save) {
+                        e.preventDefault();
+                        onRename(save);
+                    }
+                }
+                break;
+            }
+            case 'Delete': {
+                if (selectedSaveId && onDelete) {
+                    const save = saves.find(s => s.id === selectedSaveId);
+                    if (save) {
+                        e.preventDefault();
+                        onDelete(save);
+                    }
+                }
+                break;
+            }
+            case 'e':
+            case 'E': {
+                if (selectedSaveId && onExtract) {
+                    const save = saves.find(s => s.id === selectedSaveId);
+                    if (save) {
+                        e.preventDefault();
+                        onExtract(save);
+                    }
+                }
+                break;
+            }
+        }
+    }, [saves, selectedSaveId, onSaveSelect, onRename, onDelete, onExtract]);
+
+    // Global keyboard listener
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, [handleKeyDown]);
+
     return (
-        <>
+        <div
+            className="saves-list-panel"
+        >
             {saves.length === 0 && !loading && !isRestoring && (
                 <div className="drop-zone">
                     <p>Drop a PS2 memory card (.ps2) or supported save file (.cbs, .max, .psu, .psv, .sps, .xps) here</p>
@@ -79,7 +168,7 @@ export function SavesListPanel({
                     </table>
                 </div>
             )}
-        </>
+        </div>
     );
 }
 

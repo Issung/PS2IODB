@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { LongPressHandlers, useLongPress } from './ContextMenu';
 import { StoredSaveMetadata } from '../storage';
 
@@ -18,6 +19,15 @@ export interface SaveRowProps {
  * Displays save directory, title, and status with unread indicator.
  */
 export function SaveRow({ save, isSelected, onSelect, onContextMenu }: SaveRowProps) {
+    const rowRef = useRef<HTMLTableRowElement>(null);
+
+    // Scroll row into view when selected (for keyboard navigation)
+    useEffect(() => {
+        if (isSelected && rowRef.current) {
+            rowRef.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+    }, [isSelected]);
+
     // Wrap onContextMenu to also select the row
     const handleContextMenu = (x: number, y: number, saveId: string) => {
         onSelect();
@@ -28,6 +38,7 @@ export function SaveRow({ save, isSelected, onSelect, onContextMenu }: SaveRowPr
 
     return (
         <tr
+            ref={rowRef}
             onClick={onSelect}
             className={isSelected ? 'selected' : ''}
             {...longPressHandlers}

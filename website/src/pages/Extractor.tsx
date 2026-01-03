@@ -38,13 +38,14 @@ function Extractor() {
     // Local UI state
     const [showClearConfirm, setShowClearConfirm] = useState(false);
     const [renameState, setRenameState] = useState<{ saveId: string; currentTitle: string } | null>(null);
+    const [deleteState, setDeleteState] = useState<{ saveId: string; title: string } | null>(null);
     const contextMenu = useContextMenu();
 
     // Context menu items for saves
     const saveContextMenuItems: ContextMenuItem[] = useMemo(() => [
-        { id: 'extract-zip', label: 'Extract & Download Assets in .zip' },
-        { id: 'rename', label: 'Rename' },
-        { id: 'delete', label: 'Delete', danger: true },
+        { id: 'extract-zip', label: 'Extract & Download Assets in .zip', shortcut: 'E' },
+        { id: 'rename', label: 'Rename', shortcut: 'F2' },
+        { id: 'delete', label: 'Delete', danger: true, shortcut: 'Del' },
         ...(!import.meta.env.DEV ? [] : [
             { id: 'copy-iconsys', label: 'DEV - Copy iconsys.json' },
             { id: 'copy-anim', label: 'DEV - Copy first .anim' },
@@ -93,12 +94,17 @@ function Extractor() {
         const saveId = data as string;
         if (!saveId) return;
 
-        // Rename doesn't need to load the full save data
+        const save = saves.find(s => s.id === saveId);
+        if (!save) return;
+
+        // Rename and delete don't need to load the full save data
         if (itemId === 'rename') {
-            const save = saves.find(s => s.id === saveId);
-            if (save) {
-                setRenameState({ saveId, currentTitle: save.title });
-            }
+            setRenameState({ saveId, currentTitle: save.title });
+            return;
+        }
+
+        if (itemId === 'delete') {
+            setDeleteState({ saveId, title: save.title });
             return;
         }
 
@@ -115,12 +121,10 @@ function Extractor() {
             case 'copy-anim':
                 await copyFirstAnim(stored);
                 break;
-            case 'delete':
-                await deleteSave(saveId);
-                break;
         }
-    }, [saves, loadSave, extractToZip, copyIconSys, copyFirstAnim, deleteSave]);
+    }, [saves, loadSave, extractToZip, copyIconSys, copyFirstAnim]);
 
+    // Handlers for rename modal
     const handleRenameConfirm = useCallback(async (newTitle: string) => {
         if (renameState) {
             await renameSave(renameState.saveId, newTitle);
@@ -131,6 +135,34 @@ function Extractor() {
     const handleRenameCancel = useCallback(() => {
         setRenameState(null);
     }, []);
+
+    // Handlers for delete confirmation modal
+    const handleDeleteConfirm = useCallback(async () => {
+        if (deleteState) {
+            await deleteSave(deleteState.saveId);
+            setDeleteState(null);
+        }
+    }, [deleteState, deleteSave]);
+
+    const handleDeleteCancel = useCallback(() => {
+        setDeleteState(null);
+    }, []);
+
+    // Handlers for keyboard shortcuts in SavesListPanel
+    const handleRenameRequest = useCallback((save: { id: string; title: string }) => {
+        setRenameState({ saveId: save.id, currentTitle: save.title });
+    }, []);
+
+    const handleDeleteRequest = useCallback((save: { id: string; title: string }) => {
+        setDeleteState({ saveId: save.id, title: save.title });
+    }, []);
+
+    const handleExtractRequest = useCallback(async (save: { id: string }) => {
+        const stored = await loadSave(save.id);
+        if (stored) {
+            await extractToZip(stored);
+        }
+    }, [loadSave, extractToZip]);
 
     // Create a ModelLoader for the selected save by re-parsing icons
     const modelLoader = useMemo(() => {
@@ -171,6 +203,9 @@ function Extractor() {
                         error={error}
                         onSaveSelect={(save) => selectSave(save.id)}
                         onContextMenu={handleSaveContextMenu}
+                        onRename={handleRenameRequest}
+                        onDelete={handleDeleteRequest}
+                        onExtract={handleExtractRequest}
                     />
                 </Panel>
 
@@ -201,6 +236,16 @@ function Extractor() {
                 currentTitle={renameState?.currentTitle ?? ''}
                 onConfirm={handleRenameConfirm}
                 onCancel={handleRenameCancel}
+            />
+
+            <ConfirmModal
+                isOpen={deleteState !== null}
+                title="Delete Save"
+                message={`Are you sure you want to delete "${deleteState?.title ?? ''}"? This action cannot be undone.`}
+                confirmText="Delete"
+                danger={true}
+                onConfirm={handleDeleteConfirm}
+                onCancel={handleDeleteCancel}
             />
 
             <ContextMenu

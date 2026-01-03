@@ -35,11 +35,12 @@ export function RenameModal({
     // Auto-select all text when modal opens
     useEffect(() => {
         if (isOpen && inputRef.current) {
-            // Small delay to ensure the input is focused and rendered
-            requestAnimationFrame(() => {
+            // Delay to ensure focus runs after Modal's own focus effect
+            const timeoutId = setTimeout(() => {
                 inputRef.current?.focus();
                 inputRef.current?.select();
-            });
+            }, 0);
+            return () => clearTimeout(timeoutId);
         }
     }, [isOpen]);
 
