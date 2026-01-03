@@ -77,8 +77,9 @@ export function useSaveExport(): UseSaveExportResult {
         const a = document.createElement('a');
         a.href = url;
         // Use directory name for the zip filename, sanitized for filesystem
-        const safeName = stored.directory.replace(/[^a-zA-Z0-9_-]/g, '_');
-        a.download = `ps2iodb_${safeName}.zip`;
+        const safeDir = stored.directory.replace(/[\/\\:*?"<>|\0]/g, '_')
+        const safeName = stored.title.replace(/[\/\\:*?"<>|\0]/g, ' ')
+        a.download = `${safeDir} ${safeName}.zip`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
