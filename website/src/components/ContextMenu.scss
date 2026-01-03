@@ -33,7 +33,9 @@
     }
 
     &.danger {
-        color: #ff6b6b;
+        span {
+            color: #ff6b6b;
+        }
 
         &:hover:not(.disabled) {
             background: rgba(255, 107, 107, 0.15);
