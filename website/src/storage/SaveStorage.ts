@@ -162,6 +162,17 @@ export class SaveStorage {
         }
     }
 
+    /** Rename a save by ID. */
+    async rename(id: string, newTitle: string): Promise<void> {
+        const db = await this.dbPromise;
+        const store = db.transaction(STORE_NAME, 'readwrite').objectStore(STORE_NAME);
+        const save = await requestToPromise(store.get(id));
+        if (save) {
+            save.title = newTitle;
+            await requestToPromise(store.put(save));
+        }
+    }
+
     /** Clear all saves. */
     async clear(): Promise<void> {
         const db = await this.dbPromise;

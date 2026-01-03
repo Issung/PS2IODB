@@ -4,6 +4,7 @@ import { ConfirmModal } from '../components/ConfirmModal';
 import { ContextMenu, ContextMenuItem, useContextMenu } from '../components/ContextMenu';
 import { ExtractorHeader } from '../components/ExtractorHeader';
 import { FileModelLoader } from '../components/ModelView/FileModelLoader';
+import { RenameModal } from '../components/RenameModal';
 import { SavesListPanel } from '../components/SavesListPanel';
 import { SaveViewerPanel } from '../components/SaveViewerPanel';
 import { useSaveExport, useSaveStorage } from '../hooks';
@@ -26,6 +27,7 @@ function Extractor() {
         selectSave,
         loadFileAndProcess,
         deleteSave,
+        renameSave,
         clearAll,
         loadSave,
     } = useSaveStorage();
@@ -35,11 +37,13 @@ function Extractor() {
 
     // Local UI state
     const [showClearConfirm, setShowClearConfirm] = useState(false);
+    const [renameState, setRenameState] = useState<{ saveId: string; currentTitle: string } | null>(null);
     const contextMenu = useContextMenu();
 
     // Context menu items for saves
     const saveContextMenuItems: ContextMenuItem[] = useMemo(() => [
         { id: 'extract-zip', label: 'Extract & Download Assets in .zip' },
+        { id: 'rename', label: 'Rename' },
         { id: 'delete', label: 'Delete', danger: true },
         ...(!import.meta.env.DEV ? [] : [
             { id: 'copy-iconsys', label: 'DEV - Copy iconsys.json' },
@@ -89,6 +93,15 @@ function Extractor() {
         const saveId = data as string;
         if (!saveId) return;
 
+        // Rename doesn't need to load the full save data
+        if (itemId === 'rename') {
+            const save = saves.find(s => s.id === saveId);
+            if (save) {
+                setRenameState({ saveId, currentTitle: save.title });
+            }
+            return;
+        }
+
         const stored = await loadSave(saveId);
         if (!stored) return;
 
@@ -106,7 +119,18 @@ function Extractor() {
                 await deleteSave(saveId);
                 break;
         }
-    }, [loadSave, extractToZip, copyIconSys, copyFirstAnim, deleteSave]);
+    }, [saves, loadSave, extractToZip, copyIconSys, copyFirstAnim, deleteSave]);
+
+    const handleRenameConfirm = useCallback(async (newTitle: string) => {
+        if (renameState) {
+            await renameSave(renameState.saveId, newTitle);
+            setRenameState(null);
+        }
+    }, [renameState, renameSave]);
+
+    const handleRenameCancel = useCallback(() => {
+        setRenameState(null);
+    }, []);
 
     // Create a ModelLoader for the selected save by re-parsing icons
     const modelLoader = useMemo(() => {
@@ -170,6 +194,13 @@ function Extractor() {
                 danger={true}
                 onConfirm={handleClearAll}
                 onCancel={() => setShowClearConfirm(false)}
+            />
+
+            <RenameModal
+                isOpen={renameState !== null}
+                currentTitle={renameState?.currentTitle ?? ''}
+                onConfirm={handleRenameConfirm}
+                onCancel={handleRenameCancel}
             />
 
             <ContextMenu

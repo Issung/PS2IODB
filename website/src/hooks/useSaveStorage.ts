@@ -25,6 +25,8 @@ export interface UseSaveStorageResult {
     loadFileAndProcess: (file: File) => Promise<void>;
     /** Delete a save by ID. */
     deleteSave: (id: string) => Promise<void>;
+    /** Rename a save by ID. */
+    renameSave: (id: string, newTitle: string) => Promise<void>;
     /** Clear all saves. */
     clearAll: () => Promise<void>;
     /** Load a save by ID (without selecting). */
@@ -159,6 +161,28 @@ export function useSaveStorage(): UseSaveStorageResult {
         }
     }, [storage, selectedSaveId]);
 
+    /** Rename a save by ID. */
+    const renameSave = useCallback(async (id: string, newTitle: string) => {
+        try {
+            await storage.rename(id, newTitle);
+            setSaves((prev) => prev.map((s) =>
+                s.id === id
+                    ? new StoredSaveMetadata(s.id, s.directory, newTitle, s.storedAt, s.hasError, s.viewed)
+                    : s
+            ));
+            // Update selected save data if it's the one being renamed
+            if (selectedSaveId === id) {
+                setSelectedSaveData((prev) =>
+                    prev
+                        ? new StoredSave(prev.id, prev.directory, newTitle, prev.storedAt, prev.viewed, prev.files, prev.error)
+                        : prev
+                );
+            }
+        } catch (err) {
+            console.error('Failed to rename save:', err);
+        }
+    }, [storage, selectedSaveId]);
+
     /** Clear all saves. */
     const clearAll = useCallback(async () => {
         try {
@@ -186,6 +210,7 @@ export function useSaveStorage(): UseSaveStorageResult {
         selectSave,
         loadFileAndProcess,
         deleteSave,
+        renameSave,
         clearAll,
         loadSave,
     };
