@@ -4,7 +4,16 @@ import viteTsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
     base: '/',   // Deployed at ps2iodb.com, no special base path needed.
-    plugins: [react(), viteTsconfigPaths()],
+    plugins: [
+        react({
+            babel: {
+                plugins: [
+                    ["babel-plugin-react-compiler"],
+                ],
+            },
+        }),
+        viteTsconfigPaths()
+    ],
     server: {
         // this ensures that the browser opens upon server start
         open: true,

@@ -1,10 +1,9 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { IconSys } from '../model/IconSys';
+import { Utils } from "../utils/Utils";
 import { IconInfoCallback, ModelRendererImpl } from "./ModelRendererImpl";
 import './ModelView.scss';
 import { BackgroundType, MeshType, TextureType } from "./ModelViewParams";
-import { Utils } from "../utils/Utils";
-import { icons } from "@tabler/icons-react";
 
 export interface ModelViewProps {
     // Properties that require network requests.
@@ -62,7 +61,7 @@ export const ModelView = ({
         }
     }, [animate, animationSpeed, frame, grid, meshType, backgroundColor])
 
-    const color = useMemo(() => {
+    const calculateColor = () => {
         if (backgroundType == BackgroundType.Icon && iconsys?.bgColTL) {
             const tl = iconsys.bgColTL;
             const tr = iconsys.bgColTR!;    // Exclamation marks on these, we know one is defined so we will assume all are defined.
@@ -80,8 +79,10 @@ export const ModelView = ({
             // We don't continue to use the 4-point gradient because then when the user changes the color themselves the middle color lags behind, like it is the only one affected by the transition rule.
             return `linear-gradient(to top left, ${backgroundColor}, ${backgroundColor})`
         }
-    }, [backgroundType, backgroundColor]);
+    };
 
+    const color = calculateColor();
+    
     return(
         // TODO: The browser just isn't redrawing the background :(.
         <canvas

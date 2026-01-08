@@ -1,11 +1,10 @@
-import './ContributorList.scss'
+import { IconTrophyFilled } from '@tabler/icons-react';
+import { Link } from 'react-router-dom';
 import { Contributor } from '../model/Contributor';
 import { Contributors } from '../model/Contributors';
 import { Icons } from '../model/Titles';
-import { IconTrophyFilled } from '@tabler/icons-react';
-import { Link } from 'react-router-dom';
-import { useMemo } from 'react';
 import { Utils } from '../utils/Utils';
+import './ContributorList.scss';
 
 export const AlphabeticalFilterDefault = 'misc';
 
@@ -25,7 +24,7 @@ const contributorData = Object
     .sort((c1, c2) => c2.gameCount - c1.gameCount);
 
 const ContributorListItem = ({position, data} : {position: number, data: ContributorData}) => {
-    const posStyle = useMemo(() => position <= 3 ? `pos${position}` : undefined, [position]);   // pos${x} if top 3.
+    const posStyle = position <= 3 ? `pos${position}` : undefined;   // pos${x} if top 3.
 
     return (
         <Link

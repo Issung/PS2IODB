@@ -1,13 +1,13 @@
 import JSZip from "jszip";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { ModelView } from "../components/ModelView";
 import { BackgroundType, MeshType, TextureType } from "../components/ModelViewParams";
 import { Icon as IconModel } from "../model/Icon";
 import { IconSys } from "../model/IconSys";
 import { Titles } from "../model/Titles";
 import { SessionStorageKeys } from '../utils/Consts';
 import './Icon.scss';
-import { ModelView } from "../components/ModelView";
 
 /**
  * This component serves as a page, routed to by App.tsx.
@@ -26,13 +26,7 @@ const Icon = () => {
     const [variant, setVariant] = useState<string>();
     
     const [icon, setIcon] = useState<IconModel | undefined>();
-    const title = useMemo(() => {
-        if (icon) {
-            return icon.title!.name == icon.name ? icon.name : `${icon.title!.name} (${icon.name})`
-        }
-        
-        return '';
-    }, [icon]);
+    const title = icon ? icon.title!.name == icon.name ? icon.name : `${icon.title!.name} (${icon.name})` : '';
 
     /**
      * Information obtained from renderer callback, how many frames does the current animation have. 0 if no animation.
