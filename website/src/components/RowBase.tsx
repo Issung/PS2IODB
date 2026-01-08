@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
 export enum Trait {
@@ -28,17 +27,16 @@ interface RowBaseProps {
 }
 
 const RowBase = ({title, contributed, code, circle, tooltip}: RowBaseProps) => {
-    const circleClass = useMemo(() => (typeof circle == 'number') ? ('icons' + circle) : circle, [circle]);
-    const circleText = useMemo(() => 
-        typeof circle == 'number' ? circle.toString() :
+    const circleClass = (typeof circle == 'number') ? ('icons' + circle) : circle;
+    const circleText = typeof circle == 'number' ? circle.toString() :
         circle === Trait.MultiIcon ? '+' :
         circle === Trait.Homebrew ? 'H':
-        /* Undefined: */ '?', 
-        [circle]);
-    const rowClass = useMemo(() => contributed ? "contributed" : "unknown", [contributed]);
-    
+        /* Undefined: */ '?';
+    const rowClass = contributed ? "contributed" : "unknown";
     const classes = `TitleList-Row ${rowClass}`;
     
+    //console.log('RowBase');
+
     return code ?
         <Link to={`/icon/${code}`} className={classes} title={tooltip}>
             <div className={`circle ${circleClass}`}>{circleText}</div>
