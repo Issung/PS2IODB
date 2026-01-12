@@ -976,7 +976,7 @@ export const Titles: Title[] = [
     new Game(`Disgaea 2: Cursed Memories`, `disgaea2cursedmemories`, 1, Contributors.ItzCookieX),
     new Game(`Disney Golf`, `disneygolf`, 1, Contributors.Cajas),
     new Game(`Disney Hannah Montana: Spotlight World Tour`, `hannahmontanaspotlightworldtour`, 1, Contributors.Valzentia),
-    new Game(`Disney Move`),
+    new Game(`Disney Move`, `disneymove`, 1, Contributors.Valzentia),
     new Game(`Disney Presents Piglet's Big Game`, `disneypresentspigletsbiggame`, 1, Contributors.SqueezedDog),
     new Game(`Disney Princess: Enchanted Journey`, `disneyprincessenchantedjourney`, 1, Contributors.SqueezedDog),
     new Game(`Disney Sing It`, `disneysingit`, 1, Contributors.TheZulaPatrolFan2005),
