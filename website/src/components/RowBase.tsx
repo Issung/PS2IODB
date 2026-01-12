@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 export enum Trait {
     /** Use for games that have multiple icons. */
     MultiIcon = "multiIcon",
@@ -38,10 +36,13 @@ const RowBase = ({title, contributed, code, circle, tooltip}: RowBaseProps) => {
     //console.log('RowBase');
 
     return code ?
-        <Link to={`/icon/${code}`} className={classes} title={tooltip}>
+        // We do not use the react-router `<Link>` component here because it adds *a lot* of overhead when rendering many.
+        // We have a click listener in TitleTable to handle the routing using 1 single `useNavigate` hook.
+        // This leads to a roughly 70% improvement in changing browse filters (~200ms down to ~50-75ms).
+        <a href={`/icon/${code}`} className={classes} title={tooltip}>
             <div className={`circle ${circleClass}`}>{circleText}</div>
             <h6>{title}</h6>
-        </Link>
+        </a>
     :
         <span className={classes} title={tooltip}>
             <div className={`circle ${circleClass}`}>{circleText}</div>

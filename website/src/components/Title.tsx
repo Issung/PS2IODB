@@ -16,8 +16,6 @@ const Title = ({
     iconsFilter
 }: TitleProps
 ) => {
-    //console.log('Title');
-
     if (title.icons.length > 1)
     {
         const icons = iconsFilter ? title.icons.filter(iconsFilter) : title.icons;
