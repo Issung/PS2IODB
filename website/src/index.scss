@@ -2,6 +2,12 @@
   color-scheme: dark;
 }
 
+// Override Bootstrap's smooth scroll behavior to make browser scroll restoration instant.
+// This prevents the slow animated scroll when navigating back from icon pages.
+html {
+  scroll-behavior: auto !important;
+}
+
 * {
   color: white;
   font-family: Barlow;
