@@ -25,8 +25,12 @@
     inherits: false;
 }
 
+@keyframes count-up {
+    from { --percent: 0; }
+}
+
 strong.counter {
-    transition: --percent 4s;
+    animation: count-up 4s ease-out;
     --temp: calc(var(--percent) * 100);
     --v1: max(var(--temp) - 0.5, 0);
     --v2: max((var(--temp) - var(--v1)) * 100 - 0.5, 0);

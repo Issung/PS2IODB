@@ -125,10 +125,14 @@
         border-radius: 6px;
     }
 
+    @keyframes fill-width {
+        from { width: 0; }
+    }
+
     #progress #fill {
         height: 100%;
         background-color: #0b5cd4;
-        transition: width 4s;
+        animation: fill-width 4s ease-out;
     }
 
     #progress #fill strong {

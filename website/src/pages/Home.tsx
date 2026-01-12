@@ -1,5 +1,5 @@
 import { IconCaretLeft } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ContributorList } from '../components/ContributorList';
 import Counter from "../components/Counter";
@@ -27,7 +27,7 @@ const Home = () => {
     const { filterType, filter } = useParams();
 
     const titlesWithContributions = Titles.filter(t => t.icons.some(i => i.code)).length;
-    const [progress, setProgress] = useState(0);
+    const progress = Icons.filter(i => i.code).length / Icons.length;
 
     useEffect(() => {
         sessionStorage.setItem(SessionStorageKeys.HasViewedHomePage, "true");
@@ -38,10 +38,6 @@ const Home = () => {
             document.querySelector<HTMLInputElement>('input[type="text"]')?.focus();
         }
     }, [filterType]);
-
-    useEffect(() => {
-        setProgress(Icons.filter(i => i.code).length / Icons.length);
-    }, [progress]);
 
     return (
         <>
