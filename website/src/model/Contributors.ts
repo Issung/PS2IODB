@@ -44,6 +44,7 @@ export class Contributors {
     public static PressAnyKeyToContinue = new Contributor('Press any key to continue...', 'https://youtube.com/@PAKTC');
     public static BlackFlagSolutions = new Contributor('BlackFlagSolutions', 'https://x.com/BlackFlagSolut');
     public static Valzentia = new Contributor('Valzentia', 'https://youtube.com/@Valzentia');
+    public static JonnyPaes = new Contributor('JonnyPaes', 'https://www.youtube.com/@JonnyPaes');
 }
 
 export const ContributorCount = Object.values(Contributors).length;

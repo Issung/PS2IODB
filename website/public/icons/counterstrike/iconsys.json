@@ -1,0 +1,19 @@
+{
+    "directory":"BASLUS-27500SYSTEM",
+    "title":"Counter-Strike",
+    "normal":"cs-icon.icn",
+    "copy":"cs-icon.icn",
+    "delete":"cs-icon.icn",
+    "bgOpacity":96,
+    "bgColTL":"#00005e",
+    "bgColTR":"#00005e",
+    "bgColBL":"#000000",
+    "bgColBR":"#ff0000",
+    "light1Dir":[1.0, 1.0, 1.0, 0.0],
+    "light2Dir":[1.0, 1.0, 1.0, 0.0],
+    "light3Dir":[1.0, 1.0, 1.0, 0.0],
+    "light1Col":[0.501960813999176, 1.0, 0.501960813999176, 0.0],
+    "light2Col":[0.19607844948768616, 0.803921639919281, 0.19607844948768616, 0.0],
+    "light3Col":[0.0, 0.0, 1.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 0.0]
+}

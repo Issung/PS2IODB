@@ -710,6 +710,7 @@ export const Titles: Title[] = [
     new Game(`Coraline`, `coraline`, 1, Contributors.Cajas),
     new Game(`Corvette`, `corvette`, 1, Contributors.TheZulaPatrolFan2005),
     new Game(`Corvette Evolution GT`, `corvetteevolutiongt`, 1, Contributors.SqueezedDog),
+    new Game(`Counter-Strike [Homebrew]`, `counterstrike`, 1, Contributors.JonnyPaes),
     new Game(`Counter Terrorist Special Forces: Fire for Effect`),
     new Game(`Countryside Bears`),
     new Game(`Covert Command`),
