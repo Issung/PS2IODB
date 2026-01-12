@@ -4,7 +4,7 @@ import { Contributors } from '../model/Contributors';
 import SearchKeywordChunker from '../model/SearchKeywordChunker';
 import { Title } from '../model/Title';
 import { Titles } from '../model/Titles';
-import { Category } from './FilterSelectCategory';
+import { Category, CategoryDefault } from './FilterSelectCategory';
 import { FilterType, FilterTypeDefault } from './FilterTypeSelect';
 import TitleTable from './TitleTable';
 import { Icon } from '../model/Icon';
@@ -38,7 +38,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
     };
 
     const filterByCategory = () => {
-        let index = !filter || filter.trim() === '' ? Category.uploaded : filter;
+        let index = !filter || filter.trim() === '' ? CategoryDefault : filter;
 
         if (index === Category.all) {
             return Titles;

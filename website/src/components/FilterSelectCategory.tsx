@@ -12,7 +12,7 @@ export enum Category {
     missing = "missing",
 };
 
-export const CategoryDefault = Category.uploaded;
+export const CategoryDefault = Category.all;
 
 interface ICategorySelectProps {
     category: Category | undefined;
