@@ -29,6 +29,7 @@
 			"Extractor"
 		],
 		"liveServer.settings.multiRootWorkspaceName": "Website",
-		"jest.runMode": "on-demand"
+		"jest.runMode": "on-demand",
+		"terminal.integrated.defaultProfile.windows": "PowerShell"
 	}
 }
