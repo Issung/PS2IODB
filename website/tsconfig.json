@@ -9,7 +9,6 @@
     "lib": [ "dom", "dom.iterable", "esnext" ],
     "module": "esnext",
     "moduleResolution": "node",
-    "ignoreDeprecations": "6.0",  // Ignore issue on above line `"moduleResolution": "node"`. Updating it as it asks, or switching to "bundle" both have issues - namely around importing types from threejs.
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
