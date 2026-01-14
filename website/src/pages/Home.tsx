@@ -1,18 +1,18 @@
-import './Home.scss';
-import { Category, FilterSelectCategory } from '../components/FilterSelectCategory';
-import { ContributorCount } from '../model/Contributors';
-import { FilterSelectAlphabetical } from '../components/FilterSelectAlphabetical';
-import { ContributorList } from '../components/ContributorList';
-import { FilterTypeSelect, FilterType } from '../components/FilterTypeSelect';
-import { ContributedIcons, Icons, Titles, TotalUniqueVariants } from '../model/Titles';
+import { IconCaretLeft } from '@tabler/icons-react';
+import { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useMemo, useState } from 'react';
+import { ContributorList } from '../components/ContributorList';
 import Counter from "../components/Counter";
 import DebouncedTextBox from '../components/DebouncedTextBox';
+import { FilterSelectAlphabetical } from '../components/FilterSelectAlphabetical';
+import { Category, FilterSelectCategory } from '../components/FilterSelectCategory';
+import { FilterType, FilterTypeSelect } from '../components/FilterTypeSelect';
 import Footer from "../components/Footer";
 import SearchResults from "../components/SearchResults";
-import { IconCaretLeft } from '@tabler/icons-react';
+import { ContributorCount } from '../model/Contributors';
+import { ContributedIcons, Icons, Titles, TotalUniqueVariants } from '../model/Titles';
 import { SessionStorageKeys } from '../utils/Consts';
+import './Home.scss';
 
 const exampleSearches = [
     "Final Fantasy",
@@ -26,8 +26,8 @@ const Home = () => {
     const navigate = useNavigate();
     const { filterType, filter } = useParams();
 
-    const titlesWithContributions = useMemo(() => Titles.filter(t => t.icons.some(i => i.code)).length, []);
-    const [progress, setProgress] = useState(0);
+    const titlesWithContributions = Titles.filter(t => t.icons.some(i => i.code)).length;
+    const progress = Icons.filter(i => i.code).length / Icons.length;
 
     useEffect(() => {
         sessionStorage.setItem(SessionStorageKeys.HasViewedHomePage, "true");
@@ -38,10 +38,6 @@ const Home = () => {
             document.querySelector<HTMLInputElement>('input[type="text"]')?.focus();
         }
     }, [filterType]);
-
-    useEffect(() => {
-        setProgress(Icons.filter(i => i.code).length / Icons.length);
-    }, [progress]);
 
     return (
         <>

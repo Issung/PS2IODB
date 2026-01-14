@@ -1,45 +1,40 @@
-import React from 'react';
+import { MouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '../model/Icon';
-import { Title } from '../model/Title';
-import IconRow from './IconRow';
-import RowBase, { Trait } from './RowBase';
-import TitleRow from './TitleRow';
+import { Title as TitleModel } from "../model/Title";
+import Title from './Title';
 import './TitleTable.scss';
 
 type TitleTableProps = {
-    titles: Title[];
+    titles: TitleModel[];
     iconsFilter?: (icon: Icon) => boolean;
 }
 
 const TitleTable = ({ titles, iconsFilter }: TitleTableProps) => {
-    console.log("TitleTable", titles);
-    return (
-        <div id="TitleTable">
-            <ol style={{paddingLeft: 0}}>
-                {titles.map(title => {
-                    if (title.icons.length > 1)
-                    {
-                        const icons = iconsFilter ? title.icons.filter(iconsFilter) : title.icons;
+    const navigate = useNavigate();
 
-                        return <React.Fragment key={title.index}>
-                            <RowBase 
-                                title={title.name}
-                                contributed={title.icons.some(i => i.code)}
-                                circle={Trait.MultiIcon}
-                                tooltip="This title has multiple icons"
-                            />
-                            <div className="icons-grid" style={{gridTemplateRows: `repeat(${icons.length}, auto)`}}>
-                                <div className="line" style={{gridRow: `1 / span ${icons.length}`}}>
-                                </div>
-                                {icons.map(icon => <IconRow icon={icon} key={icon.index}/>)}
-                            </div>
-                        </React.Fragment>
-                    }
-                    else
-                    {
-                        return <TitleRow game={title} key={title.index}/>
-                    }
-                })}
+    const handleClick = (e: MouseEvent<HTMLElement>) => {
+        const anchor = (e.target as HTMLElement).closest('a');
+        if (anchor && anchor.href) {
+            const url = new URL(anchor.href);
+            // Only handle internal navigation
+            if (url.origin === window.location.origin) {
+                e.preventDefault();
+                navigate(url.pathname);
+            }
+        }
+    };
+
+    return (
+        <div id="TitleTable" onClick={handleClick}>
+            <ol style={{paddingLeft: 0}}>
+                {titles.map(title => 
+                    <Title
+                        key={title.index}
+                        title={title}
+                        iconsFilter={iconsFilter}
+                    />
+                )}
             </ol>
         </div>
     );

@@ -1,5 +1,5 @@
-import React, { ReactNode, useCallback } from 'react';
-import './Select.scss'
+import React, { ReactNode } from 'react';
+import './Select.scss';
 
 export class SelectItem {
     /**

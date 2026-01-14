@@ -1,6 +1,3 @@
-import { useMemo } from "react";
-import { Link } from "react-router-dom";
-
 export enum Trait {
     /** Use for games that have multiple icons. */
     MultiIcon = "multiIcon",
@@ -28,22 +25,24 @@ interface RowBaseProps {
 }
 
 const RowBase = ({title, contributed, code, circle, tooltip}: RowBaseProps) => {
-    const circleClass = useMemo(() => (typeof circle == 'number') ? ('icons' + circle) : circle, [circle]);
-    const circleText = useMemo(() => 
-        typeof circle == 'number' ? circle.toString() :
+    const circleClass = (typeof circle == 'number') ? ('icons' + circle) : circle;
+    const circleText = typeof circle == 'number' ? circle.toString() :
         circle === Trait.MultiIcon ? '+' :
         circle === Trait.Homebrew ? 'H':
-        /* Undefined: */ '?', 
-        [circle]);
-    const rowClass = useMemo(() => contributed ? "contributed" : "unknown", [contributed]);
-    
+        /* Undefined: */ '?';
+    const rowClass = contributed ? "contributed" : "unknown";
     const classes = `TitleList-Row ${rowClass}`;
     
+    //console.log('RowBase');
+
     return code ?
-        <Link to={`/icon/${code}`} className={classes} title={tooltip}>
+        // We do not use the react-router `<Link>` component here because it adds *a lot* of overhead when rendering many.
+        // We have a click listener in TitleTable to handle the routing using 1 single `useNavigate` hook.
+        // This leads to a roughly 70% improvement in changing browse filters (~200ms down to ~50-75ms).
+        <a href={`/icon/${code}`} className={classes} title={tooltip}>
             <div className={`circle ${circleClass}`}>{circleText}</div>
             <h6>{title}</h6>
-        </Link>
+        </a>
     :
         <span className={classes} title={tooltip}>
             <div className={`circle ${circleClass}`}>{circleText}</div>

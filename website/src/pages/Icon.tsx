@@ -1,8 +1,8 @@
 import JSZip from "jszip";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ModelView } from "../components/ModelView/ModelView";
 import { ModelLoader } from "../components/ModelView/ModelLoader";
+import { ModelView } from "../components/ModelView/ModelView";
 import { UrlModelLoader } from "../components/ModelView/UrlModelLoader";
 import { Icon as IconModel } from "../model/Icon";
 import { IconSys } from "../model/IconSys";
@@ -23,12 +23,7 @@ const Icon = () => {
     const { iconcode } = useParams();
 
     const [icon, setIcon] = useState<IconModel | undefined>();
-    const title = useMemo(() => {
-        if (icon) {
-            return icon.title!.name == icon.name ? icon.name : `${icon.title!.name} (${icon.name})`
-        }
-        return '';
-    }, [icon]);
+    const title = icon ? icon.title!.name == icon.name ? icon.name : `${icon.title!.name} (${icon.name})` : '';
 
     // Download state
     const [downloadStatus, setDownloadStatus] = useState<string>();
