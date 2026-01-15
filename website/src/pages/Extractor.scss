@@ -402,6 +402,29 @@
         color: #666;
         font-size: 1rem;
     }
+
+    .icon-error-message {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        padding: 2rem;
+        text-align: center;
+        color: #f5a5a5;
+        background: rgba(220, 53, 69, 0.15);
+        border: 1px solid rgba(220, 53, 69, 0.3);
+        border-radius: 8px;
+        margin: 1rem;
+
+        p {
+            margin: 0.25rem 0;
+        }
+
+        strong {
+            color: #ff6b6b;
+        }
+    }
 }
 
 .extractor-footer {
@@ -417,5 +440,81 @@
 @keyframes spin {
     to {
         transform: rotate(360deg);
+    }
+}
+
+// Error Boundary fallback styling
+.error-boundary-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    background: #16213e;
+    color: #fff;
+    text-align: center;
+
+    h2 {
+        color: #ff6b6b;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        color: #ccc;
+        margin-bottom: 1.5rem;
+    }
+
+    .error-boundary-actions {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+
+            &:first-child {
+                background: #4a90d9;
+                color: white;
+            }
+
+            &:last-child {
+                background: #555;
+                color: white;
+            }
+
+            &:hover {
+                opacity: 0.9;
+            }
+        }
+    }
+
+    .error-boundary-details {
+        max-width: 600px;
+        text-align: left;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 1rem;
+        border-radius: 8px;
+
+        summary {
+            cursor: pointer;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        pre {
+            margin: 0;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            overflow-x: auto;
+            color: #f5a5a5;
+            font-size: 0.875rem;
+        }
     }
 }

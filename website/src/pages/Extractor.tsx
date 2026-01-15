@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { ConfirmModal } from '../components/ConfirmModal';
 import { ContextMenu, ContextMenuItem, useContextMenu } from '../components/ContextMenu';
@@ -10,6 +11,27 @@ import { SaveViewerPanel } from '../components/SaveViewerPanel';
 import { useSaveExport, useSaveStorage } from '../hooks';
 import { storedSaveToModelFiles } from "../storage";
 import './Extractor.scss';
+
+function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
+    return (
+        <div className="error-boundary-fallback">
+            <h2>Something went wrong</h2>
+            <p>An unexpected error occurred. You can try:</p>
+            <div className="error-boundary-actions">
+                <button type="button" onClick={resetErrorBoundary}>
+                    Try Again
+                </button>
+                <button type="button" onClick={() => window.location.reload()}>
+                    Reload Page
+                </button>
+            </div>
+            <details className="error-boundary-details">
+                <summary>Error details</summary>
+                <pre>{error.message}</pre>
+            </details>
+        </div>
+    );
+}
 
 /**
  * The Extractor page allows users to open PS2 memory card files
@@ -181,15 +203,25 @@ function Extractor() {
     }, [loadSave, extractToZip]);
 
     // Create a ModelLoader for the selected save by re-parsing icons
-    const modelLoader = useMemo(() => {
+    // Returns { loader, error } to handle parsePS2Icon failures gracefully
+    const modelLoaderResult = useMemo(() => {
         if (!selectedSaveData || selectedSaveData.hasError || !selectedSaveData.files) {
-            return null;
+            return { loader: null, error: null };
         }
 
-        // Re-parse raw icon files to generate OBJ/MTL/PNG/ANIM
-        const modelFiles = storedSaveToModelFiles(selectedSaveData.files);
-        return new FileModelLoader(modelFiles);
+        try {
+            // Re-parse raw icon files to generate OBJ/MTL/PNG/ANIM
+            const modelFiles = storedSaveToModelFiles(selectedSaveData.files);
+            return { loader: new FileModelLoader(modelFiles), error: null };
+        } catch (e) {
+            const errorMessage = e instanceof Error ? e.message : 'Unknown error parsing icon file';
+            console.error('Error parsing icon files:', e);
+            return { loader: null, error: errorMessage };
+        }
     }, [selectedSaveData]);
+
+    const modelLoader = modelLoaderResult.loader;
+    const modelLoaderError = modelLoaderResult.error;
 
     // Generate clear confirmation message
     const clearMessage = `Are you sure you want to remove all ${saves.length} saved ${saves.length === 1 ? 'item' : 'items'}? This action cannot be undone.`;
@@ -201,78 +233,81 @@ function Extractor() {
     }, [selectedSaveId, handleExtractToZip]);
 
     return (
-        <div className="extractor-page" onDrop={handleDrop} onDragOver={handleDragOver}>
-            {/* Header */}
-            <ExtractorHeader
-                savesCount={saves.length}
-                onFilesImport={handleFilesImport}
-                onExtractAllClick={handleExtractAll}
-                isExtractingAll={isExtractingAll}
-                onClearClick={() => setShowClearConfirm(true)}
-            />
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <div className="extractor-page" onDrop={handleDrop} onDragOver={handleDragOver}>
+                {/* Header */}
+                <ExtractorHeader
+                    savesCount={saves.length}
+                    onFilesImport={handleFilesImport}
+                    onExtractAllClick={handleExtractAll}
+                    isExtractingAll={isExtractingAll}
+                    onClearClick={() => setShowClearConfirm(true)}
+                />
 
-            <Group orientation="horizontal" className="extractor-main">
-                <Panel defaultSize="50%" minSize="200px" className="directory-panel">
-                    <SavesListPanel
-                        saves={saves}
-                        selectedSaveId={selectedSaveId}
-                        loading={loading}
-                        isRestoring={isRestoring}
-                        error={error}
-                        onSaveSelect={(save) => selectSave(save.id)}
-                        onContextMenu={handleSaveContextMenu}
-                        onRename={handleRenameRequest}
-                        onDelete={handleDeleteRequest}
-                        onExtract={handleExtractRequest}
-                    />
-                </Panel>
+                <Group orientation="horizontal" className="extractor-main">
+                    <Panel defaultSize="50%" minSize="200px" className="directory-panel">
+                        <SavesListPanel
+                            saves={saves}
+                            selectedSaveId={selectedSaveId}
+                            loading={loading}
+                            isRestoring={isRestoring}
+                            error={error}
+                            onSaveSelect={(save) => selectSave(save.id)}
+                            onContextMenu={handleSaveContextMenu}
+                            onRename={handleRenameRequest}
+                            onDelete={handleDeleteRequest}
+                            onExtract={handleExtractRequest}
+                        />
+                    </Panel>
 
-                <Separator className="resize-handle" />
+                    <Separator className="resize-handle" />
 
-                <Panel minSize="300px" className="viewer-panel">
-                    <SaveViewerPanel
-                        selectedSaveData={selectedSaveData}
-                        modelLoader={modelLoader}
-                        hasSaves={saves.length > 0}
-                        onDownload={handleDownload}
-                    />
-                </Panel>
-            </Group>
+                    <Panel minSize="300px" className="viewer-panel">
+                        <SaveViewerPanel
+                            selectedSaveData={selectedSaveData}
+                            modelLoader={modelLoader}
+                            modelLoaderError={modelLoaderError}
+                            hasSaves={saves.length > 0}
+                            onDownload={handleDownload}
+                        />
+                    </Panel>
+                </Group>
 
-            <ConfirmModal
-                isOpen={showClearConfirm}
-                title="Clear All Saves"
-                message={clearMessage}
-                confirmText="Clear All"
-                danger={true}
-                onConfirm={handleClearAll}
-                onCancel={() => setShowClearConfirm(false)}
-            />
+                <ConfirmModal
+                    isOpen={showClearConfirm}
+                    title="Clear All Saves"
+                    message={clearMessage}
+                    confirmText="Clear All"
+                    danger={true}
+                    onConfirm={handleClearAll}
+                    onCancel={() => setShowClearConfirm(false)}
+                />
 
-            <RenameModal
-                isOpen={renameState !== null}
-                currentTitle={renameState?.currentTitle ?? ''}
-                onConfirm={handleRenameConfirm}
-                onCancel={handleRenameCancel}
-            />
+                <RenameModal
+                    isOpen={renameState !== null}
+                    currentTitle={renameState?.currentTitle ?? ''}
+                    onConfirm={handleRenameConfirm}
+                    onCancel={handleRenameCancel}
+                />
 
-            <ConfirmModal
-                isOpen={deleteState !== null}
-                title="Delete Save"
-                message={`Are you sure you want to delete "${deleteState?.title ?? ''}"? This action cannot be undone.`}
-                confirmText="Delete"
-                danger={true}
-                onConfirm={handleDeleteConfirm}
-                onCancel={handleDeleteCancel}
-            />
+                <ConfirmModal
+                    isOpen={deleteState !== null}
+                    title="Delete Save"
+                    message={`Are you sure you want to delete "${deleteState?.title ?? ''}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    danger={true}
+                    onConfirm={handleDeleteConfirm}
+                    onCancel={handleDeleteCancel}
+                />
 
-            <ContextMenu
-                items={saveContextMenuItems}
-                state={contextMenu.state}
-                onItemClick={handleContextMenuItemClick}
-                onClose={contextMenu.close}
-            />
-        </div>
+                <ContextMenu
+                    items={saveContextMenuItems}
+                    state={contextMenu.state}
+                    onItemClick={handleContextMenuItemClick}
+                    onClose={contextMenu.close}
+                />
+            </div>
+        </ErrorBoundary>
     );
 }
 

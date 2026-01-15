@@ -7,6 +7,8 @@ export interface SaveViewerPanelProps {
     selectedSaveData: StoredSave | null;
     /** The model loader for the selected save, or null if not available. */
     modelLoader: ModelLoader | null;
+    /** Error message if the model loader failed to parse icon files. */
+    modelLoaderError: string | null;
     /** Whether there are any saves loaded. */
     hasSaves: boolean;
     /** Called when the download button is clicked. */
@@ -20,6 +22,7 @@ export interface SaveViewerPanelProps {
 export function SaveViewerPanel({
     selectedSaveData,
     modelLoader,
+    modelLoaderError,
     hasSaves,
     onDownload,
 }: SaveViewerPanelProps) {
@@ -40,7 +43,16 @@ export function SaveViewerPanel({
                     />
                 )}
 
-                {!modelLoader && (
+                {/* Error parsing icon files */}
+                {modelLoaderError && (
+                    <div className="icon-error-message">
+                        <p><strong>Error loading icon</strong></p>
+                        <pre>{modelLoaderError}</pre>
+                    </div>
+                )}
+
+                {/* No loader and no error - icons not available */}
+                {!modelLoader && !modelLoaderError && (
                     <div className="no-icon-message">
                         No icons available for this save
                     </div>
