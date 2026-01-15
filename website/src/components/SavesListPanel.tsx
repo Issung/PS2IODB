@@ -81,6 +81,8 @@ export function SavesListPanel({
             }
             case 'r':
             case 'R': {
+                // Don't intercept Ctrl+R (browser refresh)
+                if (e.ctrlKey) break;
                 if (selectedSaveId && onRename) {
                     const save = saves.find(s => s.id === selectedSaveId);
                     if (save) {
