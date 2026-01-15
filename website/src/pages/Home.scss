@@ -26,9 +26,11 @@
                 background-color: rgba(255, 255, 255, 0.116);
                 border-color: #0d6efd;
 
-                > img {
-                    max-height:20px;
-                    filter: invert(100%);
+                > .social {
+                    margin-top: -3px;
+                    &.github { max-height:21px; }
+                    &.x { max-height:19px; }
+                    &.discord { max-height:21px; }
                 }
 
                 &:hover {

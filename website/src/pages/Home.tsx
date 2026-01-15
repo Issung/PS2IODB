@@ -57,25 +57,28 @@ const Home = () => {
                         </div>
                     </div>
                     <div className="row justify-content-center">
-                        <div className="col-5 col-md-3 col-xxl-2 px-1 py-1">
+                        <div className="col-5 col-md-5 col-lg-5 col-xl-2 px-1 py-1">
                             <Link className="btn btn-primary" to="/faq">FAQ</Link>
                         </div>
-                        <div className="col-5 col-md-3 col-xxl-2 px-1 py-1">
+                        <div className="col-5 col-md-5 col-lg-5 col-xl-2 px-1 py-1">
                             <Link className="btn btn-primary" to="/contribute">
                                 <span className="d-none d-sm-inline">How to Contribute</span>
                                 <span className="d-inline d-sm-none">Contribute</span>  {/* Shorten text at XS size. */}
                             </Link>
                         </div>
-                        <div className="col-10 col-md-3 col-xxl-2 px-1 py-1">
+                        <div className="col-10 col-md-5 col-lg-5 col-xl-2 px-1 py-1">
+                            <Link className="btn btn-primary" to="/extractor">Open Extractor Tool</Link>
+                        </div>
+                        <div className="col-10 col-md-5 col-lg-5 col-xl-2 px-1 py-1">
                             <div className="btn-group">
                                 <Link type="button" className="btn btn-secondary" to="https://github.com/Issung/PS2IODB">
-                                    <img src="/images/github.svg" alt="GitHub logo"/>
+                                    <img src="/images/github.svg" alt="GitHub logo" className="social github"/>
                                 </Link>
-                                <Link type="button" className="btn btn-secondary" to="https://twitter.com/IssunGee">
-                                    <img src="/images/twitter.svg" alt="Twitter logo"/>
+                                <Link type="button" className="btn btn-secondary" to="https://x.com/IssunGee">
+                                    <img src="/images/x.svg" alt="X.com logo"className="social x"/>
                                 </Link>
                                 <Link type="button" className="btn btn-secondary" to="https://discord.gg/SWsuNvWnKw">
-                                    <img src="/images/discord.svg" alt="Discord logo"/>
+                                    <img src="/images/discord.svg" alt="Discord logo" className="social discord"/>
                                 </Link>
                             </div>
                         </div>
