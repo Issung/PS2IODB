@@ -89,6 +89,8 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
     useEffect(() => {
         const cancelRef = { cancelled: false };
         setLoadError(undefined);
+        // Clear stale assets immediately to prevent old model from being displayed
+        setResolvedAssets(undefined);
 
         (async () => {
             try {
