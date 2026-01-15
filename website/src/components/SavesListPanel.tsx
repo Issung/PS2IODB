@@ -28,7 +28,7 @@ export interface SavesListPanelProps {
 /**
  * Panel component that displays the list of saves.
  * Shows loading state, errors, empty state, or the saves table.
- * Supports keyboard navigation: Up/Down to select, F2/R to rename, Delete to delete, E to extract.
+ * Supports keyboard navigation: Up/Down to select, R to rename, Delete to delete, E to extract.
  */
 export function SavesListPanel({
     saves,
@@ -79,7 +79,8 @@ export function SavesListPanel({
                 }
                 break;
             }
-            case 'F2': {
+            case 'r':
+            case 'R': {
                 if (selectedSaveId && onRename) {
                     const save = saves.find(s => s.id === selectedSaveId);
                     if (save) {

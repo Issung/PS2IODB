@@ -67,7 +67,7 @@ function Extractor() {
     // Context menu items for saves
     const saveContextMenuItems: ContextMenuItem[] = useMemo(() => [
         { id: 'extract-zip', label: 'Extract & Download Assets in .zip', shortcut: 'E' },
-        { id: 'rename', label: 'Rename', shortcut: 'F2' },
+        { id: 'rename', label: 'Rename', shortcut: 'R' },
         { id: 'delete', label: 'Delete', danger: true, shortcut: 'Del' },
         ...(!import.meta.env.DEV ? [] : [
             { id: 'copy-iconsys', label: 'DEV - Copy iconsys.json' },
