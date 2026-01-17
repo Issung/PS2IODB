@@ -162,17 +162,17 @@ export class ModelViewRenderer {
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.autoRotate = true;
         this.controls.autoRotateSpeed = -3;
-        this.controls.rotateSpeed = 0.2;
+        this.controls.rotateSpeed = this.getRotateSpeed();
         this.controls.update();
 
         // Create and store bound event handlers so they can be removed on dispose
         this.boundOnCanvasClick = () => {
             this.controls!.autoRotate = false;
-            this.controls!.rotateSpeed = 0.2;  // Speed for mice.
+            this.controls!.rotateSpeed = this.getRotateSpeed();
         };
         this.boundOnCanvasTouchStart = () => {
             this.controls!.autoRotate = false;
-            this.controls!.rotateSpeed = 0.4;   // Speed for touch screens.
+            this.controls!.rotateSpeed = this.getRotateSpeed();
         };
         this.canvas.addEventListener('click', this.boundOnCanvasClick);
         this.canvas.addEventListener('touchstart', this.boundOnCanvasTouchStart);
@@ -543,6 +543,27 @@ export class ModelViewRenderer {
     }
 
     /**
+     * Calculate rotation speed based on screen dimensions.
+     * Wider screens get slower rotation to feel more controlled.
+     * @returns The rotation speed value for OrbitControls
+     */
+    private getRotateSpeed(): number {
+        // Reference size: ~600px (typical mobile width)
+        const referenceSize = 600;
+        const baseSpeed = 1;
+
+        const width = this.canvas?.clientWidth ?? window.innerWidth;
+        const height = this.canvas?.clientHeight ?? window.innerHeight;
+        const screenSize = Math.max(width, height);
+
+        // Scale factor: wider screens get slower rotation
+        // Use sqrt to make the scaling less aggressive
+        const scaleFactor = Math.sqrt(referenceSize / screenSize);
+
+        return baseSpeed * scaleFactor;
+    }
+
+    /**
      * Updates the renderer and camera to match the current canvas size.
      * Called by ResizeObserver when the canvas dimensions change.
      */
@@ -561,6 +582,11 @@ export class ModelViewRenderer {
 
         if (this.renderer) {
             this.renderer.setSize(width, height, false);
+        }
+
+        // Update rotation speed based on new dimensions
+        if (this.controls) {
+            this.controls.rotateSpeed = this.getRotateSpeed();
         }
     }
 
