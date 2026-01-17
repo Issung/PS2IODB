@@ -58,14 +58,13 @@ export function iconFilesToModelFiles(iconSys: IconSys, iconFiles: Map<string, U
         const objContent = generateOBJ(icon, filename);
         files.set(`${filename}.obj`, new Blob([objContent], { type: 'text/plain' }));
 
-        // Generate MTL content (matches Python iconexport.py)
-        const textureFilename = `${filename}.png`;
+        // Generate MTL content - references the BMP texture file
+        const textureFilename = `${filename}.bmp`;
         const mtlContent = `newmtl Texture\nmap_Kd ${textureFilename}\n`;
         files.set(`${filename}.mtl`, new Blob([mtlContent], { type: 'text/plain' }));
 
-        // Generate texture PNG
-        const pngBlob = createTexturePngBlob(icon);
-        files.set(textureFilename, pngBlob);
+        // Generate texture BMP (synchronous, uncompressed - very fast)
+        files.set(textureFilename, createTextureBmpBlob(icon));
 
         // Generate animation data if present
         const animData = convertAnimationData(icon);
@@ -80,7 +79,7 @@ export function iconFilesToModelFiles(iconSys: IconSys, iconFiles: Map<string, U
 
 /**
  * Convert an ImportedSave to ModelFiles format for use with FileModelLoader.
- * Parses raw icon binaries and generates OBJ, MTL, PNG, and ANIM files.
+ * Parses raw icon binaries and generates OBJ, MTL, BMP, and ANIM files.
  */
 export function importedSaveToModelFiles(save: ImportedSave): ModelFiles {
     if (!save.iconSys) {
@@ -153,26 +152,50 @@ function generateOBJ(icon: PS2Icon, filename: string): string {
 }
 
 /**
- * Create a PNG blob from PS2Icon texture data.
- * Matches Python iconexport.py which flips Y: y = 127 - int((i / step_size) / 128)
+ * Create a BMP blob from PS2Icon texture data.
+ * Uses uncompressed 24-bit BMP format for maximum speed (no compression overhead).
+ * BMP stores rows bottom-to-top, which naturally handles the Y flip needed.
  */
-function createTexturePngBlob(icon: PS2Icon): Blob {
-    // Create canvas and draw pixels directly like Python does
-    const canvas = document.createElement('canvas');
-    canvas.width = TEXTURE_WIDTH;
-    canvas.height = TEXTURE_HEIGHT;
-    const ctx = canvas.getContext('2d')!;
-    const imageData = ctx.createImageData(TEXTURE_WIDTH, TEXTURE_HEIGHT);
+function createTextureBmpBlob(icon: PS2Icon): Blob {
+    const width = TEXTURE_WIDTH;
+    const height = TEXTURE_HEIGHT;
 
-    // Python code:
-    // for i in range(0, len(icon.texture), step_size):
-    //     x = int((i / step_size) % 128)
-    //     y = 127 - int((i / step_size) / 128)  <-- Y is flipped
+    // BMP rows must be padded to 4-byte boundaries
+    // 128 * 3 = 384 bytes per row (already divisible by 4, no padding needed)
+    const rowSize = width * 3;
+    const pixelDataSize = rowSize * height;
+    const fileSize = 54 + pixelDataSize; // 14 (file header) + 40 (DIB header) + pixel data
+
+    const buffer = new ArrayBuffer(fileSize);
+    const view = new DataView(buffer);
+    const bytes = new Uint8Array(buffer);
+
+    // BMP File Header (14 bytes)
+    bytes[0] = 0x42; bytes[1] = 0x4D; // 'BM' magic
+    view.setUint32(2, fileSize, true);  // File size
+    view.setUint32(6, 0, true);          // Reserved
+    view.setUint32(10, 54, true);        // Pixel data offset
+
+    // DIB Header - BITMAPINFOHEADER (40 bytes)
+    view.setUint32(14, 40, true);        // DIB header size
+    view.setInt32(18, width, true);      // Width
+    view.setInt32(22, height, true);     // Height (positive = bottom-up)
+    view.setUint16(26, 1, true);         // Color planes
+    view.setUint16(28, 24, true);        // Bits per pixel
+    view.setUint32(30, 0, true);         // Compression (0 = none)
+    view.setUint32(34, pixelDataSize, true); // Image size
+    view.setUint32(38, 2835, true);      // Horizontal resolution (pixels/meter)
+    view.setUint32(42, 2835, true);      // Vertical resolution
+    view.setUint32(46, 0, true);         // Colors in palette
+    view.setUint32(50, 0, true);         // Important colors
+
+    // Pixel data - BMP stores bottom-to-top in BGR order
+    // Since BMP row 0 is at the bottom, we DON'T flip Y here - BMP's storage order handles it
     const stepSize = 2;
     for (let i = 0; i < icon.texture.length; i += stepSize) {
         const pixelIndex = i / stepSize;
         const x = pixelIndex % 128;
-        const y = 127 - Math.floor(pixelIndex / 128);  // Flip Y like Python
+        const y = Math.floor(pixelIndex / 128);  // No flip - BMP bottom-up storage does this
 
         // Read 16-bit pixel (little endian)
         const col = icon.texture[i] | (icon.texture[i + 1] << 8);
@@ -180,28 +203,47 @@ function createTexturePngBlob(icon: PS2Icon): Blob {
         // Extract RGB components (5 bits each, shift left 3 to expand to 8 bits)
         const r = (col & 0x1F) << 3;
         const g = ((col >> 5) & 0x1F) << 3;
-        const b = (((col >> 10)) << 3) & 0xFF;  // Match Python's masking for compressed icons
-        const a = 255;
+        const b = (((col >> 10)) << 3) & 0xFF;
 
-        // Write to image data
-        const dataIndex = (y * TEXTURE_WIDTH + x) * 4;
-        imageData.data[dataIndex + 0] = r;
-        imageData.data[dataIndex + 1] = g;
-        imageData.data[dataIndex + 2] = b;
-        imageData.data[dataIndex + 3] = a;
+        // Write BGR (BMP uses BGR order)
+        const pixelOffset = 54 + y * rowSize + x * 3;
+        bytes[pixelOffset + 0] = b;
+        bytes[pixelOffset + 1] = g;
+        bytes[pixelOffset + 2] = r;
     }
 
-    ctx.putImageData(imageData, 0, 0);
+    return new Blob([buffer], { type: 'image/bmp' });
+}
 
-    // Convert to blob - using synchronous toDataURL then converting to Blob
-    const dataUrl = canvas.toDataURL('image/png');
-    const base64 = dataUrl.split(',')[1];
-    const binary = atob(base64);
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) {
-        bytes[i] = binary.charCodeAt(i);
-    }
-    return new Blob([bytes], { type: 'image/png' });
+/**
+ * Convert a BMP blob to PNG blob for export.
+ * Uses canvas to decode BMP and re-encode as PNG.
+ */
+export function bmpToPngBlob(bmpBlob: Blob): Promise<Blob> {
+    return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(bmpBlob);
+        const img = new Image();
+        img.onload = () => {
+            URL.revokeObjectURL(url);
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d')!;
+            ctx.drawImage(img, 0, 0);
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    resolve(blob);
+                } else {
+                    reject(new Error('Failed to convert BMP to PNG'));
+                }
+            }, 'image/png');
+        };
+        img.onerror = () => {
+            URL.revokeObjectURL(url);
+            reject(new Error('Failed to load BMP image'));
+        };
+        img.src = url;
+    });
 }
 
 /**

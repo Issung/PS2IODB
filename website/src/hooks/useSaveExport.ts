@@ -1,5 +1,6 @@
 import JSZip from 'jszip';
 import { useCallback } from 'react';
+import { bmpToPngBlob } from '../extractor';
 import { SaveFiles, StoredSave, storedSaveToModelFiles } from '../storage';
 import { formatAnim, formatIconSys } from '../utils/JsonFormatter';
 
@@ -160,20 +161,31 @@ async function addFilesToZip(target: JSZip, files: SaveFiles): Promise<void> {
     target.file('iconsys.json', formatIconSys(modelFiles.iconSys));
 
     // Add all model files (OBJ, MTL, PNG, ANIM)
+    // BMP textures are converted to PNG to match existing icons on the site.
     // Clean filenames to handle games with subdirectories in icon paths
     const filePromises: Promise<void>[] = [];
     modelFiles.files.forEach((blob, filename) => {
         const promise = (async () => {
-            const cleanedFilename = cleanIconFilename(filename);
-            let content: string | ArrayBuffer = await blob.arrayBuffer();
+            let cleanedFilename = cleanIconFilename(filename);
+            let content: string | ArrayBuffer | Blob = await blob.arrayBuffer();
 
-            // For MTL files, update the texture reference to use the cleaned filename
+            // For MTL files, update the texture reference to use PNG and cleaned filename
             if (filename.endsWith('.mtl')) {
                 const mtlContent = await blob.text();
                 content = mtlContent.replace(
                     /^(map_Kd\s+)(.+)$/m,
-                    (_, prefix, texPath) => prefix + cleanIconFilename(texPath)
+                    (_, prefix, texPath) => {
+                        // Change .bmp to .png in the texture reference
+                        const pngPath = texPath.replace(/\.bmp$/i, '.png');
+                        return prefix + cleanIconFilename(pngPath);
+                    }
                 );
+            }
+            // For BMP files, convert to PNG for export
+            else if (filename.endsWith('.bmp')) {
+                const pngBlob = await bmpToPngBlob(blob);
+                content = await pngBlob.arrayBuffer();
+                cleanedFilename = cleanedFilename.replace(/\.bmp$/i, '.png');
             }
             // For ANIM files, reformat JSON with compact formatting
             else if (filename.endsWith('.anim')) {
@@ -184,7 +196,7 @@ async function addFilesToZip(target: JSZip, files: SaveFiles): Promise<void> {
 
             target.file(cleanedFilename, content);
         })();
-        
+
         filePromises.push(promise);
     });
 

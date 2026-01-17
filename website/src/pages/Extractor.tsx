@@ -205,7 +205,7 @@ function Extractor() {
         }
 
         try {
-            // Re-parse raw icon files to generate OBJ/MTL/PNG/ANIM
+            // Re-parse raw icon files to generate OBJ/MTL/BMP/ANIM
             const modelFiles = storedSaveToModelFiles(selectedSaveData.files);
             return { loader: new FileModelLoader(modelFiles), error: null };
         } catch (e) {
