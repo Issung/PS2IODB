@@ -354,18 +354,50 @@ export class ModelViewRenderer {
 
     /**
      * Adjust camera position, grid size, etc according to current model bounding box.
+     * Uses the bounding sphere and camera FOV to ensure the model fits nicely on screen
+     * regardless of canvas dimensions.
      * @param boundingBox Bounding box information of the current model.
      */
     reposition(boundingBox: THREE.Box3 | undefined) {
         let size = new THREE.Vector3();
+        let center = new THREE.Vector3();
+        let boundingSphereRadius = 1;
+
         if (boundingBox) {
             boundingBox.getSize(size);
+            boundingBox.getCenter(center);
+            // Use the bounding sphere radius for proper fit calculation
+            boundingSphereRadius = boundingBox.getBoundingSphere(new THREE.Sphere()).radius;
         }
-        let maxAxes = Math.max(size.x, size.y, size.z);
-        this.camera.position.z = Math.min(-maxAxes * 1.25, -2);
-        this.camera.position.y = Math.max(size.x * 0.5, 0.75);
+
+        // Calculate the distance needed to fit the model in view
+        // Account for aspect ratio to handle both wide and tall screens
+        const fovRad = THREE.MathUtils.degToRad(this.camera.fov);
+        const aspect = this.camera.aspect;
+
+        // Calculate FOV for both horizontal and vertical
+        // Use the smaller FOV to ensure the model fits in both dimensions
+        const vFov = fovRad;
+        const hFov = 2 * Math.atan(Math.tan(fovRad / 2) * aspect);
+        const effectiveFov = Math.min(vFov, hFov);
+
+        // Distance = radius / sin(fov/2), with padding factor for comfortable viewing
+        const paddingFactor = 1.1; // Give some breathing room around the model
+        const distance = (boundingSphereRadius * paddingFactor) / Math.sin(effectiveFov / 2);
+
+        // Position camera looking at the model center, slightly elevated
+        const elevationAngle = Math.PI / 12; // 15 degrees above horizontal
         this.camera.position.x = 0;
-        
+        this.camera.position.y = Math.sin(elevationAngle) * distance;
+        this.camera.position.z = -Math.cos(elevationAngle) * distance;
+
+        // Update orbit controls target to center of model if available
+        if (this.controls) {
+            this.controls.target.set(0, 0, 0);
+            this.controls.update();
+        }
+
+        let maxAxes = Math.max(size.x, size.y, size.z);
         let gridSize = Math.max(maxAxes, 1);    // Grid size is the size of the largest axes, minimum of 1.
         this.horizontalGridHelper?.scale.set(gridSize, gridSize, gridSize);
         this.horizontalGridHelper?.position.setY(-size.y / 2);
