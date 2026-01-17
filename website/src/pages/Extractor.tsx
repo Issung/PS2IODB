@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { ConfirmModal } from '../components/ConfirmModal';
@@ -33,12 +33,21 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
     );
 }
 
+const saveContextMenuItems: ContextMenuItem[] = [
+    { id: 'extract-zip', label: 'Extract & Download Assets in .zip', shortcut: 'E' },
+    { id: 'rename', label: 'Rename', shortcut: 'R' },
+    { id: 'delete', label: 'Delete', danger: true, shortcut: 'Del' },
+    ...(!import.meta.env.DEV ? [] : [
+        { id: 'copy-iconsys', label: 'DEV - Copy iconsys.json' },
+        { id: 'copy-anim', label: 'DEV - Copy first .anim' },
+    ]),
+];
+
 /**
  * The Extractor page allows users to open PS2 memory card files
  * and view/extract save icons.
  */
 function Extractor() {
-    // Storage hook for managing saves
     const {
         saves,
         selectedSaveId,
@@ -54,28 +63,14 @@ function Extractor() {
         loadSave,
     } = useSaveStorage();
 
-    // Export hook for zip and clipboard operations
     const { extractToZip, extractAllToZip, copyIconSys, copyFirstAnim } = useSaveExport();
 
-    // Local UI state
     const [showClearConfirm, setShowClearConfirm] = useState(false);
     const [renameState, setRenameState] = useState<{ saveId: string; currentTitle: string } | null>(null);
     const [deleteState, setDeleteState] = useState<{ saveId: string; title: string } | null>(null);
     const [isExtractingAll, setIsExtractingAll] = useState(false);
     const contextMenu = useContextMenu();
 
-    // Context menu items for saves
-    const saveContextMenuItems: ContextMenuItem[] = useMemo(() => [
-        { id: 'extract-zip', label: 'Extract & Download Assets in .zip', shortcut: 'E' },
-        { id: 'rename', label: 'Rename', shortcut: 'R' },
-        { id: 'delete', label: 'Delete', danger: true, shortcut: 'Del' },
-        ...(!import.meta.env.DEV ? [] : [
-            { id: 'copy-iconsys', label: 'DEV - Copy iconsys.json' },
-            { id: 'copy-anim', label: 'DEV - Copy first .anim' },
-        ]),
-    ], []);
-
-    // Handle file drop
     const handleDrop = useCallback((e: React.DragEvent) => {
         e.preventDefault();
         const files = e.dataTransfer.files;
@@ -204,7 +199,7 @@ function Extractor() {
 
     // Create a ModelLoader for the selected save by re-parsing icons
     // Returns { loader, error } to handle parsePS2Icon failures gracefully
-    const modelLoaderResult = useMemo(() => {
+    function createModelLoader() {
         if (!selectedSaveData || selectedSaveData.hasError || !selectedSaveData.files) {
             return { loader: null, error: null };
         }
@@ -218,8 +213,9 @@ function Extractor() {
             console.error('Error parsing icon files:', e);
             return { loader: null, error: errorMessage };
         }
-    }, [selectedSaveData]);
+    }
 
+    const modelLoaderResult = createModelLoader();
     const modelLoader = modelLoaderResult.loader;
     const modelLoaderError = modelLoaderResult.error;
 

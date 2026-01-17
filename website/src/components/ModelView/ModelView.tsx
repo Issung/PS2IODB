@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { IconSys } from '../../model/IconSys';
 import { Utils } from "../../utils/Utils";
 import { ModelLoader, ResolvedModelAssets } from "./ModelLoader";
@@ -53,9 +53,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
     const [backgroundColor, setBackgroundColor] = useState('#080808');
 
     // Derived state
-    const iconHasBackgroundColorData = useMemo(() => {
-        return iconsys !== undefined && iconsys.bgColBL !== undefined;
-    }, [iconsys]);
+    const iconHasBackgroundColorData = iconsys !== undefined && iconsys.bgColBL !== undefined;
 
     // Callback for renderer to report info back
     const iconInfoCallback = useCallback((newFrameCount: number, newTextureName: string | undefined) => {
@@ -185,7 +183,9 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
     }, [doAnimation, animationSpeed, frame, grid, meshType]);
 
     // Background color computation
-    const color = useMemo(() => {
+    const color = calculateColor();
+
+    function calculateColor() {
         if (backgroundType === BackgroundType.Icon && iconsys?.bgColTL) {
             const tl = iconsys.bgColTL;
             const tr = iconsys.bgColTR!;
@@ -195,7 +195,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
             return `linear-gradient(to top left, ${br}, transparent, ${tl}), linear-gradient(to top right, ${bl}, transparent, ${tr}) ${middle}`;
         }
         return `linear-gradient(to top left, ${backgroundColor}, ${backgroundColor})`;
-    }, [backgroundType, backgroundColor, iconsys]);
+    }
 
     //console.log('ModelView', { loader });
 
