@@ -45,6 +45,7 @@ export class Contributors {
     public static BlackFlagSolutions = new Contributor('BlackFlagSolutions', 'https://x.com/BlackFlagSolut');
     public static Valzentia = new Contributor('Valzentia', 'https://youtube.com/@Valzentia');
     public static JonnyPaes = new Contributor('JonnyPaes', 'https://www.youtube.com/@JonnyPaes');
+    public static Topaz95 = new Contributor('Topaz95');
 }
 
 export const ContributorCount = Object.values(Contributors).length;
