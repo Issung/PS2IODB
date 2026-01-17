@@ -100,6 +100,32 @@
         }
     }
 
+    .help-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        color: rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        transition: all 0.2s;
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+        }
+    }
+
     .stored-files {
         margin-left: auto;
         display: flex;
@@ -515,6 +541,64 @@
             overflow-x: auto;
             color: #f5a5a5;
             font-size: 0.875rem;
+        }
+    }
+}
+
+.extractor-help-modal {
+    max-width: 600px;
+
+    .extractor-help-content {
+        color: #ddd;
+        line-height: 1.6;
+
+        p {
+            margin: 0 0 1rem;
+        }
+
+        h3 {
+            color: #fff;
+            font-size: 1rem;
+            margin: 1.5rem 0 0.75rem;
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+
+        ol, ul {
+            margin: 0 0 1rem;
+            padding-left: 1.5rem;
+
+            li {
+                margin-bottom: 0.5rem;
+            }
+
+            ul {
+                margin-top: 0.5rem;
+                margin-bottom: 0;
+            }
+        }
+
+        strong {
+            color: #fff;
+        }
+
+        code {
+            background: rgba(74, 144, 217, 0.2);
+            color: #64b5f6;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        .help-note {
+            margin-top: 1.5rem;
+            padding: 0.75rem 1rem;
+            background: rgba(74, 144, 217, 0.1);
+            border-left: 3px solid #4a90d9;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9rem;
         }
     }
 }
