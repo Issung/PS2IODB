@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { ConfirmModal } from '../components/ConfirmModal';
@@ -198,8 +198,10 @@ function Extractor() {
     }, [loadSave, extractToZip]);
 
     // Create a ModelLoader for the selected save by re-parsing icons
+    // Memoized to prevent re-parsing on every render (e.g., when context menu opens)
     // Returns { loader, error } to handle parsePS2Icon failures gracefully
-    function createModelLoader() {
+    // React-compiler doesn't auto-memoise this for some reason so we're doing it manually.
+    const modelLoaderResult = useMemo(() => {
         if (!selectedSaveData || selectedSaveData.hasError || !selectedSaveData.files) {
             return { loader: null, error: null };
         }
@@ -213,9 +215,8 @@ function Extractor() {
             console.error('Error parsing icon files:', e);
             return { loader: null, error: errorMessage };
         }
-    }
+    }, [selectedSaveData]);
 
-    const modelLoaderResult = createModelLoader();
     const modelLoader = modelLoaderResult.loader;
     const modelLoaderError = modelLoaderResult.error;
 
