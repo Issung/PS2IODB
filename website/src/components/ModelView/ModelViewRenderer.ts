@@ -9,12 +9,22 @@ import { IconSys } from "../../model/IconSys";
 import { Timeline } from "../../utils/Animation";
 import { ResolvedModelAssets } from "./ModelLoader";
 
+/** Null means no animation present.
+ * The original animation files did not specify version, so `1` indicates absence of the field from the animation JSON.
+ **/
+export type AnimationVersion = null | 1 | 2;
+
 /**
  * Callback function for the model renderer report back regarding loaded icon data, e.g. number of frames.
  * @param frameCount The amount of frames the loaded icon has, 0 means no animation.
  * @param textureName The name of the loaded texture.
+ * @param animationVersion The version of the animation data.
  */
-export type IconInfoCallback = (frameCount: number, textureName: string | undefined) => void
+export type IconInfoCallback = (
+    frameCount: number,
+    textureName: string | undefined,
+    animationVersion: AnimationVersion
+) => void
 
 const testMapTextureUrl = 'https://threejs.org/examples/textures/uv_grid_opengl.jpg';
 const whiteTextureUrl = 'https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg';
@@ -478,7 +488,10 @@ export class ModelViewRenderer {
     private fireCallback() {
         this.prop_callback(
             this.animData?.frames?.length ?? 0,
-            this.removePath(this.relativeMtlTextureUrl)
+            this.removePath(this.relativeMtlTextureUrl),
+            // animationVersion: If animation not present then `null`, otherwise use the version
+            // in the object falling back to `1` because the v1 file did not have the version property.
+            this.animData === undefined ? null : this.animData.version ?? 1
         );
     }
 

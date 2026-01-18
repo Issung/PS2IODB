@@ -75,6 +75,16 @@ div#model-view {
             user-select: none;
             width: 100%;
         }
+
+        .animation-warning-label {
+            text-decoration: underline wavy #eea43d;
+            text-underline-offset: 0px;
+            cursor: pointer;
+
+            &:hover {
+                color: #f0ad4e;
+            }
+        }
     }
 
     div.texture-details {

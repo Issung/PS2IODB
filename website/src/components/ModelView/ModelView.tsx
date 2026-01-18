@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IconSys } from '../../model/IconSys';
 import { Utils } from "../../utils/Utils";
+import { Modal } from "../Modal";
 import { ModelLoader, ResolvedModelAssets } from "./ModelLoader";
 import './ModelView.scss';
 import { BackgroundType, MeshType, TextureType } from "./ModelViewParams";
-import { ModelViewRenderer } from "./ModelViewRenderer";
+import { AnimationVersion, ModelViewRenderer } from "./ModelViewRenderer";
+import { Link } from "react-router-dom";
 
 export interface ModelViewProps {
     /** The loader to use for fetching model data. */
@@ -32,12 +34,17 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
     // State for model info (from renderer callback)
     const [frameCount, setFrameCount] = useState(0);
     const [textureName, setTextureName] = useState<string | undefined>(undefined);
+    const [animationVersion, setAnimationVersion] = useState<AnimationVersion>(null);
+    const animationOutdated = animationVersion === 1;
 
     // Texture preview state
     const [enlargeTextureView, setEnlargeTextureView] = useState(false);
     const [imageRotationDegrees, setImageRotationDegrees] = useState(0);
     const [imageFlip, setImageFlip] = useState(false);
-
+    
+    // Animation warning modal state
+    const [showAnimationModal, setShowAnimationModal] = useState(false);
+    
     // Track whether next asset load should reset camera (false when switching variants)
     const shouldResetCameraRef = useRef(true);
 
@@ -56,9 +63,10 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
     const iconHasBackgroundColorData = iconsys !== undefined && iconsys.bgColBL !== undefined;
 
     // Callback for renderer to report info back
-    const iconInfoCallback = useCallback((newFrameCount: number, newTextureName: string | undefined) => {
+    const iconInfoCallback = useCallback((newFrameCount: number, newTextureName: string | undefined, animationVersion: AnimationVersion) => {
         setFrameCount(newFrameCount);
         setTextureName(newTextureName);
+        setAnimationVersion(animationVersion);
     }, []);
 
     // Reset texture preview state when loader changes
@@ -197,6 +205,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
         return `linear-gradient(to top left, ${backgroundColor}, ${backgroundColor})`;
     }
 
+    
     //console.log('ModelView', { loader });
 
     return (
@@ -216,7 +225,20 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
                     <ul>
                         {frameCount > 0 && (
                             <li>
-                                <label>Animate
+                                <label>
+                                    <span
+                                        className={animationOutdated ? 'animation-warning-label' : undefined}
+                                        title={animationOutdated ? 'Click for info about animation playback' : undefined}
+                                        onClick={!animationOutdated
+                                            ? undefined
+                                            : (e) => {
+                                                e.preventDefault();
+                                                setShowAnimationModal(true);
+                                            }
+                                        }
+                                    >
+                                        Animate
+                                    </span>
                                     <input type="checkbox" checked={doAnimation} onChange={e => setDoAnimation(e.target.checked)}/>
                                 </label>
                             </li>
@@ -362,6 +384,23 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
                     </div>
                 </div>
             )}
+
+            {/* Animation version playback information modal */}
+            <Modal
+                isOpen={showAnimationModal}
+                title="Animation Playback Notice"
+                onClose={() => setShowAnimationModal(false)}
+            >
+                <p>
+                    Animation playback for this icon may not be fully accurate.
+                </p>
+                <br/>
+                <p>
+                    This icon's animation was contributed with an earlier version of the extraction tool
+                    that did not correctly capture all animation properties. To achieve accurate playback the icon assets
+                    need to be re-extracted & re-contributed using the latest version of the <Link to="/extractor">PS2IODB Extractor</Link>.
+                </p>
+            </Modal>
         </div>
     );
 };

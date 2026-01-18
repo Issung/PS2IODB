@@ -19,12 +19,12 @@
     border-radius: 8px;
     color: #fff;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    min-width: 400px;
-    max-width: 90vw;
+    width: min(600px, calc(100vw - 2rem));
     max-height: 90vh;
     display: flex;
     flex-direction: column;
     outline: none;
+    margin: 1rem;
 }
 
 .ps2-modal-header {
