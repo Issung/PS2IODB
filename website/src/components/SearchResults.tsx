@@ -8,6 +8,8 @@ import { Category, CategoryDefault } from './FilterSelectCategory';
 import { FilterType, FilterTypeDefault } from './FilterTypeSelect';
 import TitleTable from './TitleTable';
 import { Icon } from '../model/Icon';
+import { Game } from '../model/Game';
+import { Application } from '../model/Application';
 
 const additionalCharacterIncludes: Record<string, string[]> = {
     "A": ["A", "Æ"], // Include title "Æon Flux" under "A" listings.
@@ -53,6 +55,14 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
         }
         else if (index === Category.multipleIcons) {
             const titles = Titles.filter(t => t.icons.length > 1);
+            return titles;
+        }
+        else if (index === Category.games) {
+            const titles = Titles.filter(t => t instanceof Game);
+            return titles;
+        }
+        else if (index === Category.applications) {
+            const titles = Titles.filter(t => t instanceof Application);
             return titles;
         }
         else { //if (index > Category.states1 && index < Category.states3)

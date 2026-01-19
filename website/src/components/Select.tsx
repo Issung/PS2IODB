@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import './Select.scss';
+import { Property } from 'csstype';
 
 export class SelectItem {
     /**
@@ -27,12 +28,13 @@ interface ISelectProps {
     onChange: (newKey: string) => void;
     /** Apply custom bootstrap col rules to this element for better layout of options. */
     col?: string;
+    maxWidth?: number;
 };
 
-export const Select = ({groupName, items, defaultKey, selectedKey, onChange, col}: ISelectProps) => {
+export const Select = ({groupName, items, defaultKey, selectedKey, onChange, col, maxWidth}: ISelectProps) => {
     return (
         <div className="Select row justify-content-center">
-            <div className={(col ?? 'col') + ' d-flex justify-content-center'}>
+            <div className={(col ?? 'col') + ' d-flex justify-content-center'} style={{maxWidth: maxWidth}}>
                 {items.map(item =>
                     <React.Fragment key={item.key}>
                         <input
