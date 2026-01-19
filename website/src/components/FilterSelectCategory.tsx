@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Select, SelectItem } from './Select';
-import { IconCircleNumber1, IconCircleNumber2, IconCircleNumber3, IconCircles, IconCirclesFilled, IconHelpOctagon, IconCirclePlus } from '@tabler/icons-react';
+import { IconCircleNumber1, IconCircleNumber2, IconCircleNumber3, IconCircles, IconCirclesFilled, IconHelpOctagon, IconCirclePlus, IconDeviceGamepad2, IconBox } from '@tabler/icons-react';
 
 export enum Category {
     all = "all",
@@ -10,6 +10,8 @@ export enum Category {
     states2 = "states2",
     states3 = "states3",
     missing = "missing",
+    games = "games",
+    applications = "applications",
 };
 
 export const CategoryDefault = Category.all;
@@ -26,6 +28,8 @@ const categories = [
     new SelectItem(Category.states2, '2 States', 'Icons with 2 unique states', <IconCircleNumber2/>),
     new SelectItem(Category.states3, '3 States', 'Icons with 3 unique states', <IconCircleNumber3/>),
     new SelectItem(Category.missing, 'Missing', 'Titles that haven\'t yet been uploaded', <IconHelpOctagon/>),
+    new SelectItem(Category.games, 'Games', 'Game titles', <IconDeviceGamepad2/>),
+    new SelectItem(Category.applications, 'Applications', 'Applications', <IconBox/>),
 ];
 
 export const FilterSelectCategory = ({category}: ICategorySelectProps) => {
@@ -37,6 +41,8 @@ export const FilterSelectCategory = ({category}: ICategorySelectProps) => {
         items={categories}
         defaultKey={CategoryDefault}
         onChange={newCategory => navigate(`/browse/category/${newCategory}`)}
+        // Limit width to make buttons layout a bit more natural.
+        maxWidth={936}
     />
 };
 

@@ -1,0 +1,19 @@
+{
+    "directory":"BASCUS-97097SUD1",
+    "title":"Registration Data",
+    "normal":"SOS.ICO",
+    "copy":"SOS.ICO",
+    "delete":"SOS.ICO",
+    "bgOpacity":128,
+    "bgColTL":"#000000",
+    "bgColTR":"#000000",
+    "bgColBL":"#808080",
+    "bgColBR":"#808080",
+    "light1Dir":[0.5, 0.0, 0.0, 0.0],
+    "light2Dir":[0.0, 0.5, 0.0, 0.0],
+    "light3Dir":[0.0, 0.0, 0.5, 0.0],
+    "light1Col":[1.0, 1.0, 1.0, 0.0],
+    "light2Col":[0.0, 0.0, 0.0, 0.0],
+    "light3Col":[0.0, 0.0, 0.0, 0.0],
+    "ambiLightCol":[1.0, 1.0, 1.0, 1.0]
+}
