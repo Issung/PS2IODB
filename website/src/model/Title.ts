@@ -4,9 +4,11 @@ import { Icon } from "./Icon";
 /**
  * `undefined` = no animation (whether or not animation files are present).
  * 
- * `1` = V1 animation.
+ * `1` = Atleast one of the icon states has an animation & the icon is using V1 animation data.
+ * 
+ * `2` = Atleast one of the icon states has an animation & the icon is using V2 animation data.
  **/
-export type AnimationValue = undefined | 1;
+export type AnimationValue = undefined | 1 | 2;
 
 export class Title {
     /**
