@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { Icons } from "../model/Titles";
+import { AnimationData } from "../model/AnimationData";
 
 // Tests that test the 2 sources of truth, the GameList file and the icon folders, making sure they match up.
 describe("Database Entries Tests", () => 
@@ -160,5 +161,81 @@ describe("Database Entries Tests", () =>
         console.log(emptyDirs);
 
         expect(emptyDirs.length, 'No empty directories should be present in the icons directory.').toBe(0);
+    });
+
+    test('Icons with animationVersion should have matching .anim file version', () => {
+        const issues: string[] = [];
+
+        Icons
+            .filter(i => i.code && i.animationVersion !== undefined)
+            .forEach(icon => {
+                const directory = `./public/icons/${icon.code}`;
+                const files = fs.readdirSync(directory, { withFileTypes: true }).map(e => e.name);
+                const animFile = files.find(f => f.endsWith('.anim'));
+
+                if (!animFile) {
+                    issues.push(`${icon.code}: has animationVersion=${icon.animationVersion} but no .anim file`);
+                    return;
+                }
+
+                const animPath = `${directory}/${animFile}`;
+                const animContent = fs.readFileSync(animPath, 'utf-8');
+                const animData: AnimationData = JSON.parse(animContent);
+
+                // In .anim files: undefined = V1, 2 = V2
+                // In Titles.ts: 1 = V1, 2 = V2
+                const fileVersion = animData.version === undefined ? 1 : animData.version;
+
+                if (icon.animationVersion !== fileVersion) {
+                    issues.push(`${icon.code}: Titles.ts has ${icon.animationVersion}, .anim file has ${fileVersion}`);
+                }
+            });
+
+        console.log('Icons -> .anim file version issues:');
+        console.log(issues);
+
+        expect(issues.length, 'All icons with animationVersion should have matching .anim file version.').toBe(0);
+    });
+
+    test('Icon directories with .anim files should have correct animationVersion in Titles.ts', () => {
+        const directoryItems = fs.readdirSync('./public/icons', { withFileTypes: true });
+
+        const iconDirectories = directoryItems
+            .filter((entry) => entry.isDirectory())
+            .map((entry) => entry.name);
+
+        const issues: string[] = [];
+
+        iconDirectories.forEach(iconDirectory => {
+            const directory = `./public/icons/${iconDirectory}`;
+            const files = fs.readdirSync(directory, { withFileTypes: true }).map(e => e.name);
+            const animFile = files.find(f => f.endsWith('.anim'));
+
+            if (animFile) {
+                const icon = Icons.find(i => i.code === iconDirectory);
+                if (!icon) {
+                    return; // No matching icon entry, other tests will catch this
+                }
+
+                const animPath = `${directory}/${animFile}`;
+                const animContent = fs.readFileSync(animPath, 'utf-8');
+                const animData: AnimationData = JSON.parse(animContent);
+
+                // In .anim files: undefined = V1, 2 = V2
+                // In Titles.ts: 1 = V1, 2 = V2
+                const expectedVersion = animData.version === undefined ? 1 : animData.version;
+
+                if (icon.animationVersion === undefined) {
+                    issues.push(`${iconDirectory}: missing animationVersion, expected ${expectedVersion}`);
+                } else if (icon.animationVersion !== expectedVersion) {
+                    issues.push(`${iconDirectory}: has animationVersion=${icon.animationVersion}, expected ${expectedVersion}`);
+                }
+            }
+        });
+
+        console.log('.anim files -> Titles.ts version issues:');
+        console.log(issues);
+
+        expect(issues.length, 'All icon directories with .anim files should have correct animationVersion in Titles.ts.').toBe(0);
     });
 });

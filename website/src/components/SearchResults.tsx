@@ -65,6 +65,14 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filterType, filter }: Sea
             const titles = Titles.filter(t => t instanceof Application);
             return titles;
         }
+        else if (index === Category.animated) {
+            const titles = Titles.filter(t => t.icons.some(i => i.animationVersion))
+            return titles;
+        }
+        else if (index === Category.static) {
+            const titles = Titles.filter(t => t.icons.some(i => i.code && !i.animationVersion))
+            return titles;
+        }
         else { //if (index > Category.states1 && index < Category.states3)
             const indexStr = index.toString();
             const lastChar = indexStr.charAt(index.length - 1);
