@@ -161,4 +161,57 @@ describe("Database Entries Tests", () =>
 
         expect(emptyDirs.length, 'No empty directories should be present in the icons directory.').toBe(0);
     });
+
+    test('Icons with animationVersion should have a .anim file', () => {
+        const issues: string[] = [];
+
+        Icons
+            .filter(i => i.code && i.animationVersion !== undefined)
+            .forEach(icon => {
+                const directory = `./public/icons/${icon.code}`;
+                const files = fs.readdirSync(directory, { withFileTypes: true }).map(e => e.name);
+                const hasAnimFile = files.some(f => f.endsWith('.anim'));
+
+                if (!hasAnimFile) {
+                    issues.push(`${icon.code}: has animationVersion but no .anim file`);
+                }
+            });
+
+        console.log('Icons missing .anim files:');
+        console.log(issues);
+
+        expect(issues.length, 'All icons with animationVersion should have a .anim file.').toBe(0);
+    });
+
+    test('Icon directories with .anim files should have animationVersion in Titles.ts', () => {
+        const directoryItems = fs.readdirSync('./public/icons', { withFileTypes: true });
+
+        const iconDirectories = directoryItems
+            .filter((entry) => entry.isDirectory())
+            .map((entry) => entry.name);
+
+        const issues: string[] = [];
+
+        iconDirectories.forEach(iconDirectory => {
+            const directory = `./public/icons/${iconDirectory}`;
+            const files = fs.readdirSync(directory, { withFileTypes: true }).map(e => e.name);
+            const hasAnimFile = files.some(f => f.endsWith('.anim'));
+
+            if (hasAnimFile) {
+                const icon = Icons.find(i => i.code === iconDirectory);
+                if (!icon) {
+                    return; // No matching icon entry, other tests will catch this
+                }
+
+                if (icon.animationVersion === undefined) {
+                    issues.push(`${iconDirectory}: has .anim file but missing animationVersion`);
+                }
+            }
+        });
+
+        console.log('.anim files missing animationVersion in Titles.ts:');
+        console.log(issues);
+
+        expect(issues.length, 'All icon directories with .anim files should have animationVersion in Titles.ts.').toBe(0);
+    });
 });

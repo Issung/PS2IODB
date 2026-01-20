@@ -1,6 +1,13 @@
 import { Contributor } from "./Contributor";
 import { Icon } from "./Icon";
 
+/**
+ * `undefined` = no animation (whether or not animation files are present).
+ * 
+ * `1` = Atleast 1 of the icon states has an animation & the icon is using V1 animation data.
+ **/
+export type AnimationValue = undefined | 1;
+
 export class Title {
     /**
      * The name/title of the game in the closest thing to English.
@@ -18,12 +25,13 @@ export class Title {
 
     constructor(name: string);
     constructor(name: string, iconFactory?: (game: Title) => Icon[]);
-    constructor(name: string, code?: string, variantCount?: number, contributor?: Contributor);
+    constructor(name: string, code?: string, variantCount?: number, contributor?: Contributor, animation?: AnimationValue);
     constructor(
         name: string,
         codeOrIconFactory?: string | ((game: Title) => Icon[]),
         variantCount?: number,
-        contributor?: Contributor
+        contributor?: Contributor,
+        animation?: AnimationValue
     )
     {
         this.name = name;
@@ -33,7 +41,7 @@ export class Title {
         {
             if (typeof codeOrIconFactory == 'string')
             {
-                this.icons = [new Icon(this, name, codeOrIconFactory, variantCount, contributor)];
+                this.icons = [new Icon(this, name, codeOrIconFactory, variantCount, contributor, animation)];
             }
             else if (codeOrIconFactory instanceof Function)
             {
