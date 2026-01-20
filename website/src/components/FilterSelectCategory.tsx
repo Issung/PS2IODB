@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Select, SelectItem } from './Select';
-import { IconCircleNumber1, IconCircleNumber2, IconCircleNumber3, IconCircles, IconCirclesFilled, IconHelpOctagon, IconCirclePlus, IconDeviceGamepad2, IconBox } from '@tabler/icons-react';
+import { IconCircleNumber1, IconCircleNumber2, IconCircleNumber3, IconCircles, IconCirclesFilled, IconHelpOctagon, IconCirclePlus, IconDeviceGamepad2, IconBox, IconPlayerPlay, IconPlayerPause } from '@tabler/icons-react';
 
 export enum Category {
     all = "all",
@@ -12,6 +12,8 @@ export enum Category {
     missing = "missing",
     games = "games",
     applications = "applications",
+    animated = "animated",
+    static = "static",
 };
 
 export const CategoryDefault = Category.all;
@@ -30,6 +32,8 @@ const categories = [
     new SelectItem(Category.missing, 'Missing', 'Titles that haven\'t yet been uploaded', <IconHelpOctagon/>),
     new SelectItem(Category.games, 'Games', 'Game titles', <IconDeviceGamepad2/>),
     new SelectItem(Category.applications, 'Applications', 'Applications', <IconBox/>),
+    new SelectItem(Category.animated, 'Animated', 'Icons with animation', <IconPlayerPlay/>),
+    new SelectItem(Category.static, 'Static', 'Icons with no animation', <IconPlayerPause/>),
 ];
 
 export const FilterSelectCategory = ({category}: ICategorySelectProps) => {

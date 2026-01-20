@@ -1,5 +1,5 @@
 import { Contributor } from "./Contributor";
-import { Title } from "./Title";
+import { AnimationValue, Title } from "./Title";
 
 /**
  * An icon for a game. Most games have just 1 icon, but some 
@@ -11,9 +11,10 @@ export class Icon {
     public code?: string;
     public uniqueStates?: number;
     public contributor?: Contributor;
+    public animationVersion?: AnimationValue;
 
     /**
-     * For use as a key in React rendering, a combination of the title's index in the TitleList, and this icon's index within the title. 
+     * For use as a key in React rendering, a combination of the title's index in the TitleList, and this icon's index within the title.
      * In the format: `${titleIndex}-${iconIndex}`
      * Set from GameList.tsx, after the collection's initialisation.
      */
@@ -25,6 +26,7 @@ export class Icon {
      * @param name The name/title of the game.
      * @param code The 'code' of the game. A shortened URL-friendly identifier for the game.
      * @param states The number of unique states this save icon has (for idle/copy/delete states in the UI). If multiple states are visually identical, count them as one.
+     * @param animation The animation version. 1 = V1 (needs re-contributing), 2 = V2 animation.
      */
     constructor(
         game: Title,
@@ -32,6 +34,7 @@ export class Icon {
         code?: string,
         states?: number,
         contributor?: Contributor,
+        animation?: AnimationValue
     ) 
     {
         this.title = game;
@@ -39,5 +42,6 @@ export class Icon {
         this.code = code;
         this.uniqueStates = states;
         this.contributor = contributor;
+        this.animationVersion = animation;
     }
 }
