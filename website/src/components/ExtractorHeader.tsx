@@ -114,7 +114,7 @@ export function ExtractorHeader({ savesCount, onFilesImport, onExtractAllClick, 
 
                     <h3>Slug Examples</h3>
                     <p>
-                        The slug is is part of the URL to navigate to a specific icon, for example: <a href="https://ps2iodb.com/icon/devilmaycry3" target="_blank">https://ps2iodb.com/icon/devilmaycry3</a>.
+                        The slug is is part of the URL to navigate to a specific icon, for example: <a href="https://ps2iodb.com/icon/devilmaycry3" target="_blank">ps2iodb.com/icon/devilmaycry3</a>.
                     </p>
                     <p>
                         The site admin has to add all icons to the index by hand, so well-named (informative an matching existing patterns) help optimise this process.

@@ -3,7 +3,7 @@ import './Contribute.scss';
 import './TextPage.scss'
 import Footer from "../components/Footer";
 
-const Contribute: React.FC = () => {
+const Contribute = () => {
     return (
         <>
             <title>Contribute</title>
@@ -20,46 +20,45 @@ const Contribute: React.FC = () => {
                             </a>
                             <p>
                                 If you wish to help the site but don't have the technology or technical know-how to contribute icons then donations are welcome.<br/>
-                                The site & tools take time to maintain and hosting isn't free. Just a few dollars goes a long way, thanks for reading.<br/>
-                                {/* TODO: Add proper links / widgets. */}
-                                <Link to="https://ko-fi.com/issung" target="_blank" className="btn btn-primary">Ko-fi</Link>
-                                <Link to="https://www.paypal.com/paypalme/Issung" target="_blank" className="btn btn-primary">PayPal</Link>
-                                <Link to="https://github.com/sponsors/Issung" target="_blank" className="btn btn-primary">GitHub Sponsor</Link>
+                                The site & tools take time to maintain and hosting isn't free. Just a few dollars goes a long way.<br/>
+                                <a target="_blank" href="https://ko-fi.com/issung" className="btn btn-primary">Ko-fi</a>
+                                <a target="_blank" href="https://www.paypal.com/paypalme/Issung" className="btn btn-primary">PayPal</a>
+                                <a target="_blank" href="https://github.com/sponsors/Issung" className="btn btn-primary">GitHub Sponsor</a>
                             </p>
                             
                             <hr/>
 
                             <a id="downloadextractor" href="#downloadextractor">
-                                <h4>Download PS2IODB Extractor</h4>
+                                <h4>PS2IODB Extractor</h4>
                             </a>
-                            <p>You will need a copy of the <i>PS2IODB Extractor</i> program to extract save icon assets, download links below:</p>
-                            <b>Latest (Version 0.1.3)</b>
-                            <ul>
-                                <li>
-                                    <Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.3/PS2IODB.Extractor.v0.1.3.Windows.exe">Windows</Link>
-                                </li>
-                                <li>
-                                    <Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.3/PS2IODB.Extractor.v0.1.3.Linux.zip">Linux</Link>
-                                </li>
-                            </ul>
+                            <p>The PS2IODB Extractor tool can be accessed at <Link to="/extractor">ps2iodb.com/extractor</Link>. It has all the functionality you need to extract save icon assets to be able to contribute them to the site.</p>
                             <details>
                                 <summary>Previous Versions</summary>
                                 <p>
-                                    Previous versions are useful to test for regressions in functionality such as icons exports no longer working.<br/>
-                                    Please report regressions via GitHub or in Discord.
+                                    <p>Previously the tool was a desktop application built with Python. It only really worked (not very well) on Windows.</p>
+                                    <p>
+                                        Still, the previous versions are useful to test for regressions in functionality such as icons exports no longer working.<br/>
+                                        Please report regressions via GitHub or in Discord.
+                                    </p>
                                 </p>
                                 <ul>
                                     <li>
+                                        Version 0.1.3:
+                                        <a href="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.3/PS2IODB.Extractor.v0.1.3.Windows.exe">Windows</a>
+                                        -
+                                        <a href="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.3/PS2IODB.Extractor.v0.1.3.Linux.zip">Linux</a>
+                                    </li>
+                                    <li>
                                         Version 0.1.2: 
-                                        <Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.2/PS2IODB.Extractor.v0.1.2.exe">Windows</Link>
+                                        <a href="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.2/PS2IODB.Extractor.v0.1.2.exe">Windows</a>
                                          - 
-                                        <Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.2-linux-beta/PS2IODB-Extractor.zip">Linux</Link>
+                                        <a href="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.2-linux-beta/PS2IODB-Extractor.zip">Linux</a>
                                     </li>
                                     <li>
-                                        Version 0.1.1: <Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.1/MYMC++.v0.1.1.exe">Windows</Link>
+                                        Version 0.1.1: <a href="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1.1/MYMC++.v0.1.1.exe">Windows</a>
                                     </li>
                                     <li>
-                                        Version 0.1: <Link to="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1/MYMC++.v0.1.exe">Windows</Link>
+                                        Version 0.1: <a href="https://github.com/Issung/PS2IODB-Extractor-Releases/releases/download/v0.1/MYMC++.v0.1.exe">Windows</a>
                                     </li>
                                 </ul>
                             </details>
@@ -76,10 +75,10 @@ const Contribute: React.FC = () => {
                             </a>
                             <p>Around the internet many pre-existing save files are shared on forums such as:</p>
                             <ul>
-                                <li><Link to="https://gamefaqs.gamespot.com/">GameFAQs</Link></li>
-                                <li><Link to="https://www.ps2-home.com/forum/viewforum.php?f=70">PS2-Home</Link></li>
-                                <li><Link to="https://www.thetechgame.com/Downloads/cid=310/playstation-2-game-saves.html">The Tech Game</Link></li>
-                                <li>Other various sources found via <Link to="https://www.google.com/search?q=ps2+game+save+files">Google search</Link></li>
+                                <li><a target="_blank" href="https://gamefaqs.gamespot.com/">GameFAQs</a></li>
+                                <li><a target="_blank" href="https://www.ps2-home.com/forum/viewforum.php?f=70">PS2-Home</a></li>
+                                <li><a target="_blank" href="https://www.thetechgame.com/Downloads/cid=310/playstation-2-game-saves.html">The Tech Game</a></li>
+                                <li>Other various sources found via <a target="_blank" href="https://www.google.com/search?q=ps2+game+save+files">Google search</a></li>
                             </ul>
                             <p>The PS2IODB Extractor tool can be used to import these save files and then icon assets can be extracted easily. Steps:</p>
                             <ol>
@@ -129,13 +128,60 @@ const Contribute: React.FC = () => {
                                 <h4>Contribution Guidelines</h4>
                             </a>
                             <ul>
-                                <li><b>Please make sure</b> you are using the latest version of the extractor tool.</li>
-                                <li>Make sure when you are uploading icons that they haven't already been contributed!</li>
-                                <li>The PS2 library is massive and many games have regional differences please title each icon clearly, or add a text file with notes!</li>
+                                <li>Make sure to save your time by not uploading things that are already contributed / do not need re-contributing.</li>
+                                <li>The PS2 library is massive and many games have regional differences please title each icon clearly, or add a note explaining things.</li>
                                 <li>For games that have multiple icons it is useful to know what conditions cause each case. If you don't know that's OK, just let us know, and hopefully someone later will inform us.</li>
                                 <li>Some icons are known to have issues exporting, these are useful to have for improving the extractor tool. Please send the PS2 memcard file either in the <code>#broken-icons</code> channel in the Discord or E-Mail to Issung.</li>
                                 <li>If it is your first time contributing let us know what name you want to be credited as, and if you want us to link your name to any social media / website!</li>
+                                <li>Name icons with URL slug appropriate names following existing patterns to help Issung (the admin) add contributions easily.</li>
                             </ul>
+
+                            <h5>Slug Examples</h5>
+                            <p>
+                                The <i>slug</i> is is part of the URL to navigate to a specific icon, for example: <a href="https://ps2iodb.com/icon/devilmaycry3" target="_blank">ps2iodb.com/icon/devilmaycry3</a>.
+                            </p>
+                            <p>
+                                The site admin has to add all icons to the index by hand, so well-named (informative an matching existing patterns) help optimise this process.
+                            </p>
+
+                            <p>Look at existing icons on the site for inspiration. Here are some examples:</p>
+                            <ul className="slug-examples">
+                                <li><code>finalfantasyx</code></li>
+                                <li><code>tekken5</code></li>
+                                <li>
+                                    Some titles have different icons for different regions:
+                                    <ul>
+                                        <li><code>taikodrummaster-jp</code></li>
+                                        <li><code>taikodrummaster-na</code></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Some titles have different icons for different revisions:
+                                    <ul>
+                                        <li><code>dragonballzbudokai3</code></li>
+                                        <li><code>dragonballzbudokai3-grestesthitsversion</code></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Some titles have different icons for different conditions:
+                                    <ul>
+                                        <li><code>ghirensambitionaxis-earthcampaign</code></li>
+                                        <li><code>ghirensambitionaxis-zeoncampaign</code></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Some titles separate data for profiles,  settings or different modes like so:
+                                    <ul>
+                                        <li><code>xg3extremegracing-savedata</code></li>
+                                        <li><code>xg3extremegracing-settings</code></li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <p className="help-note">
+                                The entire index (all titles & slugs) can be viewed <a target="_blank" href="https://github.com/Issung/PS2IODB/blob/main/website/src/model/Titles.ts">here</a>.
+                            </p>
+
 
                             {/*<a id="iconuploading" href="#iconuploading">
                                 <h4>Icon Uploading: GitHub PR</h4>
