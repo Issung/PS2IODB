@@ -13,12 +13,12 @@ describe("Database Entries Tests", () =>
             if (icon.code === undefined)
             {
                 expect(icon.uniqueStates, `${icon.name} code is unset, variantCount should be too.`).toBeUndefined();
-                expect(icon.contributor, `${icon.name} code is unset, contributor should be too.`).toBeUndefined();
+                expect(icon.contributors.length, `${icon.name} code is unset, contributors should be empty.`).toBe(0);
             }
             else
             {
                 expect(icon.uniqueStates, `${icon.name} code is set, variantCount should be too.`).toBeDefined();
-                expect(icon.contributor, `${icon.name} code is set, contributor should be too.`).toBeDefined();
+                expect(icon.contributors.length, `${icon.name} code is set, contributors should not be empty.`).toBeGreaterThan(0);
             }
         })
     });

@@ -11,17 +11,17 @@ export const AlphabeticalFilterDefault = 'misc';
 class ContributorData {
     constructor(
         public contributor: Contributor,
-        public gameCount: number
+        public iconCount: number
     ) { }
 }
 
 const contributorData = Object
     .values(Contributors)
     .map(contributor => {
-        let gameCount = Icons.filter(i => i.contributor == contributor).length;
-        return new ContributorData(contributor, gameCount);
+        let iconCount = Icons.filter(i => i.contributors.includes(contributor)).length;
+        return new ContributorData(contributor, iconCount);
     })
-    .sort((c1, c2) => c2.gameCount - c1.gameCount);
+    .sort((c1, c2) => c2.iconCount - c1.iconCount);
 
 const ContributorListItem = ({position, data} : {position: number, data: ContributorData}) => {
     const posStyle = position <= 3 ? `pos${position}` : undefined;   // pos${x} if top 3.
@@ -29,7 +29,7 @@ const ContributorListItem = ({position, data} : {position: number, data: Contrib
     return (
         <Link
             to={`/browse/contributor/${data.contributor.name}`}
-            title={`View ${data.gameCount} titles with icons contributed by ${data.contributor.name}`}
+            title={`View ${data.iconCount} icons contributed by ${data.contributor.name}`}
         >
             <div className={`row contributor ${posStyle && 'top3'} ${posStyle}`}>
                 <div className="col-2 placement">
@@ -39,7 +39,7 @@ const ContributorListItem = ({position, data} : {position: number, data: Contrib
                     {data.contributor.name}
                 </div>
                 <div className="col-2">
-                    {data.gameCount}
+                    {data.iconCount}
                 </div>
             </div>
         </Link>

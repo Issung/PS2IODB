@@ -251,7 +251,7 @@ export const Titles: Title[] = [
     new Game(`Asterix & Obelix: Kick Buttix`, `asterixandobelixkickbuttix`, 3, Contributors.Marc, 1),
     new Game(`Asterix & Obelix XXL 2: Mission: Las Vegum`, `asterixandobelixxxl2missionlasvegum`, 3, Contributors.Marc, 1),
     new Game(`Asterix at the Olympic Games`, `asterixolympics`, 1, Contributors.Issung, 1),
-    new Game(`Astro Boy`, `astroboy`, 3, Contributors.SqueezedDog, 2),
+    new Game(`Astro Boy`, `astroboy`, 3, [Contributors.SqueezedDog, Contributors.Tech], 2),
     new Game(`Astro Boy: The Video Game`, `astroboythevideogame`, 1, Contributors.SqueezedDog),
     new Game(`Astro Kyuudan: Kessen!! Victory Kyuudanhen`),
     new Game(`Atari Anthology`, `atarianthology`, 1, Contributors.Sebita, 1),

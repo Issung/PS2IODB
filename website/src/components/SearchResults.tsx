@@ -169,7 +169,7 @@ const getSearchFilters = (filter: string | undefined): FilterFuncs => {
 
 const getContributorFilters = (contributor: Contributor | undefined): FilterFuncs => {
     if (contributor) {
-        const iconFilter: IconFilter = (i) => i.contributor === contributor;
+        const iconFilter: IconFilter = (i) => i.contributors.includes(contributor);
         return {
             titleFilter: (t) => t.icons.some(iconFilter),
             iconFilter,

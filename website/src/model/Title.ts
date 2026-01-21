@@ -27,12 +27,12 @@ export class Title {
 
     constructor(name: string);
     constructor(name: string, iconFactory?: (game: Title) => Icon[]);
-    constructor(name: string, code?: string, variantCount?: number, contributor?: Contributor, animation?: AnimationValue);
+    constructor(name: string, code?: string, variantCount?: number, contributor?: Contributor | Contributor[], animation?: AnimationValue);
     constructor(
         name: string,
         codeOrIconFactory?: string | ((game: Title) => Icon[]),
         variantCount?: number,
-        contributor?: Contributor,
+        contributor?: Contributor | Contributor[],
         animation?: AnimationValue
     )
     {

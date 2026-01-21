@@ -180,11 +180,12 @@ const Icon = () => {
                 {icon ? (
                     <>
                         <h5>{title}</h5>
-                        <h6>Contributed by {icon.contributor?.link ?
-                            <Link to={`/browse/contributor/${icon.contributor.name}#browse`} title={`View all contributions from ${icon.contributor.name}`}>{icon.contributor!.name}</Link>
-                        :
-                            `${icon.contributor?.name}`
-                        }</h6>
+                        <h6>Contributed by {icon.contributors.map((contributor, index) => (
+                            <span key={contributor.name}>
+                                {index > 0 && (index === icon.contributors.length - 1 ? ' & ' : ', ')}
+                                <Link to={`/browse/contributor/${contributor.name}#browse`} title={`View all contributions from ${contributor.name}`}>{contributor.name}</Link>
+                            </span>
+                        ))}</h6>
                     </>
                 ) : (
                     "Game not found."
