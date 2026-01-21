@@ -120,6 +120,13 @@ const getCategoryFilters = (filter: string | undefined): FilterFuncs => {
             iconFilter,
         };
     }
+    else if (index === Category.brokenAnimation) {
+                const iconFilter: IconFilter = (i) => i.animationVersion === 1;
+        return {
+            titleFilter: (t) => t.icons.some(iconFilter),
+            iconFilter,
+        };
+    }
     else { // states1, states2, states3
         const indexStr = index.toString();
         const lastChar = indexStr.charAt(index.length - 1);

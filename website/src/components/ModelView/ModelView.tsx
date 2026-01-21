@@ -7,6 +7,7 @@ import './ModelView.scss';
 import { BackgroundType, MeshType, TextureType } from "./ModelViewParams";
 import { AnimationVersion, ModelViewRenderer } from "./ModelViewRenderer";
 import { Link } from "react-router-dom";
+import { Category } from "../FilterSelectCategory";
 
 export interface ModelViewProps {
     /** The loader to use for fetching model data. */
@@ -23,6 +24,8 @@ export interface ModelViewProps {
 }
 
 const renderer = new ModelViewRenderer();
+
+const brokenAnimationsPath = `/browse/category/${Category.brokenAnimation}#browse`;
 
 export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: ModelViewProps) => {
     // State for loaded data
@@ -204,7 +207,6 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
         }
         return `linear-gradient(to top left, ${backgroundColor}, ${backgroundColor})`;
     }
-
     
     //console.log('ModelView', { loader });
 
@@ -399,6 +401,10 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
                     This icon's animation was contributed with an earlier version of the extraction tool
                     that did not correctly capture all animation properties. To achieve accurate playback the icon assets
                     need to be re-extracted & re-contributed using the latest version of the <Link to="/extractor">PS2IODB Extractor</Link>.
+                </p>
+                <br/>
+                <p>
+                    To see all icons needing re-contribution go <Link to={brokenAnimationsPath}>here</Link>.
                 </p>
             </Modal>
         </div>
