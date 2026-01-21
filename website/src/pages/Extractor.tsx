@@ -36,6 +36,8 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
 const saveContextMenuItems: ContextMenuItem[] = [
     { id: 'extract-zip', label: 'Extract & Download Assets in .zip', shortcut: 'E' },
     { id: 'rename', label: 'Rename', shortcut: 'R' },
+    { id: 'copy-directory', label: 'Copy Directory' },
+    { id: 'copy-title', label: 'Copy Title' },
     { id: 'delete', label: 'Delete', danger: true, shortcut: 'Del' },
     ...(!import.meta.env.DEV ? [] : [
         { id: 'copy-iconsys', label: 'DEV - Copy iconsys.json' },
@@ -138,6 +140,16 @@ function Extractor() {
 
         if (itemId === 'delete') {
             setDeleteState({ saveId, title: save.title });
+            return;
+        }
+
+        if (itemId === 'copy-directory') {
+            await navigator.clipboard.writeText(save.directory);
+            return;
+        }
+
+        if (itemId === 'copy-title') {
+            await navigator.clipboard.writeText(save.title);
             return;
         }
 
