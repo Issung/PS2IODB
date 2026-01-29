@@ -4167,8 +4167,10 @@ export const Titles: Title[] = [
     new Game(`Shuffle! On the Stage`, `shuffleonthestage`, 1, Contributors.ItzCookieX),
     new Game(`Shūmatsu Shoujo Gensou Alicematic Apocalypse`, `shuumatsushoujogensoualicematicapocalypse`, 1, Contributors.SqueezedDog),
     new Game(`Sidewinder Max`, `sidewindermax`, 1, Contributors.Cajas),
-    new Game(`Silent Hill 2`, `silenthill2`, 1, Contributors.Cajas, 1),
-    new Game(`Silent Hill 2: Director's Cut`, `silenthill2directorscut`, 1, Contributors.Psiences, 1),
+    new Game(`Silent Hill 2`, g => [
+        new Icon(g, `Save Data`, `silenthill2`, 1, Contributors.Cajas, 1),
+        new Icon(g, `Dog Ending Save Data`, `silenthill2-dogending`, 1, Contributors.Psiences, 1),
+    ]),
     new Game(`Silent Hill 3`, `silenthill3`, 1, Contributors.Cajas, 1),
     new Game(`Silent Hill 4: The Room`, `silenthill4`, 1, Contributors.Psiences, 1),
     new Game(`Silent Hill: Origins`, `silenthillorigins`, 1, Contributors.Cajas),
