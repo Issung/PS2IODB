@@ -108,7 +108,7 @@ export function useSaveStorage(): UseSaveStorageResult {
             const importedSaves = await loadFile(selectedFile);
             const newSaveIds: string[] = [];
 
-            for (const extracted of importedSaves) {
+            for (const extracted of importedSaves.filter(is => is.iconSys)) {
                 const directory = extracted.iconSys?.directory ?? 'Unknown';
                 const title = extracted.iconSys?.title ?? directory;
 
