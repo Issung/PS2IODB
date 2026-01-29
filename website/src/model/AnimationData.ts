@@ -6,7 +6,10 @@ export class AnimationData
      */
     version: undefined | 2;
     frameLength!: number;
-    animationSpeed!: number;
+    /**
+     * Animation speed, called `animSpeed` in all the `.anim` files. Seemingly unused in ps2suitcase & mymc++.
+     */
+    animSpeed!: number;
     playOffset!: number;
     frames!: AnimationFrame[];
 }

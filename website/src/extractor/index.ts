@@ -263,7 +263,7 @@ function convertAnimationData(icon: PS2Icon): AnimationData | undefined {
     const animData = new AnimationData();
     animData.version = 2;
     animData.frameLength = icon.animHeader.frameLength;
-    animData.animationSpeed = icon.animHeader.animSpeed;
+    animData.animSpeed = icon.animHeader.animSpeed;
     animData.playOffset = icon.animHeader.playOffset;
     animData.frames = [];
 
