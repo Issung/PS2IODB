@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { Icons } from "../model/Titles";
-import { AnimationData } from "../model/AnimationData";
+import { Icons } from "../src/model/Titles";
+import { AnimationData } from "../src/model/AnimationData";
 
 // Tests that test the 2 sources of truth, the GameList file and the icon folders, making sure they match up.
 describe("Database Entries Tests", () => 

@@ -9,7 +9,8 @@ const config: Config = {
     'default',
     ['jest-junit', { outputDirectory: 'reports', outputName: 'report.xml' }],
   ],
-  setupFilesAfterEnv: [ "jest-expect-message" ]
+  setupFilesAfterEnv: [ "jest-expect-message", "<rootDir>/tests/setupTests.ts" ],
+  roots: ["<rootDir>/tests", "<rootDir>/src"]
 };
 
 export default config;

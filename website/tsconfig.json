@@ -22,6 +22,8 @@
     "node_modules/jest-expect-message/types/index.d.ts" // Required to get strong typing for jest-expect-message.
   ],
   "include": [
-    "src"
+    "src",
+    "scripts",
+    "tests"
   ]
 }
