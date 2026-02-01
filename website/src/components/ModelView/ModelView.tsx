@@ -8,6 +8,7 @@ import { BackgroundType, MeshType, TextureType } from "./ModelViewParams";
 import { AnimationVersion, ModelViewRenderer } from "./ModelViewRenderer";
 import { Link } from "react-router-dom";
 import { Category } from "../FilterSelectCategory";
+import { IconRotate2, IconFlipVertical, IconX } from '@tabler/icons-react';
 
 export interface ModelViewProps {
     /** The loader to use for fetching model data. */
@@ -347,7 +348,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                         onClick={() => setEnlargeTextureView(true)}
                         src={resolvedAssets.textureBlobUrl}
                         title={`Icon texture image.`}
-                        style={{transform: `rotate(${imageRotationDegrees}deg)`}}
+                        style={{transform: `scale(${imageFlip ? -1 : 1}, 1) rotate(${imageRotationDegrees}deg)`}}
                     />
                 </div>
             )}
@@ -361,45 +362,48 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                 overlayClassName={`enlarged-texture-view ${fullscreen ? 'enlarged-texture-fullscreen' : ''}`}
                 closeOnOverlayClick={false}
             >
-                <div className="enlarged-texture-content container-fluid" onClick={e => maybeCloseTextureView(e)}>
-                    <div className="row">
-                        <div className="d-flex flex-column justify-content-center align-items-center">
-                            <a title={`Icon texture image.`}>
-                                <img
-                                    src={resolvedAssets?.textureBlobUrl}
-                                    style={{transform: `scale(${imageFlip ? -1 : 1}, 1) rotate(${imageRotationDegrees}deg)`}}
-                                />
-                            </a>
-                        </div>
+                <div className="enlarged-texture-content" onClick={e => maybeCloseTextureView(e)}>
+                    <div className="enlarged-texture-image-container">
+                        <img
+                            src={resolvedAssets?.textureBlobUrl}
+                            alt="Icon texture"
+                            style={{transform: `scale(${imageFlip ? -1 : 1}, 1) rotate(${imageRotationDegrees}deg)`}}
+                        />
                     </div>
-                    <div className="row justify-content-center align-items-center">
-                        <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
+                    <div
+                        className="enlarged-texture-toolbar"
+                        onClick={e => e.stopPropagation()}
+                    >
+                        <div className="texture-toolbar-main">
                             <button
-                                className="mx-auto d-block"
+                                className="texture-toolbar-btn"
                                 title="Rotate image 90 degrees anti-clockwise"
                                 onClick={(e) => { e.stopPropagation(); setImageRotationDegrees(imageRotationDegrees - 90); }}
                             >
-                                {imageFlip ? '↻' : '↺'}
+                                <IconRotate2 size={24} style={{transform: imageFlip ? 'scaleX(-1)' : undefined}} />
                             </button>
-                        </div>
-                        <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
                             <button
-                                className="mx-auto d-block"
+                                className="texture-toolbar-btn"
                                 title="Mirror image vertically"
                                 onClick={(e) => { e.stopPropagation(); setImageFlip(!imageFlip); }}
                             >
-                                Mirror
+                                <IconFlipVertical size={24} />
                             </button>
-                        </div>
-                        <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
                             <button
-                                className="mx-auto d-block"
+                                className="texture-toolbar-btn"
                                 title="Rotate image 90 degrees clockwise"
                                 onClick={(e) => { e.stopPropagation(); setImageRotationDegrees(imageRotationDegrees + 90); }}
                             >
-                                {imageFlip ? '↺' : '↻'}
+                                <IconRotate2 size={24} style={{transform: imageFlip ? undefined : 'scaleX(-1)'}} />
                             </button>
                         </div>
+                        <button
+                            className="texture-toolbar-btn texture-toolbar-close"
+                            title="Close"
+                            onClick={(e) => { e.stopPropagation(); setEnlargeTextureView(false); }}
+                        >
+                            <IconX size={24} />
+                        </button>
                     </div>
                 </div>
             </Modal>
@@ -412,7 +416,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                 portalContainer={portalTarget}
             >
                 <p>
-                    Animation playback for this icon may not be fully accurate.
+                    Animation playback for this icon is inaccurate.
                 </p>
                 <br/>
                 <p>
