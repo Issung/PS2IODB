@@ -1606,7 +1606,7 @@ export const Titles: Title[] = [
     new Game(`Gobuato no Sekai`, `gofungonosekai`, 1, Contributors.ZupaPat785),
     new Game(`God Hand`, `godhand`, 1, Contributors.Issung, 1),
     new Game(`God of War`, `godofwar`, 1, Contributors.Cajas),
-    new Game(`God of War II`, `godofwar2`, 1, Contributors.Cajas, 1),
+    new Game(`God of War II`, `godofwar2`, 1, [Contributors.Cajas, Contributors.Issung], 2),
     new Game(`Godai Elemental Force`, `godaielementalforce`, 1, Contributors.TheZulaPatrolFan2005),
     new Game(`The Godfather`, `thegodfather`, 1, Contributors.Cajas),
     new Game(`Godzilla: Save the Earth`, `godzillasavetheearth`, 1, Contributors.Oddworld2001, 1),
