@@ -198,6 +198,7 @@ const Icon = () => {
                         loader={loader}
                         onDownload={download}
                         downloadStatus={downloadStatus}
+                        fullscreen={true}
                     />
                 </div>
             )}

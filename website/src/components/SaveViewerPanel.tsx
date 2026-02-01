@@ -40,6 +40,7 @@ export function SaveViewerPanel({
                         loader={modelLoader}
                         hideControls={false}
                         onDownload={onDownload}
+                        fullscreen={false}
                     />
                 )}
 

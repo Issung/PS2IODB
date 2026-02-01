@@ -105,17 +105,23 @@ div#model-view {
         }
     }
 
-    div.enlarged-texture-view {
-        // This div is a bootstrap container-fluid, we want to make it fill the ModelView container.
-        top: 0;
-        left: 0;
+}
+
+// Enlarged texture view modal overlay
+// This is applied as overlayClassName on the Modal component, so it can be either
+// inside the ModelView (embedded mode) or at document.body level (fullscreen mode)
+.enlarged-texture-view {
+    // Default: fill parent container (embedded mode in ModelView)
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    .enlarged-texture-content {
         width: 100%;
         height: 100%;
-        z-index: 500;
-        position: absolute;
         overflow: hidden;
-
-        background-color: rgba(0, 0, 0, 0.95);
 
         div.row:nth-child(1) {
             height: 90%;
@@ -142,4 +148,11 @@ div#model-view {
             }
         }
     }
+}
+
+// Fullscreen mode: use fixed positioning to cover entire viewport
+.enlarged-texture-fullscreen {
+    position: fixed !important;
+    width: 100vw;
+    height: 100vh;
 }

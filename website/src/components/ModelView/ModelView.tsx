@@ -21,13 +21,20 @@ export interface ModelViewProps {
 
     /** Optional: download button status text (e.g., "Loading..."). */
     downloadStatus?: string;
+
+    /**
+     * Whether the ModelView is displayed fullscreen (e.g., on Icon page).
+     * When true, modals portal to document.body to escape parent stacking contexts.
+     * When false (default), modals stay within the component bounds.
+     */
+    fullscreen?: boolean;
 }
 
 const renderer = new ModelViewRenderer();
 
 const brokenAnimationsPath = `/browse/category/${Category.brokenAnimation}#browse`;
 
-export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: ModelViewProps) => {
+export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fullscreen = false }: ModelViewProps) => {
     // State for loaded data
     const [iconsys, setIconSys] = useState<IconSys | undefined>(undefined);
     const [loadError, setLoadError] = useState<string | undefined>(undefined);
@@ -44,12 +51,15 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
     const [enlargeTextureView, setEnlargeTextureView] = useState(false);
     const [imageRotationDegrees, setImageRotationDegrees] = useState(0);
     const [imageFlip, setImageFlip] = useState(false);
-    
+
     // Animation warning modal state
     const [showAnimationModal, setShowAnimationModal] = useState(false);
-    
+
     // Track whether next asset load should reset camera (false when switching variants)
     const shouldResetCameraRef = useRef(true);
+
+    // Determine the portal target: document.body when fullscreen, local container otherwise
+    const portalTarget: HTMLElement = fullscreen ? document.body : document.querySelector('div#model-view')!;
 
     // Control state
     const [variant, setVariant] = useState<string | undefined>(undefined);
@@ -342,25 +352,32 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
                 </div>
             )}
 
-            {/* Enlarged texture modal */}
-            {enlargeTextureView && resolvedAssets && (
-                <div className="enlarged-texture-view container-fluid">
+            {/* Enlarged texture modal - uses bare mode for custom layout */}
+            <Modal
+                isOpen={enlargeTextureView && !!resolvedAssets}
+                onClose={() => setEnlargeTextureView(false)}
+                portalContainer={portalTarget}
+                bare={true}
+                overlayClassName={`enlarged-texture-view ${fullscreen ? 'enlarged-texture-fullscreen' : ''}`}
+                closeOnOverlayClick={false}
+            >
+                <div className="enlarged-texture-content container-fluid" onClick={e => maybeCloseTextureView(e)}>
                     <div className="row">
-                        <div className="d-flex flex-column justify-content-center align-items-center" onClick={e => maybeCloseTextureView(e)}>
+                        <div className="d-flex flex-column justify-content-center align-items-center">
                             <a title={`Icon texture image.`}>
                                 <img
-                                    src={resolvedAssets.textureBlobUrl}
+                                    src={resolvedAssets?.textureBlobUrl}
                                     style={{transform: `scale(${imageFlip ? -1 : 1}, 1) rotate(${imageRotationDegrees}deg)`}}
                                 />
                             </a>
                         </div>
                     </div>
-                    <div className="row justify-content-center align-items-center" onClick={e => maybeCloseTextureView(e)}>
+                    <div className="row justify-content-center align-items-center">
                         <div className="col-4 col-md-3 col-xl-2 col-xxl-1">
                             <button
                                 className="mx-auto d-block"
                                 title="Rotate image 90 degrees anti-clockwise"
-                                onClick={() => setImageRotationDegrees(imageRotationDegrees - 90)}
+                                onClick={(e) => { e.stopPropagation(); setImageRotationDegrees(imageRotationDegrees - 90); }}
                             >
                                 {imageFlip ? '↻' : '↺'}
                             </button>
@@ -369,7 +386,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
                             <button
                                 className="mx-auto d-block"
                                 title="Mirror image vertically"
-                                onClick={() => setImageFlip(!imageFlip)}
+                                onClick={(e) => { e.stopPropagation(); setImageFlip(!imageFlip); }}
                             >
                                 Mirror
                             </button>
@@ -378,20 +395,21 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus }: 
                             <button
                                 className="mx-auto d-block"
                                 title="Rotate image 90 degrees clockwise"
-                                onClick={() => setImageRotationDegrees(imageRotationDegrees + 90)}
+                                onClick={(e) => { e.stopPropagation(); setImageRotationDegrees(imageRotationDegrees + 90); }}
                             >
                                 {imageFlip ? '↺' : '↻'}
                             </button>
                         </div>
                     </div>
                 </div>
-            )}
+            </Modal>
 
             {/* Animation version playback information modal */}
             <Modal
                 isOpen={showAnimationModal}
                 title="Animation Playback Notice"
                 onClose={() => setShowAnimationModal(false)}
+                portalContainer={portalTarget}
             >
                 <p>
                     Animation playback for this icon may not be fully accurate.
