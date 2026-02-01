@@ -58,7 +58,10 @@ const Home = () => {
                     </div>
                     <div className="row justify-content-center">
                         <div className="col-5 col-md-5 col-lg-5 col-xl-2 px-1 py-1">
-                            <Link className="btn btn-primary" to="/faq">FAQ</Link>
+                            <div className="btn-group">
+                                <Link className="btn btn-primary" to="/faq">FAQ</Link>
+                                <a className="btn btn-primary" href="https://issung.com/posts/ps2iodb2026" target="_blank">News</a>
+                            </div>
                         </div>
                         <div className="col-5 col-md-5 col-lg-5 col-xl-2 px-1 py-1">
                             <Link className="btn btn-primary" to="/contribute">
@@ -71,15 +74,15 @@ const Home = () => {
                         </div>
                         <div className="col-10 col-md-5 col-lg-5 col-xl-2 px-1 py-1">
                             <div className="btn-group">
-                                <Link type="button" className="btn btn-secondary" to="https://github.com/Issung/PS2IODB">
+                                <a className="btn btn-secondary" href="https://github.com/Issung/PS2IODB" target="_blank">
                                     <img src="/images/github.svg" alt="GitHub logo" className="social github"/>
-                                </Link>
-                                <Link type="button" className="btn btn-secondary" to="https://x.com/IssunGee">
+                                </a>
+                                <a className="btn btn-secondary" href="https://x.com/IssunGee" target="_blank">
                                     <img src="/images/x.svg" alt="X.com logo"className="social x"/>
-                                </Link>
-                                <Link type="button" className="btn btn-secondary" to="https://discord.gg/SWsuNvWnKw">
+                                </a>
+                                <a className="btn btn-secondary" href="https://discord.gg/SWsuNvWnKw" target="_blank">
                                     <img src="/images/discord.svg" alt="Discord logo" className="social discord"/>
-                                </Link>
+                                </a>
                             </div>
                         </div>
                     </div>
