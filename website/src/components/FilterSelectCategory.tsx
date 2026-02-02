@@ -1,4 +1,4 @@
-import { IconBox, IconCircleNumber1, IconCircleNumber2, IconCircleNumber3, IconCirclePlus, IconCircles, IconCirclesFilled, IconDeviceGamepad2, IconFileBroken, IconHelpOctagon, IconPlayerPause, IconPlayerPlay } from '@tabler/icons-react';
+import { IconBox, IconCircleNumber1, IconCircleNumber2, IconCircleNumber3, IconCirclePlus, IconCircles, IconCirclesFilled, IconDeviceGamepad2, IconFileBroken, IconHelpOctagon, IconPlayerPause, IconPlayerPlay, IconFileCheck } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { Select, SelectItem } from './Select';
 
@@ -15,6 +15,7 @@ export enum Category {
     animated = "animated",
     static = "static",
     brokenAnimation = "brokenAnimation",
+    correctAnimation = "correctAnimation",
 };
 
 export const CategoryDefault = Category.all;
@@ -35,7 +36,8 @@ const categories = [
     new SelectItem(Category.applications, 'Applications', 'Applications', <IconBox/>),
     new SelectItem(Category.animated, 'Animated', 'Icons with animation', <IconPlayerPlay/>),
     new SelectItem(Category.static, 'Static', 'Icons with no animation', <IconPlayerPause/>),
-    new SelectItem(Category.brokenAnimation, 'Broken Animation', 'Icons needing recontribution due to outdated animation data', <IconFileBroken/>),
+    new SelectItem(Category.brokenAnimation, 'Broken Animation', 'Icons needing re-contribution due to outdated animation data', <IconFileBroken/>),
+    new SelectItem(Category.correctAnimation, 'Correct Animation', 'Icons with correct animation data & playback', <IconFileCheck/>),
 ];
 
 export const FilterSelectCategory = ({category}: ICategorySelectProps) => {

@@ -121,7 +121,14 @@ const getCategoryFilters = (filter: string | undefined): FilterFuncs => {
         };
     }
     else if (index === Category.brokenAnimation) {
-                const iconFilter: IconFilter = (i) => i.animationVersion === 1;
+        const iconFilter: IconFilter = (i) => i.animationVersion === 1;
+        return {
+            titleFilter: (t) => t.icons.some(iconFilter),
+            iconFilter,
+        };
+    }
+    else if (index === Category.correctAnimation) {
+        const iconFilter: IconFilter = (i) => i.animationVersion === 2;
         return {
             titleFilter: (t) => t.icons.some(iconFilter),
             iconFilter,
