@@ -1,5 +1,5 @@
 import { AnimationData } from "../../model/AnimationData";
-import { MeshType, TextureType } from "./ModelViewParams";
+import { BaseType, MeshType, TextureType } from "./ModelViewParams";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { TexturedOBJLoader } from "../TexturedOBJLoader";
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
@@ -40,7 +40,7 @@ export class ModelViewRenderer {
     public prop_animationSpeed: number = 1;
     public prop_animationLength: number = 0;
     public prop_frame: number = 0; // Which frame to display, if there is animation data and prop_animate is false.
-    public prop_grid: boolean = true;
+    public prop_baseType: BaseType = BaseType.Shadow;
     public prop_textureType: TextureType = TextureType.Icon;
     public prop_meshType: MeshType = MeshType.Mesh;
     
@@ -65,6 +65,7 @@ export class ModelViewRenderer {
     private stats: Stats | undefined;
     private axesHelper: THREE.AxesHelper;
     private horizontalGridHelper: THREE.GridHelper;
+    private shadowMesh: THREE.Mesh;
     private vertexNormalHelper: VertexNormalsHelper | undefined = undefined;
     private directionalLights: THREE.DirectionalLight[] = Array(3);
     private ambientLight: THREE.AmbientLight;
@@ -105,6 +106,10 @@ export class ModelViewRenderer {
 
         this.horizontalGridHelper = new THREE.GridHelper(1, 3);
         this.scene.add(this.horizontalGridHelper);
+
+        // Create radial shadow mesh with fade-to-transparent gradient
+        this.shadowMesh = this.createShadowMesh();
+        this.scene.add(this.shadowMesh);
 
         for (let i = 0; i < 3; i++) {
             const light = new THREE.DirectionalLight(undefined, defaultIntensity);
@@ -414,6 +419,11 @@ export class ModelViewRenderer {
         this.axesHelper?.scale.set(gridSize, gridSize, gridSize);
         this.axesHelper?.position.setY(-size.y / 2);
 
+        // Scale and position the shadow mesh to match the model footprint
+        const shadowSize = gridSize * 1.5; // Make shadow slightly larger than grid
+        this.shadowMesh?.scale.set(shadowSize, shadowSize, 1);
+        this.shadowMesh?.position.setY(-size.y / 2 + 0.001); // Slightly above grid to avoid z-fighting
+
         if (this.mesh) {
             this.vertexNormalHelper = new VertexNormalsHelper(this.mesh, 0.1);
             this.scene.add(this.vertexNormalHelper);
@@ -503,6 +513,48 @@ export class ModelViewRenderer {
         stats.dom.style.bottom = '';
         stats.dom.style.left = '';
         return stats;
+    }
+
+    /**
+     * Create a radial shadow mesh (a circular plane with a radial gradient fading to transparency).
+     * The shadow is dark in the center and fades out to fully transparent at the edges.
+     */
+    private createShadowMesh(): THREE.Mesh {
+        const segments = 64;
+        const geometry = new THREE.CircleGeometry(0.5, segments);
+
+        // Add vertex colors for radial gradient (dark center, transparent edges)
+        const colors = new Float32Array(geometry.attributes.position.count * 4);
+        const positions = geometry.attributes.position;
+
+        for (let i = 0; i < positions.count; i++) {
+            const x = positions.getX(i);
+            const y = positions.getY(i);
+            const distance = Math.sqrt(x * x + y * y);
+            const normalizedDistance = distance / 0.5; // Normalize to 0-1 range
+
+            // Dark shadow color with alpha fading from center to edge
+            const alpha = Math.max(0, 1 - normalizedDistance);
+            colors[i * 4 + 0] = 0; // R
+            colors[i * 4 + 1] = 0; // G
+            colors[i * 4 + 2] = 0; // B
+            colors[i * 4 + 3] = alpha * 0.35; // A (max 50% opacity at center)
+        }
+
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 4));
+
+        const material = new THREE.MeshBasicMaterial({
+            vertexColors: true,
+            transparent: true,
+            side: THREE.FrontSide, // Only visible from above (back-face culling)
+            depthWrite: false, // Prevent z-fighting with the model
+        });
+
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.rotation.x = -Math.PI / 2; // Rotate to horizontal
+        mesh.visible = true;
+
+        return mesh;
     }
 
     public dispose() {
@@ -612,8 +664,12 @@ export class ModelViewRenderer {
     }
 
     render() {
-        this.axesHelper.visible = this.prop_grid;
-        this.horizontalGridHelper.visible = this.prop_grid;
+        // Update base element visibility based on base type
+        const showGrid = this.prop_baseType === BaseType.Grid;
+        const showShadow = this.prop_baseType === BaseType.Shadow;
+        this.axesHelper.visible = showGrid;
+        this.horizontalGridHelper.visible = showGrid;
+        this.shadowMesh.visible = showShadow;
 
         if (this.mesh) {
             this.mesh.material.wireframe = this.prop_meshType === MeshType.Wireframe;

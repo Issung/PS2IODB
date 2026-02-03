@@ -19,3 +19,13 @@ export enum BackgroundType {
     /** Display a solid color of the user's choice. */
     Color = 'Color',
 }
+
+/** The base/floor display type shown beneath the model. */
+export enum BaseType {
+    /** Display a radial shadow that fades to transparency. */
+    Shadow = 'Shadow',
+    /** Display a grid with axes helper. */
+    Grid = 'Grid',
+    /** Display nothing beneath the model. */
+    None = 'None',
+}

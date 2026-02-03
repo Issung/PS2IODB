@@ -4,7 +4,7 @@ import { Utils } from "../../utils/Utils";
 import { Modal } from "../Modal";
 import { ModelLoader, ResolvedModelAssets } from "./ModelLoader";
 import './ModelView.scss';
-import { BackgroundType, MeshType, TextureType } from "./ModelViewParams";
+import { BackgroundType, BaseType, MeshType, TextureType } from "./ModelViewParams";
 import { AnimationVersion, ModelViewRenderer } from "./ModelViewRenderer";
 import { Link } from "react-router-dom";
 import { Category } from "../FilterSelectCategory";
@@ -67,7 +67,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
     const [doAnimation, setDoAnimation] = useState(true);
     const [animationSpeed, setAnimationSpeed] = useState(1);
     const [frame, setFrame] = useState(0);
-    const [grid, setGrid] = useState(true);
+    const [baseType, setBaseType] = useState(BaseType.Shadow);
     const [textureType, setTextureType] = useState(TextureType.Icon);
     const [meshType, setMeshType] = useState(MeshType.Mesh);
     const [backgroundType, setBackgroundType] = useState(BackgroundType.Icon);
@@ -200,9 +200,9 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
         renderer.prop_animate = doAnimation;
         renderer.prop_animationSpeed = animationSpeed;
         renderer.prop_frame = frame;
-        renderer.prop_grid = grid;
+        renderer.prop_baseType = baseType;
         renderer.prop_meshType = meshType;
-    }, [doAnimation, animationSpeed, frame, grid, meshType]);
+    }, [doAnimation, animationSpeed, frame, baseType, meshType]);
 
     // Background color computation
     const color = calculateColor();
@@ -276,8 +276,12 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                             </li>
                         )}
                         <li>
-                            <label>Display Grid
-                                <input type="checkbox" checked={grid} onChange={e => setGrid(e.target.checked)}/>
+                            <label>Base
+                                <select value={baseType} onChange={e => setBaseType(e.target.value as BaseType)}>
+                                    {Object.values(BaseType).map((type) => (
+                                        <option key={type} value={type}>{type}</option>
+                                    ))}
+                                </select>
                             </label>
                         </li>
                         <li>
