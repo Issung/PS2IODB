@@ -226,7 +226,7 @@ export const Titles: Title[] = [
         new Icon(g, `Regulation`, `armoredcorelastraven-regulation`, 1, Contributors.Cajas, 1),
         new Icon(g, `Replay`, `armoredcorelastraven-replay`, 1, Contributors.Cajas, 1),
     ]),
-    new Game(`Armored Core: Nexus`, `armoredcorenexus`, 1, Contributors.Rikineko, 1),
+    new Game(`Armored Core: Nexus`, `armoredcorenexus`, 1, [Contributors.Rikineko, Contributors.Issung], 2),
     new Game(`Armored Core: Nine Breaker`, g => [
         new Icon(g, `Emblem`, `armoredcoreninebreaker-emblem`, 1, Contributors.Cajas),
         new Icon(g, `Save Data`, `armoredcoreninebreaker`, 1, Contributors.ItzCookieX, 1),
