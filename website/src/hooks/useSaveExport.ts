@@ -149,9 +149,18 @@ function createSaveBaseName(stored: StoredSave): string {
     return `${safeDir} ${safeName}`;
 }
 
+/** Processed file ready to be added to zip. */
+interface ProcessedFile {
+    /** Cleaned filename (e.g. "icon00.ico.png") */
+    filename: string;
+    /** File content */
+    content: string | ArrayBuffer;
+}
+
 /**
  * Add all files from a save to a zip or folder.
  * Handles iconsys.json, OBJ, MTL, PNG, and ANIM files with proper formatting.
+ * Deduplicates identical PNG textures to reduce zip size.
  * @param target can be either a zip or a folder in a zip, they use the same interface.
  */
 async function addFilesToZip(target: JSZip, files: SaveFiles): Promise<void> {
@@ -160,14 +169,16 @@ async function addFilesToZip(target: JSZip, files: SaveFiles): Promise<void> {
     // Add iconsys.json with compact formatting
     target.file('iconsys.json', formatIconSys(modelFiles.iconSys));
 
-    // Add all model files (OBJ, MTL, PNG, ANIM)
+    // First pass: Process all files and collect them
     // BMP textures are converted to PNG to match existing icons on the site.
     // Clean filenames to handle games with subdirectories in icon paths
+    const processedFiles = new Map<string, ProcessedFile>();
+
     const filePromises: Promise<void>[] = [];
     modelFiles.files.forEach((blob, filename) => {
         const promise = (async () => {
             let cleanedFilename = cleanIconFilename(filename);
-            let content: string | ArrayBuffer | Blob = await blob.arrayBuffer();
+            let content: string | ArrayBuffer = await blob.arrayBuffer();
 
             // For MTL files, update the texture reference to use PNG and cleaned filename
             if (filename.endsWith('.mtl')) {
@@ -194,11 +205,118 @@ async function addFilesToZip(target: JSZip, files: SaveFiles): Promise<void> {
                 content = formatAnim(animData);
             }
 
-            target.file(cleanedFilename, content);
+            processedFiles.set(cleanedFilename, { filename: cleanedFilename, content });
         })();
 
         filePromises.push(promise);
     });
 
     await Promise.all(filePromises);
+
+    // Second pass: Deduplicate identical PNG files
+    // Find all PNG files and compute their hashes
+    const pngFiles: string[] = [];
+    const pngHashes: string[] = [];
+
+    const processedEntries = Array.from(processedFiles.entries());
+    for (const [filename, file] of processedEntries) {
+        if (filename.endsWith('.png')) {
+            pngFiles.push(filename);
+            const hash = await hashArrayBuffer(file.content as ArrayBuffer);
+            pngHashes.push(hash);
+        }
+    }
+
+    // Find duplicates and build a map of which MTL files need their references updated
+    const duplicates = findDuplicates(pngHashes);
+    const mtlRemapping = new Map<string, string>(); // Map: duplicate MTL -> remaining MTL
+    const filesToSkip = new Set<string>(); // PNG and MTL files to skip (duplicates)
+
+    for (const [remainIdx, removeIdx] of duplicates) {
+        const remainPng = pngFiles[remainIdx];
+        const removePng = pngFiles[removeIdx];
+
+        // Mark duplicate PNG and MTL for skipping
+        filesToSkip.add(removePng);
+        const removeMtl = removePng.replace(/\.png$/, '.mtl');
+        filesToSkip.add(removeMtl);
+
+        // Map the OBJ file's MTL reference to the remaining MTL
+        const remainMtl = remainPng.replace(/\.png$/, '.mtl');
+        mtlRemapping.set(removeMtl, remainMtl);
+    }
+
+    // Third pass: Add files to zip, updating OBJ mtllib references as needed
+    for (const [filename, file] of processedEntries) {
+        // Skip duplicate PNG and MTL files
+        if (filesToSkip.has(filename)) {
+            continue;
+        }
+
+        let content = file.content;
+
+        // For OBJ files, check if the mtllib reference needs to be updated
+        if (filename.endsWith('.obj') && typeof content === 'string') {
+            content = content.replace(
+                /^mtllib (.+)$/m,
+                (match, mtlFilename) => {
+                    const remappedMtl = mtlRemapping.get(mtlFilename);
+                    return remappedMtl ? `mtllib ${remappedMtl}` : match;
+                }
+            );
+        }
+
+        target.file(filename, content);
+    }
+}
+
+/**
+ * Compute a hash of an ArrayBuffer for deduplication.
+ * Uses SubtleCrypto SHA-256 when available, falls back to simple hash.
+ */
+async function hashArrayBuffer(buffer: ArrayBuffer): Promise<string> {
+    if (crypto.subtle) {
+        const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    // Fallback: simple hash based on content
+    const bytes = new Uint8Array(buffer);
+    let hash = 0;
+    for (let i = 0; i < bytes.length; i++) {
+        hash = ((hash << 5) - hash) + bytes[i];
+        hash = hash & hash; // Convert to 32-bit integer
+    }
+    return hash.toString(16);
+}
+
+/**
+ * Find duplicates in a list of hashes.
+ * Returns a list of [remainIndex, removeIndex] tuples.
+ * Matches Python iconexport.py find_duplicates logic.
+ */
+function findDuplicates(hashes: string[]): Array<[number, number]> {
+    const count = hashes.length;
+    const duplicates: Array<[number, number]> = [];
+
+    if (count === 1) {
+        // No comparison needed
+    } else if (count === 2) {
+        if (hashes[0] === hashes[1]) {
+            duplicates.push([0, 1]);
+        }
+    } else if (count === 3) {
+        // Order matters: compare in specific order to "collapse" duplicates correctly
+        if (hashes[1] === hashes[2]) {
+            duplicates.push([1, 2]);
+        }
+        if (hashes[0] === hashes[2]) {
+            duplicates.push([0, 2]);
+        }
+        if (hashes[0] === hashes[1]) {
+            duplicates.push([0, 1]);
+        }
+    }
+
+    return duplicates;
 }
