@@ -131,18 +131,28 @@ export class UrlModelLoader implements ModelLoader {
         if (!response.ok) {
             throw new Error(`Failed to fetch ${url}: ${response.status}`);
         }
-        const contentType = response.headers.get('content-type');
-        if (contentType?.startsWith('application/json')) {
-            // Explicit JSON content-type
-            return await response.json() as T;
-        } else if (contentType === null || contentType.length === 0) {
-            // No content-type header (e.g., cached response), fall back to text check
-            const text = await response.text();
-            if (text.startsWith('{')) {
-                return JSON.parse(text) as T;
-            }
+        const contentType = response.headers.get('content-type') ?? '';
+
+        // Case 1: SPA fallback returns text/html when the file doesn't exist.
+        // Reject early without reading the body.
+        if (contentType.startsWith('text/html')) {
+            throw new Error(`Response from ${url} is HTML (SPA fallback - file not found)`);
         }
-        // Content-type is present but not JSON (e.g., text/html from SPA fallback)
-        throw new Error(`Response from ${url} is not JSON`);
+
+        // Case 2: Explicit JSON content-type - parse directly without additional checks.
+        if (contentType.startsWith('application/json')) {
+            return await response.json() as T;
+        }
+
+        // Case 3: Vite dev server serves .anim files with an empty content-type header.
+        // Case 4: Cloudflare Pages serves .anim files as application/octet-stream (unknown extension).
+        // Case 5: 304 cached responses may have varying content-type headers.
+        // For all other cases, check if the content looks like JSON before parsing.
+        const text = await response.text();
+        if (text.startsWith('{') || text.startsWith('[')) {
+            return JSON.parse(text) as T;
+        }
+
+        throw new Error(`Response from ${url} is not JSON (content-type: ${contentType || 'none'})`);
     }
 }
