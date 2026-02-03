@@ -953,7 +953,7 @@ export const Titles: Title[] = [
     new Game(`Devil Kings`, `devilkings`, 3, Contributors.Cajas, 1),
     new Game(`Devil May Cry`, `devilmaycry`, 3, Contributors.Cajas, 1),
     new Game(`Devil May Cry 2`, `devilmaycry2`, 3, Contributors.Cajas, 1),
-    new Game(`Devil May Cry 3: Dante's Awakening`, `devilmaycry3`, 3, Contributors.Issung, 1),
+    new Game(`Devil May Cry 3: Dante's Awakening`, `devilmaycry3`, 3, Contributors.Issung, 2),
     new Game(`Devil May Cry 3: Special Edition`, `devilmaycry3specialedition`, 3, Contributors.Sebita, 1),
     new Game(`Di Gi Charat Fantasy Excellent`, `digicharatfantasyexcellent`, 1, Contributors.Grounder, 1),
     new Game(`Diabolik: The Original Sin`, `diabolik`, 1, Contributors.Cajas),
