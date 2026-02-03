@@ -204,6 +204,10 @@ async function addFilesToZip(target: JSZip, files: SaveFiles): Promise<void> {
                 const animData = JSON.parse(animContent);
                 content = formatAnim(animData);
             }
+            // For OBJ files, store as string so mtllib reference can be updated later
+            else if (filename.endsWith('.obj')) {
+                content = await blob.text();
+            }
 
             processedFiles.set(cleanedFilename, { filename: cleanedFilename, content });
         })();
