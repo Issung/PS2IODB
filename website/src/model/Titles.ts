@@ -2276,7 +2276,7 @@ export const Titles: Title[] = [
     new Game(`Kart Racer`),
     new Game(`Kashimashi! Girl Meets Girl`, `kashimashigirlmeetsgirl`, 1, Contributors.Cajas),
     new Game(`Katakamuna: Ushinawareta Ingaritsu`, `katakamuna`, 1, Contributors.Cajas),
-    new Game(`Katamari Damacy`),
+    new Game(`Katamari Damacy`, `katamaridamacy`, 1, Contributors.Issung),
     new Game(`Simple 2000 Series Vol. 28: The Bushido - Tujigiri Ichidai / Katana Action`, `simple2000seriesvol28thebushidoutsujigiriichidai`, 1, Contributors.ZupaPat785),
     new Application(`家庭の医学 / Katei no Igaku TV Ware Series`, `tvwarejouhoukakumeiserieskateinoigaku`, 1, Contributors.ZupaPat785),
     new Game(`Katekyoo Hitman Reborn Nerae!? Ring x Bongole Returns`),
@@ -5194,7 +5194,7 @@ export const Titles: Title[] = [
     ]),
     new Game(`Way of the Samurai 2`, `wayofthesamurai2`, 1, Contributors.VibiLeFleu),
     new Game(`Samurai Kanzenban / Samurai Complete Edition`, `samuraikanzenban`, 1, Contributors.Cajas, 1),
-    new Game(`We Love Katamari`),
+    new Game(`We Love Katamari`, `welovekatamari`, 1, Contributors.Issung),
     new Game(`The Weakest Link`),   // No save data -Cajas
     new Game(`WeAre*`, `weare`, 1, Contributors.SqueezedDog, 1),
     new Game(`Welcome to Universal Studios Japan`, `welcometouniversaljapan`, 1, Contributors.ZupaPat785),
