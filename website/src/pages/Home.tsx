@@ -57,6 +57,19 @@ const Home = () => {
                         </div>
                     </div>
                     <div className="row justify-content-center">
+                        <div className="col-10 col-md-5 col-lg-5 col-xl-2 px-1 py-1">
+                            <div className="btn-group">
+                                <a className="btn btn-secondary" href="https://github.com/Issung/PS2IODB" target="_blank">
+                                    <img src="/images/github.svg" alt="GitHub logo" className="social github"/>
+                                </a>
+                                <a className="btn btn-secondary" href="https://x.com/IssunGee" target="_blank">
+                                    <img src="/images/x.svg" alt="X.com logo"className="social x"/>
+                                </a>
+                                <a className="btn btn-secondary" href="https://discord.gg/SWsuNvWnKw" target="_blank">
+                                    <img src="/images/discord.svg" alt="Discord logo" className="social discord"/>
+                                </a>
+                            </div>
+                        </div>
                         <div className="col-5 col-md-5 col-lg-5 col-xl-2 px-1 py-1">
                             <div className="btn-group">
                                 <Link className="btn btn-primary" to="/faq">FAQ</Link>
@@ -71,19 +84,6 @@ const Home = () => {
                         </div>
                         <div className="col-10 col-md-5 col-lg-5 col-xl-2 px-1 py-1">
                             <Link className="btn btn-primary" to="/extractor">Open Extractor Tool</Link>
-                        </div>
-                        <div className="col-10 col-md-5 col-lg-5 col-xl-2 px-1 py-1">
-                            <div className="btn-group">
-                                <a className="btn btn-secondary" href="https://github.com/Issung/PS2IODB" target="_blank">
-                                    <img src="/images/github.svg" alt="GitHub logo" className="social github"/>
-                                </a>
-                                <a className="btn btn-secondary" href="https://x.com/IssunGee" target="_blank">
-                                    <img src="/images/x.svg" alt="X.com logo"className="social x"/>
-                                </a>
-                                <a className="btn btn-secondary" href="https://discord.gg/SWsuNvWnKw" target="_blank">
-                                    <img src="/images/discord.svg" alt="Discord logo" className="social discord"/>
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
