@@ -8,6 +8,7 @@ import { FilterSelectAlphabetical } from '../components/FilterSelectAlphabetical
 import { Category, FilterSelectCategory } from '../components/FilterSelectCategory';
 import { FilterType, FilterTypeSelect } from '../components/FilterTypeSelect';
 import Footer from "../components/Footer";
+import { ScrollToTop } from '../components/ScrollToTop';
 import SearchResults from "../components/SearchResults";
 import { ContributorCount } from '../model/Contributors';
 import { ContributedIcons, Icons, Titles, TotalUniqueVariants } from '../model/Titles';
@@ -136,6 +137,7 @@ const Home = () => {
                     {(filterType != FilterType.contributor || filter) && <SearchResults filterType={filterType as FilterType} filter={filter} />}
                 </div>
             </div>
+            <ScrollToTop elementSelector="h1#browse" />
             <Footer />
         </>
     );
