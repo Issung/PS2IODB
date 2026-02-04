@@ -2,13 +2,15 @@ import { Contributor } from "./Contributor";
 import { Icon } from "./Icon";
 
 /**
- * `undefined` = no animation (whether or not animation files are present).
+ * `undefined` = no animation for any state (whether or not animation files are present).
+ * 
+ * `null` = all state animation files are redundant static animations.
  * 
  * `1` = Atleast one of the icon states has an animation & the icon is using V1 animation data.
  * 
  * `2` = Atleast one of the icon states has an animation & the icon is using V2 animation data.
  **/
-export type AnimationValue = undefined | 1 | 2;
+export type AnimationValue = undefined | null | 1 | 2;
 
 export class Title {
     /**

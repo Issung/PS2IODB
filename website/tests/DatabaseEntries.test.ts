@@ -2,6 +2,23 @@ import fs from 'fs';
 import { Icons } from "../src/model/Titles";
 import { AnimationData } from "../src/model/AnimationData";
 
+/** Check if an animation is static (all frames have identical vertexData) */
+function isStaticAnimation(animData: AnimationData): boolean {
+    if (!animData.frames || animData.frames.length < 2) {
+        return true; // Single frame or no frames = static
+    }
+
+    const firstVertexData = JSON.stringify(animData.frames[0].vertexData);
+
+    for (let i = 1; i < animData.frames.length; i++) {
+        if (JSON.stringify(animData.frames[i].vertexData) !== firstVertexData) {
+            return false; // Found a frame with different vertexData
+        }
+    }
+
+    return true;
+}
+
 // Tests that test the 2 sources of truth, the GameList file and the icon folders, making sure they match up.
 describe("Database Entries Tests", () => 
 {
@@ -183,10 +200,18 @@ describe("Database Entries Tests", () =>
                 const animData: AnimationData = JSON.parse(animContent);
 
                 // In .anim files: undefined = V1, 2 = V2
-                // In Titles.ts: 1 = V1, 2 = V2
+                // In Titles.ts: 1 = V1, 2 = V2, null = static animation
                 const fileVersion = animData.version === undefined ? 1 : animData.version;
 
-                if (icon.animationVersion !== fileVersion) {
+                // Check if animation is static (all frames have identical vertexData)
+                const isStatic = isStaticAnimation(animData);
+
+                if (icon.animationVersion === null) {
+                    // If marked as static in Titles.ts, verify the animation is actually static
+                    if (!isStatic) {
+                        issues.push(`${icon.code}: Titles.ts has null (static), but .anim file has different frames`);
+                    }
+                } else if (icon.animationVersion !== fileVersion) {
                     issues.push(`${icon.code}: Titles.ts has ${icon.animationVersion}, .anim file has ${fileVersion}`);
                 }
             });
@@ -222,13 +247,19 @@ describe("Database Entries Tests", () =>
                 const animData: AnimationData = JSON.parse(animContent);
 
                 // In .anim files: undefined = V1, 2 = V2
-                // In Titles.ts: 1 = V1, 2 = V2
+                // In Titles.ts: 1 = V1, 2 = V2, null = static animation
                 const expectedVersion = animData.version === undefined ? 1 : animData.version;
+                const isStatic = isStaticAnimation(animData);
 
                 if (icon.animationVersion === undefined) {
-                    issues.push(`${iconDirectory}: missing animationVersion, expected ${expectedVersion}`);
+                    issues.push(`${iconDirectory}: missing animationVersion, expected ${isStatic ? 'null (static)' : expectedVersion}`);
+                } else if (icon.animationVersion === null) {
+                    // If marked as static, verify the animation is actually static
+                    if (!isStatic) {
+                        issues.push(`${iconDirectory}: has animationVersion=null (static), but .anim file has different frames`);
+                    }
                 } else if (icon.animationVersion !== expectedVersion) {
-                    issues.push(`${iconDirectory}: has animationVersion=${icon.animationVersion}, expected ${expectedVersion}`);
+                    issues.push(`${iconDirectory}: has animationVersion=${icon.animationVersion}, expected ${isStatic ? 'null (static)' : expectedVersion}`);
                 }
             }
         });

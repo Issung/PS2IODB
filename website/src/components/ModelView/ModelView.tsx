@@ -26,16 +26,22 @@ export interface ModelViewProps {
     /**
      * Whether the ModelView is displayed fullscreen (e.g., on Icon page).
      * When true, modals portal to document.body to escape parent stacking contexts.
-     * When false (default), modals stay within the component bounds.
+     * When false (default), modals stays within the component bounds.
      */
     fullscreen?: boolean;
+
+    /**
+     * Whether this icon has a static animation (animation data exists but all frames are identical).
+     * When true, shows a grey underline on the Animate label with different modal text.
+     */
+    isStaticAnimation?: boolean;
 }
 
 const renderer = new ModelViewRenderer();
 
 const brokenAnimationsPath = `/browse/category/${Category.brokenAnimation}#browse`;
 
-export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fullscreen = false }: ModelViewProps) => {
+export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fullscreen = false, isStaticAnimation = false }: ModelViewProps) => {
     // State for loaded data
     const [iconsys, setIconSys] = useState<IconSys | undefined>(undefined);
     const [loadError, setLoadError] = useState<string | undefined>(undefined);
@@ -240,9 +246,17 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                             <li>
                                 <label>
                                     <span
-                                        className={animationOutdated ? 'animation-warning-label' : undefined}
-                                        title={animationOutdated ? 'Click for info about animation playback' : undefined}
-                                        onClick={!animationOutdated
+                                        className={
+                                            isStaticAnimation ? 'animation-static-label' :
+                                            animationOutdated ? 'animation-warning-label' :
+                                            undefined
+                                        }
+                                        title={
+                                            isStaticAnimation ? 'Click for info about this static animation' :
+                                            animationOutdated ? 'Click for info about animation playback' :
+                                            undefined
+                                        }
+                                        onClick={!(animationOutdated || isStaticAnimation)
                                             ? undefined
                                             : (e) => {
                                                 e.preventDefault();
@@ -415,23 +429,39 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
             {/* Animation version playback information modal */}
             <Modal
                 isOpen={showAnimationModal}
-                title="Animation Playback Notice"
+                title={isStaticAnimation ? "Static Animation" : "Animation Playback Notice"}
                 onClose={() => setShowAnimationModal(false)}
                 portalContainer={portalTarget}
             >
-                <p>
-                    Animation playback for this icon is inaccurate.
-                </p>
-                <br/>
-                <p>
-                    This icon's animation was contributed with an earlier version of the extraction tool
-                    that did not correctly capture all animation properties. To achieve accurate playback the icon assets
-                    need to be re-extracted & re-contributed using the latest version of the <Link to="/extractor">PS2IODB Extractor</Link>.
-                </p>
-                <br/>
-                <p>
-                    To see all icons needing re-contribution go <Link to={brokenAnimationsPath}>here</Link>.
-                </p>
+                {isStaticAnimation ? (
+                    <>
+                        <p>
+                            This icon has animation data, but the animation is static.
+                        </p>
+                        <br/>
+                        <p>
+                            All frames in this icon's animation contain identical vertex data, meaning the model
+                            does not actually show any movement. The database tracks this & this icon will be categorised
+                            as "Static" in the browse interface. Animation controls are still displayed for parity's sake.
+                        </p>
+                    </>
+                ) : (
+                    <>
+                        <p>
+                            Animation playback for this icon is inaccurate.
+                        </p>
+                        <br/>
+                        <p>
+                            This icon's animation was contributed with an earlier version of the extraction tool
+                            that did not correctly capture all animation properties. To achieve accurate playback the icon assets
+                            need to be re-extracted & re-contributed using the latest version of the <Link to="/extractor">PS2IODB Extractor</Link>.
+                        </p>
+                        <br/>
+                        <p>
+                            To see all icons needing re-contribution go <Link to={brokenAnimationsPath}>here</Link>.
+                        </p>
+                    </>
+                )}
             </Modal>
         </div>
     );

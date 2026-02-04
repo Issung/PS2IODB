@@ -199,6 +199,7 @@ const Icon = () => {
                         onDownload={download}
                         downloadStatus={downloadStatus}
                         fullscreen={true}
+                        isStaticAnimation={icon?.animationVersion === null}
                     />
                 </div>
             )}
