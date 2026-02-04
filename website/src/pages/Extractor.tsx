@@ -27,7 +27,7 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
             </div>
             <details className="error-boundary-details">
                 <summary>Error details</summary>
-                <pre>{error.message}</pre>
+                <pre>{error instanceof Error ? error.message : String(error)}</pre>
             </details>
         </div>
     );

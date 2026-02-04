@@ -78,12 +78,12 @@ function findStaticAnimationCodes(): Set<string> {
 
     // Only mark as static if ALL anim files in the directory are static
     const staticCodes = new Set<string>();
-    for (const [code, files] of animFilesByCode) {
+    animFilesByCode.forEach((files, code) => {
         let allStatic = true;
         for (const animFile of files) {
             try {
                 const content = fs.readFileSync(animFile, 'utf-8');
-                const animData: AnimFile = JSON.parse(content);
+                const animData: AnimationData = JSON.parse(content);
 
                 if (!isStaticAnimation(animData)) {
                     allStatic = false;
@@ -98,7 +98,7 @@ function findStaticAnimationCodes(): Set<string> {
         if (allStatic) {
             staticCodes.add(code);
         }
-    }
+    });
 
     return staticCodes;
 }
@@ -114,7 +114,7 @@ function updateTitlesFile(staticCodes: Set<string>, apply: boolean): { changeCou
     let changeCount = 0;
     const unmatchedCodes: string[] = [];
 
-    for (const code of staticCodes) {
+    Array.from(staticCodes).forEach((code) => {
         const escapedCode = escapeRegex(code);
         // Match patterns like: `code`, 1, Contributors.Xxx, 1) or `code`, 1, Contributors.Xxx, 2)
         // The animation value is the last parameter before the closing paren
@@ -143,7 +143,7 @@ function updateTitlesFile(staticCodes: Set<string>, apply: boolean): { changeCou
         if (!matched) {
             unmatchedCodes.push(code);
         }
-    }
+    });
 
     if (apply && changeCount > 0) {
         fs.writeFileSync(TITLES_FILE, titlesContent, 'utf-8');
