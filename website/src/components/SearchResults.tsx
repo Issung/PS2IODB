@@ -13,9 +13,10 @@ import TitleTable from './TitleTable';
 
 const SearchResults = ({ filterType, filter }: SearchResultsProps) => {
     const contributor = Contributors.GetContributorByName(filter);
-    const { titleFilter, iconFilter } = getFilterFuncs(filterType, filter, contributor);
+    const { titleFilter, iconFilter, sortedTitles } = getFilterFuncs(filterType, filter, contributor);
 
-    const titles: Title[] = Titles.filter(titleFilter);
+    // Use pre-sorted titles for search, otherwise filter normally
+    const titles: Title[] = sortedTitles ?? Titles.filter(titleFilter);
 
     const contributorNamePosessive = contributor?.name.endsWith('s') ? `${filter}'` : `${filter}'s`;
     const contributorLinkDomain = contributor?.link ? new URL(contributor.link).host : '';
@@ -62,11 +63,9 @@ type IconFilter = (icon: Icon) => boolean;
 type FilterFuncs = {
     titleFilter: TitleFilter;
     iconFilter?: IconFilter;
+    /** Pre-sorted titles for search results (bypasses normal filtering) */
+    sortedTitles?: Title[];
 };
-
-function unique<T>(value: T, index: number, array: Array<T>) {
-    return array.indexOf(value) === index;
-}
 
 const getAlphabetFilters = (filter: string | undefined): FilterFuncs => {
     if (!filter || filter === 'misc') {
@@ -146,32 +145,168 @@ const getCategoryFilters = (filter: string | undefined): FilterFuncs => {
     }
 };
 
-const getSearchFilters = (filter: string | undefined): FilterFuncs => {
-    const words = SearchKeywordChunker.chunk(filter ?? '');
+/**
+ * Compute a relevance score for a title based on search terms.
+ * Higher scores indicate better matches.
+ */
+const computeSearchScore = (titleName: string, searchTermGroups: string[][], rawSearchTerms: string[]): number => {
+    const titleLower = titleName.toLowerCase();
+    const titleWords = titleLower.split(/[\s:,\-–—.!?''""()\[\]{}\/\\]+/).filter(w => w.length > 0);
 
-    if (words.length === 0) {
-        return { titleFilter: () => false };
-    }
-    else if (words.length === 1) {
-        if (words[0].length <= 2) {
-            return { titleFilter: () => false };
-        }
-        else {
-            return { titleFilter: (t) => t.name.toLowerCase().indexOf(words[0]) >= 0 };
-        }
-    }
-    else {
-        // For multi-keyword search, we need to sort by match count, so we pre-compute
-        const matchedTitles = new Map<Title, number>();
-        for (const title of Titles) {
-            const titleKeywords = title.name.toLowerCase().split(' ').filter(unique);
-            const matchCount = titleKeywords.filter(kw => words.some(w => w === kw)).length;
-            if (matchCount > 0) {
-                matchedTitles.set(title, matchCount);
+    let score = 0;
+    let matchedGroupCount = 0;
+
+    for (let groupIndex = 0; groupIndex < searchTermGroups.length; groupIndex++) {
+        const termGroup = searchTermGroups[groupIndex];
+        const rawTerm = rawSearchTerms[groupIndex];
+        let groupMatched = false;
+        let bestTermScore = 0;
+
+        for (const term of termGroup) {
+            if (term.length === 0) continue;
+
+            let termScore = 0;
+
+            // Check for exact full title match (highest priority)
+            if (titleLower === term) {
+                termScore = Math.max(termScore, 1000);
+            }
+
+            // Check for exact word match within title
+            const exactWordMatch = titleWords.some(w => w === term);
+            if (exactWordMatch) {
+                termScore = Math.max(termScore, 100);
+
+                // Bonus: word appears at the start of the title
+                if (titleLower.startsWith(term)) {
+                    termScore += 50;
+                }
+                // Bonus: first word of multi-word title
+                else if (titleWords[0] === term) {
+                    termScore += 30;
+                }
+            }
+
+            // Check for prefix match (word starts with term)
+            const prefixMatch = titleWords.some(w => w.startsWith(term) && w !== term);
+            if (prefixMatch) {
+                termScore = Math.max(termScore, 60);
+
+                // Bonus: prefix at start of title
+                if (titleLower.startsWith(term)) {
+                    termScore += 25;
+                }
+            }
+
+            // Check for contains match (term appears anywhere in title)
+            if (termScore === 0 && titleLower.includes(term)) {
+                termScore = 20;
+
+                // Slight bonus for longer substring matches
+                termScore += Math.min(term.length, 10);
+            }
+
+            // Bonus for matching the original search term (not a simile variant)
+            if (termScore > 0 && term === rawTerm) {
+                termScore += 5;
+            }
+
+            bestTermScore = Math.max(bestTermScore, termScore);
+            if (termScore > 0) {
+                groupMatched = true;
             }
         }
-        return { titleFilter: (t) => matchedTitles.has(t) };
+
+        score += bestTermScore;
+        if (groupMatched) {
+            matchedGroupCount++;
+        }
     }
+
+    // Bonus for matching multiple search terms
+    if (searchTermGroups.length > 1 && matchedGroupCount > 1) {
+        // Significant bonus for matching all terms
+        if (matchedGroupCount === searchTermGroups.length) {
+            score += 200;
+        }
+        // Smaller bonus for partial multi-term matches
+        else {
+            score += matchedGroupCount * 30;
+        }
+    }
+
+    // Small penalty for very long titles (prefer concise matches)
+    if (titleName.length > 50) {
+        score -= Math.min(10, Math.floor((titleName.length - 50) / 10));
+    }
+
+    return score;
+};
+
+/**
+ * Check if a title matches any of the search term groups.
+ */
+const titleMatchesSearch = (titleName: string, searchTermGroups: string[][]): boolean => {
+    const titleLower = titleName.toLowerCase();
+
+    // A title matches if at least one term from any group matches
+    return searchTermGroups.some(termGroup =>
+        termGroup.some(term => term.length > 0 && titleLower.includes(term))
+    );
+};
+
+const getSearchFilters = (filter: string | undefined): FilterFuncs => {
+    const searchInput = (filter ?? '').trim();
+
+    if (searchInput.length === 0) {
+        return { titleFilter: () => false };
+    }
+
+    // Split input into individual search terms
+    const rawTerms = searchInput
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(word => word.length > 0);
+
+    if (rawTerms.length === 0) {
+        return { titleFilter: () => false };
+    }
+
+    // For very short single-character searches, require at least 2 chars unless it's a number/numeral
+    const singleCharSearch = rawTerms.length === 1 && rawTerms[0].length === 1;
+    const isNumericOrRoman = /^[0-9ivx]+$/i.test(rawTerms[0]);
+    if (singleCharSearch && !isNumericOrRoman) {
+        return { titleFilter: () => false };
+    }
+
+    // Build search term groups (each raw term expands to itself + similes)
+    const searchTermGroups: string[][] = rawTerms.map(term => {
+        const simileGroup = SearchKeywordChunker.similes.find(list => list.includes(term));
+        return simileGroup ? [...simileGroup] : [term];
+    });
+
+    // Pre-compute scores for all matching titles
+    const titleScores = new Map<Title, number>();
+
+    for (const title of Titles) {
+        if (titleMatchesSearch(title.name, searchTermGroups)) {
+            const score = computeSearchScore(title.name, searchTermGroups, rawTerms);
+            if (score > 0) {
+                titleScores.set(title, score);
+            }
+        }
+    }
+
+    // Sort titles by score (descending)
+    const sortedTitles = Array.from(titleScores.entries())
+        .sort((a, b) => b[1] - a[1])
+        .map(entry => entry[0]);
+
+    // Return sorted titles directly - bypasses normal filtering to preserve order
+    return {
+        titleFilter: () => false, // Not used when sortedTitles is provided
+        sortedTitles
+    };
 };
 
 const getContributorFilters = (contributor: Contributor | undefined): FilterFuncs => {
