@@ -2,7 +2,7 @@ import { Contributor } from "./Contributor";
 import { Icon } from "./Icon";
 
 /**
- * `undefined` = no animation for any state (whether or not animation files are present).
+ * `undefined` = no animation file for any state (whether or not animation files are present).
  * 
  * `null` = all state animation files are redundant static animations.
  * 

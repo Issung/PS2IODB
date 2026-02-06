@@ -216,10 +216,7 @@ describe("Database Entries Tests", () =>
                 }
             });
 
-        console.log('Icons -> .anim file version issues:');
-        console.log(issues);
-
-        expect(issues.length, 'All icons with animationVersion should have matching .anim file version.').toBe(0);
+        expect(issues.length, `All icons with animationVersion should have matching .anim file version.\nIssues:\n${issues.join('\n')}`).toBe(0);
     });
 
     test('Icon directories with .anim files should have correct animationVersion in Titles.ts', () => {
@@ -264,9 +261,6 @@ describe("Database Entries Tests", () =>
             }
         });
 
-        console.log('.anim files -> Titles.ts version issues:');
-        console.log(issues);
-
-        expect(issues.length, 'All icon directories with .anim files should have correct animationVersion in Titles.ts.').toBe(0);
+        expect(issues.length, `All icon directories with .anim files should have correct animationVersion in Titles.ts.\nIssues:\n${issues.join('\n')}`).toBe(0);
     });
 });
