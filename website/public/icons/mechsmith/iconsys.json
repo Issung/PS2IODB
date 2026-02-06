@@ -1,0 +1,19 @@
+{
+	"directory":"BISLPS-20031RUNDIM",
+	"title":"ＴＨＥ　ＭＥＣＨＳＭＩＴＨ　ＲＵＮ＝ＤＩＭ",
+	"normal":"Rundim1.ico",
+	"copy":"Rundim2.ico",
+	"delete":"Rundim3.ico",
+	"bgOpacity":32,
+	"bgColTL":"#000000",
+	"bgColTR":"#000000",
+	"bgColBL":"#000080",
+	"bgColBR":"#000080",
+	"light1Dir":[-0.5,-0.5,0.5,0],
+	"light2Dir":[0,0,0.5,0],
+	"light3Dir":[0,0,0,0],
+	"light1Col":[0.699999988079071,0.699999988079071,0.699999988079071,0],
+	"light2Col":[0.8999999761581421,0.8999999761581421,0.8999999761581421,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[0.5,0.5,0.5,0]
+}

@@ -1,0 +1,19 @@
+{
+	"directory":"BISLPM-62261dog000",
+	"title":"犬データ００１ぷれいやさんち のマーブル",
+	"normal":"dog.ico",
+	"copy":"dog.ico",
+	"delete":"dog.ico",
+	"bgOpacity":128,
+	"bgColTL":"#000000",
+	"bgColTR":"#000000",
+	"bgColBL":"#000000",
+	"bgColBR":"#000000",
+	"light1Dir":[0.03800833225250244,-4.025589466094971,-0.003014723304659128,0],
+	"light2Dir":[0,0,0,0],
+	"light3Dir":[0,0,0,0],
+	"light1Col":[1,1,1,0],
+	"light2Col":[0,0,0,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[0.699999988079071,0.699999988079071,0.699999988079071,0]
+}

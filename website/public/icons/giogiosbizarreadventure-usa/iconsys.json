@@ -1,0 +1,19 @@
+{
+	"directory":"BISLUS-65140GG",
+	"title":"Ｇｏｌｄｅｎ　ＷｉｎｄＳｙｓｔｅｍ　Ｄａｔａ",
+	"normal":"icon00.ico",
+	"copy":"icon00.ico",
+	"delete":"icon00.ico",
+	"bgOpacity":64,
+	"bgColTL":"#ff6820",
+	"bgColTR":"#ffad5b",
+	"bgColBL":"#ffd700",
+	"bgColBR":"#ffff00",
+	"light1Dir":[0,0,0,1],
+	"light2Dir":[0,0,0,1],
+	"light3Dir":[0,0,0,1],
+	"light1Col":[0,0,0,0],
+	"light2Col":[0,0,0,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[0.30000001192092896,0.30000001192092896,0.30000001192092896,1]
+}

@@ -1,0 +1,19 @@
+{
+	"directory":"BISLPM-66205FM5-F01",
+	"title":"ＦＲＯＮＴ　ＭＩＳＳＩＯＮ　５クリアデータ［０１］",
+	"normal":"fm5.ico",
+	"copy":"fm5.ico",
+	"delete":"fm5.ico",
+	"bgOpacity":96,
+	"bgColTL":"#e6e6f3",
+	"bgColTR":"#80808c",
+	"bgColBL":"#80808c",
+	"bgColBR":"#33334c",
+	"light1Dir":[-30,30,30,0],
+	"light2Dir":[0,40,-30,0],
+	"light3Dir":[30,30,30,0],
+	"light1Col":[0.33000001311302185,0.3199999928474426,0.30000001192092896,0],
+	"light2Col":[0.25,0.25,0.20000000298023224,0],
+	"light3Col":[0.5,0.5,0.5,0],
+	"ambiLightCol":[0.5,0.5,0.5,0]
+}
