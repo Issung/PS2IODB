@@ -119,6 +119,9 @@ export function ExtractorHeader({ savesCount, onFilesImport, onExtractAllClick, 
                     <p>
                         The site admin has to add all icons to the index by hand, so well-named (informative an matching existing patterns) help optimise this process.
                     </p>
+                    <p>
+                        If you are re-contributing an icon already on the site, use the existing slug.
+                    </p>
 
                     <p>Look at existing icons on the site for inspiration. Here are some examples:</p>
                     <ul className="slug-examples">
