@@ -87,7 +87,11 @@ const getCategoryFilters = (filter: string | undefined): FilterFuncs => {
         return { titleFilter: () => true };
     }
     else if (index === Category.missing) {
-        return { titleFilter: (t) => !t.icons.some(i => i.code) };
+        const iconFilter: IconFilter = i => !i.code;
+        return {
+            titleFilter: (t) => t.icons.some(iconFilter),
+            iconFilter
+        };
     }
     else if (index === Category.uploaded) {
         const iconFilter: IconFilter = (i) => !!i.code;

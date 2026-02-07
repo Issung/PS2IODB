@@ -23,7 +23,7 @@ const Title = ({
         return <React.Fragment key={title.index}>
             <RowBase 
                 title={title.name}
-                contributed={title.icons.some(i => i.code)}
+                contributed={icons.some(i => i.code)}
                 circle={Trait.MultiIcon}
                 tooltip="This title has multiple icons"
             />
