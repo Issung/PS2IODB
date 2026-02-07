@@ -686,7 +686,7 @@ export class ModelViewRenderer {
                 this.animateV1(elapsedTime);
             }
             else if (this.animData.version === 2) {
-                this.animateV2(elapsedTime);
+                this.animateV2(elapsedTime * this.animData.animSpeed);
             }
             else {
                 console.warn(`Unknown AnimationData version ${this.animData.version}.`);
