@@ -263,4 +263,33 @@ describe("Database Entries Tests", () =>
 
         expect(issues.length, `All icon directories with .anim files should have correct animationVersion in Titles.ts.\nIssues:\n${issues.join('\n')}`).toBe(0);
     });
+
+    test('Icons should not have duplicate contributors', () => {
+        const issues: string[] = [];
+
+        Icons
+            .filter(i => i.contributors.length > 1)
+            .forEach(icon => {
+                const contributorNames = icon.contributors.map(c => c.name);
+                const uniqueNames = new Set(contributorNames);
+
+                if (uniqueNames.size !== contributorNames.length) {
+                    // Find the duplicates
+                    const duplicates = contributorNames.filter((name, index) => contributorNames.indexOf(name) !== index);
+                    const uniqueDuplicates = Array.from(new Set(duplicates));
+
+                    issues.push(
+                        `Icon "${icon.name}" (code: ${icon.code ?? 'undefined'}) has duplicate contributor(s): [${uniqueDuplicates.join(', ')}]. ` +
+                        `Full contributors list: [${contributorNames.join(', ')}]`
+                    );
+                }
+            });
+
+        if (issues.length > 0) {
+            console.log('Icons with duplicate contributors:');
+            issues.forEach(issue => console.log(`  - ${issue}`));
+        }
+
+        expect(issues.length, `No icons should have duplicate contributors.\n\nIssues found:\n${issues.join('\n')}`).toBe(0);
+    });
 });
