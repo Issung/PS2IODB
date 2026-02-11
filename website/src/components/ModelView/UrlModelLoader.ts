@@ -1,6 +1,6 @@
 import { AnimationData } from "../../model/AnimationData";
 import { IconSys } from "../../model/IconSys";
-import { ModelLoader } from "./ModelLoader";
+import { IconState, ModelLoader } from "./ModelLoader";
 import { ResolvedModelAssets } from "./ResolvedModelAssets";
 
 /**
@@ -32,21 +32,33 @@ export class UrlModelLoader implements ModelLoader {
         return this.iconSys;
     }
 
-    getVariants(): string[] {
-        return Array.from(new Set([this.iconSys.normal, this.iconSys.copy, this.iconSys.delete]));
+    getStates(): IconState[] {
+        const allStates: IconState[] = [
+            { stateName: 'Idle', filename: this.iconSys.normal },
+            { stateName: 'Copy', filename: this.iconSys.copy },
+            { stateName: 'Delete', filename: this.iconSys.delete },
+        ];
+        // Return states with unique filenames (keep first occurrence of each filename)
+        const seenFilenames = new Set<string>();
+        return allStates.filter(state => {
+            if (seenFilenames.has(state.filename)) return false;
+            seenFilenames.add(state.filename);
+            return true;
+        });
     }
 
-    getDefaultVariant(): string {
-        return this.iconSys.normal;
+    getDefaultState(): IconState {
+        return { stateName: 'Idle', filename: this.iconSys.normal };
     }
 
-    async loadVariant(variant: string): Promise<ResolvedModelAssets> {
+    async loadState(state: IconState): Promise<ResolvedModelAssets> {
         this.currentAssets?.dispose();
 
         const baseUrl = `/icons/${this.iconcode}`;
-        
+        const icoFilename = state.filename;
+
         // Fetch OBJ content
-        const objResponse = await fetch(`${baseUrl}/${variant}.obj`);
+        const objResponse = await fetch(`${baseUrl}/${icoFilename}.obj`);
         if (!objResponse.ok) {
             throw new Error(`Failed to fetch OBJ file: ${objResponse.status}`);
         }
@@ -96,7 +108,7 @@ export class UrlModelLoader implements ModelLoader {
         // Fetch and parse animation data (optional)
         let animContent: AnimationData | undefined;
         try {
-            animContent = await UrlModelLoader.fetchJson<AnimationData>(`${baseUrl}/${variant}.anim`);
+            animContent = await UrlModelLoader.fetchJson<AnimationData>(`${baseUrl}/${icoFilename}.anim`);
         } catch {
             // Animation not available
         }
@@ -108,8 +120,8 @@ export class UrlModelLoader implements ModelLoader {
             textureFilename.replace(/\.[^.]+$/, ''),
             animContent,
             this.iconSys,
-            this.getVariants(),
-            variant,
+            this.getStates(),
+            state,
         );
 
         return this.currentAssets;

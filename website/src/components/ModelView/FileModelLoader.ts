@@ -1,7 +1,7 @@
 import JSZip from "jszip";
 import { AnimationData } from "../../model/AnimationData";
 import { IconSys } from "../../model/IconSys";
-import { ModelLoader } from "./ModelLoader";
+import { IconState, ModelLoader } from "./ModelLoader";
 import { ModelFiles } from "./ModelFiles";
 import { ResolvedModelAssets } from "./ResolvedModelAssets";
 
@@ -77,19 +77,30 @@ export class FileModelLoader implements ModelLoader {
         return this.modelFiles.iconSys;
     }
 
-    getVariants(): string[] {
+    getStates(): IconState[] {
         const iconSys = this.modelFiles.iconSys;
-        return Array.from(new Set([iconSys.normal, iconSys.copy, iconSys.delete]));
+        const allStates: IconState[] = [
+            { stateName: 'Idle', filename: iconSys.normal },
+            { stateName: 'Copy', filename: iconSys.copy },
+            { stateName: 'Delete', filename: iconSys.delete },
+        ];
+        // Return states with unique filenames (keep first occurrence of each filename)
+        const seenFilenames = new Set<string>();
+        return allStates.filter(state => {
+            if (seenFilenames.has(state.filename)) return false;
+            seenFilenames.add(state.filename);
+            return true;
+        });
     }
 
-    getDefaultVariant(): string {
-        return this.modelFiles.iconSys.normal;
+    getDefaultState(): IconState {
+        return { stateName: 'Idle', filename: this.modelFiles.iconSys.normal };
     }
 
-    async loadVariant(variant: string): Promise<ResolvedModelAssets> {
+    async loadState(state: IconState): Promise<ResolvedModelAssets> {
         this.currentAssets?.dispose();
 
-        this.currentAssets = await this.resolveVariant(variant);
+        this.currentAssets = await this.resolveState(state);
         return this.currentAssets;
     }
 
@@ -99,13 +110,14 @@ export class FileModelLoader implements ModelLoader {
     }
 
     /**
-     * Resolves a variant from uploaded files into assets ready for Three.js.
+     * Resolves a state from uploaded files into assets ready for Three.js.
      * Reads file references from OBJ/MTL content to find the correct files.
      */
-    private async resolveVariant(variant: string): Promise<ResolvedModelAssets> {
+    private async resolveState(state: IconState): Promise<ResolvedModelAssets> {
         const { iconSys } = this.modelFiles;
-        const objFilename = `${variant}.obj`;
-        const animFilename = `${variant}.anim`;
+        const icoFilename = state.filename;
+        const objFilename = `${icoFilename}.obj`;
+        const animFilename = `${icoFilename}.anim`;
 
         // 1. Load and parse OBJ file
         const objBlob = this.requireFile(objFilename, 'OBJ file');
@@ -157,8 +169,8 @@ export class FileModelLoader implements ModelLoader {
             textureFilename.replace(/\.[^.]+$/, ''),
             animContent,
             iconSys,
-            this.getVariants(),
-            variant,
+            this.getStates(),
+            state,
         );
     }
 

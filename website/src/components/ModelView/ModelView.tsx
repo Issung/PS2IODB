@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { IconSys } from '../../model/IconSys';
 import { Utils } from "../../utils/Utils";
 import { Modal } from "../Modal";
-import { ModelLoader, ResolvedModelAssets } from "./ModelLoader";
+import { IconState, ModelLoader, ResolvedModelAssets } from "./ModelLoader";
 import './ModelView.scss';
 import { BackgroundType, BaseType, MeshType, TextureType } from "./ModelViewParams";
 import { AnimationVersion, ModelViewRenderer } from "./ModelViewRenderer";
@@ -46,7 +46,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
     const [iconsys, setIconSys] = useState<IconSys | undefined>(undefined);
     const [loadError, setLoadError] = useState<string | undefined>(undefined);
     const [resolvedAssets, setResolvedAssets] = useState<ResolvedModelAssets | undefined>(undefined);
-    const [variants, setVariants] = useState<string[]>([]);
+    const [states, setStates] = useState<IconState[]>([]);
 
     // State for model info (from renderer callback)
     const [frameCount, setFrameCount] = useState(0);
@@ -62,14 +62,14 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
     // Animation warning modal state
     const [showAnimationModal, setShowAnimationModal] = useState(false);
 
-    // Track whether next asset load should reset camera (false when switching variants)
+    // Track whether next asset load should reset camera (false when switching states)
     const shouldResetCameraRef = useRef(true);
 
     // Determine the portal target: document.body when fullscreen, local container otherwise
     const portalTarget: HTMLElement = fullscreen ? document.body : document.querySelector('div#model-view')!;
 
     // Control state
-    const [variant, setVariant] = useState<string | undefined>(undefined);
+    const [selectedState, setSelectedState] = useState<IconState | undefined>(undefined);
     const [doAnimation, setDoAnimation] = useState(true);
     const [animationSpeed, setAnimationSpeed] = useState(1);
     const [frame, setFrame] = useState(0);
@@ -111,7 +111,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
         return renderer.dispose;
     }, []);
 
-    // Effect: Initialize loader and load default variant
+    // Effect: Initialize loader and load default state
     useEffect(() => {
         const cancelRef = { cancelled: false };
         setLoadError(undefined);
@@ -124,17 +124,17 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
 
                 // Get metadata from the loader
                 const iconSysData = loader.getIconSys();
-                const variantList = loader.getVariants();
-                const defaultVariant = loader.getDefaultVariant();
+                const stateList = loader.getStates();
+                const defaultState = loader.getDefaultState();
 
                 setIconSys(iconSysData);
-                setVariants(variantList);
-                setVariant(defaultVariant);
+                setStates(stateList);
+                setSelectedState(defaultState);
                 setBackgroundType(iconSysData.bgColBL ? BackgroundType.Icon : BackgroundType.Color);
 
-                // Load the default variant - reset camera on initial load
+                // Load the default state - reset camera on initial load
                 shouldResetCameraRef.current = true;
-                const assets = await loader.loadVariant(defaultVariant);
+                const assets = await loader.loadState(defaultState);
                 if (cancelRef.cancelled) return;
 
                 setResolvedAssets(assets);
@@ -165,33 +165,34 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [resolvedAssets, iconInfoCallback]); // textureType excluded - handled by texture effect
 
-    // Effect: Handle variant changes (after initial load)
+    // Effect: Handle state changes (after initial load)
     useEffect(() => {
-        if (!variant || !resolvedAssets) return;
+        if (!selectedState || !resolvedAssets) return;
 
-        // Skip if this is the current variant (already loaded)
-        if (variant === resolvedAssets.currentVariant) return;
+        // Skip if this is the current state (already loaded)
+        const currentState = resolvedAssets.currentState;
+        if (selectedState.stateName === currentState.stateName && selectedState.filename === currentState.filename) return;
 
         const cancelRef = { cancelled: false };
 
         (async () => {
             try {
-                const assets = await loader.loadVariant(variant);
+                const assets = await loader.loadState(selectedState);
                 if (cancelRef.cancelled) return;
 
-                // Don't reset camera when switching variants
+                // Don't reset camera when switching states
                 shouldResetCameraRef.current = false;
                 setResolvedAssets(assets);
             } catch (e) {
                 if (cancelRef.cancelled) return;
-                console.error('Error switching variant:', e);
+                console.error('Error switching state:', e);
             }
         })();
 
         return () => {
             cancelRef.cancelled = true;
         };
-    }, [loader, variant, resolvedAssets]);
+    }, [loader, selectedState, resolvedAssets]);
 
     // Effect: Handle texture type changes
     useEffect(() => {
@@ -241,6 +242,32 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
 
             {!hideControls && iconsys && (
                 <div className="model-view-controls">
+                    {states.length > 1 && (
+                        <>
+                            <ul>
+                                <li>
+                                    <label>State
+                                        <select
+                                            value={selectedState ? states.findIndex(s => s.stateName === selectedState.stateName) : 0}
+                                            onChange={e => setSelectedState(states[parseInt(e.target.value)])}
+                                            title={selectedState ? `${selectedState.stateName} (${selectedState.filename})` : undefined}
+                                        >
+                                            {states.map((state, idx) => (
+                                                <option
+                                                    value={idx}
+                                                    key={state.stateName}
+                                                    label={state.stateName}
+                                                >
+                                                    {state.stateName} ({state.filename})
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </label>
+                                </li>
+                            </ul>
+                            <hr/>
+                        </>
+                    )}
                     <ul>
                         {frameCount > 0 && (
                             <li>
@@ -316,17 +343,6 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                             <li>
                                 <label>Background Color
                                     <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
-                                </label>
-                            </li>
-                        )}
-                        {variants.length > 1 && (
-                            <li>
-                                <label>Icon Variant
-                                    <select value={variant} onChange={e => setVariant(e.target.value)}>
-                                        {variants.map(val => (
-                                            <option value={val} key={val}>{val}</option>
-                                        ))}
-                                    </select>
                                 </label>
                             </li>
                         )}

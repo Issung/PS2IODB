@@ -2,6 +2,17 @@ import { IconSys } from "../../model/IconSys";
 import { ResolvedModelAssets } from "./ResolvedModelAssets";
 
 /**
+ * Represents a state of an icon (Idle/Copy/Delete).
+ * Each state may reference the same or different .ico file.
+ */
+export interface IconState {
+    /** Display name for the state: "Idle", "Copy", or "Delete" */
+    stateName: 'Idle' | 'Copy' | 'Delete';
+    /** The .ico filename this state uses */
+    filename: string;
+}
+
+/**
  * Interface for loading model data from various sources.
  * Implementations handle the specifics of URL-based vs file-based loading,
  * but present a unified interface to the rest of the application.
@@ -13,20 +24,21 @@ export interface ModelLoader {
     getIconSys(): IconSys;
 
     /**
-     * Get the list of available variants for this model.
+     * Get the list of available states for this model.
+     * Returns states with unique filenames (deduped).
      */
-    getVariants(): string[];
+    getStates(): IconState[];
 
     /**
-     * Get the current/default variant name.
+     * Get the default state (Idle/normal).
      */
-    getDefaultVariant(): string;
+    getDefaultState(): IconState;
 
     /**
-     * Load a specific variant and return the resolved assets.
-     * @param variant The variant name to load (e.g., "icon00.ico")
+     * Load a specific state and return the resolved assets.
+     * @param state The state to load
      */
-    loadVariant(variant: string): Promise<ResolvedModelAssets>;
+    loadState(state: IconState): Promise<ResolvedModelAssets>;
 
     /**
      * Clean up any resources (blob URLs, etc.).

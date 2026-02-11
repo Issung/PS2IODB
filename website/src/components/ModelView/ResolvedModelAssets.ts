@@ -1,5 +1,6 @@
 import { AnimationData } from "../../model/AnimationData";
 import { IconSys } from "../../model/IconSys";
+import { IconState } from "./ModelLoader";
 
 /**
  * Parsed model assets ready for Three.js loading.
@@ -19,10 +20,10 @@ export class ResolvedModelAssets {
         readonly animContent: AnimationData | undefined,
         /** IconSys data */
         readonly iconSys: IconSys,
-        /** Available variants */
-        readonly variants: string[],
-        /** Currently selected variant filename (without extension) */
-        readonly currentVariant: string,
+        /** Available states (with unique filenames) */
+        readonly states: IconState[],
+        /** Currently selected state */
+        readonly currentState: IconState,
     ) {}
 
     /**

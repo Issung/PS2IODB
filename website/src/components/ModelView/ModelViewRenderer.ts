@@ -245,10 +245,10 @@ export class ModelViewRenderer {
      * This is an alternative to loadNewIcon + loadVariant for user-uploaded files.
      * @param assets The resolved model assets
      * @param textureType The texture type to apply (default: Icon)
-     * @param resetCamera Whether to reset camera position (default: true). Set to false when switching variants.
+     * @param resetCamera Whether to reset camera position (default: true). Set to false when switching states.
      */
     public loadFromAssets(assets: ResolvedModelAssets, textureType: TextureType = TextureType.Icon, resetCamera: boolean = true) {
-        console.log(`loadFromAssets: ${assets.currentVariant}, textureType: ${textureType}, resetCamera: ${resetCamera}`);
+        console.log(`loadFromAssets: ${assets.currentState.stateName} (${assets.currentState.filename}), textureType: ${textureType}, resetCamera: ${resetCamera}`);
 
         // Apply lighting from iconSys if available
         this.applyIconSysLighting(assets.iconSys);
