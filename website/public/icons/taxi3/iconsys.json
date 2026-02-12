@@ -1,0 +1,19 @@
+{
+	"directory":"BESLES-51377TAXI3",
+	"title":"ＴＡＸＩ　３",
+	"normal":"taxi.ico",
+	"copy":"taxi.ico",
+	"delete":"taxi.ico",
+	"bgOpacity":0,
+	"bgColTL":"#ffffff",
+	"bgColTR":"#ffffff",
+	"bgColBL":"#ffffff",
+	"bgColBR":"#ffffff",
+	"light1Dir":[0.5,0.5,0.5,0],
+	"light2Dir":[0,-0.4000000059604645,-0.10000000149011612,0],
+	"light3Dir":[-0.5,-0.5,0.5,0],
+	"light1Col":[0.5,0.5,0.5,0],
+	"light2Col":[0.5,0.5,0.5,0],
+	"light3Col":[0.5,0.5,0.5,0],
+	"ambiLightCol":[0.5,0.5,0.5,0]
+}

@@ -1,0 +1,19 @@
+{
+	"directory":"BESLES-52366A10MW00",
+	"title":"Ａｍｅｒｉｃａｓ　１０　Ｍｏｓｔ　Ｗａｎｔｅ ｄ",
+	"normal":"10MW.ico",
+	"copy":"10MW.ico",
+	"delete":"10MW.ico",
+	"bgOpacity":32,
+	"bgColTL":"#ffffff",
+	"bgColTR":"#ffffff",
+	"bgColBL":"#ffffff",
+	"bgColBR":"#ffffff",
+	"light1Dir":[1,0,1,0],
+	"light2Dir":[0,1,0,0],
+	"light3Dir":[0,0,1,0],
+	"light1Col":[1,1,1,0.5],
+	"light2Col":[1,1,1,0.5],
+	"light3Col":[1,1,1,0.5],
+	"ambiLightCol":[1,1,1,1]
+}

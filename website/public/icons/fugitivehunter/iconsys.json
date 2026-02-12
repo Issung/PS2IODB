@@ -1,0 +1,19 @@
+{
+	"directory":"BASLUS-20464FugiH00",
+	"title":"Ｆｕｇｉｔｉｖｅ　Ｈｕｎｔｅｒ",
+	"normal":"FugiHunter.ico",
+	"copy":"FugiHunter.ico",
+	"delete":"FugiHunter.ico",
+	"bgOpacity":32,
+	"bgColTL":"#ffffff",
+	"bgColTR":"#ffffff",
+	"bgColBL":"#ffffff",
+	"bgColBR":"#ffffff",
+	"light1Dir":[1,0,1,0],
+	"light2Dir":[0,1,0,0],
+	"light3Dir":[0,0,1,0],
+	"light1Col":[1,1,1,0.5],
+	"light2Col":[1,1,1,0.5],
+	"light3Col":[1,1,1,0.5],
+	"ambiLightCol":[1,1,1,1]
+}

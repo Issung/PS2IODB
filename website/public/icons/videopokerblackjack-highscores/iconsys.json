@@ -1,0 +1,19 @@
+{
+	"directory":"BESLES-52616VPU000",
+	"title":"ＶＰ　ＵＳＥＲ　１",
+	"normal":"VPU.ico",
+	"copy":"VPU.ico",
+	"delete":"VPU.ico",
+	"bgOpacity":32,
+	"bgColTL":"#ffffff",
+	"bgColTR":"#ffffff",
+	"bgColBL":"#ffffff",
+	"bgColBR":"#ffffff",
+	"light1Dir":[1,0,1,0],
+	"light2Dir":[0,1,0,0],
+	"light3Dir":[0,0,1,0],
+	"light1Col":[1,1,1,0.5],
+	"light2Col":[1,1,1,0.5],
+	"light3Col":[1,1,1,0.5],
+	"ambiLightCol":[1,1,1,1]
+}
