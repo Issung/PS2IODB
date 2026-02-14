@@ -354,3 +354,4 @@ website/build
 website/reports/report.xml
 website/dist
 extractor/icon_exports
+website/dist-standalone
