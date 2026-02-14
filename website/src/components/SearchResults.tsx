@@ -131,7 +131,7 @@ const getCategoryFilters = (filter: string | undefined): FilterFuncs => {
         };
     }
     else if (index === Category.correctAnimation) {
-        const iconFilter: IconFilter = (i) => i.animationVersion === 2;
+        const iconFilter: IconFilter = (i) => !!i.animationVersion && i.animationVersion >= 2;
         return {
             titleFilter: (t) => t.icons.some(iconFilter),
             iconFilter,

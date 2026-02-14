@@ -3,8 +3,11 @@ export class AnimationData
     /**
      * Version 2 has the missing frame key fix from techwritescode https://github.com/Issung/PS2IODB/pull/75/files.
      * We need to differentiate so that v1 anim files (with this field absent) can use the old animation playback code.
+     * 
+     * Version 3 adds shapeId to each animation frame. It is unused in playback code but during the export process the shape id is used to identify which shape
+     * this frame wishes to use. Some icons may use shapes in a non-sequential order or leave some shapes unused. A good example is `Combat Queen`.
      */
-    version: undefined | 2;
+    version: undefined | 2 | 3;
     frameLength!: number;
     /**
      * Animation speed, a factor to multiply the animation's speed by, e.g. `0.5` for half, or `2` for double speed.
@@ -20,6 +23,11 @@ export class AnimationData
 export class AnimationFrame 
 {
     /**
+     * Only present in exports with version >= 3.
+     */
+    shapeId: undefined | number;
+
+    /**
      * Array of keys for this frame of animation.
      */
     keys: AnimationFrameKey[];
@@ -29,8 +37,9 @@ export class AnimationFrame
      */
     vertexData: number[];
 
-    constructor(keys: AnimationFrameKey[], vertexData: number[])
+    constructor(shapeId: number, keys: AnimationFrameKey[], vertexData: number[])
     {
+        this.shapeId = shapeId;
         this.keys = keys;
         this.vertexData = vertexData;
     }

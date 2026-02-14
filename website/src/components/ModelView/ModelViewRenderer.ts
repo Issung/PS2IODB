@@ -685,7 +685,7 @@ export class ModelViewRenderer {
             if (this.animData.version === undefined) {
                 this.animateV1(elapsedTime);
             }
-            else if (this.animData.version === 2) {
+            else if (this.animData.version === 2 || this.animData.version === 3) {
                 this.animateV2(elapsedTime * this.animData.animSpeed);
             }
             else {

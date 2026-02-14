@@ -261,7 +261,7 @@ function convertAnimationData(icon: PS2Icon): AnimationData | undefined {
 
     // JSON stringify outputs properties in the order they were set. Preserve the order from the Python code here.
     const animData = new AnimationData();
-    animData.version = 2;
+    animData.version = 3;
     animData.frameLength = icon.animHeader.frameLength;
     animData.animSpeed = icon.animHeader.animSpeed;
     animData.playOffset = icon.animHeader.playOffset;
@@ -269,6 +269,7 @@ function convertAnimationData(icon: PS2Icon): AnimationData | undefined {
 
     // Python: for frame_index in range(frame_count):
     for (let frameIndex = 0; frameIndex < frameCount; frameIndex++) {
+        const shapeId = icon.frames[frameIndex].shapeId;
         const keys: AnimationFrameKey[] = [];
 
         // Python: for key_index in range(icon.frames[frame_index].key_count):
@@ -286,17 +287,14 @@ function convertAnimationData(icon: PS2Icon): AnimationData | undefined {
         }
 
         // Extract vertex data for this frame
-        // Python: v_from = frame_index * (icon.vertex_count * 3)
-        //         v_to = (frame_index + 1) * (icon.vertex_count * 3)
-        //         frame["vertexData"][i] = frame["vertexData"][i] / MAX_CONST (no coordinate flip!)
         const vertexData: number[] = [];
-        const vFrom = frameIndex * icon.vertexCount * 3;
-        const vTo = (frameIndex + 1) * icon.vertexCount * 3;
+        const vFrom = shapeId * icon.vertexCount * 3;
+        const vTo = (shapeId + 1) * icon.vertexCount * 3;
         for (let i = vFrom; i < vTo; i++) {
             vertexData.push(icon.vertexData[i] / FIXED_POINT_FACTOR);
         }
 
-        animData.frames.push(new ModelAnimationFrame(keys, vertexData));
+        animData.frames.push(new ModelAnimationFrame(shapeId, keys, vertexData));
     }
 
     return animData;

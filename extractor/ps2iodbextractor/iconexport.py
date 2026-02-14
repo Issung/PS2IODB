@@ -117,9 +117,12 @@ def export_variant(path: str, icon_filename: str, icon: Icon):
             "frames": [],
         }
         for frame_index in range(frame_count):
-            frame = { "keys" : [], "vertexData": SingleLineList([]) }
-            v_from = frame_index * (icon.vertex_count * 3)
-            v_to = (frame_index + 1) * (icon.vertex_count * 3)
+            shape_id = icon.frames[frame_index].shape_id
+            frame = { "shapeId": shape_id, "keys" : [], "vertexData": SingleLineList([]), }
+            # Use shape_id to slice vertex data, not frame_index.
+            # The vertex data contains all shapes contiguously, and each frame references a specific shape via shape_id.
+            v_from = shape_id * (icon.vertex_count * 3)
+            v_to = (shape_id + 1) * (icon.vertex_count * 3)
             frame["vertexData"] = SingleLineList(icon.vertex_data[v_from:v_to])
             # Normalise all vertex coords so everything isn't too large (0.0 - 1.0) is ideal.
             for i in range(len(frame["vertexData"])):
