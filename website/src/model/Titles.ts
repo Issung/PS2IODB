@@ -1,5 +1,4 @@
 import { Application } from "./Application";
-import { Contributor } from "./Contributor";
 import { Contributors } from "./Contributors";
 import { Game } from "./Game";
 import { Icon } from "./Icon";

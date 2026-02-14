@@ -9,8 +9,10 @@ import { Icon } from "./Icon";
  * `1` = Atleast one of the icon states has an animation & the icon is using V1 animation data.
  * 
  * `2` = Atleast one of the icon states has an animation & the icon is using V2 animation data.
+ * 
+ * `3` = Atleast one of the icon states has an animation & the icon is using V3 animation data.
  **/
-export type AnimationValue = undefined | null | 1 | 2;
+export type AnimationVersion = undefined | null | 1 | 2 | 3;
 
 export class Title {
     /**
@@ -29,13 +31,13 @@ export class Title {
 
     constructor(name: string);
     constructor(name: string, iconFactory?: (game: Title) => Icon[]);
-    constructor(name: string, code?: string, variantCount?: number, contributor?: Contributor | Contributor[], animation?: AnimationValue);
+    constructor(name: string, code?: string, variantCount?: number, contributor?: Contributor | Contributor[], animation?: AnimationVersion);
     constructor(
         name: string,
         codeOrIconFactory?: string | ((game: Title) => Icon[]),
         variantCount?: number,
         contributor?: Contributor | Contributor[],
-        animation?: AnimationValue
+        animation?: AnimationVersion
     )
     {
         this.name = name;

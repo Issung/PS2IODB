@@ -1,5 +1,5 @@
 import { Contributor } from "./Contributor";
-import { AnimationValue, Title } from "./Title";
+import { AnimationVersion, Title } from "./Title";
 
 /**
  * An icon for a game. Most games have just 1 icon, but some
@@ -11,7 +11,7 @@ export class Icon {
     public code?: string;
     public uniqueStates?: number;
     public contributors: Contributor[];
-    public animationVersion?: AnimationValue;
+    public animationVersion?: AnimationVersion;
 
     /**
      * For use as a key in React rendering, a combination of the title's index in the TitleList, and this icon's index within the title.
@@ -35,7 +35,7 @@ export class Icon {
         code?: string,
         states?: number,
         contributor?: Contributor | Contributor[],
-        animation?: AnimationValue
+        animation?: AnimationVersion
     )
     {
         this.title = game;

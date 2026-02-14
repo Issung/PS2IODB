@@ -1,18 +1,14 @@
-import { AnimationData } from "../../model/AnimationData";
-import { BaseType, MeshType, TextureType } from "./ModelViewParams";
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { TexturedOBJLoader } from "../TexturedOBJLoader";
-import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
-import * as THREE from "three";
 import Stats from 'stats.js';
+import * as THREE from "three";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
+import { AnimationData } from "../../model/AnimationData";
 import { IconSys } from "../../model/IconSys";
+import { AnimationVersion } from "../../model/Title";
 import { Timeline } from "../../utils/Animation";
+import { TexturedOBJLoader } from "../TexturedOBJLoader";
 import { ResolvedModelAssets } from "./ModelLoader";
-
-/** Null means no animation present.
- * The original animation files did not specify version, so `1` indicates absence of the field from the animation JSON.
- **/
-export type AnimationVersion = null | 1 | 2;
+import { BaseType, MeshType, TextureType } from "./ModelViewParams";
 
 /**
  * Callback function for the model renderer report back regarding loaded icon data, e.g. number of frames.

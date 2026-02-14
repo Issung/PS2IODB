@@ -1,17 +1,17 @@
 import { Contributor } from "./Contributor";
 import { Icon } from "./Icon";
-import { AnimationValue, Title } from "./Title";
+import { AnimationVersion, Title } from "./Title";
 
 export class Game extends Title {
     constructor(name: string);
     constructor(name: string, iconFactory?: (game: Title) => Icon[]);
-    constructor(name: string, code?: string, variantCount?: number, contributor?: Contributor | Contributor[], animation?: AnimationValue);
+    constructor(name: string, code?: string, variantCount?: number, contributor?: Contributor | Contributor[], animation?: AnimationVersion);
     constructor(
         name: string,
         codeOrIconFactory?: string | ((game: Title) => Icon[]),
         variantCount?: number,
         contributor?: Contributor | Contributor[],
-        animation?: AnimationValue
+        animation?: AnimationVersion
     ) {
         if (codeOrIconFactory)
         {
