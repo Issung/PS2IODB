@@ -1,9 +1,9 @@
 {
 	"directory":"BASLUS-20138idijdeabg",
 	"title":"Ｒａｙｍａｎ－Ｒｅｖ．　１００％ＲＡＹＭＡＮ　　１５：２７：０４",
-	"normal":"\\EXT\\A.ICO;1",
-	"copy":"\\EXT\\B.ICO;1",
-	"delete":"\\EXT\\C.ICO;1",
+	"normal":"_EXT_A.ICO;1",
+	"copy":"_EXT_B.ICO;1",
+	"delete":"_EXT_C.ICO;1",
 	"bgOpacity":96,
 	"bgColTL":"#800000",
 	"bgColTR":"#008000",
