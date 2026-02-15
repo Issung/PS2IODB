@@ -4,10 +4,11 @@ set -e
 
 BASE_URL="http://localhost:3000/icon"
 
-# Collect newly added files (staged + untracked)
+# Collect newly added and modified files (staged + unstaged + untracked)
 files=$(
   {
-    git diff --cached --name-only --diff-filter=A
+    git diff --cached --name-only --diff-filter=AM
+    git diff --name-only --diff-filter=AM
     git ls-files --others --exclude-standard
   } | sort -u
 )
