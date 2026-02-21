@@ -5,7 +5,9 @@
   "type": "module",
   "dependencies": {
     "@tabler/icons-react": "^3.36.1",
+    "baseline-browser-mapping": "^2.10.0",
     "bootstrap": "^5.3.8",
+    "caniuse-lite": "^1.0.30001770",
     "jszip": "^3.10.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
