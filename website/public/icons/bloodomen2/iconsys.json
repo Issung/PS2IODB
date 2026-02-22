@@ -1,0 +1,19 @@
+{
+	"directory":"BESLES-50772bo200002",
+	"title":"Ｂｌｏｏｄ　Ｏｍｅｎ　２ｐａｒｔｉｄａ　３",
+	"normal":"bo2_icon.icn",
+	"copy":"bo2_icon.icn",
+	"delete":"bo2_icon.icn",
+	"bgOpacity":128,
+	"bgColTL":"#000000",
+	"bgColTR":"#000000",
+	"bgColBL":"#0000ff",
+	"bgColBR":"#0000ff",
+	"light1Dir":[1,0,0,0],
+	"light2Dir":[0,1,0,0],
+	"light3Dir":[0,0,1,0],
+	"light1Col":[0,0,0,0],
+	"light2Col":[0,0,0,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[1,1,1,0]
+}
