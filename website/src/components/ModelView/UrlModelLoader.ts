@@ -1,6 +1,6 @@
 import { AnimationData } from "../../model/AnimationData";
 import { IconSys } from "../../model/IconSys";
-import { IconState, ModelLoader } from "./ModelLoader";
+import { groupStatesByFilename, IconState, ModelLoader } from "./ModelLoader";
 import { ResolvedModelAssets } from "./ResolvedModelAssets";
 
 /**
@@ -33,22 +33,12 @@ export class UrlModelLoader implements ModelLoader {
     }
 
     getStates(): IconState[] {
-        const allStates: IconState[] = [
-            { stateName: 'Idle', filename: this.iconSys.normal },
-            { stateName: 'Copy', filename: this.iconSys.copy },
-            { stateName: 'Delete', filename: this.iconSys.delete },
-        ];
-        // Return states with unique filenames (keep first occurrence of each filename)
-        const seenFilenames = new Set<string>();
-        return allStates.filter(state => {
-            if (seenFilenames.has(state.filename)) return false;
-            seenFilenames.add(state.filename);
-            return true;
-        });
+        return groupStatesByFilename(this.iconSys.normal, this.iconSys.copy, this.iconSys.delete);
     }
 
     getDefaultState(): IconState {
-        return { stateName: 'Idle', filename: this.iconSys.normal };
+        // The first state from groupStatesByFilename is always the Idle state (possibly combined with others)
+        return this.getStates()[0];
     }
 
     async loadState(state: IconState): Promise<ResolvedModelAssets> {

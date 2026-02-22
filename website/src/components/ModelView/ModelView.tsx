@@ -172,7 +172,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
 
         // Skip if this is the current state (already loaded)
         const currentState = resolvedAssets.currentState;
-        if (selectedState.stateName === currentState.stateName && selectedState.filename === currentState.filename) return;
+        if (selectedState.displayLabel === currentState.displayLabel && selectedState.filename === currentState.filename) return;
 
         const cancelRef = { cancelled: false };
 
@@ -249,17 +249,17 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                                 <li>
                                     <label>State
                                         <select
-                                            value={selectedState ? states.findIndex(s => s.stateName === selectedState.stateName) : 0}
+                                            value={selectedState ? states.findIndex(s => s.displayLabel === selectedState.displayLabel) : 0}
                                             onChange={e => setSelectedState(states[parseInt(e.target.value)])}
-                                            title={selectedState ? `${selectedState.stateName} (${selectedState.filename})` : undefined}
+                                            title={selectedState ? `${selectedState.displayLabel} (${selectedState.filename})` : undefined}
                                         >
                                             {states.map((state, idx) => (
                                                 <option
                                                     value={idx}
-                                                    key={state.stateName}
-                                                    label={state.stateName}
+                                                    key={state.displayLabel}
+                                                    label={state.displayLabel}
                                                 >
-                                                    {state.stateName} ({state.filename})
+                                                    {state.displayLabel} ({state.filename})
                                                 </option>
                                             ))}
                                         </select>

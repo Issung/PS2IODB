@@ -244,7 +244,7 @@ export class ModelViewRenderer {
      * @param resetCamera Whether to reset camera position (default: true). Set to false when switching states.
      */
     public loadFromAssets(assets: ResolvedModelAssets, textureType: TextureType = TextureType.Icon, resetCamera: boolean = true) {
-        console.log(`loadFromAssets: ${assets.currentState.stateName} (${assets.currentState.filename}), textureType: ${textureType}, resetCamera: ${resetCamera}`);
+        console.log(`loadFromAssets: ${assets.currentState.displayLabel} (${assets.currentState.filename}), textureType: ${textureType}, resetCamera: ${resetCamera}`);
 
         // Apply lighting from iconSys if available
         this.applyIconSysLighting(assets.iconSys);

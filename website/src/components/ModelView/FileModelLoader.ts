@@ -1,7 +1,7 @@
 import JSZip from "jszip";
 import { AnimationData } from "../../model/AnimationData";
 import { IconSys } from "../../model/IconSys";
-import { IconState, ModelLoader } from "./ModelLoader";
+import { groupStatesByFilename, IconState, ModelLoader } from "./ModelLoader";
 import { ModelFiles } from "./ModelFiles";
 import { ResolvedModelAssets } from "./ResolvedModelAssets";
 
@@ -79,22 +79,12 @@ export class FileModelLoader implements ModelLoader {
 
     getStates(): IconState[] {
         const iconSys = this.modelFiles.iconSys;
-        const allStates: IconState[] = [
-            { stateName: 'Idle', filename: iconSys.normal },
-            { stateName: 'Copy', filename: iconSys.copy },
-            { stateName: 'Delete', filename: iconSys.delete },
-        ];
-        // Return states with unique filenames (keep first occurrence of each filename)
-        const seenFilenames = new Set<string>();
-        return allStates.filter(state => {
-            if (seenFilenames.has(state.filename)) return false;
-            seenFilenames.add(state.filename);
-            return true;
-        });
+        return groupStatesByFilename(iconSys.normal, iconSys.copy, iconSys.delete);
     }
 
     getDefaultState(): IconState {
-        return { stateName: 'Idle', filename: this.modelFiles.iconSys.normal };
+        // The first state from groupStatesByFilename is always the Idle state (possibly combined with others)
+        return this.getStates()[0];
     }
 
     async loadState(state: IconState): Promise<ResolvedModelAssets> {
