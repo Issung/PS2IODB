@@ -27,7 +27,7 @@ const Home = () => {
     const navigate = useNavigate();
     const { filterType, filter } = useParams();
 
-    const titlesWithContributions = Titles.filter(t => t.icons.some(i => i.code)).length;
+    const titlesWithContributions = Titles.filter(t => t.icons?.some(i => i.code)).length;
     const progress = Icons.filter(i => i.code).length / Icons.length;
 
     useEffect(() => {

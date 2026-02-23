@@ -1,12 +1,14 @@
 export enum Trait {
     /** Use for games that have multiple icons. */
     MultiIcon = "multiIcon",
-    /** 
-     * Intended for use by homebrew games. 
+    /**
+     * Intended for use by homebrew games.
      * This will have to be noted on the game records.
      * Will it be displayed as 2 circles for the number + 'H'? Interesting UI question there.
      */
     Homebrew = "homebrew",
+    /** Use for titles that have been verified to have no icons. */
+    NoIcons = "noIcons",
 }
 
 interface RowBaseProps {
@@ -29,8 +31,12 @@ const RowBase = ({title, contributed, code, circle, tooltip}: RowBaseProps) => {
     const circleText = typeof circle == 'number' ? circle.toString() :
         circle === Trait.MultiIcon ? '+' :
         circle === Trait.Homebrew ? 'H':
+        circle === Trait.NoIcons ? '✕' :
         /* Undefined: */ '?';
-    const rowClass = contributed ? "contributed" : "unknown";
+    const rowClass =
+        contributed ? "contributed" :
+        circle === Trait.NoIcons ? "noIcons" :
+        "unknown";
     const classes = `TitleList-Row ${rowClass}`;
     
     //console.log('RowBase');

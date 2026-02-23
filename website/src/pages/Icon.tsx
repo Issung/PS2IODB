@@ -33,7 +33,7 @@ const Icon = () => {
 
     // Load icon metadata from Titles
     useEffect(() => {
-        const foundIcon = Titles.flatMap(g => g.icons).find(i => i.code == iconcode);
+        const foundIcon = Titles.flatMap(g => g.icons ?? []).find(i => i.code == iconcode);
         setIcon(foundIcon);
     }, [iconcode]);
 

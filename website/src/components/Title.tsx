@@ -16,12 +16,12 @@ const Title = ({
     iconsFilter
 }: TitleProps
 ) => {
-    if (title.icons.length > 1)
+    if (title.icons && title.icons.length > 1)
     {
         const icons = iconsFilter ? title.icons.filter(iconsFilter) : title.icons;
 
         return <React.Fragment key={title.index}>
-            <RowBase 
+            <RowBase
                 title={title.name}
                 contributed={icons.some(i => i.code)}
                 circle={Trait.MultiIcon}

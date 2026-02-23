@@ -20,7 +20,12 @@ export class Title {
      */
     public name: string;
 
-    public icons: Icon[];
+    /**
+     * `Icon[]` = The icons for this title.
+     *
+     * `null` = This title has been verified to have no icons. Set to null by using the `iconFactory` lambda.
+     */
+    public icons: Icon[] | null;
 
     /**
      * The index of this game in the overall GameList.
@@ -30,11 +35,11 @@ export class Title {
     public index: string = '';
 
     constructor(name: string);
-    constructor(name: string, iconFactory?: (game: Title) => Icon[]);
+    constructor(name: string, iconFactory?: (game: Title) => Icon[] | null);
     constructor(name: string, code?: string, variantCount?: number, contributor?: Contributor | Contributor[], animation?: AnimationVersion);
     constructor(
         name: string,
-        codeOrIconFactory?: string | ((game: Title) => Icon[]),
+        codeOrIconFactory?: string | ((game: Title) => Icon[] | null),
         variantCount?: number,
         contributor?: Contributor | Contributor[],
         animation?: AnimationVersion
@@ -42,7 +47,7 @@ export class Title {
     {
         this.name = name;
         this.icons = [];
-        
+
         if (codeOrIconFactory)
         {
             if (typeof codeOrIconFactory == 'string')

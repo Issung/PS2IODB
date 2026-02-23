@@ -1,4 +1,4 @@
-import { IconBox, IconCircleNumber1, IconCircleNumber2, IconCircleNumber3, IconCirclePlus, IconCircles, IconCirclesFilled, IconDeviceGamepad2, IconFileBroken, IconHelpOctagon, IconPlayerPause, IconPlayerPlay, IconFileCheck } from '@tabler/icons-react';
+import { IconBox, IconCircleNumber1, IconCircleNumber2, IconCircleNumber3, IconCirclePlus, IconCircles, IconCirclesFilled, IconCircleX, IconDeviceGamepad2, IconFileBroken, IconHelpOctagon, IconPlayerPause, IconPlayerPlay, IconFileCheck } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { Select, SelectItem } from './Select';
 
@@ -10,6 +10,7 @@ export enum Category {
     states2 = "states2",
     states3 = "states3",
     missing = "missing",
+    noIcons = "noIcons",
     games = "games",
     applications = "applications",
     animated = "animated",
@@ -32,6 +33,7 @@ const categories = [
     new SelectItem(Category.states2, '2 States', 'Icons with 2 unique states', <IconCircleNumber2/>),
     new SelectItem(Category.states3, '3 States', 'Icons with 3 unique states', <IconCircleNumber3/>),
     new SelectItem(Category.missing, 'Missing', 'Titles that haven\'t yet been uploaded', <IconHelpOctagon/>),
+    new SelectItem(Category.noIcons, 'No Icons', 'Titles verified to have no icons', <IconCircleX/>),
     new SelectItem(Category.games, 'Games', 'Game titles', <IconDeviceGamepad2/>),
     new SelectItem(Category.applications, 'Applications', 'Applications', <IconBox/>),
     new SelectItem(Category.animated, 'Animated', 'Icons with animation', <IconPlayerPlay/>),

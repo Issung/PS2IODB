@@ -4,11 +4,11 @@ import { AnimationVersion, Title } from "./Title";
 
 export class Application extends Title {
     constructor(name: string);
-    constructor(name: string, iconFactory?: (game: Title) => Icon[]);
+    constructor(name: string, iconFactory?: (game: Title) => Icon[] | null);
     constructor(name: string, code?: string, variantCount?: number, contributor?: Contributor | Contributor[], animation?: AnimationVersion);
     constructor(
         name: string,
-        codeOrIconFactory?: string | ((game: Title) => Icon[]),
+        codeOrIconFactory?: string | ((game: Title) => Icon[] | null),
         variantCount?: number,
         contributor?: Contributor | Contributor[],
         animation?: AnimationVersion

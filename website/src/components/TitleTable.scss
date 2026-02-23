@@ -49,6 +49,13 @@
                 font-size: 22px;
                 line-height: 21px;
             }
+
+            &.noIcons {
+                background-color: #2a2a2a;
+                color: #707070;
+                font-size: 14px;
+                line-height: 22px;
+            }
         }
 
         &.contributed {
@@ -71,6 +78,18 @@
             .circle {
                 background-color: #454545;
                 color: #afafaf;
+            }
+        }
+
+        &.noIcons {
+            .circle {
+                background-color: #313131;
+                color: #505050;
+                padding-top: 1px;
+            }
+
+            h6 {
+                color: #313131;
             }
         }
     }

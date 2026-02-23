@@ -13,7 +13,7 @@ import TitleTable from './TitleTable';
 
 const SearchResults = ({ filterType, filter }: SearchResultsProps) => {
     const contributor = Contributors.GetContributorByName(filter);
-    const { titleFilter, iconFilter, sortedTitles } = getFilterFuncs(filterType, filter, contributor);
+    const { titleFilter, iconFilter, sortedTitles, hideCounts } = getFilterFuncs(filterType, filter, contributor);
 
     // Use pre-sorted titles for search, otherwise filter normally
     const titles: Title[] = sortedTitles ?? Titles.filter(titleFilter);
@@ -21,8 +21,8 @@ const SearchResults = ({ filterType, filter }: SearchResultsProps) => {
     const contributorNamePosessive = contributor?.name.endsWith('s') ? `${filter}'` : `${filter}'s`;
     const contributorLinkDomain = contributor?.link ? new URL(contributor.link).host : '';
 
-    const icons = titles.flatMap(t => iconFilter ? t.icons.filter(iconFilter) : t.icons);
-    const uniqueStatesTotal = icons.reduce((sum, icon) => sum + (icon.uniqueStates ?? 0), 0);
+    const icons = titles.flatMap(t => t.icons ? (iconFilter ? t.icons.filter(iconFilter) : t.icons) : []);
+    const uniqueStatesTotal = icons.reduce((sum, icon) => sum + (icon?.uniqueStates ?? 0), 0);
 
     return (
     <>
@@ -36,7 +36,7 @@ const SearchResults = ({ filterType, filter }: SearchResultsProps) => {
                     : (titles.length === 0 ? 'No Results.' : `${titles.length} Titles`)
                 }
             </h3>
-            <h6 style={{fontWeight: 300}}>{titles.length === 0 ? '' : `${icons.length} icons, ${uniqueStatesTotal} unique states`}</h6>
+            {!hideCounts && <h6 style={{fontWeight: 300}}>{titles.length === 0 ? '' : `${icons.length} icons, ${uniqueStatesTotal} unique states`}</h6>}
         </span>
         <TitleTable titles={titles} iconsFilter={iconFilter} />
     </>)
@@ -65,6 +65,7 @@ type FilterFuncs = {
     iconFilter?: IconFilter;
     /** Pre-sorted titles for search results (bypasses normal filtering) */
     sortedTitles?: Title[];
+    hideCounts?: boolean;
 };
 
 const getAlphabetFilters = (filter: string | undefined): FilterFuncs => {
@@ -89,19 +90,22 @@ const getCategoryFilters = (filter: string | undefined): FilterFuncs => {
     else if (index === Category.missing) {
         const iconFilter: IconFilter = i => !i.code;
         return {
-            titleFilter: (t) => t.icons.some(iconFilter),
+            titleFilter: (t) => t.icons?.some(iconFilter) ?? false,
             iconFilter
         };
     }
     else if (index === Category.uploaded) {
         const iconFilter: IconFilter = (i) => !!i.code;
         return {
-            titleFilter: (t) => t.icons.some(iconFilter),
+            titleFilter: (t) => t.icons?.some(iconFilter) ?? false,
             iconFilter,
         };
     }
     else if (index === Category.multipleIcons) {
-        return { titleFilter: (t) => t.icons.length > 1 };
+        return { titleFilter: (t) => (t.icons?.length ?? 0) > 1 };
+    }
+    else if (index === Category.noIcons) {
+        return { titleFilter: (t) => t.icons === null, hideCounts: true };
     }
     else if (index === Category.games) {
         return { titleFilter: (t) => t instanceof Game };
@@ -112,28 +116,28 @@ const getCategoryFilters = (filter: string | undefined): FilterFuncs => {
     else if (index === Category.animated) {
         const iconFilter: IconFilter = (i) => !!i.animationVersion;
         return {
-            titleFilter: (t) => t.icons.some(iconFilter),
+            titleFilter: (t) => t.icons?.some(iconFilter) ?? false,
             iconFilter,
         };
     }
     else if (index === Category.static) {
         const iconFilter: IconFilter = (i) => !!i.code && !i.animationVersion;
         return {
-            titleFilter: (t) => t.icons.some(iconFilter),
+            titleFilter: (t) => t.icons?.some(iconFilter) ?? false,
             iconFilter,
         };
     }
     else if (index === Category.brokenAnimation) {
         const iconFilter: IconFilter = (i) => i.animationVersion === 1;
         return {
-            titleFilter: (t) => t.icons.some(iconFilter),
+            titleFilter: (t) => t.icons?.some(iconFilter) ?? false,
             iconFilter,
         };
     }
     else if (index === Category.correctAnimation) {
         const iconFilter: IconFilter = (i) => !!i.animationVersion && i.animationVersion >= 2;
         return {
-            titleFilter: (t) => t.icons.some(iconFilter),
+            titleFilter: (t) => t.icons?.some(iconFilter) ?? false,
             iconFilter,
         };
     }
@@ -143,7 +147,7 @@ const getCategoryFilters = (filter: string | undefined): FilterFuncs => {
         const number = parseInt(lastChar);
         const iconFilter: IconFilter = (i) => i.uniqueStates === number;
         return {
-            titleFilter: (t) => t.icons.some(iconFilter),
+            titleFilter: (t) => t.icons?.some(iconFilter) ?? false,
             iconFilter,
         };
     }
@@ -317,7 +321,7 @@ const getContributorFilters = (contributor: Contributor | undefined): FilterFunc
     if (contributor) {
         const iconFilter: IconFilter = (i) => i.contributors.includes(contributor);
         return {
-            titleFilter: (t) => t.icons.some(iconFilter),
+            titleFilter: (t) => t.icons?.some(iconFilter) ?? false,
             iconFilter,
         };
     }

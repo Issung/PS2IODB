@@ -24,10 +24,10 @@ export const Titles: Title[] = [
     new Game(`18 Wheeler American Pro Trucker`),
     new Game(`18 Wheeler American Pro Trucker`),
     new Game(`187 Ride or Die`, `187rideordie`, 1, Contributors.Cajas),
-    new Game(`1945 I & II The Arcade Games`),   // Does not have a save icon -Cajas
+    new Game(`1945 I & II The Arcade Games`, () => null),
     new Game(`2002 FIFA World Cup`, `2002fifaworldcup`, 1, Contributors.Zwish343, 1),
     new Game(`2003-Toshi Kaimaku – Ganbare Kyuukaiou`, `2003toshikaimaku`, 1, Contributors.Cajas, 1),
-    new Game(`21 Card Games`),  // Does not have a save icon -Cajas
+    new Game(`21 Card Games`, () => null),
     new Game(`24: The Game`, `24thegame`, 1, Contributors.NateTool),
     new Game(`25 to Life`, `25tolife`, 1, Contributors.SqueezedDog),
     new Game(`2nd Super Robot Wars Alpha`, `dai2jisuperrobottaisenalpha`, 1, Contributors.ZupaPat785),
@@ -310,7 +310,7 @@ export const Titles: Title[] = [
     new Game(`Azumi`, `azumi`, 1, Contributors.ZupaPat785),
     new Game(`Azur & Asmar`, `azurandasmar`, 1, Contributors.Cajas),
     new Game(`B-Boy`, `bboy`, 1, Contributors.ItzCookieX, 1),
-    new Game(`Babe`),   // Babe doe not have an icon and instead uses passwords -Cajas.
+    new Game(`Babe`, () => null),
     new Game(`Backyard Baseball`, `backyardbaseball`, 1, Contributors.TheZulaPatrolFan2005, 1),
     new Game(`Backyard Baseball '09`),
     new Game(`Backyard Baseball '10`),
@@ -407,7 +407,7 @@ export const Titles: Title[] = [
     new Game(`The Bigs 2`, `thebigs2`, 1, Contributors.TheZulaPatrolFan2005),
     new Game(`Biker Mice from Mars`, `bikermicefrommars`, 1, Contributors.Zeroman95),
     new Game(`Bikkuri Mouse`, `bikkurimouse`, 1, Contributors.Cajas),
-    new Game(`Bikkuri Mouse Tentou Shiyuudai you Taikenban`),   // Does not have a save according to cajas.
+    new Game(`Bikkuri Mouse Tentou Shiyuudai you Taikenban`, () => null),
     new Game(`Billiards Xciting`, `simple2000seriesvol14thebilliard`, 1, Contributors.ZupaPat785),
     new Game(`Billy the Wizard: Rocket Broomstick Racing`, `billythewizard`, 1, Contributors.Cajas),
     new Game(`Binchou-tan: Shiawasegoyomi`),
@@ -622,7 +622,7 @@ export const Titles: Title[] = [
     new Game(`Charlotte's Web`, `charlottesweb`, 1, Contributors.Zeroman95),
     new Application(`Check-i-TV`),
     new Game(`Cheggers Party Quiz`),
-    new Game(`Chemist Tycoon`), // No save data -Cajas
+    new Game(`Chemist Tycoon`, () => null),
     new Game(`Chenwen no Sangokushi`, `chenwennosangokushi`, 1, Contributors.Cajas),
     new Game(`Cherry Blossom`, `cherryblossom`, 1, Contributors.Cajas),
     new Game(`Chess Challenger`),
@@ -631,7 +631,7 @@ export const Titles: Title[] = [
     new Game(`Choaniki: Sei Naru Protein Densetsu`, `choaniki`, 1, Contributors.Cajas),
     new Game(`Chobits: Chii dake no Hito`, `chobits`, 1, Contributors.Cajas),
     new Game(`Chocolat: Maid Cafe Curio`),
-    new Game(`ChopLifter: Crisis Shield`),
+    //new Game(`ChopLifter: Crisis Shield`),    // Seems to have never released, some places online say it is another name for `Air Ranger 2: Rescue Helicopter`.
     new Game(`ChoroQ`, `choroq`, 1, Contributors.Cajas, 1),
     new Game(`ChoroQ Works`, `choroqworks`, 1, Contributors.ZupaPat785, null),
     new Application(`Chou! Rakushii Internet Tomodachi no Wa`, `choutanoshiiinternettomodachinowa`, 1, Contributors.ZupaPat785),
@@ -1382,12 +1382,12 @@ export const Titles: Title[] = [
         new Icon(g, 'Green Moogle (Unknown Condition)', `finalfantasyfx2-greenmooglejapan`, 1, [Contributors.ItzCookieX, Contributors.Cajas], 2),
     ]),
     //new Game(`Final Fantasy X-2: International + Last Mission`),    // Unknown if this title has any icons specific to it.
-    new Game(`Final Fantasy XI`),                           // No icon, saves are done on external harddrive (says ItzCookieX).
-    new Game(`Final Fantasy XI: Chains of Promathia`),      // No icon, saves are done on external harddrive (says ItzCookieX).
-    new Game(`Final Fantasy XI: Rise of the Zilart`),       // No icon, saves are done on external harddrive (says ItzCookieX).
-    new Game(`Final Fantasy XI: Seekers of Adoulin`),       // No icon, saves are done on external harddrive (says ItzCookieX).
-    new Game(`Final Fantasy XI: Treasures of Aht Urhgan`),  // No icon, saves are done on external harddrive (says ItzCookieX).
-    new Game(`Final Fantasy XI: Wings of the Goddess`),     // No icon, saves are done on external harddrive (says ItzCookieX).
+    new Game(`Final Fantasy XI`, () => null),                           // No icon, saves are done on external harddrive (says ItzCookieX).
+    new Game(`Final Fantasy XI: Chains of Promathia`, () => null),      // No icon, saves are done on external harddrive (says ItzCookieX).
+    new Game(`Final Fantasy XI: Rise of the Zilart`, () => null),       // No icon, saves are done on external harddrive (says ItzCookieX).
+    new Game(`Final Fantasy XI: Seekers of Adoulin`, () => null),       // No icon, saves are done on external harddrive (says ItzCookieX).
+    new Game(`Final Fantasy XI: Treasures of Aht Urhgan`, () => null),  // No icon, saves are done on external harddrive (says ItzCookieX).
+    new Game(`Final Fantasy XI: Wings of the Goddess`, () => null),     // No icon, saves are done on external harddrive (says ItzCookieX).
     new Game(`Final Fantasy XII`, `finalfantasyxii`, 1, Contributors.Cajas),
     new Game(`Final Fantasy XII International Zodiac Job System`, `finalfantasy12zodiacjobsystem`, 1, Contributors.Psiences),
     new Game(`Final Fight: Streetwise`, `finalfightstreetwise`, 3, Contributors.Cajas, 1),
@@ -1804,7 +1804,7 @@ export const Titles: Title[] = [
     new Game(`Gumball 3000`, `gumball3000`, 1, Contributors.ItzCookieX),
     new Game(`Gun`, `gun`, 1, Contributors.Cajas),
     new Game(`Gunbird 1 & 2`, `gunbird12`, 1, Contributors.LanceBoyle),
-    new Game(`Gunbird Special Edition`),    // Does not have a save icon -Cajas
+    new Game(`Gunbird Special Edition`, () => null),
     new Game(`Guncom 2`, `guncom2`, 1, Contributors.Cajas),
     new Game(`Gundam Musou Special`, `gundammusouspecial`, 1, Contributors.Cajas, 1),
     new Game(`Gunfighter II: Revenge of Jesse James`),
@@ -2066,7 +2066,7 @@ export const Titles: Title[] = [
     new Game(`IndyCar Series`, `indycarseries`, 1, Contributors.TheZulaPatrolFan2005, null),
     new Game(`IndyCar Series 2005`, `indycarseries2005`, 1, Contributors.TheZulaPatrolFan2005, null),
     new Game(`Initial D Special Stage`, `initialdspecialstage`, 1, Contributors.Psiences),
-    new Game(`Initial D - Takahashi Ryosuke no Typing Saisoku Riron`),  // No save data -Mkca
+    new Game(`Initial D - Takahashi Ryosuke no Typing Saisoku Riron`, () => null),
     new Game(`Innocent Life: A Futuristic Harvest Moon`, `innocentlife`, 1, Contributors.Cajas),
     new Game(`Inspector Gadget: Mad Robots Invasion`, `inspectorgadgetmadrobotsinvasion`, 1, Contributors.Sebita),
     new Game(`Intellivision Lives!`, `intellivisionlives`, 1, Contributors.Cajas),
@@ -2355,7 +2355,7 @@ export const Titles: Title[] = [
         new Icon(g, `Federation Campaign`, `ghirensambitionzeondokuritsu-federationcampaign`, 1, Contributors.Cajas),
         new Icon(g, `Zeon Campaign`, `ghirensambitionzeondokuritsu-zeoncampaign`, 1, Contributors.Cajas),
     ]),
-    new Application(`Kidou Senshi Gundam: Ghiren no Yabou – Zeon Dokuritsu Sensouden – Kouryaku Shireisho`),    // Does not have a save icon -Cajas
+    new Application(`Kidou Senshi Gundam: Ghiren no Yabou – Zeon Dokuritsu Sensouden – Kouryaku Shireisho`, () => null),
     new Game(`Kidou Senshi Gundam SEED: Rengou vs. Z.A.F.T.`, `kidousenshigundamseedrengouvszaft`, 1, Contributors.SqueezedDog),
     new Game(`Kidou Senshi Gundam SEED Destiny: Generation of C.E.`, `kidousenshigundamseeddestinygenerationofce`, 1, Contributors.SqueezedDog),
     new Game(`Kidou Senshi Gundam SEED Destiny: Rengou vs. Z.A.F.T. II Plus`, `kidousenshigundamseeddestinyrengouvszaftiiplus`, 1, Contributors.Cajas),
@@ -2524,7 +2524,7 @@ export const Titles: Title[] = [
     new Game(`The Legend of Alon D'ar`, `thelegendofalondar`, 1, Contributors.SqueezedDog),
     new Game(`Legend of Camelot`),
     new Game(`Legend of the Dragon`),
-    new Game(`Legend of Herkules`),     // Does not have a save icon -Cajas
+    new Game(`Legend of Herkules`, () => null),
     new Game(`Legend of Kay`, `legendofkay`, 1, Contributors.Cajas),
     new Game(`The Legend of Spyro: A New Beginning`, `spyroanewbeginning`, 1, Contributors.ItzCookieX),
     new Game(`The Legend of Spyro: Dawn of the Dragon`, `spyrodawnofthedragon`, 1, Contributors.ItzCookieX),
@@ -2879,7 +2879,7 @@ export const Titles: Title[] = [
     new Game(`Midway Arcade Treasures 2`, `midwayarcadetreasures2`, 1, Contributors.Sebita),
     new Game(`Midway Arcade Treasures 3`, `midwayarcadetreasures3`, 1, Contributors.Sebita),
     new Game(`Might and Magic: Day of the Destroyer`, `mightandmagicdayofthedestroyer`, 1, Contributors.Mkca, 1),
-    new Game(`Mighty Mulan`),   // Does not have a save icon -Cajas
+    new Game(`Mighty Mulan`, () => null),
     new Game(`Mike Tyson Heavyweight Boxing`),
     new Game(`Mikomai: Towa no Omoi`, `mikomai-towanoomoi`, 3, Contributors.Mkca),
     new Game(`Million God`, `milliongod`, 1, Contributors.Cajas),
@@ -3017,7 +3017,7 @@ export const Titles: Title[] = [
     new Game(`Moujūtsukai to Oujisama`),
     new Game(`Moujūtsukai to Oujisama: Snow Bride`),
     new Game(`Mountain Bike Adrenaline`),
-    new Game(`The Mouse Police`),   // No save data -Cajas
+    new Game(`The Mouse Police`, () => null),
     new Game(`Mouse Trophy`),
     new Game(`Mr. Bean`, `mrbean`, 1, Contributors.Zeroman95),
     new Game(`Mr. Golf`, `mrgolf`, 1, Contributors.SqueezedDog, 1),
@@ -4069,7 +4069,7 @@ export const Titles: Title[] = [
     new Game(`Sega Ages 2500 Series Vol. 23: Sega Memorial Selection`, `segaages2500seriesvol23-segamemorialselection`, 1, Contributors.Jtduckman),
     new Game(`Sega Ages 2500 Series Vol. 24: Last Bronx: Tokyo Bangaichi`, `segaages2500seriesvol24lastbronx`, 1, Contributors.Cajas),
     new Game(`Sega Ages 2500 Series Vol. 25: Gunstar Heroes Treasure Box`, `segaages2500seriesvol25gunstarheroestreasurebox`, 1, Contributors.VideoGameKing),
-    new Game(`Sega Ages 2500 Series Vol. 26: Dynamite Deka`),
+    new Game(`Sega Ages 2500 Series Vol. 26: Dynamite Deka`, () => null),
     new Game(`Sega Ages 2500 Series Vol. 27: Panzer Dragoon`, `segaages2500seriesvol27panzerdragoon`, 3, Contributors.Cajas, 2),
     new Game(`Sega Ages 2500 Series Vol. 28: Tetris Collection`, `segaages2500seriesvol28-tetriscollection`, 1, Contributors.Jtduckman),
     new Game(`Sega Ages 2500 Series Vol. 29: Monster World`, `segaages2500seriesvol29monsterworld`, 1, Contributors.Cajas),
@@ -4432,7 +4432,7 @@ export const Titles: Title[] = [
     new Game(`SOCOM II U.S. Navy SEALs`, `socom2`, 1, Contributors.Sebita),
     new Game(`SOCOM 3 U.S. Navy SEALs`, `socom3`, 1, Contributors.Sebita),
     new Game(`SOCOM U.S. Navy SEALs: Combined Assault`, `socomcombinedassault`, 1, Contributors.Sebita),
-    new Game(`Sokudoku Master`),    // Does not have a save icon -Cajas
+    new Game(`Sokudoku Master`, () => null),
     new Game(`Sol Divide`, `soldivide`, 1, Contributors.Cajas),
     new Game(`Soldier of Fortune: Gold Edition`, `soldieroffortune`, 1, Contributors.Cajas, 1),
     new Game(`Son of The Lion King`),
@@ -4766,7 +4766,7 @@ export const Titles: Title[] = [
     new Game(`Super Robot Wars Z`, `superrobotwarsz`, 1, Contributors.Cajas),
     new Game(`Super Robot Wars Z Special Disc`, `superrobotwarszspecialdisc`, 1, Contributors.Cajas),
     new Game(`Super Rugby League 2`),
-    new Game(`Super Shanghai 2005`),
+    new Game(`Super Shanghai 2005`, () => null),
     new Game(`Super Trucks Racing`, `supertrucksracing`, 1, Contributors.SqueezedDog),
     new Game(`Superbike GP`),
     new Game(`Super-Bikes: Riding Challenge`, `super-bikesridingchallenge`, 1, Contributors.SqueezedDog),
@@ -4871,7 +4871,7 @@ export const Titles: Title[] = [
     new Game(`TearRing Saga Series: Berwick Saga`, `berwicksaga`, 1, Contributors.Cajas),
     new Game(`Technicbeat`, `technicbeat`, 1, Contributors.ItzCookieX, 1),
     new Game(`Technictix`, `technictix`, 1, Contributors.ItzCookieX, 1),
-    new Game(`Tecmo Hit Parade`),   // Does not have a save icon -Cajas
+    new Game(`Tecmo Hit Parade`, () => null),
     new Game(`Teen Titans`, `teentitans`, 1, Contributors.Marc),
     new Game(`Teenage Mutant Ninja Turtles`, `teenagemutantninjaturtles`, 1, Contributors.SqueezedDog),
     new Game(`Teenage Mutant Ninja Turtles 2: Battle Nexus`, `teenagemutantninjaturtles2battlenexus`, 1, Contributors.SqueezedDog, 1),
@@ -5082,7 +5082,7 @@ export const Titles: Title[] = [
     new Game(`The Tousou Highway 2: Road Warrior 2050`),
     new Game(`Towa no Sakura`, `towanosakura`, 1, Contributors.Cajas),
     new Game(`Toy Golf Extreme`),
-    new Game(`The Toys Room`),  // No save data -Cajas
+    new Game(`The Toys Room`, () => null),
     new Game(`Train Kit for A-Ressha de Ikou 2001`),
     new Game(`Train Simulator + Densha de Go! Tokyo Kyuukouhen`, `trainsimulatordenshadegotokyokyuukouhen`, 1, Contributors.ZupaPat785),
     new Game(`Train Simulator: Keisei – Toei – Keikyu`, `trainsimulatorkeiseitoeiasakusakeikyuusen`, 1, Contributors.ZupaPat785),
@@ -5223,7 +5223,7 @@ export const Titles: Title[] = [
     new Game(`Viewtiful Joe 2`, `viewtifuljoe2`, 1, Contributors.Issung),
     new Game(`Viorate no Atelier: Gramnad no Renkinjutsushi 2`, `ateliervioratealchemistofgramnad2`, 2, Contributors.Cajas),
     new Game(`Virtua Cop: Elite Edition`, `virtuacopeliteedition`, 1, Contributors.SqueezedDog),
-    new Game(`Virtua Fighter: 10th Anniversary`),
+    new Game(`Virtua Fighter: 10th Anniversary`, () => null),
     new Game(`Virtua Fighter 4`, g => [
         new Icon(g, `AI Data`, `virtuafighter4-aidata`, 1, Contributors.SqueezedDog),
         new Icon(g, `System Data`, `virtuafighter4-systemdata`, 1, Contributors.Cajas),
@@ -5272,7 +5272,7 @@ export const Titles: Title[] = [
     new Game(`Way of the Samurai 2`, `wayofthesamurai2`, 1, Contributors.VibiLeFleu),
     new Game(`Samurai Kanzenban / Samurai Complete Edition`, `samuraikanzenban`, 1, Contributors.Cajas, 1),
     new Game(`We Love Katamari`, `welovekatamari`, 1, Contributors.Issung),
-    new Game(`The Weakest Link`),   // No save data -Cajas
+    new Game(`The Weakest Link`, () => null),
     new Game(`WeAre*`, `weare`, 1, Contributors.SqueezedDog, 1),
     new Game(`Welcome to Universal Studios Japan`, `welcometouniversaljapan`, 1, Contributors.ZupaPat785),
     new Game(`Wheel of Fortune`, `wheeloffortune`, 1, Contributors.Cajas, 1),
@@ -5533,7 +5533,7 @@ export const Titles: Title[] = [
     new Game(`Xiaolin Showdown`, `xiaolinshowdown`, 1, Contributors.Cajas),
     new Game(`XII Stag`, `xiistag`, 1, Contributors.Cajas),
     new Game(`XIII`, `xiii`, 1, Contributors.Cajas),
-    new Game(`Xtreme Speed`),   // Does not have a save icon -Cajas
+    new Game(`Xtreme Speed`, () => null),
     new Game(`xxxHolic: Watanuki no Izayoi Souwa`, `xxxholic`, 1, Contributors.Cajas, 1),
     new Game(`Xyanide: Resurrection`, `xyanide`, 1, Contributors.Cajas),
     new Game(`Yakiniku Bugyou Bonfire!`),
@@ -5600,8 +5600,8 @@ export const Titles: Title[] = [
     new Game(`Zatch Bell! Mamodo Fury`, `zatchbellmamodofury`, 3, Contributors.Cajas, 2),
     new Game(`Zathura`, `zathura`, 1, Contributors.Cajas),
     new Game(`Zero4 Champ Series: Drift Champ`, `driftchamp`, 1, Contributors.Cajas),
-    new Game(`Zero no Tsukaima - Fantasy Force`),   // Does not have a save icon -Cajas
-    new Game(`Zero no Tsukaima - Fantasy Force 2nd Impact`),    // Does not have a save icon -Cajas
+    new Game(`Zero no Tsukaima - Fantasy Force`, () => null),
+    new Game(`Zero no Tsukaima - Fantasy Force 2nd Impact`, () => null),
     new Game(`Zero no Tsukaima: Maigo no Period to Ikusen no Symphony`, `zeronotsukaimamaigo`, 1, Contributors.Cajas),
     new Game(`Zero no Tsukaima: Muma ga Tsumugu Yokaze no Nocturne`, `zeronotsukaimamuma`, 1, Contributors.Cajas),
     new Game(`Zero no Tsukaima: Shou-akuma to Harukaze no Concerto`, `zeronotsukaimashou-akumatoharukazenoconcerto`, 1, Contributors.SqueezedDog),
@@ -5632,8 +5632,8 @@ export const Titles: Title[] = [
 ];
 
 export const Icons: Icon[] = Titles
-    .filter(g => g.icons.length > 0)
-    .flatMap(g => g.icons);
+    .filter(g => g.icons && g.icons.length > 0)
+    .flatMap(g => g.icons!);
 
 export const ContributedIcons = Icons.filter(i => i.code);
 
@@ -5646,7 +5646,7 @@ export const TotalUniqueVariants: number = Icons
 Titles.forEach((game, gameIndex) => {
     game.index = gameIndex.toString();
 
-    game.icons.forEach((icon, iconIndex) => {
+    game.icons?.forEach((icon, iconIndex) => {
         icon.index = gameIndex + '-' + iconIndex;
     });
 });
