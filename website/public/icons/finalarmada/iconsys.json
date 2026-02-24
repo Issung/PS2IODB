@@ -1,0 +1,19 @@
+{
+	"directory":"BESLES-54467DATA1",
+	"title":"Ｆｉｎａｌ　ＡｒｍａｄａＳｌｏｔ　１　［００：０ ０］",
+	"normal":"facareer.ico",
+	"copy":"facareer.ico",
+	"delete":"facareer.ico",
+	"bgOpacity":96,
+	"bgColTL":"#000040",
+	"bgColTR":"#000040",
+	"bgColBL":"#000040",
+	"bgColBR":"#000040",
+	"light1Dir":[1,0,0,0],
+	"light2Dir":[0,1,0,0],
+	"light3Dir":[0,0,1,0],
+	"light1Col":[0,0,0,0],
+	"light2Col":[0,0,0,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[1,1,1,0]
+}
