@@ -863,9 +863,14 @@ export const Titles: Title[] = [
     new Game(`Dance Party: Club Hits`, `dancepartyclubhits`, 1, Contributors.LanceBoyle),
     new Game(`Dance Party: Pop Hits`, `dancepartypophits`, 1, Contributors.LanceBoyle),
     new Game(`Dance Summit 2001: Bust A Move`, `dancesummit2001`, 1, Contributors.NBForever),
-    new Game(`Dance: UK`),
+    new Game(`Dance: UK`, g => [
+        new Icon(g, `Dance Europe (Non-UK Europe Release)`, `danceeurope`, 3, Contributors.LanceBoyle),
+        new Icon(g, `Dance: UK (United Kingdom Release)`, `danceuk`, 3, Contributors.LanceBoyle),
+        new Icon(g, `All Music Dance! (Italy Release)`, `allmusicdance`, 3, Contributors.LanceBoyle),
+    ]),
     new Game(`Dance: UK eXtra Trax`, `danceukextratrax`, 1, Contributors.LanceBoyle),
-    new Game(`Dance: UK XL Party`, `danceukxl`, 1, Contributors.LanceBoyle),
+    new Game(`Dance: UK XL`, `danceukxl`, 1, Contributors.LanceBoyle),
+    new Game(`Dance: UK XL Party`, `danceukxlparty`, 3, Contributors.LanceBoyle),
     new Game(`Dancing Stage Fever`, g => [
         new Icon(g, `System Data`, `dancingstagefever`, 1, Contributors.ItzCookieX),
         new Icon(g, `Workout Data`, `dancingstagefever-workoutdata`, 1, Contributors.Pm41224),
