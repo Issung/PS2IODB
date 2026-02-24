@@ -871,7 +871,10 @@ export const Titles: Title[] = [
     ]),
     new Game(`Dance: UK eXtra Trax`, `danceukextratrax`, 1, Contributors.LanceBoyle),
     new Game(`Dance: UK XL`, `danceukxl`, 1, Contributors.LanceBoyle),
-    new Game(`Dance: UK XL Party`, `danceukxlparty`, 3, Contributors.LanceBoyle),
+    new Game(`Dance: UK XL Party`, g => [
+        new Icon(g, `Dance: UK XL Party`, `danceukxlparty`, 1, Contributors.LanceBoyle),
+        new Icon(g, `Dance: UK XL Lite`, `danceukxllite`, 1, Contributors.LanceBoyle),
+    ]),
     new Game(`Dancing Stage Fever`, g => [
         new Icon(g, `System Data`, `dancingstagefever`, 1, Contributors.ItzCookieX),
         new Icon(g, `Workout Data`, `dancingstagefever-workoutdata`, 1, Contributors.Pm41224),
