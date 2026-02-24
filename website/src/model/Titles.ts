@@ -2057,7 +2057,7 @@ export const Titles: Title[] = [
     new Game(`IHRA Professional Drag Racing 2005`, `ihraprofessionaldragracing2005`, 1, Contributors.TheZulaPatrolFan2005),
     new Game(`Iinazuke`, `iinazuke`, 1, Contributors.Cajas),
     new Game(`Ikki Tousen: Shining Dragon`, `ikkitousenshiningdragon`, 1, Contributors.Cajas),
-    new Game(`Ikuze! Onsen Takkyuu!!`),
+    new Game(`Ikuze! Onsen Takkyuu!!`, `ikuzeonsentakkyuu`, 1, Contributors.ZupaPat785, 1),
     new Game(`Impossible Mission`, `impossiblemission`, 1, Contributors.Cajas),
     new Game(`In the Groove`, `inthegroove`, 1, Contributors.TheZulaPatrolFan2005, 1),
     new Game(`Inaka Kurashi: Nan no Shima no Monogatari`, `inakakurashi`, 1, Contributors.Cajas),
