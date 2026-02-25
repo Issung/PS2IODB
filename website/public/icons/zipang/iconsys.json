@@ -1,0 +1,19 @@
+{
+	"directory":"BISLPS-25480",
+	"title":"ジパング",
+	"normal":"viewicon.dat",
+	"copy":"viewicon.dat",
+	"delete":"viewicon.dat",
+	"bgOpacity":64,
+	"bgColTL":"#000088",
+	"bgColTR":"#000044",
+	"bgColBL":"#000022",
+	"bgColBR":"#00001c",
+	"light1Dir":[-0.5,0.29999998211860657,-0.29999998211860657,0],
+	"light2Dir":[0.5,0.29999998211860657,0.29999998211860657,0],
+	"light3Dir":[0,0,0,0],
+	"light1Col":[0.5,0.5,0.5,0],
+	"light2Col":[0.5,0.5,0.5,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[0.29999998211860657,0.29999998211860657,0.29999998211860657,0]
+}
