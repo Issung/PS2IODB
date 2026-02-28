@@ -2890,7 +2890,7 @@ export const Titles: Title[] = [
     new Game(`Midnight Club 3: DUB Edition`, `midnightclub3dubedition`, 1, Contributors.Sebita),
     new Game(`Midnight Club 3: DUB Edition Remix`, `midnightclub3dubeditionremix`, 1, Contributors.Sebita),
     new Game(`Midnight Club II`, `midnightclubii`, 1, Contributors.Sebita),
-    new Game(`Midnight Club Street Racing`, `midnightclub`, 3, Contributors.Sebita, 1),
+    new Game(`Midnight Club Street Racing`, `midnightclub`, 3, [Contributors.Sebita, Contributors.Issung], 3),
     new Game(`Midway Arcade Treasures`, `midwayarcadetreasures`, 1, Contributors.Sebita),
     new Game(`Midway Arcade Treasures 2`, `midwayarcadetreasures2`, 1, Contributors.Sebita),
     new Game(`Midway Arcade Treasures 3`, `midwayarcadetreasures3`, 1, Contributors.Sebita),
