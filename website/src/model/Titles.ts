@@ -928,8 +928,10 @@ export const Titles: Title[] = [
     new Game(`Dead Eye Jim`, `deadeyejim`, 1, Contributors.Cajas),
     new Game(`Dead or Alive 2`, `deadoralive2`, 1, Contributors.Cajas),
     new Game(`Dead or Alive 2: Hardcore`, g => [
-        new Icon(g, `Melon`, `deadoralive2hardcore`, 1, Contributors.Sebita),
-        new Icon(g, `Strawberry`, `deadoralive2hardcore-strawberry`, 1, Contributors.Cajas),
+        new Icon(g, `System File (Original Release)`, `deadoralive2hardcore`, 1, Contributors.Sebita),
+        new Icon(g, `System File (Japan)`, `deadoralive2hardcore-jp`, 1, Contributors.Cajas),
+        new Icon(g, `Replay`, `deadoralive2hardcore-replay`, 1, Contributors.Cajas),
+        new Icon(g, `UPS (User Profile System)`, `deadoralive2hardcore-ups`, 1, Contributors.Cajas),
     ]),
     new Game(`Dead To Rights`, `deadtorights`, 1, Contributors.Cajas),
     new Game(`Dead To Rights II`, `deadtorightsii`, 1, Contributors.Cajas),
