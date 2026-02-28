@@ -1,0 +1,19 @@
+{
+	"directory":"BISLPM-55227SEKIREI",
+	"title":"セキレイ～未来か らのおくりもの～",
+	"normal":"ICON.ICO",
+	"copy":"ICON.ICO",
+	"delete":"ICON.ICO",
+	"bgOpacity":48,
+	"bgColTL":"#fbd9e7",
+	"bgColTR":"#fbd9e7",
+	"bgColBL":"#fbd9e7",
+	"bgColBR":"#fbd9e7",
+	"light1Dir":[0,0,0,0],
+	"light2Dir":[0,0,0,0],
+	"light3Dir":[0,0,0,0],
+	"light1Col":[0,0,0,0],
+	"light2Col":[0,0,0,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[0.699999988079071,0.699999988079071,0.699999988079071,0]
+}
