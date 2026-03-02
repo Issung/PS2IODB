@@ -4,11 +4,11 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
 import { AnimationData } from "../../model/AnimationData";
 import { IconSys } from "../../model/IconSys";
-import { AnimationVersion } from "../../model/Title";
 import { Timeline } from "../../utils/Animation";
 import { TexturedOBJLoader } from "../TexturedOBJLoader";
 import { ResolvedModelAssets } from "./ModelLoader";
 import { BaseType, MeshType, TextureType } from "./ModelViewParams";
+import { AnimationVersion } from '../../model/AnimationVersion';
 
 /**
  * Callback function for the model renderer report back regarding loaded icon data, e.g. number of frames.
@@ -238,7 +238,6 @@ export class ModelViewRenderer {
 
     /**
      * Load a model from resolved assets (file-based loading).
-     * This is an alternative to loadNewIcon + loadVariant for user-uploaded files.
      * @param assets The resolved model assets
      * @param textureType The texture type to apply (default: Icon)
      * @param resetCamera Whether to reset camera position (default: true). Set to false when switching states.

@@ -2,7 +2,6 @@ import { IconFlipVertical, IconRotate2, IconX } from '@tabler/icons-react';
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { IconSys } from '../../model/IconSys';
-import { AnimationVersion } from "../../model/Title";
 import { Utils } from "../../utils/Utils";
 import { Category } from "../FilterSelectCategory";
 import { Modal } from "../Modal";
@@ -10,6 +9,7 @@ import { IconState, ModelLoader, ResolvedModelAssets } from "./ModelLoader";
 import './ModelView.scss';
 import { BackgroundType, BaseType, MeshType, TextureType } from "./ModelViewParams";
 import { ModelViewRenderer } from "./ModelViewRenderer";
+import { AnimationVersion } from '../../model/AnimationVersion';
 
 export interface ModelViewProps {
     /** The loader to use for fetching model data. */

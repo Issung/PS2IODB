@@ -2,7 +2,7 @@ import { IconSys } from "../../model/IconSys";
 
 /**
  * Represents a set of uploaded model files.
- * Requires an iconsys.json file which defines the variants and their filenames.
+ * Requires an iconsys.json file which defines the states and their filenames.
  */
 export class ModelFiles {
     constructor(

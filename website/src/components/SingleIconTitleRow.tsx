@@ -12,7 +12,7 @@ const SingleIconTitleRow = ({title: title}: SingleIconTitleRowProps) => {
     const noIcons = icons === null;
     const icon = icons && icons.length > 0 ? icons[0] : undefined;
     const tooltip =
-        contributed ? `This title has 1 icon with ${icon!.uniqueStates} unique state${icon!.uniqueStates! > 1 ? 's' : ''}.` :
+        contributed ? `This title has 1 icon with ${icon!.uniqueStatesCount} unique state${icon!.uniqueStatesCount! > 1 ? 's' : ''}.` :
         noIcons ? "This title has been verified to have no icons." :
         "This title has not yet been contributed.";
 
@@ -20,7 +20,7 @@ const SingleIconTitleRow = ({title: title}: SingleIconTitleRowProps) => {
         <RowBase
             title={title.name}
             contributed={contributed}
-            circle={noIcons ? Trait.NoIcons : icon?.uniqueStates}
+            circle={noIcons ? Trait.NoIcons : icon?.uniqueStatesCount}
             code={icon?.code}
             tooltip={tooltip}
         />

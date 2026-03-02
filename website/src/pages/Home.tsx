@@ -11,7 +11,7 @@ import Footer from "../components/Footer";
 import { ScrollToTop } from '../components/ScrollToTop';
 import SearchResults from "../components/SearchResults";
 import { ContributorCount } from '../model/Contributors';
-import { ContributedIcons, Icons, Titles, TotalUniqueVariants } from '../model/Titles';
+import { ContributedIcons, Icons, Titles, TotalUniqueStates } from '../model/Titles';
 import { SessionStorageKeys } from '../utils/Consts';
 import './Home.scss';
 
@@ -104,7 +104,7 @@ const Home = () => {
                     <div className="row justify-content-center">
                         <p id="progress-paragraph">
                             <b>{titlesWithContributions}</b> of <b>{Titles.length}</b> titles have contributions (<b>{ContributedIcons.length}</b> out of <b>{Icons.length}</b> known icons).<br/>
-                            You are free to view all <b>{TotalUniqueVariants}</b> unique icon states, uploaded by <b>{ContributorCount}</b> different contributors!<br/>
+                            You are free to view all <b>{TotalUniqueStates}</b> unique icon states, uploaded by <b>{ContributorCount}</b> different contributors!<br/>
                             To get to 100% we need support from <i>you</i>! <Link to="/contribute">Learn how.</Link>
                         </p>
                     </div>

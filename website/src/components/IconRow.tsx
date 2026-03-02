@@ -9,14 +9,14 @@ interface IconRowProps {
 const IconRow = ({icon}: IconRowProps) => {
     const contributed = icon?.code !== undefined;
     const tooltip = contributed 
-            ? `This icon has ${icon!.uniqueStates} unique state${icon!.uniqueStates! > 1 ? 's' : ''}.`
+            ? `This icon has ${icon!.uniqueStatesCount} unique state${icon!.uniqueStatesCount! > 1 ? 's' : ''}.`
             : "This icon has not yet been contributed.";
 
     return (
         <RowBase
             title={icon.name}
             contributed={contributed}
-            circle={icon.uniqueStates}
+            circle={icon.uniqueStatesCount}
             code={icon?.code}
             tooltip={tooltip}
         />

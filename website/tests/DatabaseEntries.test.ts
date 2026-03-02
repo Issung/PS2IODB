@@ -29,12 +29,12 @@ describe("Database Entries Tests", () =>
             
             if (icon.code === undefined)
             {
-                expect(icon.uniqueStates, `${icon.name} code is unset, variantCount should be too.`).toBeUndefined();
+                expect(icon.uniqueStatesCount, `${icon.name} code is unset, uniqueStatesCount should be too.`).toBeUndefined();
                 expect(icon.contributors.length, `${icon.name} code is unset, contributors should be empty.`).toBe(0);
             }
             else
             {
-                expect(icon.uniqueStates, `${icon.name} code is set, variantCount should be too.`).toBeDefined();
+                expect(icon.uniqueStatesCount, `${icon.name} code is set, uniqueStatesCount should be too.`).toBeDefined();
                 expect(icon.contributors.length, `${icon.name} code is set, contributors should not be empty.`).toBeGreaterThan(0);
             }
         })
@@ -129,7 +129,7 @@ describe("Database Entries Tests", () =>
             .map((entry) => entry.name);
 
         iconFolders.forEach(folder => {
-            const iconCount = Icons.filter(i => i.code == folder)[0].uniqueStates!;
+            const iconCount = Icons.filter(i => i.code == folder)[0].uniqueStatesCount!;
             let directory = `./public/icons/${folder}`;
             let files = fs.readdirSync(directory, { withFileTypes: true }).map(e => e.name);
             let objFiles = files.filter(file => file.endsWith('.obj'));

@@ -1,18 +1,7 @@
+import { AnimationVersion } from "./AnimationVersion";
 import { Contributor } from "./Contributor";
 import { Icon } from "./Icon";
-
-/**
- * `undefined` = no animation file for any state (whether or not animation files are present).
- * 
- * `null` = all state animation files are redundant static animations.
- * 
- * `1` = Atleast one of the icon states has an animation & the icon is using V1 animation data.
- * 
- * `2` = Atleast one of the icon states has an animation & the icon is using V2 animation data.
- * 
- * `3` = Atleast one of the icon states has an animation & the icon is using V3 animation data.
- **/
-export type AnimationVersion = undefined | null | 1 | 2 | 3;
+import { UniqueStatesCount } from "./UniqueStatesCount";
 
 export class Title {
     /**
@@ -36,11 +25,11 @@ export class Title {
 
     constructor(name: string);
     constructor(name: string, iconFactory?: (game: Title) => Icon[] | null);
-    constructor(name: string, code?: string, variantCount?: number, contributor?: Contributor | Contributor[], animation?: AnimationVersion);
+    constructor(name: string, code?: string, uniqueStatesCount?: number, contributor?: Contributor | Contributor[], animation?: AnimationVersion);
     constructor(
         name: string,
         codeOrIconFactory?: string | ((game: Title) => Icon[] | null),
-        variantCount?: number,
+        uniqueStatesCount?: UniqueStatesCount,
         contributor?: Contributor | Contributor[],
         animation?: AnimationVersion
     )
@@ -52,7 +41,7 @@ export class Title {
         {
             if (typeof codeOrIconFactory == 'string')
             {
-                this.icons = [new Icon(this, name, codeOrIconFactory, variantCount, contributor, animation)];
+                this.icons = [new Icon(this, name, codeOrIconFactory, uniqueStatesCount, contributor, animation)];
             }
             else if (codeOrIconFactory instanceof Function)
             {

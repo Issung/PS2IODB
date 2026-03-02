@@ -22,7 +22,7 @@ const SearchResults = ({ filterType, filter }: SearchResultsProps) => {
     const contributorLinkDomain = contributor?.link ? new URL(contributor.link).host : '';
 
     const icons = titles.flatMap(t => t.icons ? (iconFilter ? t.icons.filter(iconFilter) : t.icons) : []);
-    const uniqueStatesTotal = icons.reduce((sum, icon) => sum + (icon?.uniqueStates ?? 0), 0);
+    const uniqueStatesTotal = icons.reduce((sum, icon) => sum + (icon?.uniqueStatesCount ?? 0), 0);
 
     return (
     <>
@@ -145,7 +145,7 @@ const getCategoryFilters = (filter: string | undefined): FilterFuncs => {
         const indexStr = index.toString();
         const lastChar = indexStr.charAt(index.length - 1);
         const number = parseInt(lastChar);
-        const iconFilter: IconFilter = (i) => i.uniqueStates === number;
+        const iconFilter: IconFilter = (i) => i.uniqueStatesCount === number;
         return {
             titleFilter: (t) => t.icons?.some(iconFilter) ?? false,
             iconFilter,

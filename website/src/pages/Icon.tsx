@@ -79,7 +79,7 @@ const Icon = () => {
     }
 
     async function downloadImpl() {
-        // Fetch iconsys first to get variant names
+        // Fetch iconsys first to get state names
         const iconsysResponse = await fetch(`/icons/${iconcode}/iconsys.json`);
         const iconsysText = await iconsysResponse.text();
         if (!iconsysText.startsWith('{')) {
@@ -87,16 +87,16 @@ const Icon = () => {
         }
         const iconsys = JSON.parse(iconsysText) as IconSys;
 
-        // Get all unique variants
-        const variants = new Set([iconsys.normal, iconsys.copy, iconsys.delete]);
+        // Get all unique states
+        const states = new Set([iconsys.normal, iconsys.copy, iconsys.delete]);
         const files: string[] = [];
 
-        // Assets required for each variant
-        variants.forEach(variant => {
-            files.push(`${variant}.anim`);
-            files.push(`${variant}.mtl`);
-            files.push(`${variant}.obj`);
-            files.push(`${variant}.png`);
+        // Assets required for each state
+        states.forEach(state => {
+            files.push(`${state}.anim`);
+            files.push(`${state}.mtl`);
+            files.push(`${state}.obj`);
+            files.push(`${state}.png`);
         });
         files.push('iconsys.json');
 
