@@ -1,5 +1,5 @@
 import JSZip from "jszip";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ModelLoader } from "../components/ModelView/ModelLoader";
 import { ModelView } from "../components/ModelView/ModelView";
@@ -23,13 +23,69 @@ const Icon = () => {
     const { iconcode } = useParams();
 
     const [icon, setIcon] = useState<IconModel | undefined>();
-    const title = icon ? icon.title!.name == icon.name ? icon.name : `${icon.title!.name} (${icon.name})` : '';
+    const titleName = icon?.title?.name ?? '';
+    const iconName = icon?.name ?? '';
+    const showIconName = icon && iconName !== titleName;
 
     // Download state
     const [downloadStatus, setDownloadStatus] = useState<string>();
 
     // Loader state
     const [loader, setLoader] = useState<ModelLoader | undefined>();
+
+    // Header collapse detection
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const headerRef = useRef<HTMLDivElement>(null);
+    const backRef = useRef<HTMLAnchorElement>(null);
+    const titleRef = useRef<HTMLDivElement>(null);
+    const contributorRef = useRef<HTMLDivElement>(null);
+
+    const checkOverlap = useCallback(() => {
+        if (!headerRef.current || !titleRef.current) return;
+
+        // Temporarily remove collapsed class to measure uncollapsed dimensions
+        const wasCollapsed = headerRef.current.classList.contains('collapsed');
+        if (wasCollapsed) {
+            headerRef.current.classList.remove('collapsed');
+        }
+
+        const headerWidth = headerRef.current.offsetWidth;
+        const backWidth = backRef.current?.offsetWidth ?? 0;
+        const titleWidth = titleRef.current.offsetWidth;
+        const contributorWidth = contributorRef.current?.offsetWidth ?? 0;
+
+        // Restore collapsed class if it was present
+        if (wasCollapsed) {
+            headerRef.current.classList.add('collapsed');
+        }
+
+        // Calculate if elements would overlap when positioned absolutely
+        // Title is centered, so it takes up space from center - half width to center + half width
+        const titleLeft = (headerWidth / 2) - (titleWidth / 2);
+        const titleRight = (headerWidth / 2) + (titleWidth / 2);
+
+        // Check if back button overlaps title, or contributor overlaps title
+        const backOverlaps = backWidth > titleLeft;
+        const contributorOverlaps = (headerWidth - contributorWidth) < titleRight;
+
+        setIsCollapsed(backOverlaps || contributorOverlaps);
+    }, []);
+
+    useEffect(() => {
+        checkOverlap();
+
+        const resizeObserver = new ResizeObserver(checkOverlap);
+        if (headerRef.current) resizeObserver.observe(headerRef.current);
+        if (titleRef.current) resizeObserver.observe(titleRef.current);
+        if (contributorRef.current) resizeObserver.observe(contributorRef.current);
+
+        window.addEventListener('resize', checkOverlap);
+
+        return () => {
+            resizeObserver.disconnect();
+            window.removeEventListener('resize', checkOverlap);
+        };
+    }, [checkOverlap, icon]);
 
     // Load icon metadata from Titles
     useEffect(() => {
@@ -40,9 +96,9 @@ const Icon = () => {
     // Update document title
     useEffect(() => {
         if (icon) {
-            document.title = title;
+            document.title = showIconName ? `${titleName} (${iconName})` : titleName;
         }
-    }, [icon, title]);
+    }, [icon, titleName, iconName, showIconName]);
 
     // Keyboard navigation
     useEffect(() => {
@@ -172,23 +228,33 @@ const Icon = () => {
 
     return (
         <div id="icon">
-            {/* Back link */}
-            <a id="back" href="/" onClick={(e) => { e.preventDefault(); back(); }}>← Home</a>
+            {/* Header with back link, title, and contributor */}
+            <div id="header" ref={headerRef} className={isCollapsed ? 'collapsed' : ''}>
+                {/* Back link */}
+                <a id="back" ref={backRef} href="/" onClick={(e) => { e.preventDefault(); back(); }}>← Home</a>
 
-            {/* Game title and contributor */}
-            <div id="title">
-                {icon ? (
-                    <>
-                        <h5>{title}</h5>
-                        <h6>Contributed by {icon.contributors.map((contributor, index) => (
+                {/* Game title and icon name */}
+                <div id="title" ref={titleRef}>
+                    {icon ? (
+                        <>
+                            <h5><i>{titleName}</i></h5>
+                            {showIconName && <span className="icon-name"><span>Variant;</span> {iconName}</span>}
+                        </>
+                    ) : (
+                        "Game not found."
+                    )}
+                </div>
+
+                {/* Contributor */}
+                {icon && (
+                    <div id="contributor" ref={contributorRef}>
+                        <span>Contributed by {icon.contributors.map((contributor, index) => (
                             <span key={contributor.name}>
                                 {index > 0 && (index === icon.contributors.length - 1 ? ' & ' : ', ')}
                                 <Link to={`/browse/contributor/${contributor.name}#browse`} title={`View all contributions from ${contributor.name}`}>{contributor.name}</Link>
                             </span>
-                        ))}</h6>
-                    </>
-                ) : (
-                    "Game not found."
+                        ))}</span>
+                    </div>
                 )}
             </div>
 

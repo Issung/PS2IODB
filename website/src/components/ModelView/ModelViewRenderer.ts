@@ -503,7 +503,7 @@ export class ModelViewRenderer {
     createStats(): Stats {
         var stats = new Stats();
         stats.dom.style.position = 'fixed';
-        stats.dom.style.top = '0px';
+        stats.dom.style.top = '66px';
         stats.dom.style.right = '0px';
         stats.dom.style.bottom = '';
         stats.dom.style.left = '';
