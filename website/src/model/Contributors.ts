@@ -48,6 +48,7 @@ export class Contributors {
     public static Topaz95 = new Contributor('Topaz95');
     public static Tech = new Contributor('tech', 'https://github.com/techwritescode');
     public static Gdx = new Contributor('GDX', 'https://x.com/GDX_SM');
+    public static _00TECDEC = new Contributor('00TECDEC');
 }
 
 export const ContributorCount = Object.values(Contributors).length;
