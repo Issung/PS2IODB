@@ -17,8 +17,10 @@ export default defineConfig({
     server: {
         // this ensures that the browser opens upon server start
         open: true,
-        // this sets a default port to 3000  
+        // this sets a default port to 3000
         port: 3000,
+        // listen on all interfaces so the dev server is reachable on the local network (e.g. from mobile phone)
+        host: true,
     },
     resolve: {
         alias: {
