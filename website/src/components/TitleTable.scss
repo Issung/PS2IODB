@@ -7,7 +7,7 @@
 
     .TitleList-Row {
         display: grid;
-        grid-template-columns: 34px 100%;
+        grid-template-columns: 34px 1fr;
         padding-top: 5px;
         padding-bottom: 5px;
 
@@ -96,7 +96,7 @@
 
     .icons-grid {
         display: grid;
-        grid-template-columns: 24px 100%; /* Sidebar + Content */
+        grid-template-columns: 24px 1fr; /* Sidebar + Content */
         /*grid-template-rows: repeat(3, auto); /* 3 rows */
         // gap: 1rem;
 
