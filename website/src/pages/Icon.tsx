@@ -1,5 +1,5 @@
 import JSZip from "jszip";
-import { IconDice5 } from "@tabler/icons-react";
+import { IconDice5, IconHome } from "@tabler/icons-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ModelLoader } from "../components/ModelView/ModelLoader";
@@ -233,7 +233,7 @@ const Icon = () => {
             {/* Header with back link, title, and contributor */}
             <div id="header" ref={headerRef} className={isCollapsed ? 'collapsed' : ''}>
                 {/* Back link */}
-                <a id="back" ref={backRef} href="/" onClick={(e) => { e.preventDefault(); back(); }}>← Home</a>
+                <a id="back" ref={backRef} href="/" onClick={(e) => { e.preventDefault(); back(); }}><IconHome size={18} /> Home</a>
 
                 {/* Game title and icon name */}
                 <div id="title" ref={titleRef}>
