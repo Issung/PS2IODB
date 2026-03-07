@@ -1393,7 +1393,7 @@ export const Titles: Title[] = [
     ]),
     new Game(`Final Fantasy X-2: International + Last Mission`, g => [
         new Icon(g, 'Green Moogle (Main Save)', `ffx2-international-mainsave`, 1, [Contributors.ItzCookieX, Contributors.Cajas], 2),
-        new Icon(g, 'Cactuar (Last Mission Save)', `ffx2-international-lastmission`, 1, [Contributors.ItzCookieX, Contributors.Cajas], 2),
+        new Icon(g, 'Cactuar (Last Mission Save)', `ffx2-international-lastmission`, 1, [Contributors.ItzCookieX, Contributors.Cajas], 3),
     ]),
     new Game(`Final Fantasy XI`, () => null),                           // No icon, saves are done on external harddrive (says ItzCookieX).
     new Game(`Final Fantasy XI: Chains of Promathia`, () => null),      // No icon, saves are done on external harddrive (says ItzCookieX).
