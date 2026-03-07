@@ -1,7 +1,8 @@
 .extractor-page {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100vh; // Fallback for older browsers
+    height: 100dvh; // Dynamic viewport height - accounts for mobile browser toolbar
     background: #1a1a2e;
     color: #fff;
 }

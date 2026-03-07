@@ -145,7 +145,8 @@ div#icon {
         top: 0;
         left: 0;
         width: 100vw;
-        height: 100vh;
+        height: 100vh; // Fallback for older browsers
+        height: 100dvh; // Dynamic viewport height - accounts for mobile browser toolbar
         z-index: -1;
     }
 }

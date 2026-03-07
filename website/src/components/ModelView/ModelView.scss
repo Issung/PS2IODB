@@ -217,5 +217,6 @@ div#model-view {
 .enlarged-texture-fullscreen {
     position: fixed !important;
     width: 100vw;
-    height: 100vh;
+    height: 100vh; // Fallback for older browsers
+    height: 100dvh; // Dynamic viewport height - accounts for mobile browser toolbar
 }

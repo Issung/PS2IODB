@@ -20,7 +20,8 @@
     color: #fff;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     width: min(600px, calc(100vw - 2rem));
-    max-height: 90vh;
+    max-height: 90vh; // Fallback for older browsers
+    max-height: 90dvh; // Dynamic viewport height - accounts for mobile browser toolbar
     display: flex;
     flex-direction: column;
     outline: none;
