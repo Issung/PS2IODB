@@ -1390,9 +1390,11 @@ export const Titles: Title[] = [
         new Icon(g, 'PuPu (1st Playthrough)', `finalfantasyfx2-pupu1stplaythrough`, 1, [Contributors.ItzCookieX, Contributors.Cajas], 2),
         new Icon(g, 'Cactuar (New Game+)', `finalfantasyfx2-cactuarnewgameplus`, 1, Contributors.Cajas, 1),
         new Icon(g, 'Moogle (3rd Playthrough)', `finalfantasyfx2-moogle3rdplaythrough`, 1, Contributors.Cajas, 2),
-        new Icon(g, 'Green Moogle (Unknown Condition)', `finalfantasyfx2-greenmooglejapan`, 1, [Contributors.ItzCookieX, Contributors.Cajas], 2),
     ]),
-    //new Game(`Final Fantasy X-2: International + Last Mission`),    // Unknown if this title has any icons specific to it.
+    new Game(`Final Fantasy X-2: International + Last Mission`, g => [
+        new Icon(g, 'Green Moogle (Main Save)', `ffx2-international-mainsave`, 1, [Contributors.ItzCookieX, Contributors.Cajas], 2),
+        new Icon(g, 'Cactuar (Last Mission Save)', `ffx2-international-lastmission`, 1, [Contributors.ItzCookieX, Contributors.Cajas], 2),
+    ]),
     new Game(`Final Fantasy XI`, () => null),                           // No icon, saves are done on external harddrive (says ItzCookieX).
     new Game(`Final Fantasy XI: Chains of Promathia`, () => null),      // No icon, saves are done on external harddrive (says ItzCookieX).
     new Game(`Final Fantasy XI: Rise of the Zilart`, () => null),       // No icon, saves are done on external harddrive (says ItzCookieX).
@@ -4432,7 +4434,7 @@ export const Titles: Title[] = [
     new Game(`Smash Court Tennis Pro Tournament 2`, `smashcourtprotournament2`, 1, Contributors.Cajas, 2),
     new Game(`Smuggler's Run`, `smugglersrun`, 3, Contributors.Jtduckman, 1),
     new Game(`Smuggler's Run 2: Hostile Territory`, `smugglersrun2hostileterritory`, 3, Contributors.TheZulaPatrolFan2005, 1),
-    new Game(`The Sniper 2`),
+    new Game(`Simple 2000 Series Vol. 16: The Sniper 2: Akumu no Juudan`, `thesniper2`, 1, Contributors.Cajas),
     new Game(`SNES Station [Homebrew]`, `snesstation`, 1, Contributors.TheZulaPatrolFan2005),
     new Game(`Snesticle [Homebrew]`, `snesticle`, 1, Contributors.Oddworld2001),
     new Game(`Sniper Assault`, `sniperassault`, 1, Contributors.Zeroman95),
@@ -5165,8 +5167,10 @@ export const Titles: Title[] = [
     new Game(`The Typing of the Dead: Zombie Panic`, `thetypingofthedead-zombiepanic`, 1, Contributors.ZupaPat785),
     new Game(`Typing Renai Hakusho: Boys Be...`, `typingrenaihakushoboysbe`, 3, Contributors.Cajas, 2),
     new Game(`U-Move Super Sports`),
-    new Game(`Uchuujin tte Naani?`, `uchuujinttenani`, 3, Contributors.Cajas, 3),
-    new Game(`Simple 2000 Series Vol. 59: The Uchuujin to Hanasou! Uchuujin tte Naani?`, `uchuujinttenani-simpleseries`, 3, Contributors.Cajas, 3),
+    new Game(`Uchuujin tte Naani?`, g => [
+        new Icon(g, `Original Release`, `uchuujinttenani`, 3, Contributors.Cajas, 3),
+        new Icon(g, `Simple 2000 Series Vol. 59: The Uchuujin to Hanasou! Uchuujin tte Naani?`, `uchuujinttenani-simpleseries`, 3, Contributors.Cajas, 3),
+    ]),
     new Game(`Uchuu Keiji Tamashii: The Space Sheriff Spirits`, `uchuukeijitamashiithespacesheriffspirits`, 1, Contributors.Cajas),
     new Game(`Uchuu no Stellvia`, `uchuunostellvia`, 1, Contributors.Cajas),
     new Game(`Uchuu Senkan Yamato: Ankoku Seidan Teikoku no Gyakushuu`, `spacebattleshipyamatoankokuseidan`, 1, Contributors.Cajas),
