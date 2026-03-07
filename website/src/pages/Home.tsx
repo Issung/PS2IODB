@@ -1,6 +1,6 @@
 import { IconCaretLeft } from '@tabler/icons-react';
 import { useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ContributorList } from '../components/ContributorList';
 import Counter from "../components/Counter";
 import DebouncedTextBox from '../components/DebouncedTextBox';
@@ -26,13 +26,14 @@ const exampleSearches = [
 const Home = () => {
     const navigate = useNavigate();
     const { filterType, filter } = useParams();
+    const location = useLocation();
 
     const titlesWithContributions = Titles.filter(t => t.icons?.some(i => i.code)).length;
     const progress = Icons.filter(i => i.code).length / Icons.length;
 
     useEffect(() => {
-        sessionStorage.setItem(SessionStorageKeys.HasViewedHomePage, "true");
-    }, []);
+        sessionStorage.setItem(SessionStorageKeys.LastHomePageUrl, location.pathname);
+    }, [location.pathname]);
 
     useEffect(() => {
         if (filterType == FilterType.search) {

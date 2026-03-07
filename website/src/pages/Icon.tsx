@@ -1,5 +1,5 @@
-import JSZip from "jszip";
 import { IconDice5, IconHome } from "@tabler/icons-react";
+import JSZip from "jszip";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ModelLoader } from "../components/ModelView/ModelLoader";
@@ -8,18 +8,10 @@ import { UrlModelLoader } from "../components/ModelView/UrlModelLoader";
 import { Icon as IconModel } from "../model/Icon";
 import { IconSys } from "../model/IconSys";
 import { Titles } from "../model/Titles";
-import { navigateToRandomIcon } from "../utils/RandomIcon";
 import { SessionStorageKeys } from '../utils/Consts';
+import { navigateToRandomIcon } from "../utils/RandomIcon";
 import './Icon.scss';
 
-/**
- * This component serves as a page, routed to by App.tsx.
- * It contains a ModelView component that manages its own controls.
- * This page handles:
- * - Navigation (back button, keyboard shortcuts)
- * - Title and contributor display
- * - Download functionality
- */
 const Icon = () => {
     const navigate = useNavigate();
     const { iconcode } = useParams();
@@ -38,7 +30,7 @@ const Icon = () => {
     // Header collapse detection
     const [isCollapsed, setIsCollapsed] = useState(false);
     const headerRef = useRef<HTMLDivElement>(null);
-    const backRef = useRef<HTMLAnchorElement>(null);
+    const homeRef = useRef<HTMLAnchorElement>(null);
     const titleRef = useRef<HTMLDivElement>(null);
     const rightPanelRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +44,7 @@ const Icon = () => {
         }
 
         const headerWidth = headerRef.current.offsetWidth;
-        const backWidth = backRef.current?.offsetWidth ?? 0;
+        const homeWidth = homeRef.current?.offsetWidth ?? 0;
         const titleWidth = titleRef.current.offsetWidth;
         const rightPanelWidth = rightPanelRef.current?.offsetWidth ?? 0;
 
@@ -66,11 +58,11 @@ const Icon = () => {
         const titleLeft = (headerWidth / 2) - (titleWidth / 2);
         const titleRight = (headerWidth / 2) + (titleWidth / 2);
 
-        // Check if back button overlaps title, or right panel overlaps title
-        const backOverlaps = backWidth > titleLeft;
+        // Check if home button overlaps title, or right panel overlaps title
+        const homeOverlaps = homeWidth > titleLeft;
         const rightPanelOverlaps = (headerWidth - rightPanelWidth) < titleRight;
 
-        setIsCollapsed(backOverlaps || rightPanelOverlaps);
+        setIsCollapsed(homeOverlaps || rightPanelOverlaps);
     }, []);
 
     useEffect(() => {
@@ -110,17 +102,14 @@ const Icon = () => {
         };
     }, []);
 
-    function back() {
-        if (sessionStorage.getItem(SessionStorageKeys.HasViewedHomePage) === "true") {
-            navigate(-1);
-        } else {
-            navigate('/');
-        }
+    function home() {
+        const lastHomeUrl = sessionStorage.getItem(SessionStorageKeys.LastHomePageUrl);
+        navigate(lastHomeUrl ?? '/');
     }
 
     function handleKeyDown(event: KeyboardEvent) {
         if (event.key === 'Escape' || event.key == 'Backspace') {
-            back();
+            home();
         }
     }
 
@@ -230,10 +219,10 @@ const Icon = () => {
 
     return (
         <div id="icon">
-            {/* Header with back link, title, and contributor */}
+            {/* Header with Home link, title, and contributor */}
             <div id="header" ref={headerRef} className={isCollapsed ? 'collapsed' : ''}>
-                {/* Back link */}
-                <a id="back" ref={backRef} href="/" onClick={(e) => { e.preventDefault(); back(); }}><IconHome size={18} /> Home</a>
+                {/* Home link */}
+                <a id="home" ref={homeRef} href="/" onClick={(e) => { e.preventDefault(); home(); }}><IconHome size={18} /> Home</a>
 
                 {/* Game title and icon name */}
                 <div id="title" ref={titleRef}>

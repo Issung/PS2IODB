@@ -4,7 +4,7 @@ div#icon {
     #header {
         position: relative;
 
-        a#back {
+        a#home {
             color: white;
             padding: 8px 12px;
             background-color: $bgcolor;
@@ -133,7 +133,7 @@ div#icon {
                 }
             }
 
-            a#back {
+            a#home {
                 order: 3;
                 z-index: 2;
             }
