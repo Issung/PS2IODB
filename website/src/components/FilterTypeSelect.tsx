@@ -1,12 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import { Select, SelectItem } from './Select';
-import { IconSearch, IconSortAZ, IconTag, IconUsers } from '@tabler/icons-react';
+import { IconDice5, IconSearch, IconSortAZ, IconTag, IconUsers } from '@tabler/icons-react';
+import { navigateToRandomIcon } from '../utils/RandomIcon';
 
 export enum FilterType {
     alphabetical = "alphabetical",
     category = "category",
     search = "search",
     contributor = "contributor",
+    random = "random",
 };
 
 export const FilterTypeDefault = FilterType.category;
@@ -20,6 +22,7 @@ const filterTypes = [
     new SelectItem(FilterType.category, 'Category', 'Browse titles by categories', <IconTag/>),
     new SelectItem(FilterType.contributor, 'Contributor', 'Browse contributed titles by contributor', <IconUsers/>),
     new SelectItem(FilterType.search, 'Search', 'Browse titles with text search', <IconSearch/>),
+    new SelectItem(FilterType.random, 'Random', 'View a random contributed icon', <IconDice5/>),
 ];
 
 export const FilterTypeSelect = ({filterType}: IFilterTypeSelectProps) => {
@@ -30,7 +33,13 @@ export const FilterTypeSelect = ({filterType}: IFilterTypeSelectProps) => {
         items={filterTypes}
         defaultKey={FilterTypeDefault}
         selectedKey={filterType}
-        onChange={newFilterType => navigate(`/browse/${newFilterType}`)}
+        onChange={newFilterType => {
+            if (newFilterType === FilterType.random) {
+                navigateToRandomIcon(navigate);
+            } else {
+                navigate(`/browse/${newFilterType}`);
+            }
+        }}
     />
 };
 

@@ -1,4 +1,5 @@
 import JSZip from "jszip";
+import { IconDice5 } from "@tabler/icons-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ModelLoader } from "../components/ModelView/ModelLoader";
@@ -7,6 +8,7 @@ import { UrlModelLoader } from "../components/ModelView/UrlModelLoader";
 import { Icon as IconModel } from "../model/Icon";
 import { IconSys } from "../model/IconSys";
 import { Titles } from "../model/Titles";
+import { navigateToRandomIcon } from "../utils/RandomIcon";
 import { SessionStorageKeys } from '../utils/Consts';
 import './Icon.scss';
 
@@ -38,7 +40,7 @@ const Icon = () => {
     const headerRef = useRef<HTMLDivElement>(null);
     const backRef = useRef<HTMLAnchorElement>(null);
     const titleRef = useRef<HTMLDivElement>(null);
-    const contributorRef = useRef<HTMLDivElement>(null);
+    const rightPanelRef = useRef<HTMLDivElement>(null);
 
     const checkOverlap = useCallback(() => {
         if (!headerRef.current || !titleRef.current) return;
@@ -52,7 +54,7 @@ const Icon = () => {
         const headerWidth = headerRef.current.offsetWidth;
         const backWidth = backRef.current?.offsetWidth ?? 0;
         const titleWidth = titleRef.current.offsetWidth;
-        const contributorWidth = contributorRef.current?.offsetWidth ?? 0;
+        const rightPanelWidth = rightPanelRef.current?.offsetWidth ?? 0;
 
         // Restore collapsed class if it was present
         if (wasCollapsed) {
@@ -64,11 +66,11 @@ const Icon = () => {
         const titleLeft = (headerWidth / 2) - (titleWidth / 2);
         const titleRight = (headerWidth / 2) + (titleWidth / 2);
 
-        // Check if back button overlaps title, or contributor overlaps title
+        // Check if back button overlaps title, or right panel overlaps title
         const backOverlaps = backWidth > titleLeft;
-        const contributorOverlaps = (headerWidth - contributorWidth) < titleRight;
+        const rightPanelOverlaps = (headerWidth - rightPanelWidth) < titleRight;
 
-        setIsCollapsed(backOverlaps || contributorOverlaps);
+        setIsCollapsed(backOverlaps || rightPanelOverlaps);
     }, []);
 
     useEffect(() => {
@@ -77,7 +79,7 @@ const Icon = () => {
         const resizeObserver = new ResizeObserver(checkOverlap);
         if (headerRef.current) resizeObserver.observe(headerRef.current);
         if (titleRef.current) resizeObserver.observe(titleRef.current);
-        if (contributorRef.current) resizeObserver.observe(contributorRef.current);
+        if (rightPanelRef.current) resizeObserver.observe(rightPanelRef.current);
 
         window.addEventListener('resize', checkOverlap);
 
@@ -245,17 +247,22 @@ const Icon = () => {
                     )}
                 </div>
 
-                {/* Contributor */}
-                {icon && (
-                    <div id="contributor" ref={contributorRef}>
-                        <span>Contributed by {icon.contributors.map((contributor, index) => (
-                            <span key={contributor.name}>
-                                {index > 0 && (index === icon.contributors.length - 1 ? ' & ' : ', ')}
-                                <Link to={`/browse/contributor/${contributor.name}#browse`} title={`View all contributions from ${contributor.name}`}>{contributor.name}</Link>
-                            </span>
-                        ))}</span>
-                    </div>
-                )}
+                {/* Right panel: contributor + random button */}
+                <div id="right-panel" ref={rightPanelRef}>
+                    {icon && (
+                        <div id="contributor">
+                            <span>Contributed by {icon.contributors.map((contributor, index) => (
+                                <span key={contributor.name}>
+                                    {index > 0 && (index === icon.contributors.length - 1 ? ' & ' : ', ')}
+                                    <Link to={`/browse/contributor/${contributor.name}#browse`} title={`View all contributions from ${contributor.name}`}>{contributor.name}</Link>
+                                </span>
+                            ))}</span>
+                        </div>
+                    )}
+                    <button id="random-btn" onClick={() => navigateToRandomIcon(navigate)} title="View a random contributed icon">
+                        <IconDice5 size={18} /> Random
+                    </button>
+                </div>
             </div>
 
             {loader && (

@@ -40,24 +40,48 @@ div#icon {
             }
         }
 
-        #contributor {
+        #right-panel {
             position: absolute;
             top: 0px;
             right: 0px;
-            text-align: right;
-            background-color: $bgcolor;
-            padding: 8px 12px;
-            font-size: 0.9em;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
 
-            * {
-                color: white;
+            #contributor {
+                text-align: right;
+                background-color: $bgcolor;
+                padding: 8px 12px;
+                font-size: 0.9em;
+
+                * {
+                    color: white;
+                }
+
+                a {
+                    text-decoration: underline;
+
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
             }
 
-            a {
-                text-decoration: underline;
+            #random-btn {
+                background-color: $bgcolor;
+                color: white;
+                border: none;
+                padding: 8px 12px;
+                margin-top: 6px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 0.9em;
+                font-family: inherit;
 
                 &:hover {
-                    text-decoration: none;
+                    background-color: rgba(0, 0, 0, 0.8);
                 }
             }
         }
@@ -78,14 +102,25 @@ div#icon {
                 box-sizing: border-box;
             }
 
-            #contributor {
+            #right-panel {
                 position: relative;
                 order: 2;
                 width: 100%;
                 box-sizing: border-box;
-                text-align: center;
-                padding-top: 0px;
-                padding-bottom: 4px;
+                align-items: stretch;
+
+                #contributor {
+                    text-align: center;
+                    padding-top: 0px;
+                    padding-bottom: 4px;
+                }
+
+                #random-btn {
+                    position: absolute;
+                    top: 100%;
+                    right: 0;
+                    margin-top: 0;
+                }
             }
 
             a#back {
