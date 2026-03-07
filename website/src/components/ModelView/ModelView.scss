@@ -58,9 +58,9 @@ div#model-view {
             }
 
             &[type="range"] {
-                margin-right: 3px;
                 position: relative;
                 top: 3px;
+                max-width: 99px;
             }
 
             &[type="color"] {
