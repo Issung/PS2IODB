@@ -511,7 +511,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                         {[
                             { label: 'Directory', value: iconsys?.directory },
                             { label: 'Title', value: iconsys?.title },
-                            { label: 'Normal Icon', value: iconsys?.normal },
+                            { label: 'Idle Icon', value: iconsys?.normal },
                             { label: 'Copy Icon', value: iconsys?.copy },
                             { label: 'Delete Icon', value: iconsys?.delete },
                             { label: 'BG Opacity', value: iconsys?.bgOpacity },

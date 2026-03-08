@@ -18,7 +18,6 @@ import { SharkPortImporter } from './SharkPortImporter';
 /**
  * List of all registered save importers.
  * Importers are checked in order, so more specific formats should come first.
- * Note: MAX and SharkPort are stubs - they detect but don't load.
  */
 export const importers: SaveImporter[] = [
     new MemcardImporter(),
