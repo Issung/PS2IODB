@@ -73,11 +73,11 @@ function Extractor() {
     const [isExtractingAll, setIsExtractingAll] = useState(false);
     const contextMenu = useContextMenu();
 
-    const handleDrop = useCallback((e: React.DragEvent) => {
+    const handleDrop = useCallback(async (e: React.DragEvent) => {
         e.preventDefault();
         const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            loadFileAndProcess(files[0]);
+        for (let i = 0; i < files.length; ++i) {
+            await loadFileAndProcess(files[i]);
         }
     }, [loadFileAndProcess]);
 
