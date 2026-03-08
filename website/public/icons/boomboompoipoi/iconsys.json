@@ -1,0 +1,19 @@
+{
+	"directory":"BISLPM-62468",
+	"title":"対戦！　爆弾ポイポイ",
+	"normal":"bombicon.bin",
+	"copy":"bombicon.bin",
+	"delete":"bombicon.bin",
+	"bgOpacity":96,
+	"bgColTL":"#000000",
+	"bgColTR":"#000000",
+	"bgColBL":"#808080",
+	"bgColBR":"#808080",
+	"light1Dir":[0.5,0.5,0.5,0],
+	"light2Dir":[1,0,0,0],
+	"light3Dir":[-1,0,0,0],
+	"light1Col":[0.5,0.5,0.5,0],
+	"light2Col":[0,0,0,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[0.5,0.5,0.5,0]
+}
