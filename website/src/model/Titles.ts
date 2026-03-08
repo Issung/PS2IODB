@@ -181,7 +181,7 @@ export const Titles: Title[] = [
     new Game(`The Ant Bully`, `theantbully`, 1, Contributors.BattleCrusher135),
     new Game(`Antz Extreme Racing`, `antzextremeracing`, 1, Contributors.SqueezedDog),
     new Game(`Anubis II`, `anubisii`, 1, Contributors.Grounder),
-    new Game(`Anya Nisasayaku`),
+    // new Game(`Anya Nisasayaku`), // Dupe of "yamiyonisasayaku".
     new Game(`Aoi no Mamade...`, `aoinomamade`, 3, Contributors.Cajas),
     new Game(`Aoi Sora no Neosphere: Nanoca Flanka Hatsumei Koubouki 2~`, g => [
         new Icon(g, `Save Data`, `aoisora-savedata`, 1, Contributors.Cajas),
@@ -1506,7 +1506,7 @@ export const Titles: Title[] = [
     new Game(`Fushigi Yuugi: Suzaku Ibun`, `fushigiyuugisuzaku`, 1, Contributors.Cajas),
     new Game(`Futakoi`, `futakoi`, 1, Contributors.Cajas),
     new Game(`Futakoi Alternative`, `futakoialternative`, 1, Contributors.Cajas),
-    new Game(`Futakoi: Koi to Mizugi no Survival`, `fotakoikoitomizugi`, 1, Contributors.Cajas),
+    new Game(`Futakoi-jima: Koi to Mizugi no Survival`, `fotakoikoitomizugi`, 1, Contributors.Cajas),
     new Game(`Futari no Fantavision`, `futarinofantavision`, 2, Contributors.ItzCookieX),
     new Game(`Futurama`, `futurama`, 1, Contributors.Zwish343, null),
     new Game(`Future Tactics: The Uprising`, `futuretacticstheuprising`, 1, Contributors.Cajas, null),
@@ -4449,7 +4449,7 @@ export const Titles: Title[] = [
     new Game(`Snow`),
     new Game(`The Snow Queen Quest`, `thesnowqueenquest`, 1, Contributors.Mkca),
     new Game(`Snow Rider`),
-    new Game(`Snow White and the 7 Clever Boys`),
+    new Game(`Snow White and the 7 Clever Boys`, _ => null),
     new Game(`Snowboard Heaven`),
     new Game(`Snowboard Racer 2`),
     new Game(`Soccer America: International Cup / ILS: International League Soccer / Greatest Striker`, g => [
@@ -5183,7 +5183,7 @@ export const Titles: Title[] = [
     new Game(`Uchuu Senkan Yamato: Ankoku Seidan Teikoku no Gyakushuu`, `spacebattleshipyamatoankokuseidan`, 1, Contributors.Cajas),
     new Game(`Uchuu Senkan Yamato: Iscandar he no Tsuioku`, `spacebattleshipyamatoiscandar`, 1, Contributors.Cajas),
     new Game(`Uchuu Senkan Yamato: Nijuu Ginga no Houkai`, `spacebattleshipyamatonijuu`, 1, Contributors.Cajas),
-    new Game(`The Uchuujin to Hanashi Sou!`),
+    //new Game(`The Uchuujin to Hanashi Sou!`),     // Dupe of above `uchuujinttenani-simpleseries`.
     new Game(`UEFA Challenge`),
     new Game(`UEFA Champions League 2004–2005`, `uefachampionsleague20042005`, 1, Contributors.SqueezedDog),
     new Game(`UEFA Champions League 2006–2007`, `uefachampionsleague20062007`, 1, Contributors.TheZulaPatrolFan2005),
