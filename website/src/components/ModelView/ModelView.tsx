@@ -1,4 +1,4 @@
-import { IconFlipVertical, IconRotate2, IconX } from '@tabler/icons-react';
+import { IconDownload, IconFlipVertical, IconInfoCircle, IconRotate2, IconX } from '@tabler/icons-react';
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { IconSys } from '../../model/IconSys';
@@ -62,6 +62,9 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
 
     // Animation warning modal state
     const [showAnimationModal, setShowAnimationModal] = useState(false);
+
+    // Details modal state
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
 
     // Track whether next asset load should reset camera (false when switching states)
     const shouldResetCameraRef = useRef(true);
@@ -366,9 +369,23 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                             </label>
                         </li>
                         {onDownload && (
-                            <li>
-                                <button onClick={onDownload} disabled={!!downloadStatus}>
-                                    {downloadStatus ?? 'Download Icon Assets ⬇️'}
+                            <li className="action-buttons">
+                                <button
+                                    className="action-btn"
+                                    onClick={() => setShowDetailsModal(true)}
+                                    title="View icon metadata details"
+                                >
+                                    <IconInfoCircle size={16} />
+                                    Details
+                                </button>
+                                <button
+                                    className="action-btn"
+                                    onClick={onDownload}
+                                    disabled={!!downloadStatus}
+                                    title="Download icon assets as a zip file"
+                                >
+                                    <IconDownload size={16} />
+                                    {downloadStatus ?? 'Download'}
                                 </button>
                             </li>
                         )}
@@ -479,6 +496,46 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                         </p>
                     </>
                 )}
+            </Modal>
+
+            {/* Icon details modal */}
+            <Modal
+                isOpen={showDetailsModal}
+                title="Icon Details"
+                onClose={() => setShowDetailsModal(false)}
+                portalContainer={portalTarget}
+                className="icon-details-modal"
+            >
+                <table className="icon-details-table">
+                    <tbody>
+                        {[
+                            { label: 'Directory', value: iconsys?.directory },
+                            { label: 'Title', value: iconsys?.title },
+                            { label: 'Normal Icon', value: iconsys?.normal },
+                            { label: 'Copy Icon', value: iconsys?.copy },
+                            { label: 'Delete Icon', value: iconsys?.delete },
+                            { label: 'BG Opacity', value: iconsys?.bgOpacity },
+                            { label: 'BG Color Top-Left', value: iconsys?.bgColTL },
+                            { label: 'BG Color Top-Right', value: iconsys?.bgColTR },
+                            { label: 'BG Color Bottom-Left', value: iconsys?.bgColBL },
+                            { label: 'BG Color Bottom-Right', value: iconsys?.bgColBR },
+                            { label: 'Light 1 Direction', value: iconsys?.light1Dir?.join(', ') },
+                            { label: 'Light 2 Direction', value: iconsys?.light2Dir?.join(', ') },
+                            { label: 'Light 3 Direction', value: iconsys?.light3Dir?.join(', ') },
+                            { label: 'Light 1 Color', value: iconsys?.light1Col?.join(', ') },
+                            { label: 'Light 2 Color', value: iconsys?.light2Col?.join(', ') },
+                            { label: 'Light 3 Color', value: iconsys?.light3Col?.join(', ') },
+                            { label: 'Ambient Light Color', value: iconsys?.ambiLightCol?.join(', ') },
+                        ].map((row, index) => (
+                            <tr key={row.label} className={index % 2 === 0 ? 'even' : 'odd'}>
+                                <td className="label">{row.label}</td>
+                                <td className={row.value === undefined ? 'missing' : ''}>
+                                    {row.value !== undefined ? String(row.value) : 'Missing'}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </Modal>
         </div>
     );

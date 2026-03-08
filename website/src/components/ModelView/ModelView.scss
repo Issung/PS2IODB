@@ -72,6 +72,7 @@ div#model-view {
         button {
             width: 100%;
             color: black;
+            height: 30px;
         }
 
         label {
@@ -97,6 +98,37 @@ div#model-view {
 
             &:hover {
                 color: #f0ad4e;
+            }
+        }
+
+        // Action buttons (Download, Details)
+        .action-buttons {
+            display: flex;
+            gap: 6px;
+            padding-top: 4px;
+
+            .action-btn {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+                padding: 8px 12px;
+                background-color: rgba(0, 0, 0, 0.6);
+                color: white;
+                border: none;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 0.9em;
+
+                &:hover:not(:disabled) {
+                    background-color: rgba(0, 0, 0, 0.8);
+                }
+
+                &:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                }
             }
         }
     }
@@ -219,4 +251,41 @@ div#model-view {
     width: 100vw;
     height: 100vh; // Fallback for older browsers
     height: 100dvh; // Dynamic viewport height - accounts for mobile browser toolbar
+}
+
+// Icon details modal table styling
+.icon-details-modal {
+    .icon-details-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+
+        tr {
+            &.even {
+                background-color: rgba(255, 255, 255, 0.03);
+            }
+
+            &.odd {
+                background-color: rgba(255, 255, 255, 0.08);
+            }
+        }
+
+        td {
+            padding: 0.5rem 0.75rem;
+            vertical-align: top;
+            word-break: break-word;
+
+            &.label {
+                font-weight: 500;
+                color: #aaa;
+                white-space: nowrap;
+                width: 40%;
+            }
+
+            &.missing {
+                color: #777;
+                font-style: italic;
+            }
+        }
+    }
 }
