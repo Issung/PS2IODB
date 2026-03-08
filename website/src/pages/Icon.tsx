@@ -1,7 +1,7 @@
 import { IconDice5, IconHome } from "@tabler/icons-react";
 import JSZip from "jszip";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { ModelLoader } from "../components/ModelView/ModelLoader";
 import { ModelView } from "../components/ModelView/ModelView";
 import { UrlModelLoader } from "../components/ModelView/UrlModelLoader";
@@ -15,6 +15,8 @@ import './Icon.scss';
 const Icon = () => {
     const navigate = useNavigate();
     const { iconcode } = useParams();
+    const [searchParams] = useSearchParams();
+    const showUI = searchParams.get('ui') !== 'false';
 
     const [icon, setIcon] = useState<IconModel | undefined>();
     const titleName = icon?.title?.name ?? '';
@@ -220,45 +222,48 @@ const Icon = () => {
     return (
         <div id="icon">
             {/* Header with Home link, title, and contributor */}
-            <div id="header" ref={headerRef} className={isCollapsed ? 'collapsed' : ''}>
-                {/* Home link */}
-                <a id="home" ref={homeRef} href="/" onClick={(e) => { e.preventDefault(); home(); }}><IconHome size={18} /> Home</a>
+            {showUI && (
+                <div id="header" ref={headerRef} className={isCollapsed ? 'collapsed' : ''}>
+                    {/* Home link */}
+                    <a id="home" ref={homeRef} href="/" onClick={(e) => { e.preventDefault(); home(); }}><IconHome size={18} /> Home</a>
 
-                {/* Game title and icon name */}
-                <div id="title" ref={titleRef}>
-                    {icon ? (
-                        <>
-                            <h5><i>{titleName}</i></h5>
-                            {showIconName && <span className="icon-name"><span>Variant;</span> {iconName}</span>}
-                        </>
-                    ) : (
-                        "Game not found."
-                    )}
-                </div>
+                    {/* Game title and icon name */}
+                    <div id="title" ref={titleRef}>
+                        {icon ? (
+                            <>
+                                <h5><i>{titleName}</i></h5>
+                                {showIconName && <span className="icon-name"><span>Variant;</span> {iconName}</span>}
+                            </>
+                        ) : (
+                            "Game not found."
+                        )}
+                    </div>
 
-                {/* Right panel: contributor + random button */}
-                <div id="right-panel" ref={rightPanelRef}>
-                    {icon && (
-                        <div id="contributor">
-                            <span>Contributed by {icon.contributors.map((contributor, index) => (
-                                <span key={contributor.name}>
-                                    {index > 0 && (index === icon.contributors.length - 1 ? ' & ' : ', ')}
-                                    <Link to={`/browse/contributor/${contributor.name}#browse`} title={`View all contributions from ${contributor.name}`}>{contributor.name}</Link>
-                                </span>
-                            ))}</span>
-                        </div>
-                    )}
-                    <button id="random-btn" onClick={() => navigateToRandomIcon(navigate)} title="View a random contributed icon">
-                        <IconDice5 size={18} /> Random
-                    </button>
+                    {/* Right panel: contributor + random button */}
+                    <div id="right-panel" ref={rightPanelRef}>
+                        {icon && (
+                            <div id="contributor">
+                                <span>Contributed by {icon.contributors.map((contributor, index) => (
+                                    <span key={contributor.name}>
+                                        {index > 0 && (index === icon.contributors.length - 1 ? ' & ' : ', ')}
+                                        <Link to={`/browse/contributor/${contributor.name}#browse`} title={`View all contributions from ${contributor.name}`}>{contributor.name}</Link>
+                                    </span>
+                                ))}</span>
+                            </div>
+                        )}
+                        <button id="random-btn" onClick={() => navigateToRandomIcon(navigate)} title="View a random contributed icon">
+                            <IconDice5 size={18} /> Random
+                        </button>
+                    </div>
                 </div>
-            </div>
+            )}
 
             {loader && (
                 <div className="model-view-fullscreen">
                     <ModelView
                         loader={loader}
-                        onDownload={download}
+                        hideControls={!showUI}
+                        onDownload={showUI ? download : undefined}
                         downloadStatus={downloadStatus}
                         fullscreen={true}
                         isStaticAnimation={icon?.animationVersion === null}
