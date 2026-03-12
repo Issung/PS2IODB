@@ -1,0 +1,19 @@
+{
+	"directory":"BISCPS-15085user1",
+	"title":"けんらんぶとうさいユーザーせーぶでー た１",
+	"normal":"static.ico",
+	"copy":"static.ico",
+	"delete":"static.ico",
+	"bgOpacity":96,
+	"bgColTL":"#008000",
+	"bgColTR":"#000080",
+	"bgColBL":"#008000",
+	"bgColBR":"#000080",
+	"light1Dir":[0.5,0.5,0.5,0],
+	"light2Dir":[0,0,1,0],
+	"light3Dir":[-0.5,-0.5,0.5,0],
+	"light1Col":[0.5,0.5,0.5,0],
+	"light2Col":[0.5,0.5,0.5,0],
+	"light3Col":[0.5,0.5,0.5,0],
+	"ambiLightCol":[0.5,0.5,0.5,0]
+}

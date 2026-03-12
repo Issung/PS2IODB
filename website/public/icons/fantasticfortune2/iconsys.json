@@ -1,0 +1,19 @@
+{
+	"directory":"BISLPS-25236FF",
+	"title":"ファンタスティックフォーチュン２",
+	"normal":"ICON.ICO",
+	"copy":"ICON.ICO",
+	"delete":"ICON.ICO",
+	"bgOpacity":64,
+	"bgColTL":"#fafafa",
+	"bgColTR":"#fafafa",
+	"bgColBL":"#4463f2",
+	"bgColBR":"#4463f2",
+	"light1Dir":[0.5,0.5,0.5,0],
+	"light2Dir":[0.5,0.5,0.5,0],
+	"light3Dir":[0.5,0.5,0.5,0],
+	"light1Col":[0.5,0.5,0.5,0],
+	"light2Col":[0.5,0.5,0.5,0],
+	"light3Col":[0.5,0.5,0.5,0],
+	"ambiLightCol":[0.5,0.5,0.5,0]
+}

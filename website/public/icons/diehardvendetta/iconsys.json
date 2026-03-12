@@ -1,0 +1,19 @@
+{
+	"directory":"BESLES-51347DIEHARD",
+	"title":"Ｄｉｅ　Ｈａｒｄ　Ｖｅｎｄｅｔｔ ａ",
+	"normal":"LIST.ICO",
+	"copy":"COPY.ICO",
+	"delete":"DELETE.ICO",
+	"bgOpacity":128,
+	"bgColTL":"#820a0a",
+	"bgColTR":"#644628",
+	"bgColBL":"#dc5032",
+	"bgColBR":"#ebaf64",
+	"light1Dir":[0.5770000219345093,-0.5770000219345093,0.5770000219345093,0],
+	"light2Dir":[-0.5770000219345093,-0.5770000219345093,0.5770000219345093,0],
+	"light3Dir":[1,0,0,0],
+	"light1Col":[1,0.699999988079071,0.11999999731779099,0],
+	"light2Col":[1,0.75,0.11999999731779099,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[1,1,1,0]
+}

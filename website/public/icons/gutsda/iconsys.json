@@ -1,0 +1,19 @@
+{
+	"directory":"BISLPS-25481",
+	"title":"ガッツだ！！森の石松",
+	"normal":"guts.ico",
+	"copy":"guts.ico",
+	"delete":"guts.ico",
+	"bgOpacity":96,
+	"bgColTL":"#ff1d0b",
+	"bgColTR":"#ff1d0b",
+	"bgColBL":"#ffac02",
+	"bgColBR":"#ffac02",
+	"light1Dir":[0.5,0.5,0.5,0],
+	"light2Dir":[0,0,-0.10000000149011612,0],
+	"light3Dir":[-0.5,0,0.5,0],
+	"light1Col":[1,1,1,0],
+	"light2Col":[0.75,0.75,0.75,0],
+	"light3Col":[0.8999999761581421,0.8999999761581421,0.8999999761581421,0],
+	"ambiLightCol":[0.20000000298023224,0.20000000298023224,0.20000000298023224,0]
+}

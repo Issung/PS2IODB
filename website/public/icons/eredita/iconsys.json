@@ -1,0 +1,19 @@
+{
+	"directory":"BESCES-5215500000000",
+	"title":"Ｌ’Ｅｒｅｄｉｔａ’",
+	"normal":"Save.ico",
+	"copy":"Save.ico",
+	"delete":"Save.ico",
+	"bgOpacity":64,
+	"bgColTL":"#28ffff",
+	"bgColTR":"#dcffdc",
+	"bgColBL":"#6060ff",
+	"bgColBR":"#ff41ff",
+	"light1Dir":[0,-1,-0.5,0],
+	"light2Dir":[0,-1,-0.5,0],
+	"light3Dir":[-0.5,-0.5,0.5,0],
+	"light1Col":[1,1,1,0],
+	"light2Col":[1,1,1,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[0.699999988079071,0.699999988079071,0.699999988079071,0]
+}

@@ -1,0 +1,19 @@
+{
+	"directory":"BASLUS-20235SM01",
+	"title":"Ｓｕｐｅｒｍａｎ：　Ｓｈａｄｏｗ　ｏｆ　Ａｐｏｋｏｌｉｐｓ",
+	"normal":"list.ico",
+	"copy":"copy.ico",
+	"delete":"delete.ico",
+	"bgOpacity":100,
+	"bgColTL":"#7f7f7f",
+	"bgColTR":"#7f7f7f",
+	"bgColBL":"#7f7f7f",
+	"bgColBR":"#7f7f7f",
+	"light1Dir":[1.5,1.5,1.5,1],
+	"light2Dir":[0,0,0,1],
+	"light3Dir":[-1.5,-1.5,-1.5,1],
+	"light1Col":[1,1,1,1],
+	"light2Col":[1,1,1,1],
+	"light3Col":[1,1,1,1],
+	"ambiLightCol":[1,1,1,1]
+}
