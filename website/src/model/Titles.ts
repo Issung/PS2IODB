@@ -4832,7 +4832,7 @@ export const Titles: Title[] = [
     new Game(`Supercar Street Challenge`, `supercarstreetchallenge`, 1, Contributors.SqueezedDog),
     new Game(`SuperLite 2000 Vol. 9: Puzzle Nankuro`, `thecrossword`, 1, Contributors.Cajas, 3),
     new Game(`Superman Returns`, `supermanreturns`, 1, Contributors.SqueezedDog),
-    new Game(`Superman: Shadow of Apokolips`, `supermanapokolips`, 3, Contributors.Cajas),
+    new Game(`Superman: Shadow of Apokolips`, `supermanapokolips`, 1, Contributors.Cajas),
     new Game(`Surf's Up`, `surfsup`, 1, Contributors.SqueezedDog),
     new Game(`Surfing Air Show with RatBoy`),
     new Game(`Surfing H3O`, `surfingh3o`, 2, [Contributors.Zeroman95, Contributors.TheZulaPatrolFan2005], 3),
