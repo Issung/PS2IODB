@@ -130,6 +130,7 @@ export const Titles: Title[] = [
     new Game(`Alias`, g => [
         new Icon(g, `Options`, `alias-options`, 1, Contributors.Cajas),
         new Icon(g, `Save Data - Casino`, `alias-savedata-casino`, 1, Contributors.Cajas),
+        new Icon(g, `Different Variants per Save Location...`), // Like `Eternal Ring`. Yet to be contributed.
     ]),
     new Game(`Alien Hominid`, `alienhominid`, 1, Contributors.VibiLeFleu),
     new Game(`Aliens in the Attic`),
@@ -377,8 +378,10 @@ export const Titles: Title[] = [
     new Game(`Beast Sapp`, `beastsapp`, 1, Contributors.Grounder, 1),
     new Game(`Beat Down: Fists of Vengeance`, `beatdownfistsofvengeance`, 3, Contributors.Cajas),
     new Game(`Beatmania`, `beatmania`, 1, Contributors.Sebita),
-    new Game(`BeatMania Da Da Da!!`, `beatmaniadadada`, 1, Contributors.RyutoSetsujin),
-    new Game(`BeatMania Da Da Da!! The Best Da`),
+    new Game(`BeatMania Da Da Da!!`, g => [
+        new Icon(g, `Original Release`, `beatmaniadadada`, 1, Contributors.RyutoSetsujin),
+        new Icon(g, `"The Best Da" Release`),   // Unknown if this has a different icon.
+    ]),
     new Game(`Beatmania IIDX 3rd Style`, `beatmaniaiidx3rdstyle`, 1, Contributors.Sebita),
     new Game(`Beatmania IIDX 4th Style: New Songs Collection`, `beatmaniaiidx4thstyle`, 1, Contributors.Sebita),
     new Game(`Beatmania IIDX 5th Style: New Songs Collection`, `beatmaniaiidx5thstyle`, 1, Contributors.Sebita),
@@ -655,7 +658,7 @@ export const Titles: Title[] = [
     new Game(`Chulip`, `chulip`, 1, Contributors.Issung),
     new Game(`CID The Dummy`, `cidthedummy`, 1, Contributors.Cajas),
     new Game(`Cinderella`, () => null),
-    new Application(`Cinema Surfing: Youga Taizen`),
+    new Application(`Cinema Surfing: Youga Taizen`, () => null),
     new Game(`Circuit Blasters`),
     new Game(`Circus Maximus: Chariot Wars`, `circusmaximus`, 3, Contributors.Cajas, 1),
     new Game(`City Crisis`, `citycrisis`, 3, Contributors.ShawnS),
@@ -1319,7 +1322,6 @@ export const Titles: Title[] = [
     new Game(`Fantastic Fortune 2`, `fantasticfortune2`, 1, Contributors.Cajas),
     new Game(`Fantastic Fortune 2: Triple Star`, `fantasticfortune2triplestar`, 1, Contributors.Cajas),
     new Game(`Fantastic Four: Rise of the Silver Surfer`, `fantastic4riseofthesilversurfer`, 1, Contributors.SqueezedDog),
-    new Game(`Fantasy Battle Kouryaku Box`),
     new Game(`Kanojo no Densetsu, Boku no Sekiban: Amirion no Ken to Tomo ni`, `thefantasyrenaiadventure`, 1, Contributors.Cajas),
     new Game(`FantaVision`, `fantavision`, 3, [Contributors.ItzCookieX, Contributors.Cajas], 2),
     new Game(`The Fast and the Furious`, `thefastandthefurious`, 1, Contributors.SqueezedDog),
@@ -1862,7 +1864,6 @@ export const Titles: Title[] = [
     new Game(`Hametsu no Mars`, `hametsunomars`, 1, Contributors.Cajas),
     new Game(`Hamster Heroes`, `hamsterheroes`, 1, Contributors.Cajas),
     new Game(`Hana to Otome ni Shukufuku o: Harukaze no Okurimono`, `hanatootome`, 1, Contributors.Cajas, 3),
-    new Game(`Hana to Taiyou to Ame to`),
     new Game(`Hanabi Hyakkei`, `hanabihyakkei`, 1, Contributors.Cajas),
     new Game(`Hanabi Shokunin ni Narou 2`, `hanabishokuninninarou2`, 1, Contributors.Cajas, 3),
     new Game(`SuperLite 2000 Vol. 19: Hanafuda`, `superlite2000vol19hanafuda`, 1, Contributors.ZupaPat785),
@@ -1964,7 +1965,7 @@ export const Titles: Title[] = [
     new Game(`Hissatsu Pachi-Slot Evolution: Ninja Hattori-Kun V`, `hissatsupachislotevoninjahattori`, 1, Contributors.Cajas),
     new Game(`Hissatsu Pachinko Evolution 2: Osomatsu-Kun`, `hissatsupachislotevo2`, 1, Contributors.Cajas),
     new Game(`Hissatsu Pachinko Station V: Honoo no Bakushougun`, `hissatsupachinkostationvhonoonobakushougun`, 1, Contributors.Everdred),
-    new Game(`Hissatsu Pachinko Station V2`),
+    new Game(`Hissatsu Pachinko Station V2`, () => null),
     new Game(`Hissatsu Pachinko Station V3`, `hissatsupachinkostationv3shutsudouminiskirtpolice`, 2, Contributors.Everdred, 1),
     new Game(`Hissatsu Pachinko Station V4`, `hissatsupachinkostationv4drumticmahjong`, 1, Contributors.Everdred),
     new Game(`Hissatsu Pachinko Station V5`, `hissatsupachinkostationv5pinklady`, 1, Contributors.Everdred),
@@ -3989,8 +3990,6 @@ export const Titles: Title[] = [
         new Icon(g, `System File`, `saikyoutoudaishougi3-systemfile`, 1, Contributors.ZupaPat785),
     ]),
     new Game(`Saikyou Toudai Shogi 4`, `saikyoutoudaishougi4`, 1, Contributors.ZupaPat785),
-    new Game(`Saikyou Toudai Shogi 5`),
-    new Game(`Saikyou Toudai Shogi 6`),
     new Game(`Saikyou Toudai Shogi Special`, g => [
         new Icon(g, `Game Record Data`, `saikyoutoudaishougispecial-gamerecorddata`, 1, Contributors.ZupaPat785),
         new Icon(g, `System Data`, `saikyoutoudaishougispecial-systemdata`, 1, Contributors.ZupaPat785),
