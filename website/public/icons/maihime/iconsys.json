@@ -1,0 +1,19 @@
+{
+	"directory":"BISLPS-25508MI-HiME",
+	"title":"舞－ＨｉＭＥ",
+	"normal":"mhime.ico",
+	"copy":"mhime.ico",
+	"delete":"mhime.ico",
+	"bgOpacity":96,
+	"bgColTL":"#000000",
+	"bgColTR":"#000000",
+	"bgColBL":"#000000",
+	"bgColBR":"#000000",
+	"light1Dir":[64,64,64,0],
+	"light2Dir":[0,0,0,0],
+	"light3Dir":[0,0,0,0],
+	"light1Col":[128,128,128,0],
+	"light2Col":[0,0,0,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[128,128,128,0]
+}

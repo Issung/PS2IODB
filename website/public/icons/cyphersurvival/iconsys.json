@@ -1,0 +1,19 @@
+{
+	"directory":"BISLPM-66765",
+	"title":"十次元立方体サイファーゲーム・オブ・サバイバ ル",
+	"normal":"icon.ico",
+	"copy":"icon.ico",
+	"delete":"icon.ico",
+	"bgOpacity":96,
+	"bgColTL":"#000000",
+	"bgColTR":"#000020",
+	"bgColBL":"#000040",
+	"bgColBR":"#000060",
+	"light1Dir":[0,0,1,0],
+	"light2Dir":[1,0,0,0],
+	"light3Dir":[-1,0,0,0],
+	"light1Col":[0.5,0.5,0.5,0],
+	"light2Col":[0,0,0.19999998807907104,0],
+	"light3Col":[0,0,0.19999998807907104,0],
+	"ambiLightCol":[0.5,0.5,0.5,0]
+}

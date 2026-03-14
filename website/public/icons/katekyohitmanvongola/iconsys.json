@@ -1,0 +1,19 @@
+{
+	"directory":"BISLPS-25883-R2",
+	"title":"家庭教師ヒットマンリボーン　狙え！？リング×ボンゴレトレーナーズ",
+	"normal":"reborn2.ico",
+	"copy":"reborn2.ico",
+	"delete":"reborn2.ico",
+	"bgOpacity":96,
+	"bgColTL":"#200080",
+	"bgColTR":"#200080",
+	"bgColBL":"#808080",
+	"bgColBR":"#808080",
+	"light1Dir":[1,0,0,0],
+	"light2Dir":[0,1,0,0],
+	"light3Dir":[0,0,1,0],
+	"light1Col":[0,0,0,0],
+	"light2Col":[0,0,0,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[0.5,0.5,0.5,0]
+}
