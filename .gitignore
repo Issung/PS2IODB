@@ -347,6 +347,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
 test.png
 test.mtl
 test.anim
@@ -355,3 +356,5 @@ website/reports/report.xml
 website/dist
 extractor/icon_exports
 website/dist-standalone
+
+website/public/icons/**/icon.zip

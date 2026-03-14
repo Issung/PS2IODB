@@ -2,9 +2,9 @@ import { IconDice5, IconHome } from "@tabler/icons-react";
 import JSZip from "jszip";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { createUrlModelLoader, isZipMode } from "../components/ModelView/createUrlModelLoader";
 import { ModelLoader } from "../components/ModelView/ModelLoader";
 import { ModelView } from "../components/ModelView/ModelView";
-import { UrlModelLoader } from "../components/ModelView/UrlModelLoader";
 import { Icon as IconModel } from "../model/Icon";
 import { IconSys } from "../model/IconSys";
 import { Titles } from "../model/Titles";
@@ -128,58 +128,69 @@ const Icon = () => {
     }
 
     async function downloadImpl() {
-        // Fetch iconsys first to get state names
-        const iconsysResponse = await fetch(`/icons/${iconcode}/iconsys.json`);
-        const iconsysText = await iconsysResponse.text();
-        if (!iconsysText.startsWith('{')) {
-            throw new Error('Failed to fetch iconsys.json');
-        }
-        const iconsys = JSON.parse(iconsysText) as IconSys;
+        let zipContent: Blob;
 
-        // Get all unique states
-        const states = new Set([iconsys.normal, iconsys.copy, iconsys.delete]);
-        const files: string[] = [];
+        if (isZipMode) {
+            // In ZIP mode, download the existing icon.zip directly
+            const response = await fetch(`/icons/${iconcode}/icon.zip`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch icon.zip');
+            }
+            zipContent = await response.blob();
+        } else {
+            // In development mode, fetch individual files and create a zip
+            const iconsysResponse = await fetch(`/icons/${iconcode}/iconsys.json`);
+            const iconsysText = await iconsysResponse.text();
+            if (!iconsysText.startsWith('{')) {
+                throw new Error('Failed to fetch iconsys.json');
+            }
+            const iconsys = JSON.parse(iconsysText) as IconSys;
 
-        // Assets required for each state
-        states.forEach(state => {
-            files.push(`${state}.anim`);
-            files.push(`${state}.mtl`);
-            files.push(`${state}.obj`);
-            files.push(`${state}.png`);
-        });
-        files.push('iconsys.json');
+            // Get all unique states
+            const states = new Set([iconsys.normal, iconsys.copy, iconsys.delete]);
+            const files: string[] = [];
 
-        // Fetch all files in parallel
-        const promises = files.map(async (file) => {
-            const response = await fetch(`/icons/${iconcode}/${file}`);
-            if (response.ok) {
-                if (file.endsWith('.png') && response.headers.get('content-type') === 'image/png') {
-                    const png = await response.blob();
-                    return { file, content: png };
-                } else {
-                    const text = await response.text();
-                    if (!text.startsWith('<!DOCTYPE html>')) {
-                        return { file, content: text };
+            // Assets required for each state
+            states.forEach(state => {
+                files.push(`${state}.anim`);
+                files.push(`${state}.mtl`);
+                files.push(`${state}.obj`);
+                files.push(`${state}.png`);
+            });
+            files.push('iconsys.json');
+
+            // Fetch all files in parallel
+            const promises = files.map(async (file) => {
+                const response = await fetch(`/icons/${iconcode}/${file}`);
+                if (response.ok) {
+                    if (file.endsWith('.png') && response.headers.get('content-type') === 'image/png') {
+                        const png = await response.blob();
+                        return { file, content: png };
+                    } else {
+                        const text = await response.text();
+                        if (!text.startsWith('<!DOCTYPE html>')) {
+                            return { file, content: text };
+                        }
+                    }
+                    if (file.endsWith('.anim')) {
+                        console.warn(`Error loading ${file}, it may not have an animation.`);
+                    } else {
+                        console.error(`Error loading ${file}.`);
                     }
                 }
-                if (file.endsWith('.anim')) {
-                    console.warn(`Error loading ${file}, it may not have an animation.`);
-                } else {
-                    console.error(`Error loading ${file}.`);
-                }
-            }
-            return null;
-        });
-        const results = await Promise.allSettled(promises);
+                return null;
+            });
+            const results = await Promise.allSettled(promises);
 
-        // Create zip file
-        const zip = new JSZip();
-        results.forEach(result => {
-            if (result.status === 'fulfilled' && result.value) {
-                zip.file(result.value.file, result.value.content);
-            }
-        });
-        const zipContent = await zip.generateAsync({ type: 'blob' });
+            // Create zip file
+            const zip = new JSZip();
+            results.forEach(result => {
+                if (result.status === 'fulfilled' && result.value) {
+                    zip.file(result.value.file, result.value.content);
+                }
+            });
+            zipContent = await zip.generateAsync({ type: 'blob' });
+        }
 
         // Trigger download
         const url = URL.createObjectURL(zipContent);
@@ -202,7 +213,7 @@ const Icon = () => {
 
         (async () => {
             try {
-                const newLoader = await UrlModelLoader.create(iconcode);
+                const newLoader = await createUrlModelLoader(iconcode);
                 if (!cancelled) {
                     setLoader(newLoader);
                 }

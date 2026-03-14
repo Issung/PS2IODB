@@ -22,11 +22,14 @@
   },
   "scripts": {
     "start": "vite",
+    "start:zip": "vite --mode zip",
     "build": "tsc && vite build",
     "build:standalone": "tsc && vite build --config vite.config.standalone.ts",
     "preview": "vite preview",
     "test": "jest",
-    "predeploy": "npm run build",
+    "create-zips": "tsx scripts/create-icon-zips.ts",
+    "create-zips:deploy": "tsx scripts/create-icon-zips.ts --delete-originals",
+    "predeploy": "npm run create-zips:deploy && npm run build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
