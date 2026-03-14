@@ -1,18 +1,12 @@
 /**
- * Script to create icon.zip files for each icon directory.
+ * Script to create icon.zip files for each icon directory in public/icons.
  * This is used in production/release mode to reduce HTTP requests.
- * 
+ *
  * Usage:
- *   npx tsx scripts/create-icon-zips.ts [--delete-originals] [--source <dir>]
- * 
+ *   npx tsx scripts/create-icon-zips.ts [--delete-originals]
+ *
  * Options:
  *   --delete-originals  Delete the original files after creating the zip (for deployment)
- *   --source <dir>      Source directory (default: dist/icons for deployment, public/icons for local)
- * 
- * Examples:
- *   npx tsx scripts/create-icon-zips.ts                           # Create zips in public/icons
- *   npx tsx scripts/create-icon-zips.ts --source dist/icons       # Create zips in dist/icons
- *   npx tsx scripts/create-icon-zips.ts --source dist/icons --delete-originals  # For deployment
  */
 
 import fs from 'fs';
@@ -21,30 +15,7 @@ import { fileURLToPath } from 'url';
 import JSZip from 'jszip';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-interface Options {
-    deleteOriginals: boolean;
-    sourceDir: string;
-}
-
-function parseArgs(): Options {
-    const args = process.argv.slice(2);
-    const options: Options = {
-        deleteOriginals: false,
-        sourceDir: path.resolve(__dirname, '..', 'public', 'icons'),
-    };
-
-    for (let i = 0; i < args.length; i++) {
-        if (args[i] === '--delete-originals') {
-            options.deleteOriginals = true;
-        } else if (args[i] === '--source' && args[i + 1]) {
-            options.sourceDir = path.resolve(args[i + 1]);
-            i++;
-        }
-    }
-
-    return options;
-}
+const ICONS_DIR = path.resolve(__dirname, '..', 'public', 'icons');
 
 function findIconDirectories(baseDir: string): string[] {
     const results: string[] = [];
@@ -117,20 +88,20 @@ async function createIconZip(iconDir: string, deleteOriginals: boolean): Promise
 }
 
 async function main() {
-    const options = parseArgs();
+    const deleteOriginals = process.argv.includes('--delete-originals');
     const startTime = performance.now();
 
-    console.log(`Creating icon.zip files in: ${options.sourceDir}`);
-    if (options.deleteOriginals) {
+    console.log(`Creating icon.zip files in: ${ICONS_DIR}`);
+    if (deleteOriginals) {
         console.log('Will delete original files after zipping.');
     }
 
-    const iconDirs = findIconDirectories(options.sourceDir);
+    const iconDirs = findIconDirectories(ICONS_DIR);
     console.log(`Found ${iconDirs.length} icon directories. Processing in parallel...`);
 
     // Process all icons in parallel
     const results = await Promise.all(
-        iconDirs.map(iconDir => createIconZip(iconDir, options.deleteOriginals))
+        iconDirs.map(iconDir => createIconZip(iconDir, deleteOriginals))
     );
 
     // Aggregate results

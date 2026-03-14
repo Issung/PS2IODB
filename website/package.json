@@ -28,7 +28,7 @@
     "preview": "vite preview",
     "test": "jest",
     "create-zips": "tsx scripts/create-icon-zips.ts",
-    "create-zips:deploy": "tsx scripts/create-icon-zips.ts --source dist/icons --delete-originals",
+    "create-zips:deploy": "tsx scripts/create-icon-zips.ts --delete-originals",
     "predeploy": "npm run create-zips:deploy && npm run build",
     "deploy": "gh-pages -d build"
   },
