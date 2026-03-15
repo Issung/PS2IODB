@@ -53,6 +53,8 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
     const [frameCount, setFrameCount] = useState(0);
     const [textureName, setTextureName] = useState<string | undefined>(undefined);
     const [animationVersion, setAnimationVersion] = useState<AnimationVersion>(null);
+    const [vertexCount, setVertexCount] = useState(0);
+    const [triangleCount, setTriangleCount] = useState(0);
     const animationOutdated = animationVersion === 1;
 
     // Texture preview state
@@ -87,10 +89,12 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
     const iconHasBackgroundColorData = iconsys !== undefined && iconsys.bgColBL !== undefined;
 
     // Callback for renderer to report info back
-    const iconInfoCallback = useCallback((newFrameCount: number, newTextureName: string | undefined, animationVersion: AnimationVersion) => {
+    const iconInfoCallback = useCallback((newFrameCount: number, newTextureName: string | undefined, animationVersion: AnimationVersion, newVertexCount: number, newTriangleCount: number) => {
         setFrameCount(newFrameCount);
         setTextureName(newTextureName);
         setAnimationVersion(animationVersion);
+        setVertexCount(newVertexCount);
+        setTriangleCount(newTriangleCount);
     }, []);
 
     // Reset texture preview state when loader changes
@@ -526,6 +530,8 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                             { label: 'Light 2 Color', value: iconsys?.light2Col?.join(', ') },
                             { label: 'Light 3 Color', value: iconsys?.light3Col?.join(', ') },
                             { label: 'Ambient Light Color', value: iconsys?.ambiLightCol?.join(', ') },
+                            { label: 'Vertices', value: vertexCount > 0 ? vertexCount.toLocaleString() : undefined },
+                            { label: 'Triangles', value: triangleCount > 0 ? triangleCount.toLocaleString() : undefined },
                         ].map((row, index) => (
                             <tr key={row.label} className={index % 2 === 0 ? 'even' : 'odd'}>
                                 <td className="label">{row.label}</td>

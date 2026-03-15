@@ -246,7 +246,7 @@ const Icon = () => {
                                 {showIconName && <span className="icon-name"><span>Variant;</span> {iconName}</span>}
                             </>
                         ) : (
-                            "Game not found."
+                            "Title not found."
                         )}
                     </div>
 

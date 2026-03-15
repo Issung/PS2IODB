@@ -15,11 +15,15 @@ import { AnimationVersion } from '../../model/AnimationVersion';
  * @param frameCount The amount of frames the loaded icon has, 0 means no animation.
  * @param textureName The name of the loaded texture.
  * @param animationVersion The version of the animation data.
+ * @param vertexCount The number of vertices in the loaded mesh.
+ * @param triangleCount The number of triangles in the loaded mesh.
  */
 export type IconInfoCallback = (
     frameCount: number,
     textureName: string | undefined,
-    animationVersion: AnimationVersion
+    animationVersion: AnimationVersion,
+    vertexCount: number,
+    triangleCount: number
 ) => void
 
 const testMapTextureUrl = 'https://threejs.org/examples/textures/uv_grid_opengl.jpg';
@@ -462,6 +466,9 @@ export class ModelViewRenderer {
             if (reposition) {
                 this.reposition(boundingBox);
             }
+
+            // Fire callback now that geometry is loaded and we have vertex/triangle counts
+            this.fireCallback();
         }
     }
 
@@ -491,12 +498,27 @@ export class ModelViewRenderer {
 
     /** Fire prop_callback with the appropriate data. */
     private fireCallback() {
+        // Calculate vertex and triangle counts from geometry
+        let vertexCount = 0;
+        let triangleCount = 0;
+        if (this.geometry) {
+            vertexCount = this.geometry.attributes.position?.count ?? 0;
+            // For indexed geometry, use index count; otherwise use position count / 3
+            if (this.geometry.index) {
+                triangleCount = this.geometry.index.count / 3;
+            } else {
+                triangleCount = vertexCount / 3;
+            }
+        }
+
         this.prop_callback(
             this.animData?.frames?.length ?? 0,
             this.removePath(this.relativeMtlTextureUrl),
             // animationVersion: If animation not present then `null`, otherwise use the version
             // in the object falling back to `1` because the v1 file did not have the version property.
-            this.animData === undefined ? null : this.animData.version ?? 1
+            this.animData === undefined ? null : this.animData.version ?? 1,
+            vertexCount,
+            triangleCount
         );
     }
 
