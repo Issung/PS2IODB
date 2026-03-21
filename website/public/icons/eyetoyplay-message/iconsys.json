@@ -1,0 +1,19 @@
+{
+	"directory":"BASCUS-97319M0000001",
+	"title":"ＥｙｅＴｏｙ：　ＰｌａｙＭｅｓｓａｇｅ　００１",
+	"normal":"message.ico",
+	"copy":"message.ico",
+	"delete":"message.ico",
+	"bgOpacity":0,
+	"bgColTL":"#000000",
+	"bgColTR":"#000000",
+	"bgColBL":"#000000",
+	"bgColBR":"#000000",
+	"light1Dir":[-1,0,0,0],
+	"light2Dir":[1,0,0,0],
+	"light3Dir":[0,1,0,0],
+	"light1Col":[1,0,0,0],
+	"light2Col":[0,1,0,0],
+	"light3Col":[0,0,1,0],
+	"ambiLightCol":[0,0,0,0]
+}
