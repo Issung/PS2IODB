@@ -1,0 +1,19 @@
+{
+	"directory":"BISLPS-25213",
+	"title":"ＢａｓｓＬａｎｄｉｎｇ３　　　　　　Ｐｌａｙ　Ｄａｔａ",
+	"normal":"bass3.ico",
+	"copy":"bass3.ico",
+	"delete":"bass3.ico",
+	"bgOpacity":128,
+	"bgColTL":"#aae990",
+	"bgColTR":"#59a66c",
+	"bgColBL":"#58a66d",
+	"bgColBR":"#005a42",
+	"light1Dir":[0,0,0,0],
+	"light2Dir":[0,0,0,0],
+	"light3Dir":[0,0,0,0],
+	"light1Col":[0,0,0,0],
+	"light2Col":[0,0,0,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[0.5,0.5,0.5,0]
+}

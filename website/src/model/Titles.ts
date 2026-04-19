@@ -360,7 +360,7 @@ export const Titles: Title[] = [
     new Game(`Basic Studio: Powerful Game Koubou`, `basicstudiopowerfulgamekoubou`, 1, Contributors.Cajas),
     new Game(`Baskelian`, `baskelian`, 1, Contributors.Cajas),
     new Game(`Basketball Xciting`),
-    new Game(`Bass Landing 3`),
+    new Game(`Bass Landing 3`, `basslanding3`, 1, Contributors.Vi7ual, 3),
     new Game(`Bass Strike`, `bassstrike`, 1, Contributors.TheZulaPatrolFan2005, 3),
     new Game(`Batman Begins`, `batmanbegins`, 1, Contributors.SqueezedDog),
     new Game(`Batman: Rise of Sin Tzu`, `batmanriseofsintzu`, 1, [Contributors.Cajas, Contributors._00TECDEC], 3),

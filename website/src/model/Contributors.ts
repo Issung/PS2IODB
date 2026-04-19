@@ -49,6 +49,7 @@ export class Contributors {
     public static Tech = new Contributor('tech', 'https://github.com/techwritescode');
     public static Gdx = new Contributor('GDX', 'https://x.com/GDX_SM');
     public static _00TECDEC = new Contributor('00TECDEC');
+    public static Vi7ual = new Contributor('vi7ual');
 }
 
 export const ContributorCount = Object.values(Contributors).length;
