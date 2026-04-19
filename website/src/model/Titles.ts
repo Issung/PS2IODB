@@ -1250,6 +1250,7 @@ export const Titles: Title[] = [
         new Icon(g, `Research Team HQ`, `eternalring-researchteamhq`, 1, Contributors.Cajas),
         new Icon(g, `River of Lava`, `eternalring-riveroflava`, 1, Contributors.Cajas),
         new Icon(g, `Tree Hideout`, `eternalring-treehideout`, 1, Contributors.Cajas),
+        new Icon(g, `Tower of Storms`, `eternalring-towerofstorms`, 1, Contributors.Cajas),
         new Icon(g, `Water Shrine B1`, `eternalring-watershrineb1`, 1, Contributors.Cajas),
         new Icon(g, `Water Shrine B2`, `eternalring-watershrineb2`, 1, Contributors.Cajas),
         new Icon(g, `Water Shrine`, `eternalring-watershrine`, 1, Contributors.Cajas),
