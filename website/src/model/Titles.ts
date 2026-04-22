@@ -236,7 +236,7 @@ export const Titles: Title[] = [
         new Icon(g, `System Data`, `acff-system`, 1, Contributors.Cajas),
     ]),
     new Game(`Armored Core: Last Raven`, g => [
-        new Icon(g, `Emblem Data`, `armoredcorelastraven-emblemdata`, 1, Contributors.Cajas, 1),
+        new Icon(g, `Emblem Data`, `armoredcorelastraven-emblemdata`, 1, Contributors.Cajas, 3),
         new Icon(g, `Game Data`, `armoredcorelastraven-gamedata`, 1, Contributors.ItzCookieX, 1),
         new Icon(g, `Regulation`, `armoredcorelastraven-regulation`, 1, Contributors.Cajas, 1),
         new Icon(g, `Replay`, `armoredcorelastraven-replay`, 1, Contributors.Cajas, 1),
