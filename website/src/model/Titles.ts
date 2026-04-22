@@ -1532,7 +1532,7 @@ export const Titles: Title[] = [
     new Game(`Fuuraiki 2`, `fuuraiki2`, 1, Contributors.Cajas),
     new Game(`Fuuun Shinsengumi`, `fuuunshinsengumi`, 1, Contributors.ZupaPat785),
     new Game(`NeoGeo Online Collection Vol. 8 / Fuuun Super Combo`, `neogeoonlinecollectionvol8fuuunsupercombo`, 1, Contributors.ZupaPat785),
-    new Game(`G-Force (2006)`),
+    new Game(`G-Force (2006)`, `gforce2006`, 1, Contributors.SpacePrincess),
     new Game(`G-Force (2009)`, `gforce2009`, 1, Contributors.FenixF),
     new Game(`G-Saviour`, `g-saviour`, 1, Contributors.Cajas),
     new Game(`G-Taste Mahjong`, `g-tastemahjong`, 1, Contributors.Cajas),
