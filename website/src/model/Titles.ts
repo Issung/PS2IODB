@@ -4379,7 +4379,11 @@ export const Titles: Title[] = [
         new Icon(g, `High Scores`, `singstarmotownhighscores`, 1, Contributors.Zeroman95),
         new Icon(g, `Settings`, `singstarmotownsettings`, 1, Contributors.Zeroman95),
     ]),
-    new Game(`SingStar Norsk pa Norsk`),
+    new Game(`SingStar Norsk på Norsk`, g => [
+        new Icon(g, `High Scores`, `singstarnorsk-highscores`, 1, Contributors.Demoman),
+        new Icon(g, `Profile`, `singstarnorsk-profile`, 1, Contributors.Demoman),
+        new Icon(g, `Settings`, `singstarnorsk-settings`, 1, Contributors.Demoman),
+    ]),
     new Game(`SingStar Operacion Triunfo`),
     new Game(`SingStar Party`),
     new Game(`SingStar Party Hits`),

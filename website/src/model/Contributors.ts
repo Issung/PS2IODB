@@ -50,6 +50,7 @@ export class Contributors {
     public static Gdx = new Contributor('GDX', 'https://x.com/GDX_SM');
     public static _00TECDEC = new Contributor('00TECDEC');
     public static Vi7ual = new Contributor('vi7ual');
+    public static Demoman = new Contributor('Demoman');
 }
 
 export const ContributorCount = Object.values(Contributors).length;
