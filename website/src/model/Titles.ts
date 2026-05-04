@@ -825,7 +825,7 @@ export const Titles: Title[] = [
     new Game(`Daito Giken Koushiki Pachi-Slot Simulator: Shin Yoshimune`, `daitogikenkoushikipachi-slotsimulator-shinyoshimune`, 1, Contributors.Grounder),
     new Game(`Daito Giken Koushiki Pachi-Slot Simulator: Yoshimune`, `daitogikenkoushikipachi-slotsimulator-yoshimune`, 1, Contributors.Grounder),
     new Game(`Daito Giken Premium Pachi-Slot Collection: Yoshimune`, `daitogikenpremiumpachi-slotcollection-yoshimune`, 1, Contributors.Grounder),
-    new Game(`Dakar 2`),
+    new Game(`Dakar 2`, `dakar2`, 3, Contributors.LanceBoyle),
     new Game(`Dalmatians 3`, () => null),
     new Game(`Dance Dance Revolution: Disney Channel Edition`, g => [
         new Icon(g, `Edit Library`, `ddrdisney-editdata`, 1, Contributors.Pm41224),
