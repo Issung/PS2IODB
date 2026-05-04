@@ -1944,7 +1944,7 @@ export const Titles: Title[] = [
     new Game(`Heart no Kuni no Alice: Wonderful Wonder World`, `heartnokuninoalice`, 1, Contributors.Cajas),
     new Game(`Heartbeat Boxing / Simple 2000 Series Ultimate Vol. 6: Love * Upper!`, `heartbeatboxing`, 1, Contributors.Cajas),
     new Game(`Heatseeker`, `heatseeker`, 1, Contributors.ItzCookieX),
-    new Game(`Heavenly Guardian`, `heavenlyguardian`, 1, Contributors.Cajas),
+    new Game(`Heavenly Guardian / Legend of Sayuki`, `heavenlyguardian`, 1, Contributors.Cajas),
     new Game(`Heavy Metal Thunder`, `heavymetalthunder`, 1, Contributors.Cajas),
     new Game(`Heisei Bakutoden`, `heiseibakutoden`, 1, Contributors.Cajas),
     new Game(`Simple 2000 Hello Kitty Series Vol. 1: Starlight Puzzle / Hello Kitty: Starlight Puzzle`, `simple2000series-hellokittyvol1-starlightpuzzle-isogashicubedossunfuwawa`, 1, Contributors.ZupaPat785),
@@ -2052,7 +2052,7 @@ export const Titles: Title[] = [
     new Game(`Houshin Engi 2`, `houshinengi2`, 1, Contributors.Cajas, 3),
     new Game(`Hresvelgr`, `hresvelgr`, 3, Contributors.Cajas, 3),
     new Game(`Hresvelgr: International Edition / Jet Ion Grand Prix`, `hresvelgrinternationaledition`, 2, Contributors.Cajas, 3),
-    new Game(`HSX HyperSonic.Xtreme`, g => [
+    new Game(`HSX HyperSonic.Xtreme / G-Surfers`, g => [
         new Icon(g, `Save Game`, `hsxhypersonicxtreme-save`, 1, Contributors.TheZulaPatrolFan2005),
         new Icon(g, `Tracks`, `hsxhypersonicxtreme-tracks`, 1, Contributors.TheZulaPatrolFan2005),
     ]),
@@ -5273,7 +5273,7 @@ export const Titles: Title[] = [
     new Game(`Umisho`, `umisho`, 1, Contributors.SqueezedDog),
     new Game(`Under the Moon: Crescent`, `underthemooncrescent`, 1, Contributors.Cajas),
     new Game(`Under the Skin`, `undertheskin`, 1, Contributors.Issung),
-    new Game(`Underworld: The Eternal War`),
+    new Game(`Underworld: The Eternal War`, `underworldeternalwar`, 1, Contributors.JackDraco),
     new Game(`Unison: Rebels of Rhythm & Dance`, `unisonrebelsofrhythmdance`, 1, [Contributors.SqueezedDog, Contributors.Cajas], 3),
     new Game(`Unlimited SaGa`, `unlimitedsaga`, 1, Contributors.ItzCookieX),
     new Game(`Uno / SuperLite 2000 Table: Uno`, `superlite2000uno`, 1, Contributors.Cajas),

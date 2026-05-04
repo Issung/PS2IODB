@@ -52,6 +52,7 @@ export class Contributors {
     public static Vi7ual = new Contributor('vi7ual');
     public static Demoman = new Contributor('Demoman');
     public static SpacePrincess = new Contributor('SpacePrincess', 'https://bsky.app/profile/spacefluttershy.bsky.social');
+    public static JackDraco = new Contributor('Jack_Draco');
 }
 
 export const ContributorCount = Object.values(Contributors).length;
