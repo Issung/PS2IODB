@@ -25,7 +25,7 @@ export class Icon {
      * @param code The 'code' of the game. A shortened URL-friendly identifier for the game.
      * @param uniqueStatesCount The number of unique states this save icon has (for idle/copy/delete states in the UI). If multiple states are visually identical, count them as one.
      * @param contributor A single contributor or an array of contributors for this icon.
-     * @param animationVersion The animation version. 1 = V1 (needs re-contributing), 2 = V2 animation.
+     * @param animationVersion The animation version. null = static animations, 1 = V1 (needs re-contributing), 2 = V2 animation, 3 = V3 animation.
      */
     constructor(
         public readonly title: Title,
