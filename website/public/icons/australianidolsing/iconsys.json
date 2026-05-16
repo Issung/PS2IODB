@@ -1,0 +1,19 @@
+{
+	"directory":"BESLES-5422400000000",
+	"title":"ＡＵＳＴＲＡＬＩＡＮ　ＩＤＯＬ",
+	"normal":"Save.ico",
+	"copy":"Save.ico",
+	"delete":"Save.ico",
+	"bgOpacity":64,
+	"bgColTL":"#ffffff",
+	"bgColTR":"#0000ff",
+	"bgColBL":"#4040c0",
+	"bgColBR":"#000080",
+	"light1Dir":[0,-1,-0.5,0],
+	"light2Dir":[0,-1,-0.5,0],
+	"light3Dir":[-0.5,-0.5,0.5,0],
+	"light1Col":[1,1,1,0],
+	"light2Col":[1,1,1,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[0.699999988079071,0.699999988079071,0.699999988079071,0]
+}

@@ -1,0 +1,19 @@
+{
+	"directory":"BASLUS-21485SN7979c",
+	"title":"ＢＹＢ　Ｓａｖｅ　ＡＡＡＡＡＡＡ ＡＡＡＡＡ",
+	"normal":"byb.ico",
+	"copy":"byb.ico",
+	"delete":"byb.ico",
+	"bgOpacity":128,
+	"bgColTL":"#ffffff",
+	"bgColTR":"#ffffff",
+	"bgColBL":"#ffffff",
+	"bgColBR":"#ffffff",
+	"light1Dir":[0,-7.60099983215332,0,1],
+	"light2Dir":[0,-6.228000164031982,0,1],
+	"light3Dir":[0,-3.1640000343322754,0,1],
+	"light1Col":[1,1,1,1],
+	"light2Col":[1,1,1,1],
+	"light3Col":[1,1,1,1],
+	"ambiLightCol":[1,1,1,1]
+}
