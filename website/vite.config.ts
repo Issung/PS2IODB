@@ -1,18 +1,12 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import viteTsconfigPaths from 'vite-tsconfig-paths'
+import react, { reactCompilerPreset } from '@vitejs/plugin-react'
+import babel from '@rolldown/plugin-babel'
 
 export default defineConfig({
     base: '/',   // Deployed at ps2iodb.com, no special base path needed.
     plugins: [
-        react({
-            babel: {
-                plugins: [
-                    ["babel-plugin-react-compiler"],
-                ],
-            },
-        }),
-        viteTsconfigPaths()
+        react(),
+        babel({ presets: [reactCompilerPreset()] }),
     ],
     server: {
         // this ensures that the browser opens upon server start
@@ -23,6 +17,7 @@ export default defineConfig({
         host: true,
     },
     resolve: {
+        tsconfigPaths: true,
         alias: {
             // Stop 5000 requests being made for tablericons js chunks. Credit: https://www.reddit.com/r/reactjs/comments/1g3tsiy
             // /esm/icons/index.mjs only exports the icons statically, so no separate chunks are created

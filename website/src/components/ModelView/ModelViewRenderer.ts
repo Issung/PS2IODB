@@ -1,7 +1,7 @@
 import Stats from 'stats.js';
 import * as THREE from "three";
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper.js';
 import { AnimationData } from "../../model/AnimationData";
 import { IconSys } from "../../model/IconSys";
 import { Timeline } from "../../utils/Animation";
