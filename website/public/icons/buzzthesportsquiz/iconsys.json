@@ -1,0 +1,19 @@
+{
+	"directory":"BESCES-5426406",
+	"title":"ＢＵＺＺ！ＴＨＥ　Ｓ ＰＯＲＴＳ　ＱＵＩＺ",
+	"normal":"BZ.ico",
+	"copy":"BZ.ico",
+	"delete":"BZ.ico",
+	"bgOpacity":96,
+	"bgColTL":"#186704",
+	"bgColTR":"#113500",
+	"bgColBL":"#072500",
+	"bgColBR":"#051900",
+	"light1Dir":[1,0,0,0],
+	"light2Dir":[1,0,0,0],
+	"light3Dir":[0,0,1,0],
+	"light1Col":[0.5,0,0,0],
+	"light2Col":[0,0.5,0,0],
+	"light3Col":[0,0,0.5,0],
+	"ambiLightCol":[0.800000011920929,0.800000011920929,0.800000011920929,0]
+}
