@@ -5163,7 +5163,7 @@ export const Titles: Title[] = [
     new Game(`Tony Hawk's Proving Ground`, `tonyhawksprovingground`, 1, Contributors.ItzCookieX),
     new Game(`Tony Hawk's Underground`, g => [
         new Icon(g, `Save`, `tonyhawksunderground`, 1, Contributors.Cajas),
-        new Icon(g, `Flags`, `tonyhawksunderground-flags`, 1, Contributors.Valzentia),
+        new Icon(g, `Park`, `tonyhawksunderground-park`, 1, Contributors.Valzentia),
         new Icon(g, `NetFile`, `tonyhawksunderground-netfile`, 1, Contributors.Valzentia),
         new Icon(g, `Tricks`, `tonyhawksunderground-tricks`, 1, Contributors.Valzentia),
     ]),
