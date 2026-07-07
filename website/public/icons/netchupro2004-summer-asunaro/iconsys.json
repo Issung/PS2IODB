@@ -1,0 +1,19 @@
+{
+	"directory":"BISLPS-20322RBMVP",
+	"title":"熱チュー！　プロ野球２００３秋アスナロゲームデータ",
+	"normal":"icon1.ico",
+	"copy":"icon1.ico",
+	"delete":"icon1.ico",
+	"bgOpacity":0,
+	"bgColTL":"#404040",
+	"bgColTR":"#808080",
+	"bgColBL":"#808080",
+	"bgColBR":"#404040",
+	"light1Dir":[0,1,0,0],
+	"light2Dir":[0,1,1,0],
+	"light3Dir":[0,1,-1,0],
+	"light1Col":[0.5,0.5,0.5,0],
+	"light2Col":[0.5,0.5,0.5,0],
+	"light3Col":[0.5,0.5,0.5,0],
+	"ambiLightCol":[0.5,0.5,0.5,0]
+}
