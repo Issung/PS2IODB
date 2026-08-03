@@ -709,7 +709,7 @@ export const Titles: Title[] = [
     new Application(`Colorio: Hagaki Print`, `colorio`, 1, Contributors.Cajas),
     new Game(`Colosseum: Road to Freedom`, `colosseumroadtofreedom`, 1, Contributors.Sebita),
     new Game(`Combat Ace`, `combatace`, 1, Contributors.Zeroman95),
-    new Game(`Combat Elite: WWII Paratroopers`),
+    new Game(`Combat Elite: WWII Paratroopers`, `combatelitewwiiparatroopers`, 1, Contributors.Spacething7474, null),
     new Game(`Combat Queen`, g => [
         new Icon(g, `Profile 1`, `combatqueen-savefile1`, 1, Contributors.LanceBoyle, 3),
         new Icon(g, `Profile 2`, `combatqueen-savefile2`, 1, Contributors.LanceBoyle, 3),

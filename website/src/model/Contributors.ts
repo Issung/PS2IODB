@@ -54,6 +54,7 @@ export class Contributors {
     public static SpacePrincess = new Contributor('SpacePrincess', 'https://bsky.app/profile/spacefluttershy.bsky.social');
     public static JackDraco = new Contributor('Jack_Draco');
     public static Valerio = new Contributor('Valerio');
+    public static Spacething7474 = new Contributor('Spacething7474', 'https://www.youtube.com/@Spacething7474');
 }
 
 export const ContributorCount = Object.values(Contributors).length;
