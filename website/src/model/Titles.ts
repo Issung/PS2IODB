@@ -1162,6 +1162,7 @@ export const Titles: Title[] = [
     new Game(`Dynasty Warriors 5: Xtreme Legends`, `dynastywarriors5xtremelegends`, 1, Contributors.Cajas, 2),
     new Game(`Dynasty Warriors 6`, `dynastywarriors6`, 1, [Contributors.ItzCookieX, Contributors._00TECDEC], 3),
     new Game(`Dynasty Warriors: Gundam 2`, `dynastywarriorsgundam2`, 1, [Contributors.Cajas, Contributors._00TECDEC], 3),
+    new Application(`DVD Player Update`, `dvdplayerupdate`, 1, Contributors.Topaz95),
     new Game(`E'tude Prologue: Yureugoku Kokoro no Katachi`, `etudeprologue`, 1, Contributors.Cajas),
     new Application(`EA Login`, `ealogin`, 1, Contributors.Sebita), // "A save file for online play of some EA games e.g. Burnout 3 / Revenge" -Sebita
     new Application(`EA Sports Bio`, `easportsbio`, 1, Contributors.Jtduckman),
