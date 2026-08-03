@@ -1605,6 +1605,7 @@ export const Titles: Title[] = [
     new Game(`Game Select 5 Wa`, `gameselect5wa`, 1, Contributors.ZupaPat785),
     new Game(`Game Select 5 You`, `gameselect5you`, 1, Contributors.ZupaPat785, 1),
     new Game(`Games Galaxy 2`),
+    new Application(`GameShark`, `gameshark`, 1, Contributors.Stout),
     new Game(`Gantz: The Game`, `gantz`, 1, Contributors.Cajas),
     new Game(`Garfield`, `garfield`, 3, Contributors.Cajas),
     new Game(`Garfield: A Tale of Two Kitties`, `garfieldtaleoftwokitties`, 1, Contributors.Cajas),
