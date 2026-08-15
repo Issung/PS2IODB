@@ -4981,7 +4981,7 @@ export const Titles: Title[] = [
     new Game(`Taito Memories II Joukan`, `taitomemoriesiijoukan`, 1, Contributors.Sebita),
     new Game(`Taito Memories Joukan`, `taitomemoriesjoukan`, 1, Contributors.Sebita),
     new Game(`Tak 2: The Staff of Dreams`, `tak2thestaffofdreams`, 1, Contributors.Valzentia),
-    new Game(`Tak and the Guardians of Gross`),
+    new Game(`Tak and the Guardians of Gross`, `takandtheguardiansofgross`, 1, Contributors.Spacething7474),
     new Game(`Tak and the Power of Juju`, `takandthepowerofjuju`, 1, Contributors.Cajas),
     new Game(`Tak: The Great Juju Challenge`, `takthegreatjujuchallenge`, 1, Contributors.Cajas),
     new Game(`Takahashi Naoko no Marathon Shiyouyo!`, `takahashinaokomarathon`, 1, Contributors.Cajas),
