@@ -2472,7 +2472,10 @@ export const Titles: Title[] = [
     new Game(`Kingdom Hearts`, `kingdomhearts`, 1, Contributors.Issung),
     new Game(`Kingdom Hearts: Final Mix`, `kingdomhearts1finalmix`, 1, Contributors.ItzCookieX),
     new Game(`Kingdom Hearts II`, `kingdomhearts2`, 1, Contributors.Cajas),
-    new Game(`Kingdom Hearts II: Final Mix +`, `kingdomhearts2finalmix`, 1, Contributors.ItzCookieX),
+    new Game(`Kingdom Hearts II: Final Mix +`, g => [
+        new Icon(g, `System Data`, `kingdomhearts2finalmixplus-systemdata`, 1, Contributors.Justheretocontribute),
+        new Icon(g, `Unknown Variant (Sora)`, `kingdomhearts2finalmixplus`, 1, Contributors.ItzCookieX),
+    ]),
     new Game(`Kingdom Hearts Re:Chain of Memories`, `kingdomheartsrecom`, 1, Contributors.ItzCookieX),
     new Game(`Kiniro no Corda: La Corda d'Oro`, `kinironocorda`, 1, Contributors.Cajas),
     new Game(`Kiniro no Corda 2`, `kinironocorda2`, 1, Contributors.Cajas),
