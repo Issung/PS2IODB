@@ -2953,6 +2953,7 @@ export const Titles: Title[] = [
     new Game(`Michigan: Report from Hell`, `michiganreportfromhell`, 1, Contributors.TravisTouchdown),
     new Game(`Micro Machines`, `micromachines`, 1, Contributors.TheZulaPatrolFan2005),
     new Game(`Micro Machines V4`, `micromachinesv4`, 1, Contributors.Typedesigns),
+    new Game(`Midnight Club 3: DUB Edition [24 October 2004 Alpha Build]`, `midnightclub3dubedition24october2004alpha`, 1, Contributors.Teddyvlk),
     new Game(`Midnight Club 3: DUB Edition`, `midnightclub3dubedition`, 1, Contributors.Sebita),
     new Game(`Midnight Club 3: DUB Edition Remix`, `midnightclub3dubeditionremix`, 1, Contributors.Sebita),
     new Game(`Midnight Club II`, `midnightclubii`, 1, Contributors.Sebita),

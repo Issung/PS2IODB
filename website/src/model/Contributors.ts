@@ -57,6 +57,7 @@ export class Contributors {
     public static Spacething7474 = new Contributor('Spacething7474', 'https://www.youtube.com/@Spacething7474');
     public static Stout = new Contributor('★stout☆');
     public static Justheretocontribute = new Contributor('justheretocontribute');
+    public static Teddyvlk = new Contributor('TEddyVLK');
 }
 
 export const ContributorCount = Object.values(Contributors).length;
