@@ -86,7 +86,7 @@ export const Titles: Title[] = [
     new Game(`AFL Premiership 2006`),
     new Game(`AFL Premiership 2007`),
     new Game(`After...`, `after`, 1, Contributors.Cajas),
-    new Game(`Agassi Tennis Generation`),
+    new Game(`Agassi Tennis Generation`, `agassitennisgeneration`, 3, Contributors.TheZulaPatrolFan2005),
     new Game(`Age of Empires II: The Age of Kings`, `ageofempires2theageofkings`, 1, Contributors.Zeroman95),
     new Game(`Agent Hugo`, `agenthugo`, 1, Contributors.Cajas),
     new Game(`Agent Hugo: Hula Holiday`, `agenthugohulaholiday`, 1, Contributors.Cajas),
