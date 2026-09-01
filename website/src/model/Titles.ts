@@ -1437,7 +1437,7 @@ export const Titles: Title[] = [
         new Icon(g, `Japanese`, `fireprowrestlingreturns-jp`, 1, Contributors.Cajas),
     ]),
     new Game(`Fire Pro Wrestling Z`, `fireprowrestlingz`, 1, Contributors.Cajas),
-    new Game(`Firefighter F.D. 18`),
+    new Game(`Firefighter F.D. 18`, `firefighterfd18`, 1, Contributors.Galuade),
     new Game(`First Kiss * Monogatari I & II`, g => [
         new Icon(g, `I`, `firstkissmonogatari-1`, 1, Contributors.Cajas),
         new Icon(g, `II`, `firstkissmonogatari-2`, 1, Contributors.Cajas),
