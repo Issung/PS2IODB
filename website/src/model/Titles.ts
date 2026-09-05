@@ -3106,7 +3106,7 @@ export const Titles: Title[] = [
     new Game(`Mr. Golf`, `mrgolf`, 1, [Contributors.SqueezedDog, Contributors.Cajas], 3),
     new Game(`MS Saga: A New Dawn`, `mssagaanewdawn`, 1, Contributors.Cajas),
     new Game(`MTV's Celebrity Deathmatch`, `mtvscelebritydeathmatch`, 1, Contributors.SqueezedDog),
-    new Application(`MTV Music Generator 2`),
+    new Application(`MTV Music Generator 2`, `mtvmusicgenerator2`, 1, Contributors.MaxBo, 3),
     new Application(`MTV Music Generator 3: This Is The Remix`),
     new Game(`MTX Mototrax`, g => [
         new Icon(g, `Career`, `mtxmototrax-career`, 1, Contributors.TheZulaPatrolFan2005),
@@ -3725,7 +3725,7 @@ export const Titles: Title[] = [
     new Game(`PrideGP Grand Prix 2003`, `pridegpgrandprix2003`, 1, Contributors.ZupaPat785),
     new Game(`Primal`, `primal`, 1, Contributors.Issung),
     new Application(`Primal Image for Printer`),
-    new Application(`Primal Image vol. 1`),
+    new Application(`Primal Image vol. 1`, `primalimagevol1`, 1, Contributors.MaxBo, 3),
     new Game(`Primopuel`, `primopuel`, 1, Contributors.Cajas),
     new Game(`Prince of Persia: The Sands of Time`, `princeofpersiasandsoftime`, 1, Contributors.Cajas),
     new Game(`Prince of Persia: The Two Thrones`, `princeofpersiathetwothrones`, 1, [Contributors.Cajas, Contributors._00TECDEC], 3),
