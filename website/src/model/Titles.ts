@@ -2281,9 +2281,9 @@ export const Titles: Title[] = [
     new Game(`Juuni Kokuki: Guren no Shirube, Koujin no Michi`, `juunikokukigurennoshirubekoujinnomichi`, 1, Contributors.Cajas, 3),
     new Game(`Juuni Kokuki: Kakukakutaru Oudou, Kouryoku no Uka`, `juunikokukikakukakutaruoudoukouryokunouka`, 1, Contributors.ZupaPat785, 1),
     new Game(`K-1 Premium 2004 Dynamite!!`),
-    new Game(`K-1 Premium 2005 Dynamite`),
+    new Game(`K-1 Premium 2005 Dynamite`, `k1premium2005dynamite`, 1, Contributors.MaxBo),
     new Game(`K-1 World GP 2005`, `k1worldgp2005`, 1, Contributors.SqueezedDog),
-    new Game(`K-1 World GP 2006`),
+    new Game(`K-1 World GP 2006`, `k1worldgp2006`, 1, Contributors.MaxBo),
     new Game(`K-1 World Grand Prix`, g => [
         new Icon(g, `Save Data`, `k1worldgrandprix-savedata`, 1, Contributors.Cajas),
         new Icon(g, `System Data`, `k1worldgrandprix-systemdata`, 1, Contributors.Cajas),
