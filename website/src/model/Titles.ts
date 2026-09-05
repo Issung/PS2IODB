@@ -1905,7 +1905,7 @@ export const Titles: Title[] = [
     new Game(`Happiness! De-Lucks`, `happinessdelucks`, 1, Contributors.Cajas),
     new Game(`Happy Breeding: Cheerful Party`, `happybreeding`, 1, Contributors.Cajas),
     new Game(`Happy Feet`, `happyfeet`, 1, Contributors.SqueezedDog),
-    new Game(`Happy! Happy!! Boarders in Hokkaido`),
+    new Game(`Happy! Happy!! Boarders in Hokkaido`, `happyhappyboardersinhokkaido`, 1, Contributors.MaxBo, 3),
     new Game(`Hard Hitter 2`, g => [
         new Icon(g, `Hard Hitter 2 (EU)`, `hardhitter2`, 1, [Contributors.Jtduckman, Contributors.Cajas], 3),
         new Icon(g, `Hard Hitter Tennis (USA)`, `hardhittertennis`, 1, [Contributors.Jtduckman, Contributors.Cajas], 3),
@@ -4324,7 +4324,7 @@ export const Titles: Title[] = [
     new Game(`Shinseiki Evangelion: Typing E-Keikaku`, `shinseikievangeliontypingekeikaku`, 1, Contributors.Pm41224),
     new Game(`Shinseiki GPX Cyber Formula: Road to the Infinity`, `shinseikigpx`, 1, Contributors.SqueezedDog),
     new Game(`Shinseiki GPX Cyber Formula: Road to the Infinity 2`),
-    new Game(`Shinseiki GPX Cyber Formula: Road to the Infinity 3`),
+    new Game(`Shinseiki GPX Cyber Formula: Road to the Infinity 3`, `shinseikigpx3`, 1, Contributors.MaxBo),
     new Game(`Shinseiki GPX Cyber Formula: Road to the Infinity 4`, `shinseikigpx4`, 1, Contributors.SqueezedDog),
     new Game(`Shinseiki Yūsha Taisen`, `shinseikiyshataisen`, 1, Contributors.Cajas),
     new Game(`Shinten Makai: Generation of Chaos V`, `generationofchaosv`, 1, Contributors.Cajas),
