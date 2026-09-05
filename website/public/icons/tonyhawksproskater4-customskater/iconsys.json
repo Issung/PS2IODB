@@ -1,9 +1,8 @@
 {
-	"directory":"BASLUS-20504njfoqfea",
-	"title":"THPS4 Career: Eduardo",
-	"normal":"thps4.ico",
-	"copy":"thps4.ico",
-	"delete":"thps4.ico",
+	"title":"THPS4 Skater: Eduardo",
+	"normal":"cas.ico",
+	"copy":"cas.ico",
+	"delete":"cas.ico",
 	"bgOpacity":96,
 	"bgColTL":"#800000",
 	"bgColTR":"#008000",
