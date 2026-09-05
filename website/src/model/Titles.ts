@@ -2515,7 +2515,7 @@ export const Titles: Title[] = [
     new Game(`Kitakata Kenzou San Goku Shi`, `kitakatakenzousangokushi`, 1, Contributors.ZupaPat785),
     new Game(`Kiwame Mahjong DXII`, `kiwamemahjongdxiithe4thmondo21cupcompetition`, 2, Contributors.ZupaPat785),
     new Game(`Klonoa 2: Lunatea's Veil`, `klonoa2`, 3, [Contributors.VibiLeFleu, Contributors.Cajas], 3),
-    new Game(`Knight Rider: The Game`),
+    new Game(`Knight Rider: The Game`, `knightriderthegame`, 1, Contributors.MaxBo),
     new Game(`Knight Rider: The Game 2`, `knightrider2`, 2, Contributors.Cajas),
     new Game(`Knights of the Temple II`, `knightsofthetemple2`, 1, Contributors.Sebita),
     new Game(`Knights of the Temple: Infernal Crusade`, `knightsofthetempleinfernalcrusade`, 1, Contributors.Cajas),
