@@ -738,7 +738,7 @@ export const Titles: Title[] = [
     new Game(`Counter-Strike [Homebrew]`, `counterstrike`, 1, Contributors.JonnyPaes),
     new Game(`Counter Terrorist Special Forces: Fire for Effect`),
     new Game(`Countryside Bears`),
-    new Game(`Covert Command`),
+    new Game(`Covert Command`, `covertcommand`, 1, Contributors.MaxBo),
     new Game(`Cowboy Bebop: Tsuioku no Serenade`, `cowboybebop`, 1, Contributors.Issung),
     new Game(`CR Pachinko Dokaben: Pachitte Chonmage Tatsujin 7`, `crpachinkodokabenpachittechonmagetatsujin7`, 1, Contributors.Grounder),
     new Game(`CR Pachinko Yellow Cab: Pachitte Chonmage Tatsujin 6`, `crpachinkoyellowcabpachittechonmagetatsujin6`, 1, Contributors.Grounder, 1),
