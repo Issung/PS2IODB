@@ -1920,7 +1920,7 @@ export const Titles: Title[] = [
     new Game(`Harry Potter and the Half-Blood Prince`, `harrypotterandthehalfbloodprince`, 1, Contributors.SqueezedDog),
     new Game(`Harry Potter and the Order of the Phoenix`, `harrypotterandtheorderofthephoenix`, 1, Contributors.SqueezedDog),
     new Game(`Harry Potter and the Prisoner of Azkaban`, `harrypotterandtheprisonerofazkaban`, 1, [Contributors.SqueezedDog, Contributors._00TECDEC], 3),
-    new Game(`Harry Potter and the Sorcerer's Stone`, `harrypotterandthesorcerersstone`, 1, [Contributors.SqueezedDog, Contributors.MaxBo], 3),
+    new Game(`Harry Potter and the Sorcerer's Stone`, `harrypotterandthesorcerersstone`, 1, Contributors.SqueezedDog, 1),
     new Game(`Harry Potter: Quidditch World Cup`, `harrypotterquidditchworldcup`, 1, Contributors.SqueezedDog),
     new Game(`Haru no Ashioto: Step of Spring`, `stepofspring`, 1, Contributors.Cajas, 3),
     new Game(`Harukanaru Toki no Naka de 2`, `harukanarutokinonakade2`, 1, Contributors.Everdred),
@@ -5111,7 +5111,7 @@ export const Titles: Title[] = [
     ]),
     new Game(`TimeSplitters 2`, g => [
         new Icon(g, `Save Data`, `timesplitters2`, 1, [Contributors.Issung, Contributors.Cajas], 2),
-        new Icon(g, `Mapmaker`, `timesplitters2-mapmaker`, 1, [Contributors.Sebita, Contributors.MaxBo], 3),
+        new Icon(g, `Mapmaker`, `timesplitters2-mapmaker`, 1, Contributors.Sebita, 1),
     ]),
     new Game(`TimeSplitters: Future Perfect`, g => [
         new Icon(g, `Save Data`, `timesplittersfutureperfect`, 1, Contributors.Cajas),
@@ -5170,7 +5170,7 @@ export const Titles: Title[] = [
     new Game(`Tom Clancy's Splinter Cell: Pandora Tomorrow`, `tomclancyssplintercellpandoratomorrow`, 1, Contributors.SqueezedDog),
     new Game(`Tomak: Save the Earth`, `tomaksavetheearth`, 1, Contributors.Cajas),
     new Game(`Tomak: Save the Earth – Complete Edition`),
-    new Game(`Tomb Raider: The Angel of Darkness`, `tombraidertheangelofdarkness`, 1, [Contributors.Issung, Contributors.MaxBo], 3),
+    new Game(`Tomb Raider: The Angel of Darkness`, `tombraidertheangelofdarkness`, 1, Contributors.Issung, 1),
     new Game(`Tomb Raider: Anniversary`, `tombraideranniversary`, 1, Contributors.Issung, 1),
     new Game(`Tomb Raider: Legend`, `tombraiderlegend`, 1, Contributors.Issung),
     new Game(`Tomb Raider: Underworld`, `tombraiderunderworld`, 1, Contributors.Issung),
