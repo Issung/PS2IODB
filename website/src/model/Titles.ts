@@ -5735,7 +5735,7 @@ export const Titles: Title[] = [
     new Game(`Yamiyo ni Sasayaku: Meitantei Kyouichirou Sagara`, `yamiyonisasayaku`, 1, Contributors.Cajas),
     new Game(`Yanya Caballista: City Skater`, `yanyacaballistacityskater`, 1, Contributors.ShawnS),
     new Game(`Yatohime Zankikou`, `yatohimezankikou`, 1, Contributors.SqueezedDog),
-    new Game(`YetiSports Arctic Adventures`),
+    new Game(`YetiSports Arctic Adventures`, `yetisports`, 1, Contributors.FelipePlayzYT, 3),
     new Game(`Yo-Jin-Bo: Unmei no Freude`, `yojinbo`, 1, Contributors.Cajas),
     new Game(`Yoake Mae Yori Ruriiro na: Brighter than Dawning Blue`, `yoakemaeyoriruriironabrigtherthandawningblue`, 1, Contributors.Cajas, 1),
     new Game(`Yoake no Mariko`, `yoakenomariko`, 3, Contributors.ZupaPat785, 1),

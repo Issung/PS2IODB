@@ -61,6 +61,7 @@ export class Contributors {
     public static Thinkabout42 = new Contributor('thinkabout42');
     public static Galuade = new Contributor('Galuade');
     public static MaxBo = new Contributor('Max Bo', 'https://maxbo.me');
+    public static FelipePlayzYT = new Contributor('FelipePlayzYT');
 }
 
 export const ContributorCount = Object.values(Contributors).length;
