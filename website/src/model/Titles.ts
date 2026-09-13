@@ -2552,7 +2552,7 @@ export const Titles: Title[] = [
     new Game(`Korokke! Ban-Ou no Kiki o Sukue`),
     new Game(`Kotoba no Puzzle: Mojipittan`, `kotobanopuzzlemojipittan`, 1, Contributors.ZupaPat785),
     new Game(`Kou Rate Ura Mahjong Retsuden Mukoubuchi: Goburei, Last desu ne`),
-    new Game(`Kouenji Joshi Soccer`),
+    new Game(`Kouenji Joshi Soccer`, `kouenjijoshisoccer`, 1, Contributors.MaxBo),
     new Game(`Koufuku Sousakan`, `koufukusousakan`, 1, Contributors.Cajas),
     new Game(`Koushien: Konpeki no Sora`, `koushienkonpekinosora`, 1, Contributors.Cajas),
     new Game(`Kousoku Tanigawa Shogi`, g => [
