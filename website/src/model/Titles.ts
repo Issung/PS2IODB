@@ -2485,7 +2485,7 @@ export const Titles: Title[] = [
     new Game(`Kiniro no Corda 2`, `kinironocorda2`, 1, Contributors.Cajas),
     new Game(`Kiniro no Corda 2 Encore`, `kinironocorda2encore`, 1, Contributors.Cajas, 1),
     new Game(`Kiniro no Corda 3`, `kinironocorda3`, 1, Contributors.Cajas),
-    new Game(`Kinkou Myaku Tansa Simulation: Ingot 79`),
+    new Game(`Kinkou Myaku Tansa Simulation: Ingot 79`, `ingot79`, 1, Contributors.MaxBo),
     new Game(`Kinniku Banzuke: Muscle Wars 21`, `kinnikubanzukemusclewars21`, 1, Contributors.ZupaPat785),
     new Game(`Kinnikuman Muscle Grand Prix Max`, `kinnikumanmusclegrandprixmax`, 1, Contributors.Cajas),
     new Game(`Kinnikuman Muscle Grand Prix Max 2: Tokumori`),
