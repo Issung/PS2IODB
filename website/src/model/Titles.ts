@@ -676,7 +676,7 @@ export const Titles: Title[] = [
     new Game(`Climax Tennis: WTA Tour Edition`),
     new Game(`Clock Tower 3`, `clocktower3`, 1, Contributors.DrinkMoreWater),
     new Game(`Clock Zero: Shuuen no Ichibyou`, `clockzero`, 1, Contributors.Cajas),
-    new Game(`Clover Heart's: Looking for Happiness`),
+    new Game(`Clover Heart's: Looking for Happiness`, `cloverhearts`, 1, Contributors.MaxBo, 3),
     new Game(`Clover no Kuni no Alice`, `clovernokuninoalice`, 1, Contributors.Cajas),
     new Game(`Club Football`),
     new Game(`Club Football 2005`),
@@ -5246,7 +5246,7 @@ export const Titles: Title[] = [
         new Icon(g, `Game Data`, `toudaishogishikenbishadojo-gamedata`, 1, Contributors.ZupaPat785),
         new Icon(g, `System Data`, `toudaishogishikenbishadojo-systemdata`, 1, Contributors.ZupaPat785),
     ]),
-    new Game(`Tough: Dark Fight`),
+    new Game(`Tough: Dark Fight`, `toughdarkfight`, 1, Contributors.MaxBo),
     new Game(`Touka Gettan: Koufuu no Ryouou`, g => [
         new Icon(g, `Game Data`, `toukagettankoufuunoryouou-gamedata`, 1, Contributors.Cajas),
         new Icon(g, `System Data`, `toukagettankoufuunoryouou-systemdata`, 1, Contributors.Cajas),
