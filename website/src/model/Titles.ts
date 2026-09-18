@@ -2935,6 +2935,11 @@ export const Titles: Title[] = [
         new Icon(g, `Banana (Unknown Condition)`, `metalgearsolid3snakeeater-banana`, 1, Contributors.Cajas),
     ]),
     //new Game(`Metal Gear Solid 3: Subsistence`),  // Removed as it has no differences to the base release.
+    new Game(`Metal Gear Solid 3: Subsistence - Disc 2 Persistence`, g => [
+        new Icon(g, `Metal Gear`, `mgs3sd2p-metalgear1`, 1, Contributors.TheY),
+        new Icon(g, `Metal Gear 2`, `mgs3sd2p-metalgear2`, 1, Contributors.TheY),
+        new Icon(g, `Metal Gear Online`, `mgs3sd2p-metalgearonline`, 1, Contributors.TheY),
+    ]),
     new Game(`Metal Saga`, `metalsaga`, 1, Contributors.Cajas),
     new Game(`Metal Slug`, `metalslug`, 1, Contributors.Cajas, 1),
     new Game(`Metal Slug 3`, `metalslug3`, 1, Contributors.SqueezedDog),
