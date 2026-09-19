@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      deployments: write
     steps:
       - uses: actions/checkout@v3
       - name: Load node version from .nvmrc
@@ -32,11 +31,11 @@ jobs:
         working-directory: ./website
         run: npm run predeploy  # The predeploy script runs build & performs any special preperations for deployment.
       - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+        uses: cloudflare/wrangler-action@v3
         with:
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}  # Trigger GitHub Deployments
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: fb515be51650a4b329622e852ccbed27
-          projectName: ps2iodb
-          directory: dist
           workingDirectory: website
+          # Wrangler can't infer the branch from a workflow_run event, so pass it explicitly.
+          # Anything other than the production branch (main) is deployed as a preview.
+          command: pages deploy dist --project-name=ps2iodb --branch=${{ github.event.workflow_run.head_branch || github.ref_name }}
