@@ -2845,7 +2845,7 @@ export const Titles: Title[] = [
     new Game(`The Mechsmith: Run=Dim`, `mechsmith`, 1, Contributors.Cajas),
     new Game(`Medal of Honor: European Assault`, `medalofhonoreuropeanassault`, 1, Contributors.Sebita),
     new Game(`Medal of Honor: Frontline`, g => [
-        new Icon(g, `Save Data`, `mohfrontline`, 1, Contributors.Issung, null),
+        new Icon(g, `Save Data`, `mohfrontline`, 1, [Contributors.Issung, Contributors.TheY], null),
         new Icon(g, `Options`, `mohfrontline-options`, 1, Contributors.Valerio, null),
     ]),
     new Game(`Medal of Honor: Rising Sun`, `medalofhonorrisingsun`, 1, Contributors.Sebita),
