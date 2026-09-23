@@ -62,7 +62,7 @@ export class Contributors {
     public static Galuade = new Contributor('Galuade');
     public static MaxBo = new Contributor('Max Bo', 'https://maxbo.me');
     public static FelipePlayzYT = new Contributor('FelipePlayzYT');
-    public static TheY = new Contributor('TheY');
+    public static TheY = new Contributor('TheY', 'https://steamcommunity.com/profiles/76561199229184552');
 }
 
 export const ContributorCount = Object.values(Contributors).length;
