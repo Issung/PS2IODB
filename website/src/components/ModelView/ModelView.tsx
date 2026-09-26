@@ -231,6 +231,22 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
         renderer.prop_meshType = meshType;
     }, [doAnimation, animationSpeed, frame, baseType, meshType]);
 
+    // Effect: Number keys 1-3 switch between states
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.ctrlKey || e.altKey || e.metaKey) return;
+            const target = e.target as HTMLElement | null;
+            if (target?.isContentEditable || ['INPUT', 'TEXTAREA'].includes(target?.tagName ?? '')) return;
+            const idx = ['1', '2', '3'].indexOf(e.key);
+            if (idx !== -1 && idx < states.length) {
+                setSelectedState(states[idx]);
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, [states]);
+
     // Background color computation
     const color = calculateColor();
 
