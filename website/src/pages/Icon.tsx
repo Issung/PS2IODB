@@ -278,6 +278,7 @@ const Icon = () => {
                         downloadStatus={downloadStatus}
                         fullscreen={true}
                         isStaticAnimation={icon?.animationVersion === null}
+                        uniqueStatesCount={icon?.uniqueStatesCount}
                     />
                 </div>
             )}

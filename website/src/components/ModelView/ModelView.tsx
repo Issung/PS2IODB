@@ -10,6 +10,7 @@ import './ModelView.scss';
 import { BackgroundType, BaseType, MeshType, TextureType } from "./ModelViewParams";
 import { ModelViewRenderer } from "./ModelViewRenderer";
 import { AnimationVersion } from '../../model/AnimationVersion';
+import { UniqueStatesCount } from '../../model/UniqueStatesCount';
 
 export interface ModelViewProps {
     /** The loader to use for fetching model data. */
@@ -36,13 +37,20 @@ export interface ModelViewProps {
      * When true, shows a grey underline on the Animate label with different modal text.
      */
     isStaticAnimation?: boolean;
+
+    /**
+     * The number of visually unique states the database records for this icon.
+     * When this differs from the number of state files the iconsys defines, the State label
+     * becomes clickable and shows a modal explaining the discrepancy.
+     */
+    uniqueStatesCount?: UniqueStatesCount;
 }
 
 const renderer = new ModelViewRenderer();
 
 const brokenAnimationsPath = `/browse/category/${Category.brokenAnimation}#browse`;
 
-export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fullscreen = false, isStaticAnimation = false }: ModelViewProps) => {
+export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fullscreen = false, isStaticAnimation = false, uniqueStatesCount }: ModelViewProps) => {
     // State for loaded data
     const [iconsys, setIconSys] = useState<IconSys | undefined>(undefined);
     const [loadError, setLoadError] = useState<string | undefined>(undefined);
@@ -64,6 +72,9 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
 
     // Animation warning modal state
     const [showAnimationModal, setShowAnimationModal] = useState(false);
+
+    // States info modal state
+    const [showStatesModal, setShowStatesModal] = useState(false);
 
     // Details modal state
     const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -87,6 +98,7 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
 
     // Derived state
     const iconHasBackgroundColorData = iconsys !== undefined && iconsys.bgColBL !== undefined;
+    const statesMismatch = uniqueStatesCount !== undefined && uniqueStatesCount !== states.length;
 
     // Callback for renderer to report info back
     const iconInfoCallback = useCallback((newFrameCount: number, newTextureName: string | undefined, animationVersion: AnimationVersion, newVertexCount: number, newTriangleCount: number) => {
@@ -254,7 +266,20 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                         <>
                             <ul>
                                 <li>
-                                    <label>State
+                                    <label>
+                                        <span
+                                            className={statesMismatch ? 'states-info-label' : undefined}
+                                            title={statesMismatch ? 'Click for info about this icon\'s states' : undefined}
+                                            onClick={!statesMismatch
+                                                ? undefined
+                                                : (e) => {
+                                                    e.preventDefault();
+                                                    setShowStatesModal(true);
+                                                }
+                                            }
+                                        >
+                                            State
+                                        </span>
                                         <select
                                             value={selectedState ? states.findIndex(s => s.displayLabel === selectedState.displayLabel) : 0}
                                             onChange={e => setSelectedState(states[parseInt(e.target.value)])}
@@ -500,6 +525,34 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                         </p>
                     </>
                 )}
+            </Modal>
+
+            {/* States information modal */}
+            <Modal
+                isOpen={showStatesModal}
+                title="Icon States"
+                onClose={() => setShowStatesModal(false)}
+                portalContainer={portalTarget}
+            >
+                <p>
+                    PS2 save icons can have up to 3 states: Idle, Copy & Delete. Different states are displayed depending
+                    on user interface interaction (e.g. selecting the copy / delete functions).
+                </p>
+                <br/>
+                <p>
+                    If a developer wished to only have 1 unique state then they could point to the same file for all 3 states, but many developers
+                    did not (perhaps misunderstanding the function), instead storing the same file 3 separate times & pointing to each for each different
+                    state, a big waste of memory card space!
+                </p>
+                <br/>
+                <p>
+                    The PS2IODB is manually contributed and we track how many "unique states" each icon has, so that this can be filtered upon in the index UI, but
+                    when viewing an icon we allow you to look at all, in case any differences were missed.
+                </p>
+                <br/>
+                <p>
+                    This icon defines {states.length} different state files, but is recorded as only having {uniqueStatesCount} visually unique state{uniqueStatesCount === 1 ? '' : 's'}.
+                </p>
             </Modal>
 
             {/* Icon details modal */}

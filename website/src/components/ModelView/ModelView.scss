@@ -81,7 +81,8 @@ div#model-view {
             width: 100%;
         }
         
-        .animation-static-label {
+        .animation-static-label,
+        .states-info-label {
             text-decoration: underline wavy #a7a7a7;
             text-underline-offset: 0px;
             cursor: pointer;
