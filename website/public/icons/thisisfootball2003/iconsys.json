@@ -1,9 +1,9 @@
 {
-	"directory":"BASCUS-97365",
-	"title":"ＷＴＳ２００５",
-	"normal":"list.ico",
-	"copy":"list.ico",
-	"delete":"list.ico",
+	"directory":"BESCES-51179YASIN",
+	"title":"ＴＩＦ２００３ＹＡＳＩＮ",
+	"normal":"game.ico",
+	"copy":"game.ico",
+	"delete":"game.ico",
 	"bgOpacity":96,
 	"bgColTL":"#2d618a",
 	"bgColTR":"#1f2b4a",
@@ -15,5 +15,5 @@
 	"light1Col":[0.5400000214576721,0.6899999976158142,0.7599999904632568,0],
 	"light2Col":[0.5,0.33000001311302185,0.20000000298023224,0],
 	"light3Col":[0.14000000059604645,0.14000000059604645,0.3799999952316284,0],
-	"ambiLightCol":[0,0,0,0]
+	"ambiLightCol":[0.5,0.5,0.5,0]
 }

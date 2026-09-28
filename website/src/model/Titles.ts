@@ -2925,7 +2925,10 @@ export const Titles: Title[] = [
         new Icon(g, `Photo Mode`),
         new Icon(g, `Snake Tales`, `metalgearsolid2sonsofliberty-snaketales`, 1, Contributors.Cajas),
     ]),
-    new Game(`Metal Gear Solid 2: Substance`, `metalgearsolid2substance`, 1, Contributors.Psiences),
+    new Game(`Metal Gear Solid 2: Substance`, g => [
+        new Icon(g, `Save Data`, `metalgearsolid2substance`, 1, Contributors.Psiences),
+        new Icon(g, `Photo Data`, `metalgearsolid2substance-photodata`, 1, Contributors.TheY),  // The icon used is whatever the taken photo is.
+    ]),
     new Game(`Metal Gear Solid 3: Snake Eater`, g => [
         new Icon(g, `Camo Data`, `metalgearsolid3snakeeater-camodata`, 1, Contributors.Cajas),
         new Icon(g, `Save Data`, `metalgearsolid3snakeeater`, 1, Contributors.Psiences),
@@ -5647,10 +5650,19 @@ export const Titles: Title[] = [
     ]),
     new Game(`World Super Police`),
     new Game(`World Tank Museum For Game Toubu Sensen`, `worldtankmuseum`, 1, Contributors.Cajas),
-    new Game(`World Tour Soccer 2002`, `worldtoursoccer2002`, 1, Contributors.TheZulaPatrolFan2005, 3),
-    new Game(`World Tour Soccer 2003`, `worldtoursoccer2003`, 1, Contributors.SqueezedDog),
-    new Game(`World Tour Soccer 2005`, `worldtoursoccer2005`, 1, Contributors.SqueezedDog),
-    new Game(`World Tour Soccer 2006`, `worldtoursoccer2006`, 1, Contributors.SqueezedDog),
+    new Game(`World Tour Soccer / This is Football 2002`, `worldtoursoccer2002`, 1, Contributors.TheZulaPatrolFan2005, 3),
+    new Game(`World Tour Soccer / This is Football 2003`, g => [
+        new Icon(g, `This is Football 2003`, `thisisfootball2003`, 1, Contributors.TheY),
+        new Icon(g, `World Tour Soccer 2003`, `worldtoursoccer2003`, 1, Contributors.SqueezedDog),
+    ]),
+    new Game(`World Tour Soccer 2005 / This is Football 2004`, g => [   // Year mismatches are intentional.
+        new Icon(g, `This is Football 2004`, `thisisfootball2004`, 1, Contributors.TheY),
+        new Icon(g, `World Tour Soccer 2005`, `worldtoursoccer2005`, 1, Contributors.TheY),
+    ]),
+    new Game(`World Tour Soccer / This is Football 2006`, g => [    // Year mismatches are intentional.
+        new Icon(g, `This is Football 2005`, `thisisfootball2005`, 1, Contributors.TheY),
+        new Icon(g, `World Tour Soccer 2006`, `worldtoursoccer2006`, 1, Contributors.SqueezedDog),
+    ]),
     new Game(`World War Zero: Iron Storm`, `worldwarzero`, 1, Contributors.Cajas),
     new Game(`Worms 3D`, `worms3d`, 1, [Contributors.Typedesigns, Contributors._00TECDEC], 3),
     new Game(`Worms 4: Mayhem`, `worms4mayhem`, 1, Contributors.Cajas),
