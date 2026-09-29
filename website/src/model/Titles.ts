@@ -2931,17 +2931,15 @@ export const Titles: Title[] = [
     ]),
     new Game(`Metal Gear Solid 3: Snake Eater`, g => [
         new Icon(g, `Camo Data`, `metalgearsolid3snakeeater-camodata`, 1, Contributors.Cajas),
-        new Icon(g, `Save Data`, `metalgearsolid3snakeeater`, 1, Contributors.Psiences),
         new Icon(g, `Nightmare Mode` , `metalgearsolid3snakeeater-savagenightmare`, 1, Contributors.Cajas),
-        new Icon(g, `Snake vs Monkey Data`, `metalgearsolid3snakeeater-monkeydata`, 1, Contributors.Cajas),
-        new Icon(g, `Foxhound Rank`, `metalgearsolid3snakeeater-foxhound`, 1, Contributors.Cajas),
-        new Icon(g, `Banana (Unknown Condition)`, `metalgearsolid3snakeeater-banana`, 1, Contributors.Cajas),
+        new Icon(g, `Save Data`, `metalgearsolid3snakeeater`, 1, Contributors.Psiences),
+        new Icon(g, `Snake vs Monkey Data`, `metalgearsolid3snakeeater-snakevsmonkeydata`, 1, Contributors.Cajas),
     ]),
-    //new Game(`Metal Gear Solid 3: Subsistence`),  // Removed as it has no differences to the base release.
-    new Game(`Metal Gear Solid 3: Subsistence - Disc 2 Persistence`, g => [
-        new Icon(g, `Metal Gear`, `mgs3sd2p-metalgear1`, 1, Contributors.TheY),
-        new Icon(g, `Metal Gear 2`, `mgs3sd2p-metalgear2`, 1, Contributors.TheY),
-        new Icon(g, `Metal Gear Online`, `mgs3sd2p-metalgearonline`, 1, Contributors.TheY),
+    new Game(`Metal Gear Solid 3: Subsistence`, g => [
+        new Icon(g, `Metal Gear`, `mgs3s-metalgear1`, 1, Contributors.TheY),
+        new Icon(g, `Metal Gear 2`, `mgs3s-metalgear2`, 1, Contributors.TheY),
+        new Icon(g, `Metal Gear Online`, `mgs3s-metalgearonline`, 1, Contributors.TheY),
+        new Icon(g, `System Data`, `mgs3s-systemdata`, 1, Contributors.Cajas),
     ]),
     new Game(`Metal Saga`, `metalsaga`, 1, Contributors.Cajas),
     new Game(`Metal Slug`, `metalslug`, 1, Contributors.Cajas, 1),
