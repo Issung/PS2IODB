@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import viteTsconfigPaths from 'vite-tsconfig-paths'
+import react, { reactCompilerPreset } from '@vitejs/plugin-react'
+import babel from '@rolldown/plugin-babel'
 import { viteSingleFile } from 'vite-plugin-singlefile'
 
 /**
@@ -15,14 +15,8 @@ import { viteSingleFile } from 'vite-plugin-singlefile'
 export default defineConfig({
     base: './',
     plugins: [
-        react({
-            babel: {
-                plugins: [
-                    ["babel-plugin-react-compiler"],
-                ],
-            },
-        }),
-        viteTsconfigPaths(),
+        react(),
+        babel({ presets: [reactCompilerPreset()] }),
         viteSingleFile(),
     ],
     // Don't copy public directory assets - we only need the single HTML file
@@ -39,6 +33,7 @@ export default defineConfig({
         },
     },
     resolve: {
+        tsconfigPaths: true,
         alias: {
             // Stop 5000 requests being made for tablericons js chunks
             '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
