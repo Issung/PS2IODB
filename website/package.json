@@ -31,8 +31,7 @@
     "test": "jest",
     "create-zips": "tsx scripts/create-icon-zips.ts",
     "create-zips:deploy": "tsx scripts/create-icon-zips.ts --delete-originals",
-    "predeploy": "npm run create-zips:deploy && npm run build",
-    "deploy": "gh-pages -d build"
+    "predeploy": "npm run create-zips:deploy && npm run build"
   },
   "eslintConfig": {
     "extends": [
@@ -69,7 +68,6 @@
     "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "^6.1.2",
     "babel-plugin-react-compiler": "^1.0.0",
-    "gh-pages": "^6.3.0",
     "glob": "^13.0.6",
     "jest": "^30.5.2",
     "jest-expect-message": "^1.1.3",
