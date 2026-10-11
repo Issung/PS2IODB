@@ -44,15 +44,26 @@ export async function loadFile(file: File): Promise<ImportedSave[]> {
 
 /**
  * Convert raw icon files to ModelFiles by parsing and generating OBJ, MTL, PNG, and ANIM files.
+ * Icon files that fail to parse are skipped rather than failing the whole save, and any state that referenced one
+ * is pointed at a state that did parse. Some games write a corrupt file for one state, e.g. 18 Wheeler: American Pro Trucker
+ * writes its copy icon offset by 8 bytes. Throws only if no icon file parses.
  * @param iconSys The IconSys data defining the icons
  * @param iconFiles Map of filename -> raw icon binary data
  */
 export function iconFilesToModelFiles(iconSys: IconSys, iconFiles: Map<string, Uint8Array>): ModelFiles {
     const files = new Map<string, Blob>();
+    const failed = new Map<string, unknown>();
 
     // Parse and process each icon from raw binary
     iconFiles.forEach((iconData, filename) => {
-        const icon = parsePS2Icon(iconData);
+        let icon: PS2Icon;
+        try {
+            icon = parsePS2Icon(iconData);
+        } catch (e) {
+            console.warn(`Failed to parse icon file ${filename}:`, e);
+            failed.set(filename, e);
+            return;
+        }
 
         // Generate OBJ content
         const objContent = generateOBJ(icon, filename);
@@ -74,7 +85,42 @@ export function iconFilesToModelFiles(iconSys: IconSys, iconFiles: Map<string, U
         }
     });
 
-    return new ModelFiles(files, iconSys);
+    if (failed.size === 0) {
+        return new ModelFiles(files, iconSys);
+    }
+
+    if (failed.size === iconFiles.size) {
+        throw failed.values().next().value;
+    }
+
+    // Point states whose icon failed to parse at the first state (in normal, copy, delete order) whose icon parsed.
+    // Comparison is case-insensitive to match how FileModelLoader looks up files.
+    const failedLower = new Set(Array.from(failed.keys(), f => f.toLowerCase()));
+    const isFailed = (filename: string) => failedLower.has(filename.toLowerCase());
+    const fallback = [iconSys.normal, iconSys.copy, iconSys.delete].find(f => !isFailed(f));
+    if (!fallback) {
+        throw failed.values().next().value;
+    }
+
+    // Record what happened in iconsys notes, since the patched state filenames no longer show the original ones.
+    const states = [['Idle', iconSys.normal], ['Copy', iconSys.copy], ['Delete', iconSys.delete]];
+    const notes = Array.from(failed, ([filename, e]) => {
+        const message = e instanceof Error ? e.message : String(e);
+        const usedBy = states.filter(([, f]) => f.toLowerCase() === filename.toLowerCase()).map(([name]) => name);
+        return usedBy.length > 0
+            ? `${usedBy.join(' & ')} icon ${filename} could not be read (${message}), ${fallback} is used in its place.`
+            : `${filename} could not be read (${message}).`;
+    });
+
+    const patchedIconSys: IconSys = {
+        ...iconSys,
+        normal: isFailed(iconSys.normal) ? fallback : iconSys.normal,
+        copy: isFailed(iconSys.copy) ? fallback : iconSys.copy,
+        delete: isFailed(iconSys.delete) ? fallback : iconSys.delete,
+        notes: [...(iconSys.notes ?? []), ...notes],
+    };
+
+    return new ModelFiles(files, patchedIconSys);
 }
 
 /**

@@ -38,4 +38,8 @@ export class IconSys
     public light2Col: number[] | undefined;
     public light3Col: number[] | undefined;
     public ambiLightCol: number[] | undefined;
+
+    // Human-readable notes about problems found while extracting this icon, e.g. a corrupt icon file
+    // that was substituted with another state's icon. Absent when there were no problems.
+    public notes: string[] | undefined;
 }

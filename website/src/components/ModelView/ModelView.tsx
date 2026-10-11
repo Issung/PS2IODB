@@ -1,4 +1,4 @@
-import { IconDownload, IconFlipVertical, IconInfoCircle, IconRotate2, IconX } from '@tabler/icons-react';
+import { IconAlertTriangle, IconDownload, IconFlipVertical, IconInfoCircle, IconRotate2, IconX } from '@tabler/icons-react';
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { IconSys } from '../../model/IconSys';
@@ -247,6 +247,9 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, [states]);
 
+    // Notes recorded in iconsys.json about problems found during extraction, e.g. a corrupt state icon that was substituted.
+    const hasNotes = !!iconsys?.notes && iconsys.notes.length > 0;
+
     // Background color computation
     const color = calculateColor();
 
@@ -413,16 +416,16 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                                 </select>
                             </label>
                         </li>
-                        {onDownload && (
-                            <li className="action-buttons">
-                                <button
-                                    className="action-btn"
-                                    onClick={() => setShowDetailsModal(true)}
-                                    title="View icon metadata details"
-                                >
-                                    <IconInfoCircle size={16} />
-                                    Details
-                                </button>
+                        <li className="action-buttons">
+                            <button
+                                className={`action-btn ${hasNotes ? 'has-notes' : ''}`}
+                                onClick={() => setShowDetailsModal(true)}
+                                title={hasNotes ? 'View icon metadata details, including notes about problems found during extraction' : 'View icon metadata details'}
+                            >
+                                {hasNotes ? <IconAlertTriangle size={16} /> : <IconInfoCircle size={16} />}
+                                Details
+                            </button>
+                            {onDownload && (
                                 <button
                                     className="action-btn"
                                     onClick={onDownload}
@@ -432,8 +435,8 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                                     <IconDownload size={16} />
                                     {downloadStatus ?? 'Download'}
                                 </button>
-                            </li>
-                        )}
+                            )}
+                        </li>
                     </ul>
                 </div>
             )}
@@ -579,6 +582,14 @@ export const ModelView = ({ loader, hideControls, onDownload, downloadStatus, fu
                 portalContainer={portalTarget}
                 className="icon-details-modal"
             >
+                {hasNotes && (
+                    <div className="icon-details-notes">
+                        <strong><IconAlertTriangle size={16} /> Extraction notes</strong>
+                        <ul>
+                            {iconsys?.notes?.map(note => <li key={note}>{note}</li>)}
+                        </ul>
+                    </div>
+                )}
                 <table className="icon-details-table">
                     <tbody>
                         {[
