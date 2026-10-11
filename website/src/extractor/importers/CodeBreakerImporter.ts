@@ -1,4 +1,4 @@
-import pako from 'pako';
+import { inflate } from 'pako';
 import { IconSys } from '../../model/IconSys';
 import { parseIconSys } from '../ps2iconsys';
 import {
@@ -146,7 +146,7 @@ export class CodeBreakerImporter implements SaveImporter {
         // Zlib decompress
         let decompressed: Uint8Array;
         try {
-            decompressed = pako.inflate(body);
+            decompressed = inflate(body);
         } catch (e) {
             throw new PS2SaveCorrupt(`Failed to decompress: ${e}`);
         }
