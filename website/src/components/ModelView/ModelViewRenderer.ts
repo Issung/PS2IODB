@@ -57,7 +57,8 @@ export class ModelViewRenderer {
     /** Pending texture blob URL to apply after model loads (for file-based loading). */
     private pendingTextureBlobUrl: string | undefined;
 
-    private clock = new THREE.Clock(true);
+    /** Must be `update()`d once per frame, before reading delta/elapsed. */
+    private timer = new THREE.Timer();
 
     // Scene items.
     private camera: THREE.PerspectiveCamera;
@@ -673,7 +674,8 @@ export class ModelViewRenderer {
     }
 
     public animate() {
-        const delta = this.clock.getDelta();
+        this.timer.update();
+        const delta = this.timer.getDelta();
         this.controls?.update(delta);
         this.stats?.update();
         this.render();
@@ -697,7 +699,7 @@ export class ModelViewRenderer {
         }
 
         // TODO: There's better ways to do this animationSpeed alteration, but that can come with the keyframing refactor eventually.
-        const elapsedTime = this.clock.getElapsedTime() * this.prop_animationSpeed;
+        const elapsedTime = this.timer.getElapsed() * this.prop_animationSpeed;
         if (this.animData && this.geometry) {
             if (this.animData.version === undefined) {
                 this.animateV1(elapsedTime);
