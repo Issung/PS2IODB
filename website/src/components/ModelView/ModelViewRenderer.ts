@@ -814,7 +814,12 @@ export class ModelViewRenderer {
         return new THREE.Vector3(numbers[0], numbers[1], numbers[2]);
     }
 
+    /**
+     * Light colours are meant to range 0.0 - 1.0, but some games store them on a 0 - 128 or 0 - 255 scale instead
+     * (e.g. Aliens in the Attic's ambient light is 255), which blows the icon out to pure white. Cap each channel at 1.0.
+     * Negative values are left alone as a few games use them to subtract light.
+     */
     color(numbers: number[]) {
-        return new THREE.Color().setRGB(numbers[0], numbers[1], numbers[2]);
+        return new THREE.Color().setRGB(Math.min(numbers[0], 1), Math.min(numbers[1], 1), Math.min(numbers[2], 1));
     }
 }
