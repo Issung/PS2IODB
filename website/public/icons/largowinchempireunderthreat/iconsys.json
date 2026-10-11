@@ -1,0 +1,19 @@
+{
+	"directory":"BESLES-51093gdchaicf",
+	"title":"Ｌａｒｇｏ　　　　　　　＃　　１Ｚ－＿ＹＸＱ　　　０：００：１５",
+	"normal":"_EXT_A.ICO;1",
+	"copy":"_EXT_A.ICO;1",
+	"delete":"_EXT_A.ICO;1",
+	"bgOpacity":128,
+	"bgColTL":"#000000",
+	"bgColTR":"#071e48",
+	"bgColBL":"#000000",
+	"bgColBR":"#071e48",
+	"light1Dir":[0,0,1,0],
+	"light2Dir":[0,0,1,0],
+	"light3Dir":[0,0,1,0],
+	"light1Col":[0,0,0,0],
+	"light2Col":[0,0,0,0],
+	"light3Col":[0.5,0.5,0.5,0],
+	"ambiLightCol":[0.14000000059604645,0.15000000596046448,0.30000001192092896,0]
+}
