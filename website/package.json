@@ -33,12 +33,6 @@
     "create-zips:deploy": "tsx scripts/create-icon-zips.ts --delete-originals",
     "predeploy": "npm run create-zips:deploy && npm run build"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
