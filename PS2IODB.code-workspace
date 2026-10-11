@@ -31,5 +31,12 @@
 		"liveServer.settings.multiRootWorkspaceName": "Website",
 		"jest.runMode": "on-demand",
 		"terminal.integrated.defaultProfile.windows": "PowerShell"
+	},
+	"extensions": {
+		"recommendations": [
+			// TypeScript 7 no longer ships tsserver.js, so VS Code's built-in TS support can't use the workspace version.
+			// This extension provides the TS 7 native language server instead.
+			"TypeScriptTeam.native-preview"
+		]
 	}
 }
