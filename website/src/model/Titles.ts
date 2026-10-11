@@ -21,7 +21,7 @@ export const Titles: Title[] = [
     new Game(`10,000 Bullets`, `10000bullets`, 1, [Contributors.ItzCookieX, Contributors.Cajas], 2),
     new Game(`120-en no Haru: 120 Yen Stories`, `120ennoharu`, 1, Contributors.Sebita, 1),
     new Game(`12Riven: The Psi-Climinal of Integral`, `12riventhepsicliminalofintegral`, 1, Contributors.Cajas),
-    new Game(`18 Wheeler American Pro Trucker`),
+    new Game(`18 Wheeler American Pro Trucker`, `18wheeleramericanprotrucker`, 1, Contributors.Spacething7474),
     new Game(`187 Ride or Die`, `187rideordie`, 1, Contributors.Cajas),
     new Game(`1945 I & II The Arcade Games`, () => null),
     new Game(`2002 FIFA World Cup`, `2002fifaworldcup`, 1, [Contributors.Zwish343, Contributors.TheZulaPatrolFan2005], 3),
