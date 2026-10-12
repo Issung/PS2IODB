@@ -1003,7 +1003,10 @@ export const Titles: Title[] = [
     new Game(`Digimon Rumble Arena 2`, `digimonrumblearena2`, 1, Contributors.ItzCookieX),
     new Game(`Digimon World 4`, `digimonworld4`, 1, Contributors.ItzCookieX),
     new Game(`Digimon World Data Squad`, `digimondatasquad`, 1, Contributors.ItzCookieX),
-    new Application(`Digital Hitz Factory (Music 3000)`, `digitalhitzfactory`, 1, Contributors.Spacething7474),
+    new Application(`Digital Hitz Factory / Music 3000`, g => [
+        new Icon(g, `Digital Hitz Factory`, `digitalhitzfactory`, 1, Contributors.Spacething7474),
+        new Icon(g, `Music 3000`, `music3000`, 1, Contributors.Spacething7474),
+    ]),
     new Game(`Digital Holmes`, `digitalholmes`, 1, Contributors.Cajas),
     new Game(`Dino Stalker`, `dinostalker`, 1, Contributors.Cajas, 2),
     new Game(`Dinosaur Adventure`, () => null),
