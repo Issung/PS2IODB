@@ -1,0 +1,19 @@
+{
+	"directory":"BESLES-50424CR2002",
+	"title":"Ｃｒｉｃｋｅｔ　２００２",
+	"normal":"slime1.ico",
+	"copy":"slime1.ico",
+	"delete":"slime1.ico",
+	"bgOpacity":96,
+	"bgColTL":"#ffdc00",
+	"bgColTR":"#80903c",
+	"bgColBL":"#80903c",
+	"bgColBR":"#004477",
+	"light1Dir":[0.5,0.5,0.5,0],
+	"light2Dir":[0,0,0,0],
+	"light3Dir":[-0.5,-0.5,0.5,0],
+	"light1Col":[0.75,0.75,0.75,0],
+	"light2Col":[0,0,0,0],
+	"light3Col":[0.75,0.75,0.75,0],
+	"ambiLightCol":[0.5,0.5,0.5,0]
+}

@@ -1,0 +1,19 @@
+{
+	"directory":"BESLES-52378PCGKVOMS",
+	"title":"ＥｕｒｏＲａｌｌｙ　Ｐｌａｙｅｒ",
+	"normal":"rally.ico",
+	"copy":"rally.ico",
+	"delete":"rally.ico",
+	"bgOpacity":76,
+	"bgColTL":"#7f7f7f",
+	"bgColTR":"#00007f",
+	"bgColBL":"#7f0000",
+	"bgColBR":"#7f7f7f",
+	"light1Dir":[null,null,null,0],
+	"light2Dir":[null,null,null,0],
+	"light3Dir":[null,null,null,0],
+	"light1Col":[0,0,0,0],
+	"light2Col":[0,0,0,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[0.800000011920929,0.800000011920929,0.800000011920929,0]
+}
