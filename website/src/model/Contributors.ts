@@ -65,6 +65,7 @@ export class Contributors {
     public static TheY = new Contributor('TheY', 'https://steamcommunity.com/profiles/76561199229184552');
     public static Billytheman77 = new Contributor('billytheman72');
     public static Kickety = new Contributor('Kickety!');
+    public static Iv4o59 = new Contributor('Iv4o59');
 }
 
 export const ContributorCount = Object.values(Contributors).length;

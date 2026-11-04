@@ -3709,7 +3709,7 @@ export const Titles: Title[] = [
     new Game(`Police Chase Down`, `policechasedown`, 1, Contributors.Billytheman77),
     new Game(`Pool Paradise`, `poolparadise`, 1, Contributors.Cajas, null),
     new Game(`Pool Paradise: International Edition`),
-    new Game(`Pool Shark 2`),
+    new Game(`Pool Shark 2`, `poolshark2`, 1, Contributors.Iv4o59),
     new Game(`Pop'n Music 7`, `popnmusic7`, 1, [Contributors.Sebita, Contributors.Cajas], 3),
     new Game(`Pop'n Music 8`, `popnmusic8`, 1, [Contributors.Sebita, Contributors.Cajas], 3),
     new Game(`Pop'n Music 9`, `popnmusic9`, 1, [Contributors.Sebita, Contributors.Cajas], 3),
