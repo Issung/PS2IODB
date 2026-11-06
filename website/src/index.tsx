@@ -7,9 +7,9 @@ import '@fontsource/barlow/500.css';
 import './index.scss';
 import App from './pages/App';
 import './bootstrap.scss';
-import ReactGA from "react-ga4";
+import { startAnalyticsWhenIdle } from './utils/Analytics';
 
-ReactGA.initialize("G-MTYRQV3C1G");
+startAnalyticsWhenIdle();
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
