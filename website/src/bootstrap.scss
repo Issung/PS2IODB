@@ -1,0 +1,33 @@
+// Only the parts of Bootstrap the site uses, instead of all of bootstrap.css (~230 KB, render blocking).
+// If you start using a Bootstrap class that stops working, import its part here (see node_modules/bootstrap/scss/bootstrap.scss).
+
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+// Only generate the utility classes in use (d-*, justify-content-*, flex-wrap, p-*, px-*, py-*).
+$utilities: map-get-multiple(
+  $utilities,
+  (
+    "display",
+    "justify-content",
+    "flex-wrap",
+    "padding",
+    "padding-x",
+    "padding-y",
+  )
+);
+
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/button-group";
+@import "bootstrap/scss/forms/form-check"; // .btn-check, used by Select.
+
+@import "bootstrap/scss/utilities/api";

@@ -38,6 +38,15 @@ export default defineConfig({
         // listen on all interfaces so the dev server is reachable on the local network (e.g. from mobile phone)
         host: true,
     },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                // Bootstrap's SCSS (src/bootstrap.scss) uses Sass features that are deprecated but still work, hide the ~200 warnings.
+                quietDeps: true,
+                silenceDeprecations: ['import'],
+            },
+        },
+    },
     resolve: {
         tsconfigPaths: true,
         alias: {

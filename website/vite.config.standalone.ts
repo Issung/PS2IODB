@@ -32,6 +32,15 @@ export default defineConfig({
             },
         },
     },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                // Bootstrap's SCSS (src/bootstrap.scss) uses Sass features that are deprecated but still work, hide the ~200 warnings.
+                quietDeps: true,
+                silenceDeprecations: ['import'],
+            },
+        },
+    },
     resolve: {
         tsconfigPaths: true,
         alias: {

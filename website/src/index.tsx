@@ -6,7 +6,7 @@ import '@fontsource/barlow/400.css';
 import '@fontsource/barlow/500.css';
 import './index.scss';
 import App from './pages/App';
-import 'bootstrap/dist/css/bootstrap.css';
+import './bootstrap.scss';
 import ReactGA from "react-ga4";
 
 ReactGA.initialize("G-MTYRQV3C1G");
