@@ -1,5 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+// Only the weights that are used. Each covers the latin, latin-ext and vietnamese subsets, browsers only download the ones a page needs.
+import '@fontsource/barlow/300.css';
+import '@fontsource/barlow/400.css';
+import '@fontsource/barlow/500.css';
 import './index.scss';
 import App from './pages/App';
 import 'bootstrap/dist/css/bootstrap.css';

@@ -8,9 +8,21 @@ html {
   scroll-behavior: auto !important;
 }
 
+// Arial scaled to Barlow's metrics, shown until Barlow (@fontsource/barlow, imported in index.tsx) loads, so the swap doesn't reflow text.
+// Values come from the font files: Barlow's average glyph width is 97.5% of Arial's, and Barlow's
+// ascent/descent/line gap are 1.0/0.2/0 em (the overrides are divided by size-adjust).
+@font-face {
+  font-family: 'Barlow Fallback';
+  src: local('Arial'), local('ArialMT');
+  size-adjust: 97.5%;
+  ascent-override: 102.56%;
+  descent-override: 20.51%;
+  line-gap-override: 0%;
+}
+
 * {
   color: white;
-  font-family: Barlow;
+  font-family: Barlow, 'Barlow Fallback', sans-serif;
 }
 
 select,
