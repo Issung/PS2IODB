@@ -98,7 +98,9 @@ const Home = () => {
                     </div>
                     <div className="row justify-content-center">
                         <div id="progress" className="col-10 col-sm-12">
-                            <div id="fill" style={{ width: `${progress * 100}%` }}>
+                            {/* The fill and the label slide in with transforms (see Home.scss) because animating width counts as layout shift. */}
+                            <div id="fill" style={{ width: `${progress * 100}%` }}/>
+                            <div id="fill-label" style={{ width: `${progress * 100}%` }}>
                                 <Counter value={progress}/>
                             </div>
                         </div>

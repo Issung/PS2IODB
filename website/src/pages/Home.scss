@@ -129,6 +129,7 @@
     }
 
     #progress {
+        position: relative;
         background-color: #0b0b0b;
         min-height: 50px;
         padding: 0;
@@ -136,21 +137,38 @@
         border-radius: 6px;
     }
 
-    @keyframes fill-width {
-        from { width: 0; }
+    // Both animations only use transforms, which browsers don't count as layout shift (animating width did, every frame).
+    @keyframes fill-grow {
+        from { transform: scaleX(0); }
+    }
+
+    // #fill-label is as wide as #fill, so starting it -100% of its own width back makes the label track the fill's edge.
+    @keyframes fill-label-slide {
+        from { transform: translateX(-100%); }
     }
 
     #progress #fill {
         height: 100%;
         background-color: #0b5cd4;
-        animation: fill-width 4s ease-out;
+        transform-origin: left;
+        animation: fill-grow 4s ease-out;
     }
 
-    #progress #fill strong {
+    #progress #fill-label {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        animation: fill-label-slide 4s ease-out;
+    }
+
+    // Anchored by its left edge so the changing digits only grow the text rightwards rather than moving it.
+    #progress #fill-label strong {
         line-height: 47px;
-        position: relative;
-        float: right;
-        right: -64px;
+        position: absolute;
+        left: 100%;
+        margin-left: 14px;
+        white-space: nowrap;
     }
 
     #progress-paragraph {
