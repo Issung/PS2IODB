@@ -16,6 +16,11 @@
         background-blend-mode: multiply;
         background-color:#5f5f5f;
 
+        // Width comes from the column (below), the img's width/height attributes only provide the aspect ratio.
+        #logo-full {
+            height: auto;
+        }
+
         > div.row div {
             > * {
                 width: 100%;
