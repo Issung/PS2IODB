@@ -1,12 +1,14 @@
 import { defineConfig } from 'vite'
 import react, { reactCompilerPreset } from '@vitejs/plugin-react'
 import babel from '@rolldown/plugin-babel'
+import { blenderAddon } from './scripts/vite-plugin-blender-addon'
 
 export default defineConfig({
     base: '/',   // Deployed at ps2iodb.com, no special base path needed.
     plugins: [
         react(),
         babel({ presets: [reactCompilerPreset()] }),
+        blenderAddon(),
     ],
     server: {
         // this ensures that the browser opens upon server start

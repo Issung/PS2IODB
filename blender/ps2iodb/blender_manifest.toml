@@ -1,0 +1,15 @@
+schema_version = "1.0.0"
+
+id = "ps2iodb"
+version = "1.0.0"
+name = "PS2IODB Icon Tools"
+tagline = "Import PS2 save icons from PS2IODB and export memory cards"
+maintainer = "Issun"
+type = "add-on"
+website = "https://ps2iodb.com/faq"
+tags = ["Import-Export"]
+blender_version_min = "4.2.0"
+license = ["SPDX:GPL-3.0-or-later"]
+
+[permissions]
+files = "Import icon files and export memory card images"

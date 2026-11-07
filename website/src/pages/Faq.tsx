@@ -68,6 +68,48 @@ const Faq: React.FC = () => {
                                 </ul>
                             </p>
 
+                            <h4>Can I use the icons in Blender?</h4>
+                            <p>
+                                Yes! The icon models are standard OBJ files with a PNG texture, but their animations are stored in a format made for this website that Blender can't read on its own.
+                                The PS2IODB Blender add-on imports icons downloaded from this site complete with their animation, and can also export your own models to a PS2 memory card to view on a real PS2 or in an emulator.
+                            </p>
+                            <p>
+                                <a href="/downloads/ps2iodb-blender-addon.zip" download>Download the PS2IODB Blender add-on</a> (requires Blender 4.2 or newer).
+                                Its source code is <a href="https://github.com/Issung/PS2IODB/tree/main/blender">on GitHub</a>.
+                            </p>
+                            <ol>
+                                <li>
+                                    <h6>Installing</h6>
+                                    <p>
+                                        Drag the downloaded zip into Blender's window, or in Blender go to <i>Edit → Preferences → Get Extensions</i>, open the <i>⌄</i> menu in the top right, choose <i>Install from Disk...</i> and select the zip.
+                                        There's no need to extract it.
+                                    </p>
+                                </li>
+                                <li>
+                                    <h6>Importing an icon</h6>
+                                    <p>
+                                        On an icon's page, use the download button to save its zip. In Blender choose <i>File → Import → PS2IODB Icon (.zip/.obj)</i> and select the zip.<br/>
+                                        Each icon is imported with its texture, vertex colours and normals. Its animation is imported as shape keys that blend exactly like the PS2 plays them, and the scene is set to 60 fps, the PS2's animation rate.
+                                        Icons with a different copy or delete state import those too, hidden.
+                                    </p>
+                                </li>
+                                <li>
+                                    <h6>Exporting to a memory card</h6>
+                                    <p>
+                                        Open the <i>PS2 Icon</i> tab in the 3D Viewport's sidebar (press <i>N</i>). Set the save's title and folder name, the mesh to show for each state, and the background and lighting if you like, then click <i>Export Memory Card</i>.
+                                        This creates a new 8MB <i>.ps2</i> memory card image containing a save with your icon.
+                                    </p>
+                                    <ul>
+                                        <li>In PCSX2, put the card in a memory card slot, then copy the save onto your own card from the PS2 browser.</li>
+                                        <li>On a real PS2, load the card on an SD card based memory card such as the SD2PSX or MemCard PRO2.</li>
+                                    </ul>
+                                    <p>
+                                        Model your icon standing on the origin, facing Blender's front view, and within 8 units of the origin. Use a single 128×128 texture (others are resized).
+                                        Animate it with shape keys, or for armature or modifier animation, choose <i>Bake</i> when exporting.
+                                    </p>
+                                </li>
+                            </ol>
+
                             <h4>How can I help/contribute?</h4>
                             <p>
                                 See the <Link to="/contribute">How to Contribute</Link> page for guides on different ways to contribute.<br/>
