@@ -356,5 +356,6 @@ website/reports/report.xml
 website/dist
 extractor/icon_exports
 website/dist-standalone
+website/.wrangler
 
 website/public/icons/**/icon.zip

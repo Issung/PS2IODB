@@ -26,7 +26,7 @@
     "dev": "vite",
     "start": "vite",
     "start:zip": "vite --mode zip",
-    "build": "tsc && vite build",
+    "build": "tsc && tsc -p functions && vite build",
     "build:standalone": "tsc && vite build --config vite.config.standalone.ts",
     "preview": "vite preview",
     "test": "jest",
@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@babel/core": "^8.0.7",
+    "@cloudflare/workers-types": "^5.20261107.1",
     "@rolldown/plugin-babel": "^0.2.4",
     "@swc/core": "^1.16.18",
     "@swc/jest": "^0.2.39",
