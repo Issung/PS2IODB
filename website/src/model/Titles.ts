@@ -4687,7 +4687,7 @@ export const Titles: Title[] = [
     new Game(`SpongeBob SquarePants: Revenge of the Flying Dutchman`, `spongebobrevengeoftheflyingdutchman`, 1, Contributors.SqueezedDog, null),
     new Game(`SpongeBob's Atlantis SquarePantis`, `spongebobatlantissquarepantis`, 1, Contributors.SqueezedDog),
     new Game(`Springdale: Riding Adventures`),
-    new Game(`Sprint Car Challenge`),
+    new Game(`Sprint Car Challenge`, `sprintcarchallenge`, 1, Contributors.Lumanare, null),
     new Game(`Sprint Cars 2: Showdown at Eldora`, `sprintcars2showdownateldora`, 1, Contributors.TheZulaPatrolFan2005),
     new Game(`Sprint Cars: Road to Knoxville`, `sprintcarsroadtoknoxville`, 1, Contributors.TheZulaPatrolFan2005),
     new Game(`Spy Fiction`, `spyfiction`, 1, Contributors.SqueezedDog),
