@@ -21,8 +21,10 @@ TICKS_PER_SECOND = 60
 V1_TICKS_PER_FRAME = 0.15 * TICKS_PER_SECOND
 # How close two weights have to be to be considered equal.
 EPSILON = 1e-4
-# Used to place a sample just before a key time, to keep instant jumps (two keys at the same time) sharp.
-_JUST_BEFORE = 0.01
+# Used to place a sample just before a key time, in ticks, to keep instant jumps (two keys at the same time, or the loop
+# wrapping) sharp. The website only shows whole ticks so never sees the gap. Blender merges keyframes closer than 0.01
+# frames, this stays above that down to 6 fps.
+_JUST_BEFORE = 0.1
 
 
 @dataclass
@@ -84,7 +86,7 @@ def shape_tracks(anim: dict):
 
     # Sample at every key time. Between two key times every weight is a straight line, so if the weights already sum to
     # 1 these samples are exact. If they don't, the normalised weights curve, so also sample every tick like the website.
-    times = {0, length}
+    times = {0, max(0, length - _JUST_BEFORE), length}
     for keys in frame_keys:
         key_times = [t for t, _ in keys]
         for t in key_times:
@@ -98,13 +100,17 @@ def shape_tracks(anim: dict):
 
     points = {g: [] for g in group_ids}
     for t in times:
-        weights = [evaluate(keys, t) for keys in frame_keys]
+        # The website plays time modulo the loop length, so the end of the loop shows the start, not the last keys.
+        # Many icons end on a different pose than they start and jump back. Sampling just before the end too keeps that
+        # jump sharp rather than showing the end pose for a frame (the Cycles modifier repeats from the last key).
+        weights = [evaluate(keys, 0 if t == length else t) for keys in frame_keys]
         total = sum(weights)
         for g in group_ids:
             value = sum(weights[i] for i in groups[g]) / total if abs(total) > EPSILON else 0.0
             points[g].append((t / speed, value))
 
-    tracks = [ShapeTrack(frames[groups[g][0]]['vertexData'], simplify(points[g])) for g in group_ids]
+    # A tight tolerance, small weight errors are multiplied by the distance between shapes, which can be several units.
+    tracks = [ShapeTrack(frames[groups[g][0]]['vertexData'], simplify(points[g], 1e-6)) for g in group_ids]
     return _unless_static(tracks, length / speed)
 
 
@@ -119,6 +125,8 @@ def loop_points(index, count, step):
     """
     Weight points for shape `index` of `count` shapes shown one after another, `step` ticks apart, each blending into the
     next and the last blending back into the first so the animation loops.
+    Every shape's points start at 0 and end at the loop length. Blender's Cycles modifier repeats a curve over the span
+    of its own keys, so a shape keyed over less than the whole loop would repeat at the wrong rate.
     """
     length = count * step
     t = index * step
@@ -128,7 +136,12 @@ def loop_points(index, count, step):
             points.append(((count - 1) * step, 0.0))
         points.append((length, 1.0))
         return points
-    return [(t - step, 0.0), (t, 1.0), (t + step, 0.0)]
+    points = [(t - step, 0.0), (t, 1.0), (t + step, 0.0)]
+    if t - step > 0:
+        points.insert(0, (0, 0.0))
+    if t + step < length:
+        points.append((length, 0.0))
+    return points
 
 
 def _unless_static(tracks, length):

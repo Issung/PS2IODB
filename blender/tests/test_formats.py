@@ -163,8 +163,21 @@ class AnimTests(unittest.TestCase):
                                     {'time': 120, 'value': 1}], 'vertexData': [1, 0, 0]},
         ]}
         tracks, _ = anim.shape_tracks(data)
-        self.assertAlmostEqual(anim.evaluate(tracks[0].points, 59.99), 1.0, places=3)
+        self.assertAlmostEqual(anim.evaluate(tracks[0].points, 59.9), 1.0, places=3)
         self.assertAlmostEqual(anim.evaluate(tracks[0].points, 60), 0.0, places=3)
+
+    def test_loop_end_shows_start(self):
+        """The website never shows tick == frameLength, it wraps to 0. Icons that end on a different pose jump back."""
+        data = {'version': 2, 'frameLength': 60, 'animSpeed': 1, 'playOffset': 0, 'frames': [
+            {'keys': [{'time': 0, 'value': 0}, {'time': 60, 'value': 1}], 'vertexData': [0, 0, 0]},
+            {'keys': [{'time': 0, 'value': 1}, {'time': 60, 'value': 0}], 'vertexData': [1, 0, 0]},
+        ]}
+        tracks, length = anim.shape_tracks(data)
+        self.assertEqual(length, 60)
+        self.assertAlmostEqual(anim.evaluate(tracks[0].points, 59), 59 / 60, places=4)
+        self.assertEqual(anim.evaluate(tracks[0].points, 60), 0.0)
+        self.assertEqual(anim.evaluate(tracks[1].points, 60), 1.0)
+        self.assert_weights_sum_to_one(tracks, length)
 
     def test_v1(self):
         data = {'frameLength': 0, 'animSpeed': 1, 'playOffset': 0, 'frames': [
@@ -173,6 +186,9 @@ class AnimTests(unittest.TestCase):
         self.assertEqual(length, 4 * anim.V1_TICKS_PER_FRAME)
         self.assert_weights_sum_to_one(tracks, length)
         self.assertEqual(anim.evaluate(tracks[2].points, 2 * anim.V1_TICKS_PER_FRAME), 1.0)
+        # Every track spans the whole loop, as Blender's Cycles modifier repeats a curve over its own keys.
+        for track in tracks:
+            self.assertEqual((track.points[0][0], track.points[-1][0]), (0, length))
 
     def test_static_animation_dropped(self):
         data = {'version': 3, 'frameLength': 20, 'animSpeed': 1, 'playOffset': 0, 'frames': [

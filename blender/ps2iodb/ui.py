@@ -39,6 +39,8 @@ class VIEW3D_PT_ps2iodb_save(_Panel, bpy.types.Panel):
         column.prop(settings, 'normal_object')
         column.prop(settings, 'copy_object')
         column.prop(settings, 'delete_object')
+        row = layout.row()
+        row.prop(settings, 'preview_state', expand=True)
 
 
 class VIEW3D_PT_ps2iodb_background(_Panel, bpy.types.Panel):

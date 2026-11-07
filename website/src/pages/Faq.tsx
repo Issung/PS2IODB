@@ -70,9 +70,21 @@ const Faq: React.FC = () => {
 
                             <h4>Can I use the icons in Blender?</h4>
                             <p>
-                                Yes! The icon models are standard OBJ files with a PNG texture, but their animations are stored in a format made for this website that Blender can't read on its own.
-                                The PS2IODB Blender add-on imports icons downloaded from this site complete with their animation, and can also export your own models to a PS2 memory card to view on a real PS2 or in an emulator.
+                                Yes! The icon models are standard OBJ files with a PNG texture, but animations are stored in a format made for this website that Blender can't read on its own.
+                                The PS2IODB Blender add-on adds support for importing icons downloaded from this site complete with their animation, and can also export your own models to a PS2 memory card to view on a real PS2 or in an emulator.
                             </p>
+                            {/* Muted and playsInline are required for browsers (iOS Safari especially) to autoplay. */}
+                            <video
+                                src="/images/blender-demo.webm"
+                                width={1036}
+                                height={712}
+                                style={{ width: '100%', height: 'auto', marginBottom: '1rem' }}
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                aria-label="An icon imported with the PS2IODB add-on playing its animation in Blender"
+                            />
                             <p>
                                 The current version is <b>{__BLENDER_ADDON_VERSION__}</b> and requires Blender 4.2 or newer.
                                 See <a href="https://github.com/Issung/PS2IODB/blob/main/blender/CHANGELOG.md">what's changed</a>, or browse its <a href="https://github.com/Issung/PS2IODB/tree/main/blender">source code</a>.
@@ -105,7 +117,7 @@ const Faq: React.FC = () => {
                                     <p>
                                         On an icon's page, use the download button to save its zip. In Blender choose <i>File → Import → PS2IODB Icon (.zip/.obj)</i> and select the zip.<br/>
                                         Each icon is imported with its texture, vertex colours and normals. Its animation is imported as shape keys that blend exactly like the PS2 plays them, and the scene is set to 60 fps, the PS2's animation rate.
-                                        Icons with a different copy or delete state import those too, hidden.
+                                        Icons with a different copy or delete state import those too. Switch between the states with the <i>Preview</i> buttons in the <i>PS2 Icon</i> tab of the 3D Viewport's sidebar (press <i>N</i>), which also sets the timeline to that state's animation loop.
                                     </p>
                                 </li>
                                 <li>
@@ -119,7 +131,7 @@ const Faq: React.FC = () => {
                                         <li>On a real PS2, load the card on an SD card based memory card such as the SD2PSX or MemCard PRO2.</li>
                                     </ul>
                                     <p>
-                                        Model your icon standing on the origin, facing Blender's front view, and within 8 units of the origin. Use a single 128×128 texture (others are resized).
+                                        Model your icon standing on the origin, facing Blender's front view, and within 8 units of the origin. Use a single 128x128 texture (others are resized).
                                         Animate it with shape keys, or for armature or modifier animation, choose <i>Bake</i> when exporting.
                                     </p>
                                 </li>

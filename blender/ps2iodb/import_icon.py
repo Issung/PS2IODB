@@ -17,7 +17,7 @@ import bpy
 from bpy.props import BoolProperty, EnumProperty, StringProperty
 from bpy_extras.io_utils import ImportHelper
 
-from . import fcurves
+from . import fcurves, properties
 from .formats import anim, coords
 from .formats.obj import parse_mtl_texture, parse_obj
 
@@ -117,28 +117,24 @@ def import_icon(context, filepath, states='ALL', merge_vertices=True, custom_nor
 
         materials = {}
         objects = {}
-        normal_length = 0
         for filename, file_states in by_file.values():
             if not source.has(filename + '.obj'):
                 warnings.append(f"{filename}.obj is missing, the {' & '.join(file_states)} state was skipped.")
                 continue
             name = f"{source.code} ({', '.join(file_states)})"
-            obj, length = _import_file(context, source, filename, name, collection, materials, frames_per_tick,
-                                       merge_vertices, custom_normals, warnings)
+            obj = _import_file(context, source, filename, name, collection, materials, frames_per_tick,
+                               merge_vertices, custom_normals, warnings)
             for state in file_states:
                 objects[state] = obj
-            if 'normal' in file_states:
-                normal_length = length
-            else:
-                obj.hide_set(True)
 
         if not objects:
             raise IconImportError("None of the icon's .obj files were found.")
 
-        if setup_scene and normal_length:
-            scene.frame_end = scene.frame_start + max(1, round(normal_length * frames_per_tick)) - 1
-
         _apply_iconsys(scene.ps2iodb, iconsys, source.code, objects)
+        # Show the normal state and, if allowed, set the timeline to its loop. Skips the update callback, which would
+        # always set the frame range.
+        scene.ps2iodb['preview_state'] = 0
+        properties.show_state(scene, 'NORMAL', set_frame_range=setup_scene)
 
         normal = objects.get('normal') or next(iter(objects.values()))
         for obj in context.view_layer.objects:
@@ -215,7 +211,7 @@ def _import_file(context, source, filename, name, collection, materials, frames_
 
     if tracks:
         _add_animation(context.scene, obj, [[s[i] for i in unique] for s in shapes], tracks, length, frames_per_tick)
-    return obj, length
+    return obj
 
 
 def _add_animation(scene, obj, shapes, tracks, length, frames_per_tick):
@@ -229,6 +225,11 @@ def _add_animation(scene, obj, shapes, tracks, length, frames_per_tick):
     for i, (positions, track) in enumerate(zip(shapes, tracks)):
         block = obj.shape_key_add(name=f"Shape {i}", from_mix=False)
         block.data.foreach_set('co', [c for p in positions for c in p])
+        # Some games use weights outside 0-1 to overshoot (NBA 06 dips to -0.07, Gundam to -1). Shape key values are
+        # clamped to their slider range, which Blender limits to -10 to 10.
+        values = [v for _, v in track.points]
+        block.slider_min = max(-10.0, min(0.0, min(values)))
+        block.slider_max = min(10.0, max(1.0, max(values)))
         fcurve = fcurves.ensure_fcurve(action, key, f'key_blocks["{block.name}"].value')
         fcurve.keyframe_points.add(len(track.points))
         for point, (time, value) in zip(fcurve.keyframe_points, track.points):
@@ -303,16 +304,18 @@ def _apply_iconsys(settings, iconsys, code, objects):
     settings.title_line1, settings.title_line2 = _split_title(title)
 
     if iconsys.get('bgColTL'):
-        settings.bg_opacity = int(iconsys.get('bgOpacity', settings.bg_opacity))
+        # Some games store garbage here (Cart Fury has 0xFFFFFFFF), clamp to what the setting allows.
+        settings.bg_opacity = max(0, min(255, int(iconsys.get('bgOpacity', settings.bg_opacity))))
         settings.bg_top_left = _hex_color(iconsys['bgColTL'])
         settings.bg_top_right = _hex_color(iconsys['bgColTR'])
         settings.bg_bottom_left = _hex_color(iconsys['bgColBL'])
         settings.bg_bottom_right = _hex_color(iconsys['bgColBR'])
-    if iconsys.get('ambiLightCol'):
-        for i in (1, 2, 3):
-            setattr(settings, f'light{i}_direction', iconsys[f'light{i}Dir'][:3])
-            setattr(settings, f'light{i}_color', iconsys[f'light{i}Col'][:3])
-        settings.ambient_color = iconsys['ambiLightCol'][:3]
+    for setting, field in [(f'light{i}_direction', f'light{i}Dir') for i in (1, 2, 3)] + \
+                          [(f'light{i}_color', f'light{i}Col') for i in (1, 2, 3)] + [('ambient_color', 'ambiLightCol')]:
+        values = (iconsys.get(field) or [])[:3]
+        # Some files have nulls (Red Faction 2's light directions are NaN in its icon.sys), keep the default for those.
+        if len(values) == 3 and all(isinstance(v, (int, float)) for v in values):
+            setattr(settings, setting, values)
 
 
 def _split_title(title):

@@ -37,11 +37,15 @@ def reset():
 
 
 def website_positions(anim_json, tick):
-    """Vertex positions in PS2 icon space at `tick`, as the website's animateV2 computes them."""
+    """Vertex positions in PS2 icon space at `tick`, as the website's animateV1 or animateV2 computes them."""
     frames = anim_json['frames']
+    shapes = np.array([f['vertexData'] for f in frames]).reshape(len(frames), -1, 3)
+    if anim_json.get('version') is None:
+        # Each frame shown for 9 ticks (0.15 seconds), blending into the next.
+        index, blend = int(tick // 9) % len(frames), (tick % 9) / 9
+        return shapes[index] * (1 - blend) + shapes[(index + 1) % len(frames)] * blend
     weights = np.array([anim.evaluate([(k['time'], k['value']) for k in f['keys']], tick) for f in frames], dtype=float)
     weights /= weights.sum()
-    shapes = np.array([f['vertexData'] for f in frames]).reshape(len(frames), -1, 3)
     return np.tensordot(weights, shapes, axes=1)
 
 
@@ -80,11 +84,24 @@ def test_animated_icon(card_path=None):
     check(settings.title_line1 == 'DEVIL MAY CRY 3', f"title converted to half-width, got {settings.title_line1!r}")
     check(settings.copy_object.hide_get() and not normal.hide_get(), "copy state hidden, normal visible")
 
-    for tick in (0, 13, 48, 60, 79):
-        scene.frame_set(scene.frame_start + tick)
-        expected = np.array([coords.ps2_to_blender(p) for p in website_positions(anim_json, tick)])
-        error = np.abs(blender_positions(normal) - expected).max()
-        check(error < 1e-4, f"Blender playback matches website at tick {tick}, max error {error}")
+    # Every state has its own loop length (the delete state loops every 60 frames, the others every 80), the preview
+    # switch sets the timeline to it. Check every frame of the loop and the one after, which must wrap to the start.
+    for state, filename in (('NORMAL', 'icon00'), ('COPY', 'icon01'), ('DELETE', 'icon02')):
+        settings.preview_state = state
+        obj = {'NORMAL': normal, 'COPY': settings.copy_object, 'DELETE': settings.delete_object}[state]
+        with open(os.path.join(folder, f'{filename}.ico.anim'), encoding='utf-8') as f:
+            state_anim = json.load(f)
+        length = state_anim['frameLength']
+        check(scene.frame_end - scene.frame_start + 1 == length, f"{state} preview sets the frame range to its loop")
+        check(not obj.hide_get() and all(o.hide_get() for o in objects if o != obj), f"{state} preview shows only it")
+        errors = []
+        for tick in range(length + 1):
+            scene.frame_set(scene.frame_start + tick)
+            expected = np.array([coords.ps2_to_blender(p) for p in website_positions(state_anim, tick % length)])
+            errors.append(np.abs(blender_positions(obj) - expected).max())
+        worst = int(np.argmax(errors))
+        check(errors[worst] < 1e-4, f"{state} playback matches website on every frame, worst tick {worst} off by {errors[worst]}")
+    settings.preview_state = 'NORMAL'
 
     card, warnings = export_card.build_card(bpy.context)
     check(not warnings, f"no export warnings, got {warnings}")
@@ -127,6 +144,42 @@ def test_animated_icon(card_path=None):
 def _obj_vertices(path):
     with open(path, encoding='utf-8') as f:
         return [[float(x) for x in line.replace('#', ' ').split()[1:]] for line in f if line.startswith('v ')]
+
+
+def test_playback_matches_website():
+    """
+    Icons that have each needed a fix to play back like the website, checked on every whole tick of every state:
+    120ennoharu (V1), nba06 (negative weights), ininja (animSpeed 0.5), redfaction2 (null light directions),
+    cartfurychampionshipracing (garbage background opacity).
+    """
+    for code in ('120ennoharu', 'nba06', 'ininja', 'redfaction2', 'cartfurychampionshipracing'):
+        reset()
+        folder = os.path.join(ICONS, code)
+        import_icon.import_icon(bpy.context, os.path.join(folder, 'iconsys.json'), merge_vertices=False)
+        scene = bpy.context.scene
+        settings = scene.ps2iodb
+        with open(os.path.join(folder, 'iconsys.json'), encoding='utf-8') as f:
+            iconsys = json.load(f)
+        for state in ('normal', 'copy', 'delete'):
+            path = os.path.join(folder, iconsys[state] + '.anim')
+            obj = getattr(settings, f'{state}_object') or settings.normal_object
+            if not os.path.exists(path) or obj.data.shape_keys is None:
+                continue
+            with open(path, encoding='utf-8') as f:
+                state_anim = json.load(f)
+            settings.preview_state = state.upper()
+            v1 = state_anim.get('version') is None
+            speed = 1 if v1 else state_anim['animSpeed']
+            length = 9 * len(state_anim['frames']) if v1 else state_anim['frameLength']
+            worst = (0, 0)
+            for tick in range(int(length) + 1):
+                frame = scene.frame_start + tick / speed
+                if frame != int(frame):
+                    continue  # The website only shows whole ticks.
+                scene.frame_set(int(frame))
+                expected = np.array([coords.ps2_to_blender(p) for p in website_positions(state_anim, tick % length)])
+                worst = max(worst, (np.abs(blender_positions(obj) - expected).max(), tick))
+            check(worst[0] < 1e-4, f"{code} {state} playback matches website, worst tick {worst[1]} off by {worst[0]}")
 
 
 def test_zip_import():
@@ -192,7 +245,8 @@ def main():
     reset()
     ps2iodb.register()
     try:
-        for test in (lambda: test_animated_icon(argv[0] if argv else None), test_zip_import, test_v1_and_static_icons,
+        for test in (lambda: test_animated_icon(argv[0] if argv else None), test_playback_matches_website,
+                     test_zip_import, test_v1_and_static_icons,
                      test_bake):
             try:
                 test()
