@@ -15,11 +15,11 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - name: Load node version from .nvmrc
         run: echo "NODE_VERSION=$(cat ./website/.nvmrc)" >> $GITHUB_ENV
       - name: Setup Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
@@ -31,7 +31,7 @@ jobs:
         working-directory: ./website
         run: npm run predeploy  # The predeploy script runs build & performs any special preperations for deployment.
       - name: Publish to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: fb515be51650a4b329622e852ccbed27

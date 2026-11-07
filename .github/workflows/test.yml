@@ -12,7 +12,7 @@ jobs:
     env:
       CI: "true"
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
     - name: List files at root
       run: ls -a
     - name: List files inside Site
@@ -21,7 +21,7 @@ jobs:
     - name: Load node version from .nvmrc
       run: echo "NODE_VERSION=$(cat ./website/.nvmrc)" >> $GITHUB_ENV
     - name: Setup Node.js ${{ env.NODE_VERSION }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v7
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
@@ -40,7 +40,7 @@ jobs:
       working-directory: ./website
       run: npx tsx scripts/check-blender-addon-version.ts
     - name: Test Report
-      uses: dorny/test-reporter@v1
+      uses: dorny/test-reporter@v3
       if: success() || failure()
       with:
         name: Website Jest Test Results
