@@ -5,7 +5,21 @@ A Blender extension (Blender 4.2+) that:
 - **Imports** icons downloaded from [ps2iodb.com](https://ps2iodb.com) (the `ps2iodb_<code>.zip` from an icon's page, or its extracted files), including the `.anim` animation as keyframed shape keys.
 - **Exports** meshes made in Blender to a new 8MB PS2 memory card image (`.ps2`) holding a save with the icon, for PCSX2 or SD card based memory cards like the SD2PSX and MemCard PRO2.
 
-Users download it from the [FAQ page](https://ps2iodb.com/faq). The site builds that zip from this folder at build time (`website/scripts/vite-plugin-blender-addon.ts`), so there is nothing to rebuild or commit by hand. Bump `version` in `ps2iodb/blender_manifest.toml` when changing it.
+Users get it from the [FAQ page](https://ps2iodb.com/faq). The site builds it from this folder at build time (`website/scripts/vite-plugin-blender-addon.ts`), so there is nothing to rebuild or commit by hand.
+
+## Releasing
+
+The site is a [Blender extension repository](https://docs.blender.org/manual/en/latest/advanced/extensions/creating_repository/static_repository.html). Each build publishes:
+- `/downloads/blender/ps2iodb-<version>.zip`
+- `/downloads/blender/index.json`, the listing Blender reads, the same as `blender --command extension server-generate` writes.
+
+Users who add `https://ps2iodb.com/downloads/blender/index.json` as a remote repository in Blender are told when a new version is out, and can update with one click. Blender only offers an update when the version number goes up. So to release a change:
+
+1. Increase `version` in `ps2iodb/blender_manifest.toml`, following [semantic versioning](https://semver.org).
+2. Add an entry to `CHANGELOG.md`.
+3. Merge to `main`. The deploy publishes it, and the FAQ shows the new version.
+
+CI enforces step 1. `website/scripts/check-blender-addon-version.ts` fails the build if the add-on's files differ from the version live on ps2iodb.com while the version number is the same.
 
 ## Layout
 

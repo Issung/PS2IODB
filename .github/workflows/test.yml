@@ -36,6 +36,9 @@ jobs:
       run: npm run build
     - name: Test Blender add-on file formats
       run: python3 -m unittest discover blender/tests
+    - name: Check Blender add-on version was bumped
+      working-directory: ./website
+      run: npx tsx scripts/check-blender-addon-version.ts
     - name: Test Report
       uses: dorny/test-reporter@v1
       if: success() || failure()

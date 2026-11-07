@@ -74,15 +74,30 @@ const Faq: React.FC = () => {
                                 The PS2IODB Blender add-on imports icons downloaded from this site complete with their animation, and can also export your own models to a PS2 memory card to view on a real PS2 or in an emulator.
                             </p>
                             <p>
-                                <a href="/downloads/ps2iodb-blender-addon.zip" download>Download the PS2IODB Blender add-on</a> (requires Blender 4.2 or newer).
-                                Its source code is <a href="https://github.com/Issung/PS2IODB/tree/main/blender">on GitHub</a>.
+                                The current version is <b>{__BLENDER_ADDON_VERSION__}</b> and requires Blender 4.2 or newer.
+                                See <a href="https://github.com/Issung/PS2IODB/blob/main/blender/CHANGELOG.md">what's changed</a>, or browse its <a href="https://github.com/Issung/PS2IODB/tree/main/blender">source code</a>.
                             </p>
                             <ol>
                                 <li>
-                                    <h6>Installing</h6>
+                                    <h6>Installing (with automatic update notifications)</h6>
                                     <p>
-                                        Drag the downloaded zip into Blender's window, or in Blender go to <i>Edit → Preferences → Get Extensions</i>, open the <i>⌄</i> menu in the top right, choose <i>Install from Disk...</i> and select the zip.
-                                        There's no need to extract it.
+                                        This website is a Blender extension repository, so Blender can install the add-on and tell you when a new version is out.
+                                    </p>
+                                    <ol>
+                                        <li>In Blender go to <i>Edit → Preferences → Get Extensions</i>. If asked, allow online access.</li>
+                                        <li>Open the <i>Repositories</i> menu in the top right, click <i>+</i> and choose <i>Add Remote Repository</i>.</li>
+                                        <li>Enter the URL <code>{__BLENDER_ADDON_INDEX_URL__}</code>, tick <i>Check for Updates on Startup</i> and click <i>Create</i>.</li>
+                                        <li>Search for <i>PS2IODB</i> and click <i>Install</i>.</li>
+                                    </ol>
+                                    <p>
+                                        When a new version is released Blender shows a notice in its status bar, and you can update from the same page.
+                                    </p>
+                                </li>
+                                <li>
+                                    <h6>Installing manually</h6>
+                                    <p>
+                                        Alternatively, <a href={__BLENDER_ADDON_ZIP__} download>download the add-on</a> and drag the zip into Blender's window (there's no need to extract it).
+                                        You won't be told about updates, so check back here for new versions. Blender shows the installed version under <i>Edit → Preferences → Add-ons</i>.
                                     </p>
                                 </li>
                                 <li>
