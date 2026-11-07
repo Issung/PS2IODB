@@ -10,7 +10,7 @@ import ReactDOM from 'react-dom/client';
 import { MemoryRouter } from 'react-router-dom';
 import './index.scss';
 import Extractor from './pages/Extractor';
-import 'bootstrap/dist/css/bootstrap.css';
+import './bootstrap.scss';
 
 // No analytics for standalone version
 

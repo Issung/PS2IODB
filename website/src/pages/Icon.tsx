@@ -1,6 +1,6 @@
 import { IconDice5, IconHome } from "@tabler/icons-react";
 import JSZip from "jszip";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { createUrlModelLoader, isZipMode } from "../components/ModelView/createUrlModelLoader";
 import { ModelLoader } from "../components/ModelView/ModelLoader";
@@ -18,7 +18,8 @@ const Icon = () => {
     const [searchParams] = useSearchParams();
     const showUI = searchParams.get('ui') !== 'false';
 
-    const [icon, setIcon] = useState<IconModel | undefined>();
+    // Looked up during render (not in an effect) so the first paint already shows the title rather than flashing "Title not found.".
+    const icon: IconModel | undefined = Titles.flatMap(g => g.icons ?? []).find(i => i.code == iconcode);
     const titleName = icon?.title?.name ?? '';
     const iconName = icon?.name ?? '';
     const showIconName = icon && iconName !== titleName;
@@ -67,7 +68,8 @@ const Icon = () => {
         setIsCollapsed(homeOverlaps || rightPanelOverlaps);
     }, []);
 
-    useEffect(() => {
+    // Layout effect so the collapsed layout is decided before the first paint, instead of the header visibly snapping into it.
+    useLayoutEffect(() => {
         checkOverlap();
 
         const resizeObserver = new ResizeObserver(checkOverlap);
@@ -82,12 +84,6 @@ const Icon = () => {
             window.removeEventListener('resize', checkOverlap);
         };
     }, [checkOverlap, icon]);
-
-    // Load icon metadata from Titles
-    useEffect(() => {
-        const foundIcon = Titles.flatMap(g => g.icons ?? []).find(i => i.code == iconcode);
-        setIcon(foundIcon);
-    }, [iconcode]);
 
     // Update document title
     useEffect(() => {

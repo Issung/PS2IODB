@@ -1,0 +1,13 @@
+# Cloudflare Pages response headers: https://developers.cloudflare.com/pages/configuration/headers/
+# By default Pages makes browsers revalidate every file on every visit.
+
+# Vite build output (JS, CSS, fonts), file names contain a content hash so they can be cached forever.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Icon files can be replaced by re-contributions, so only cache for a day.
+/icons/*
+  Cache-Control: public, max-age=86400
+
+/images/*
+  Cache-Control: public, max-age=86400
