@@ -73,6 +73,7 @@
     "source-map": "^0.8.0",
     "tsx": "^4.23.15",
     "vite": "^8.3.4",
-    "vite-plugin-singlefile": "^2.3.3"
+    "vite-plugin-singlefile": "^2.3.3",
+    "wrangler": "^4.158.0"
   }
 }
