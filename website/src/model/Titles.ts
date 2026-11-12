@@ -466,7 +466,10 @@ export const Titles: Title[] = [
         new Icon(g, `XI Go (Japan) System Data`, `bombastic-jp-systemdata`, 2, Contributors.Cajas, 3),
         new Icon(g, `XI Go (Japan) Replay Data`, `bombastic-jp-replaydata`, 3, Contributors.Cajas, 3),
     ]),
-    new Game(`Bomberman Hardball`, `bombermanhardball`, 1, [Contributors.ItzCookieX, Contributors._00TECDEC], 3),
+    new Game(`Bomberman Hardball`, g => [
+        new Icon(g, `Save Data`, `bombermanhardball`, 1, [Contributors.ItzCookieX, Contributors._00TECDEC], 3),
+        new Icon(g, `Battle Replay`, `bombermanhardball-battlereplay`, 1, Contributors.RGNK, 3),
+    ]),
     new Game(`Bomberman Jetters`, `bombermanjetters`, 1, Contributors.ItzCookieX),
     new Game(`Bomberman Kart`, `bombermankart`, 1, [Contributors.ItzCookieX, Contributors.Cajas], 3),
     new Game(`Bomberman Kart DX`, `bombermankartdx`, 1, Contributors.ItzCookieX),
@@ -3858,7 +3861,10 @@ export const Titles: Title[] = [
     new Game(`Radirgy Precious`, `radirgyprecious`, 1, Contributors.Sebita),
     new Game(`Raging Blades`, `ragingblades`, 1, Contributors.Cajas),
     new Game(`Rahxephon: Soukyū Gensoukyoku`, `rahxephon`, 1, Contributors.Cajas),
-    new Game(`Raiden III`, `raiden3`, 1, Contributors.Cajas),
+    new Game(`Raiden III`, g => [
+        new Icon(g, `Game Data`, `raiden3`, 1, Contributors.Cajas),
+        new Icon(g, `Replay`, `raiden3-replay`, 1, Contributors.RGNK),
+    ]),
     new Game(`Raimuiro Senkitan * Jun`, `limeiro`, 1, Contributors.Cajas),
     new Game(`Rakushou! Pachi-Slot Sengen`, `pachislotsengen`, 1, Contributors.Cajas),
     new Game(`Rakushou! Pachi-Slot Sengen 2`, `rakushoupachislotsengen2`, 1, Contributors.Cajas),

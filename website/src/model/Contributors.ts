@@ -67,6 +67,7 @@ export class Contributors {
     public static Kickety = new Contributor('Kickety!');
     public static Iv4o59 = new Contributor('Iv4o59');
     public static Lumanare = new Contributor('Lumanare');
+    public static RGNK = new Contributor('RGNK');
 }
 
 export const ContributorCount = Object.values(Contributors).length;
