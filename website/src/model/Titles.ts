@@ -2611,8 +2611,13 @@ export const Titles: Title[] = [
     new Game(`Last Escort: Kokuchou Special Night`, `lastescortspecial`, 1, Contributors.Cajas),
     new Game(`Last Escort: Shinya no Kokuchou Monogatari`, `lastescort`, 1, Contributors.Cajas),
     new Game(`Le Mans 24 Hours`, `lemans24hours`, 1, Contributors.TheZulaPatrolFan2005),
-    new Game(`Le Tour de France`),
-    new Game(`Le Tour de France: Centenary Edition`),
+    new Game(`Le Tour de France`, g => [
+        new Icon(g, `System Data`, `letourdefrance-system`, 1, Contributors.RGNK),
+        new Icon(g, `Replay`, `letourdefrance-replay`, 1, Contributors.RGNK),
+    ]),
+    new Game(`Le Tour de France: Centenary Edition`, g => [
+        new Icon(g, `System/Replay`, `letourdefrancecentenaryedition`, 1, Contributors.RGNK),   // Icon for both variants is identical.
+    ]),
     new Game(`Leaderboard Golf`),
     new Game(`League Series Baseball 2`),
     new Game(`Legacy of Kain: Defiance`, `legacyofkaindefiance`, 1, Contributors.Cajas),
