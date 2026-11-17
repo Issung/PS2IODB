@@ -1,0 +1,19 @@
+{
+	"directory":"BISLPS-25125MAIN",
+	"title":"ドリームクラシック２００２牧場データ",
+	"normal":"dream01.ico",
+	"copy":"dream01.ico",
+	"delete":"dream01.ico",
+	"bgOpacity":127,
+	"bgColTL":"#000000",
+	"bgColTR":"#000000",
+	"bgColBL":"#0000ff",
+	"bgColBR":"#00ffff",
+	"light1Dir":[-0.237504780292511,-0.5046613216400146,-0.8300051093101501,0],
+	"light2Dir":[0,0,0,0],
+	"light3Dir":[0,0,0,0],
+	"light1Col":[1,1,1,0],
+	"light2Col":[0,0,0,0],
+	"light3Col":[0,0,0,0],
+	"ambiLightCol":[0.043136999011039734,0.043136999011039734,0.043136999011039734,0.5]
+}
