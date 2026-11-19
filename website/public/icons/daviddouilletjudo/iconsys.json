@@ -1,0 +1,19 @@
+{
+	"directory":"BESLES-54366",
+	"title":"Ｄａｖｉｄ　ＤｏｕｉｌｌｅｔＪｕｄｏ",
+	"normal":"JUDO.ICO",
+	"copy":"JUDO.ICO",
+	"delete":"JUDO.ICO",
+	"bgOpacity":0,
+	"bgColTL":"#ffffff",
+	"bgColTR":"#ffffff",
+	"bgColBL":"#ffffff",
+	"bgColBR":"#ffffff",
+	"light1Dir":[0.5,0.5,0.5,0],
+	"light2Dir":[0,-0.4000000059604645,-0.10000000149011612,0],
+	"light3Dir":[-0.5,-0.5,0.5,0],
+	"light1Col":[1,0.6627451181411743,0.007843137718737125,0],
+	"light2Col":[0.003921568859368563,0.658823549747467,1,0],
+	"light3Col":[1,0.21568627655506134,0.003921568859368563,0],
+	"ambiLightCol":[0.5,0.5,0.5,0]
+}
