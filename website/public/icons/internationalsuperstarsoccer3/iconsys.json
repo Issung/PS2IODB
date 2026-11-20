@@ -1,0 +1,19 @@
+{
+	"directory":"BESLES-51435iss3",
+	"title":"ＩＳＳ３",
+	"normal":"ISS3_01.ICO",
+	"copy":"ISS3_01.ICO",
+	"delete":"ISS3_01.ICO",
+	"bgOpacity":64,
+	"bgColTL":"#000000",
+	"bgColTR":"#000000",
+	"bgColBL":"#00b000",
+	"bgColBR":"#00b000",
+	"light1Dir":[0.5,0.5,0.5,0],
+	"light2Dir":[0,-0.4000000059604645,-0.10000000149011612,0],
+	"light3Dir":[-0.5,-0.5,0.5,0],
+	"light1Col":[0.5,0.5,0.5,0],
+	"light2Col":[0.5,0.5,0.5,0],
+	"light3Col":[0.5,0.5,0.5,0],
+	"ambiLightCol":[0.4000000059604645,0.4000000059604645,0.4000000059604645,0]
+}
