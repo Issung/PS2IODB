@@ -1,0 +1,14 @@
+# Store and check out every text file with LF on all platforms, whatever core.autocrlf is set to.
+# Git detects binary files automatically. The list below makes the common ones explicit.
+* text=auto eol=lf
+
+*.png binary
+*.ico binary
+*.webp binary
+*.webm binary
+*.zip binary
+*.gz binary
+*.pdf binary
+*.ps2 binary
+*.max binary
+*.fbx binary
